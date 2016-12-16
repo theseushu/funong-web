@@ -110,6 +110,18 @@ if (!window.Intl) {
   render(translationMessages);
 }
 
+
+if (process.env.NODE_ENV != 'production' && !document.getElementById('_dev_tools_')) {
+  const DevTools = require('./DevTools').default;
+  const devToolsEl = document.createElement('div');
+  devToolsEl.setAttribute('id', '_dev_tools_')
+  document.body.appendChild(devToolsEl);
+  ReactDOM.render((
+      <DevTools store={store}/>
+    ), devToolsEl
+  );
+}
+
 // Install ServiceWorker and AppCache in the end since
 // it's not most important operation and if main code fails,
 // we do not want it installed

@@ -34,6 +34,26 @@ export default function createRoutes(store) {
         importModules.catch(errorLoading);
       },
     }, {
+      path: '/login',
+      name: 'singupOrLogin',
+      getComponent(nextState, cb) {
+        const importModules = Promise.all([
+          System.import('containers/SignupOrLogin/reducer'),
+          System.import('containers/SignupOrLogin/sagas'),
+          System.import('containers/SignupOrLogin'),
+        ]);
+
+        const renderRoute = loadModule(cb);
+
+        importModules.then(([reducer, sagas, component]) => {
+          injectReducer('signupOrLogin', reducer.default);
+          injectSagas(sagas.default);
+          renderRoute(component);
+        });
+
+        importModules.catch(errorLoading);
+      },
+    }, {
       path: '*',
       name: 'notfound',
       getComponent(nextState, cb) {

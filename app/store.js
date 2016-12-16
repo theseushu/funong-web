@@ -23,19 +23,16 @@ export default function configureStore(initialState = {}, history) {
     applyMiddleware(...middlewares),
   ];
 
-  // If Redux DevTools Extension is installed use it, otherwise use Redux compose
-  /* eslint-disable no-underscore-dangle */
-  const composeEnhancers =
-    process.env.NODE_ENV !== 'production' &&
-    typeof window === 'object' &&
-    window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ?
-      window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ : compose;
-  /* eslint-enable */
+  if (process.env.NODE_ENV !== 'production' && typeof window === 'object') {
+    const DevTools = require('./DevTools').default;
+    const devtoolsExt = DevTools.instrument();
+    enhancers.push(devtoolsExt);
+  }
 
   const store = createStore(
     createReducer(),
     fromJS(initialState),
-    composeEnhancers(...enhancers)
+    compose(...enhancers)
   );
 
   // Extensions
