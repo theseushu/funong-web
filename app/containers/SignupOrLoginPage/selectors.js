@@ -3,7 +3,7 @@ import { createSelector } from 'reselect';
 /**
  * Direct selector to the signupOrLogin state domain
  */
-const selectSignupOrLoginDomain = () => (state) => state.get('signupOrLogin');
+const selectSignupOrLoginDomain = () => (state) => state.signupOrLogin;
 
 /**
  * Other specific selectors
@@ -11,12 +11,12 @@ const selectSignupOrLoginDomain = () => (state) => state.get('signupOrLogin');
 
 
 /**
- * Default selector used by SignupOrLogin
+ * Default selector used by SignupOrLoginPage
  */
 
 const makeSelectSignupOrLogin = () => createSelector(
   selectSignupOrLoginDomain(),
-  (substate) => substate.toJS()
+  (substate) => substate
 );
 
 export default makeSelectSignupOrLogin;

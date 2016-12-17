@@ -28,7 +28,7 @@ const ReactBoilerplate = {
         'ip',
         'minimist',
         'sanitize.css',
-        'bootstrap'
+        'bootstrap',
       ],
 
       /**

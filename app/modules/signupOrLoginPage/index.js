@@ -1,22 +1,24 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
-import { FormattedMessage } from 'react-intl';
+// import { FormattedMessage } from 'react-intl';
 import { createStructuredSelector } from 'reselect';
-import makeSelectSignupOrLogin from './selectors';
-import injectSheet from 'react-jss'
-import messages from './messages';
-
+import injectSheet from 'react-jss';
 import Panel from 'react-bootstrap/lib/Panel';
-import Form from './form';
 
+import makeSelectSignupOrLogin from './selectors';
+// import messages from './messages';
+
+import RequestSmsCodeButton from './containers/requestSmsCodeButton';
+import Form from './containers/form';
+
+const backgroundImg = require('./assets/login-bg.jpg');
 const styles = {
   background: {
     minHeight: '100vh',
     height: 'auto',
-    background: `center url(${require('./assets/login-bg.jpg')})`,
+    background: `center url(${backgroundImg})`,
     backgroundSize: 'cover',
-    textAlign: 'center',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
@@ -27,8 +29,8 @@ const styles = {
       left: 0,
       width: '100%',
       height: '100%',
-      background: 'rgba(0,0,0,0.5)'
-    }
+      background: 'rgba(0,0,0,0.5)',
+    },
   },
   formWrapper: {
     zIndex: 3,
@@ -38,21 +40,21 @@ const styles = {
     '@media (min-width: 576px)': {
       padding: '0 16px',
       '> div': {
-        padding: '16px'
-      }
+        padding: '16px',
+      },
     },
     '@media (min-width: 768px)': {
-      width: '400px'
+      width: '400px',
     },
     '> div': {
-      padding: '8px'
-    }
-  }
-}
+      padding: '8px',
+    },
+  },
+};
 
 export class SignupOrLogin extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
   render() {
-    const {sheet: {classes}} = this.props;
+    const { sheet: { classes } } = this.props;
     return (
       <div className={classes.background}>
         <Helmet
@@ -61,11 +63,11 @@ export class SignupOrLogin extends React.PureComponent { // eslint-disable-line 
             { name: '登录/注册', content: '登录 注册' },
           ]}
         />
-        <div className='_before'>
+        <div className="_before">
         </div>
         <div className={classes.formWrapper}>
           <Panel>
-            <Form/>
+            <Form RequestSmsCodeButton={RequestSmsCodeButton} />
           </Panel>
         </div>
       </div>
@@ -74,7 +76,7 @@ export class SignupOrLogin extends React.PureComponent { // eslint-disable-line 
 }
 
 SignupOrLogin.propTypes = {
-  dispatch: PropTypes.func.isRequired,
+  sheet: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({

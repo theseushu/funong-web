@@ -1,15 +1,14 @@
-import { fromJS } from 'immutable';
 
 import { makeSelectLocationState } from 'containers/App/selectors';
 
 describe('makeSelectLocationState', () => {
   it('should select the route as a plain JS object', () => {
-    const route = fromJS({
+    const route = {
       locationBeforeTransitions: null,
-    });
-    const mockedState = fromJS({
+    };
+    const mockedState = {
       route,
-    });
-    expect(makeSelectLocationState()(mockedState)).toEqual(route.toJS());
+    };
+    expect(makeSelectLocationState()(mockedState)).toEqual(route);
   });
 });

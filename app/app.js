@@ -15,7 +15,7 @@ import { Provider } from 'react-redux';
 import { applyRouterMiddleware, Router, browserHistory } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
 import { useScroll } from 'react-router-scroll';
-//TODO I thinks sanitizecss is useless here since bootstrap's included. Remove it after confirming
+// TODO I thinks sanitizecss is useless here since bootstrap's included. Remove it after confirming
 // import 'sanitize.css/sanitize.css';
 import 'bootstrap/dist/css/bootstrap.css';
 
@@ -110,16 +110,17 @@ if (!window.Intl) {
   render(translationMessages);
 }
 
-
-if (process.env.NODE_ENV != 'production' && !document.getElementById('_dev_tools_')) {
-  const DevTools = require('./DevTools').default;
-  const devToolsEl = document.createElement('div');
-  devToolsEl.setAttribute('id', '_dev_tools_')
-  document.body.appendChild(devToolsEl);
-  ReactDOM.render((
-      <DevTools store={store}/>
-    ), devToolsEl
-  );
+if (process.env.NODE_ENV !== 'production' && !document.getElementById('_dev_tools_')) {
+  System.import('./DevTools').then((DevToolsModule) => {
+    const DevTools = DevToolsModule.default;
+    const devToolsEl = document.createElement('div');
+    devToolsEl.setAttribute('id', '_dev_tools_');
+    document.body.appendChild(devToolsEl);
+    ReactDOM.render(
+      <DevTools store={store} />
+      , devToolsEl
+    );
+  });
 }
 
 // Install ServiceWorker and AppCache in the end since

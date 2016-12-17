@@ -3,10 +3,10 @@
  */
 
 import { createStore, applyMiddleware, compose } from 'redux';
-import { fromJS } from 'immutable';
 import { routerMiddleware } from 'react-router-redux';
 import createSagaMiddleware from 'redux-saga';
 import createReducer from './reducers';
+import sagas from './sagas';
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -24,17 +24,18 @@ export default function configureStore(initialState = {}, history) {
   ];
 
   if (process.env.NODE_ENV !== 'production' && typeof window === 'object') {
-    const DevTools = require('./DevTools').default;
+    const DevTools = require('./DevTools').default; // eslint-disable-line global-require
     const devtoolsExt = DevTools.instrument();
     enhancers.push(devtoolsExt);
   }
 
   const store = createStore(
     createReducer(),
-    fromJS(initialState),
+    initialState,
     compose(...enhancers)
   );
 
+  sagas.map(sagaMiddleware.run);
   // Extensions
   store.runSaga = sagaMiddleware.run;
   store.asyncReducers = {}; // Async reducer registry

@@ -35,7 +35,7 @@ module.exports = {
     message: 'Do you want i18n messages (i.e. will this component use text)?',
   }],
   actions: (data) => {
-    // Generate index.js and index.test.js
+    // Generate ducks and index.test.js
     let componentTemplate;
 
     switch (data.type) {
@@ -58,7 +58,7 @@ module.exports = {
 
     const actions = [{
       type: 'add',
-      path: '../../app/components/{{properCase name}}/index.js',
+      path: '../../app/components/{{properCase name}}/ducks',
       templateFile: componentTemplate,
       abortOnFail: true,
     }, {

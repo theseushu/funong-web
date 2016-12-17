@@ -8,6 +8,6 @@ import { defineMessages } from 'react-intl';
 export default defineMessages({
   header: {
     id: 'app.containers.SingupOrLogin.header',
-    defaultMessage: 'This is SignupOrLogin container !',
+    defaultMessage: 'This is SignupOrLoginPage container !',
   },
 });

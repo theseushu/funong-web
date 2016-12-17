@@ -38,16 +38,14 @@ export default function createRoutes(store) {
       name: 'singupOrLogin',
       getComponent(nextState, cb) {
         const importModules = Promise.all([
-          System.import('containers/SignupOrLogin/reducer'),
-          System.import('containers/SignupOrLogin/sagas'),
-          System.import('containers/SignupOrLogin'),
+          System.import('modules/signupOrLoginPage'),
         ]);
 
         const renderRoute = loadModule(cb);
 
-        importModules.then(([reducer, sagas, component]) => {
-          injectReducer('signupOrLogin', reducer.default);
-          injectSagas(sagas.default);
+        importModules.then(([component]) => {
+          // injectReducer('signupOrLogin', reducer.default);
+          // injectSagas(sagas.default);
           renderRoute(component);
         });
 
