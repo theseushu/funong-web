@@ -1,12 +1,9 @@
 import React, { PropTypes } from 'react';
-import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
 // import { FormattedMessage } from 'react-intl';
-import { createStructuredSelector } from 'reselect';
 import injectSheet from 'react-jss';
 import Panel from 'react-bootstrap/lib/Panel';
 
-import makeSelectSignupOrLogin from './selectors';
 // import messages from './messages';
 
 import RequestSmsCodeButton from './containers/requestSmsCodeButton';
@@ -79,14 +76,4 @@ SignupOrLogin.propTypes = {
   sheet: PropTypes.object.isRequired,
 };
 
-const mapStateToProps = createStructuredSelector({
-  SignupOrLogin: makeSelectSignupOrLogin(),
-});
-
-function mapDispatchToProps(dispatch) {
-  return {
-    dispatch,
-  };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(injectSheet(styles)(SignupOrLogin));
+export default injectSheet(styles)(SignupOrLogin);

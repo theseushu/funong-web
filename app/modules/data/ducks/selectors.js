@@ -13,8 +13,7 @@ export const currentUserSelector = createSelector(
 export const catalogTypesSelector = createSelector(
   rootSelector,
   (data) => {
-    let { entities: { catalogTypes = [] } } = data;
+    const { entities: { catalogTypes = [] } } = data;
     return catalogTypes;
   }
 );
-

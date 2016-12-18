@@ -4,8 +4,8 @@ export default {
   data: reducer,
 };
 
-export actions from './actions';
+export * as actions from './actions';
 
-export selectors from './selectors';
+export * as selectors from './selectors';
 
 export sagas from './sagas';

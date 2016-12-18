@@ -46,12 +46,15 @@ import './global-styles';
 // Import root routes
 import createRoutes from './routes';
 
+// create an api instance with sessionToken attached
+import createApi from './createApi';
+
 // Create redux store with history
 // this uses the singleton browserHistory provided by react-router
 // Optionally, this could be changed to leverage a created history
 // e.g. `const browserHistory = useRouterHistory(createBrowserHistory)();`
 const initialState = {};
-const store = configureStore(initialState, browserHistory);
+const store = configureStore(initialState, browserHistory, createApi());
 
 // Sync history and store, as the react-router-redux reducer
 // is under the non-default key ("routing"), selectLocationState

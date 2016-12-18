@@ -10,7 +10,7 @@ import sagas from './sagas';
 
 const sagaMiddleware = createSagaMiddleware();
 
-export default function configureStore(initialState = {}, history) {
+export default function configureStore(initialState = {}, history, api) {
   // Create the store with two middlewares
   // 1. sagaMiddleware: Makes redux-sagas work
   // 2. routerMiddleware: Syncs the location/URL path to the state
@@ -35,9 +35,10 @@ export default function configureStore(initialState = {}, history) {
     compose(...enhancers)
   );
 
-  sagas.map(sagaMiddleware.run);
-  // Extensions
-  store.runSaga = sagaMiddleware.run;
+  // saga
+  store.runSaga = (saga) => sagaMiddleware.run(saga, { api });
+  sagas.map(store.runSaga);
+
   store.asyncReducers = {}; // Async reducer registry
 
   // Make reducers hot reloadable, see http://mxs.is/googmo

@@ -10,6 +10,9 @@ import InputGroup from 'react-bootstrap/lib/InputGroup';
 import Button from 'react-bootstrap/lib/Button';
 import HelpBlock from 'react-bootstrap/lib/HelpBlock';
 
+import FaMobile from 'react-icons/lib/fa/mobile';
+import MdTextsms from 'react-icons/lib/md/textsms';
+
 //
 // const confirmButtonStyle = () => ({
 //   width: '60%',
@@ -48,11 +51,11 @@ const PhoneField = ({ name, input: { value, onChange }, meta: { dirty, error }, 
       <ControlLabel>手机号码</ControlLabel>
       <InputGroup>
         <InputGroup.Addon>
-          $
+          <FaMobile />
         </InputGroup.Addon>
         <FormControl placeholder="手机号码" type="tel" name={name} value={value} maxLength={11} onChange={(e) => onChange(e.target.value)} />
         <InputGroup.Button>
-          <RequestSmsCodeButton disabled={showError ? true : undefined}></RequestSmsCodeButton>
+          <RequestSmsCodeButton phone={value} disabled={!!error}></RequestSmsCodeButton>
         </InputGroup.Button>
       </InputGroup>
       {showError && <HelpBlock>{error}</HelpBlock>}
@@ -64,7 +67,7 @@ PhoneField.propTypes = {
   name: PropTypes.string.isRequired,
   input: PropTypes.object.isRequired,
   meta: PropTypes.object.isRequired,
-  RequestSmsCodeButton: PropTypes.element.isRequired,
+  RequestSmsCodeButton: PropTypes.oneOfType([PropTypes.element.isRequired, PropTypes.func.isRequired]),
 };
 
 const SmsField = ({ name, input: { value, onChange }, meta: { dirty, error } }) => {
@@ -74,7 +77,7 @@ const SmsField = ({ name, input: { value, onChange }, meta: { dirty, error } }) 
       <ControlLabel>短信验证码</ControlLabel>
       <InputGroup>
         <InputGroup.Addon>
-          $
+          <MdTextsms />
         </InputGroup.Addon>
         <FormControl placeholder="短信验证码" type="tel" autoComplete="off" name={name} value={value} maxLength={6} onChange={(e) => onChange(e.target.value)} />
       </InputGroup>
@@ -90,25 +93,7 @@ SmsField.propTypes = {
 };
 
 // export for unit testing
-const SignupOrLoginForm = ({ handleSubmit, pristine, submitting, invalid, error, onSubmit, RequestSmsCodeButton }) => (
-  // onSubmit = () =>
-  //   // const history = this.context.history;
-  //    new Promise((
-  //
-  //    ) => {
-  //      // signUpOrlogInWithMobilePhone(values.phone, values.smsCode)
-  //      //  .then((user) => {
-  //      //    resolve(user);
-  //      //    if (user.password != null) {
-  //      //      // history.push('/desktops'); //TODO go to former page
-  //      //    } else {
-  //      //      // history.push('/fetchProfile', {})
-  //      //    }
-  //      //  })
-  //      //  .catch((err) => {
-  //      //    reject(new SubmissionError({ _error: { code: err.code, message: err.message } }));
-  //      //  });
-  //    });
+const SignupOrLoginForm = ({ handleSubmit, pristine, submitting, submitSucceeded, invalid, error, onSubmit, RequestSmsCodeButton }) => (
   <form onSubmit={handleSubmit(onSubmit)}>
     <h3 className="text-center">立即加入</h3>
     <div>
@@ -117,16 +102,24 @@ const SignupOrLoginForm = ({ handleSubmit, pristine, submitting, invalid, error,
     <div>
       <Field name="smsCode" component={SmsField} />
     </div>
-    { error && (
-      <div className={''}>
-        <span>{error.message}</span>
-      </div>
-    )
+    {
+      error && (
+        <p className={'text-center text-danger'}>
+          <span>{error.message}</span>
+        </p>
+      )
+    }
+    {
+      submitSucceeded && (
+        <p className={'text-center text-info'}>
+          <span>{'登录成功，请稍候'}</span>
+        </p>
+      )
     }
     <div className="text-center">
       <Button
         type="submit" bsStyle="primary" block
-        disabled={pristine || invalid || submitting}
+        disabled={pristine || invalid || submitting || submitSucceeded}
       >确定</Button>
     </div>
   </form>
@@ -136,10 +129,11 @@ SignupOrLoginForm.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   pristine: PropTypes.bool,
   submitting: PropTypes.bool,
+  submitSucceeded: PropTypes.bool,
   invalid: PropTypes.bool,
   error: PropTypes.any,
   onSubmit: PropTypes.func.isRequired,
-  RequestSmsCodeButton: PropTypes.element.isRequired,
+  RequestSmsCodeButton: PropTypes.oneOfType([PropTypes.element.isRequired, PropTypes.func.isRequired]),
 };
 
 export default SignupOrLoginForm;

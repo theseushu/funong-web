@@ -14,7 +14,7 @@ function* updateCurrentUserInfoSaga(action) {
 
 function* setCurrentUserSaga(action) {
   const { user } = action.payload;
-  const data = normalize(user.toJSON(), UserSchema);
+  const data = normalize(user, UserSchema);
   const payload = Object.assign({}, data, { currentUser: data.result });
   yield put({ type: UPDATE_DATA, payload });
 
@@ -30,7 +30,7 @@ function* setCurrentUserSaga(action) {
 }
 
 function* setCatalogTypesSaga(action) {
-  const types = action.payload.types.map((type) => type.toJSON());
+  const types = action.payload.types;
   const data = normalize(types, CatalogTypesSchema);
   const payload = Object.assign({}, data);
   yield put({ type: UPDATE_DATA, payload });
