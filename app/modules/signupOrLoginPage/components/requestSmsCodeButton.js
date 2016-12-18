@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import Button from 'react-bootstrap/lib/Button';
 import _now from 'lodash/now';
 
-import CountDown from '../../../components/CountDown';
+import CountDown from '../../common/CountDown';
 
 export const ButtonSendSmsCode = ({ onClick, phone, text, bsStyle }) => (
   <Button

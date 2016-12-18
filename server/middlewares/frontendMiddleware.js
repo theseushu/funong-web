@@ -15,6 +15,11 @@ const addDevMiddlewares = (app, webpackConfig) => {
     publicPath: webpackConfig.output.publicPath,
     silent: true,
     stats: 'errors-only',
+    // lazy: true,
+    watchOptions: {
+      aggregateTimeout: 300,
+      poll: true,
+    },
   });
 
   app.use(middleware);
