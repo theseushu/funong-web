@@ -17,18 +17,23 @@ const styles = {
   panel: {
     width: '100%',
     marginTop: -16,
+    '&>.panel-body': {
+      padding: 0,
+    },
   },
 };
 
-const MainSectionComponent = ({ sheet: { classes } }) => (
+const MainSectionComponent = ({ children, sheet: { classes } }) => (
   <section className={classes.mainSection}>
     <Panel className={classes.panel} style={{ height: 200 }}>
+      { children }
     </Panel>
   </section>
 );
 
 MainSectionComponent.propTypes = {
   sheet: PropTypes.object.isRequired,
+  children: PropTypes.element.isRequired,
 };
 
 export default injectSheet(styles)(MainSectionComponent);
