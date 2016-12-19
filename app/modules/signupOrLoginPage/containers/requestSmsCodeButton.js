@@ -1,12 +1,10 @@
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { actions, selectors } from '../../api/ducks';
+import { selector, requestSmsCode } from '../../api/requestSmsCode';
 import RequestSmsCodeButton from '../components/requestSmsCodeButton';
 
-const { requestSmsCode } = actions;
-
 export default connect(
-  (state) => selectors.requestSmsCode(state),
+  (state) => selector(state),
   (dispatch) => ({
     onClick: bindActionCreators(requestSmsCode, dispatch),
   })

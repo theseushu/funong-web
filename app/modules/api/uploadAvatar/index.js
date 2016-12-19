@@ -1,5 +1,7 @@
-import { selector as uploadAvatarSelector, actions as uploadAvatarActions } from './ducks';
+import { selector as moduleSelector, actions } from './ducks';
 
-export const selector = uploadAvatarSelector;
+export const selector = moduleSelector;
 
-export const actions = uploadAvatarActions;
+export const uploadAvatar = actions.uploadAvatar;
+
+export const uploadAvatarProgress = actions.uploadAvatarProgress;

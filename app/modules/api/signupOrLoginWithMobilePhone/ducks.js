@@ -1,8 +1,8 @@
 import { takeEvery } from 'redux-saga';
 import { call, put } from 'redux-saga/effects';
 import { createSelector } from 'reselect';
-import rootSelector from './rootSelector';
-import createRestCallStateReducer from './createRestCallStateReducer';
+import rootSelector from '../ducks/rootSelector';
+import createRestCallStateReducer from '../ducks/createRestCallStateReducer';
 import { saveSessionTokenInCookie } from '../../../utils/sessionTokenUtils';
 
 const SIGNUP_OR_LOGIN_WITH_MOBILEPHONE = 'api/signup_or_login_with_mobilephone';
@@ -16,9 +16,7 @@ export const actions = {
   signupOrLoginWithMobilePhone: ({ phone, smsCode, meta = {} }) => ({ type: SIGNUP_OR_LOGIN_WITH_MOBILEPHONE, payload: { phone, smsCode }, meta }),
 };
 
-export const selectors = {
-  signupOrLoginWithMobilePhone: createSelector(rootSelector, (api) => api.signupOrLoginWithMobilePhone),
-};
+export const selector = createSelector(rootSelector, (api) => api.signupOrLoginWithMobilePhone);
 
 function* signupOrLoginWithMobilePhoneSaga(action, api) {
   const { phone, smsCode } = action.payload;

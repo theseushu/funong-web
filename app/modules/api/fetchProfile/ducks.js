@@ -1,8 +1,8 @@
 import { takeEvery } from 'redux-saga';
 import { call, put } from 'redux-saga/effects';
 import { createSelector } from 'reselect';
-import rootSelector from './rootSelector';
-import createRestCallStateReducer from './createRestCallStateReducer';
+import rootSelector from '../ducks/rootSelector';
+import createRestCallStateReducer from '../ducks/createRestCallStateReducer';
 
 import { setCurrentUser } from '../../data/ducks/actions';
 
@@ -17,9 +17,7 @@ export const actions = {
   fetchProfile: ({ meta = {} }) => ({ type: FETCH_PROFILE, payload: {}, meta }),
 };
 
-export const selectors = {
-  fetchProfile: createSelector(rootSelector, (api) => api.fetchProfile),
-};
+export const selector = createSelector(rootSelector, (api) => api.fetchProfile);
 
 function* fetchProfileSaga(action, api) {
   const { resolve, reject } = action.meta;

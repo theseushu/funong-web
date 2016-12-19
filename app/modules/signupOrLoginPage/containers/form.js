@@ -1,6 +1,7 @@
 import { reduxForm, SubmissionError } from 'redux-form';
 import { connect } from 'react-redux';
-import { actions, selectors } from '../../api/ducks';
+import { fetchProfile } from '../../api/fetchProfile';
+import { selector, signupOrLoginWithMobilePhone } from '../../api/signupOrLoginWithMobilePhone';
 
 import SignupOrLoginForm from '../components/form';
 
@@ -27,7 +28,7 @@ export default reduxForm({
   validate,                // <--- validation function given to redux-form
 })(connect(
   // (state) => ({ requestSmsCodeState: selectors.requestSmsCode(state) }),
-  (state) => ({ signupOrLoginWithMobilePhoneState: selectors.signupOrLoginWithMobilePhone(state) }),
+  (state) => ({ signupOrLoginWithMobilePhoneState: selector(state) }),
   (dispatch) => ({
     onSubmit: ({ phone, smsCode }) => new Promise((resolve, reject) => {
       const rejectFuc = (err) => {
@@ -36,11 +37,12 @@ export default reduxForm({
 
       const resolveFuc = () => {
         // TODO donot fetch profile in case of redirecting to profile page
-        dispatch(actions.fetchProfile({ meta: { resolve, reject: rejectFuc } }));
+        dispatch(fetchProfile({ meta: { resolve, reject: rejectFuc } }));
       };
 
-      dispatch(actions.fetchProfile({ meta: { resolve, reject: rejectFuc } }));
-      // dispatch(actions.signupOrLoginWithMobilePhone({ phone, smsCode, meta: { resolve: resolveFuc, reject: rejectFuc } }));
+      // TODO remove this line and uncomment the following
+      dispatch(fetchProfile({ meta: { resolve, reject: rejectFuc } }));
+      // dispatch(signupOrLoginWithMobilePhone({ phone, smsCode, meta: { resolve: resolveFuc, reject: rejectFuc } }));
     }),
   })
 )(SignupOrLoginForm));
