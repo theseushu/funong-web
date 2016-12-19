@@ -13,9 +13,27 @@ const styles = {
   },
 };
 
-const AvatarComponent = ({ user, onClick, sheet: { classes } }) => (
-  <div className={`${classes.wrapper} shadow--2`}>
-    <a
+const Content = ({ user }) => (
+    user && user.avatar ?
+      <img role="presentation" src={user.avatar.url} /> :
+      <MdAccountCircle
+        style={{
+          position: 'relative',
+          top: '-10%',
+          left: '-10%',
+          width: '120%',
+          height: '120%',
+        }}
+      />
+  );
+
+Content.propTypes = {
+  user: PropTypes.object,
+}
+
+const AvatarComponent = ({ shadow = 0, user, onClick, sheet: { classes } }) => {
+  const component = typeof onClick === 'function' ?
+    (<a
       onClick={(e) => {
         e.preventDefault();
         if (typeof onClick === 'function') {
@@ -23,26 +41,17 @@ const AvatarComponent = ({ user, onClick, sheet: { classes } }) => (
         }
       }}
       href="#avatar"
-    >
-      {
-          user && user.avatar ?
-            <img role="presentation" src={user.avatar.url} /> :
-            <MdAccountCircle
-              style={{
-                position: 'relative',
-                top: '-10%',
-                left: '-10%',
-                width: '120%',
-                height: '120%',
-              }}
-              onClick={onClick}
-            />
-        }
-    </a>
-  </div>
-);
+    ><Content user={user} /></a>) :
+    <Content user={user} />;
+  return (
+    <div className={`${classes.wrapper} shadow--${shadow}`}>
+      {component}
+    </div>
+  );
+};
 
 AvatarComponent.propTypes = {
+  shadow: PropTypes.number,
   user: PropTypes.object,
   onClick: PropTypes.func,
   sheet: PropTypes.object.isRequired,

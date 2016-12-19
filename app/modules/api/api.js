@@ -54,7 +54,7 @@ export default (params = {}) => {
         sessionToken,
         AuthOptions: { sessionToken },
       });
-      return uploadedFile;
+      return uploadedFile.toJSON();
     } catch (err) {
       debug(err);
       throw err;
