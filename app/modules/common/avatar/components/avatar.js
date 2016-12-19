@@ -29,7 +29,7 @@ const Content = ({ user }) => (
 
 Content.propTypes = {
   user: PropTypes.object,
-}
+};
 
 const AvatarComponent = ({ shadow = 0, user, onClick, sheet: { classes } }) => {
   const component = typeof onClick === 'function' ?

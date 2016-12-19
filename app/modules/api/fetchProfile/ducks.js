@@ -39,7 +39,7 @@ function* fetchProfileSaga(action, api) {
 
 // watcher Saga:
 function* watcher({ api }) {
-  yield takeEvery(FETCH_PROFILE, function* (action) {
+  yield takeEvery(FETCH_PROFILE, function* saga(action) {
     yield* fetchProfileSaga(action, api);
   });
 }

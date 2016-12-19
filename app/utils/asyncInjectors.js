@@ -5,7 +5,7 @@ import isObject from 'lodash/isObject';
 import isString from 'lodash/isString';
 import invariant from 'invariant';
 import warning from 'warning';
-import createReducer from 'reducers';
+import createReducer from '../reducers';
 
 /**
  * Validate the shape of redux store
@@ -60,8 +60,6 @@ export function injectAsyncSagas(store, isValid) {
       !isEmpty(sagas),
       '(app/utils...) injectAsyncSagas: Received an empty `sagas` array'
     );
-
-    console.log(sagas)
 
     sagas.map(store.runSaga);
   };

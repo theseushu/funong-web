@@ -27,7 +27,7 @@ function* setCatalogTypesSaga(action) {
 }
 // watcher Saga:
 function* rootSaga(api) {
-  yield takeEvery(SET_CURRENT_USER, function* (action) {
+  yield takeEvery(SET_CURRENT_USER, function* saga(action) {
     yield* setCurrentUserSaga(action, api);
   });
   yield takeEvery(UPDATE_CURRENT_USER_INFO, updateCurrentUserInfoSaga);

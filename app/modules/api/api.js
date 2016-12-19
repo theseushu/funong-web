@@ -16,10 +16,7 @@ AV.init({
   disableCurrentUser: true,
 });
 
-export const requestSmsCode = (...params) => AV.Cloud.requestSmsCode(...params).then().catch(err => {
-  console.log(err);
-  throw err;
-});
+export const requestSmsCode = (...params) => AV.Cloud.requestSmsCode(...params);
 
 export const signupOrLoginWithMobilePhone = (...params) => AV.User.signUpOrlogInWithMobilePhone(...params).then((user) => ({
   sessionToken: user.getSessionToken(),

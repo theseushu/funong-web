@@ -11,7 +11,7 @@ import {
   injectAsyncReducer,
   injectAsyncSagas,
   getAsyncInjectors,
-} from 'utils/asyncInjectors';
+} from '../asyncInjectors';
 
 // Fixtures
 
@@ -20,7 +20,7 @@ const initialState = { reduced: 'soon' };
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case 'TEST':
-      return state.set('reduced', action.payload);
+      return { ...state, reduced: action.payload };
     default:
       return state;
   }
@@ -49,7 +49,7 @@ describe('asyncInjectors', () => {
       injectSagas(sagas);
 
       const actual = store.getState().test;
-      const expected = initialState.merge({ reduced: 'yup' });
+      const expected = Object.assign({}, initialState, { reduced: 'yup' });
 
       expect(actual).toEqual(expected);
     });
@@ -134,7 +134,7 @@ describe('asyncInjectors', () => {
         injectSagas(sagas);
 
         const actual = store.getState().test;
-        const expected = initialState.merge({ reduced: 'yup' });
+        const expected = Object.assign({}, initialState, { reduced: 'yup' });
 
         expect(actual).toEqual(expected);
       });

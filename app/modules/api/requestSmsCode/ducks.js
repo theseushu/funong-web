@@ -21,7 +21,7 @@ function* requestSmsCodeSaga(action, api) {
   yield put({ type: REQUEST_SMS_CODE_STATE, payload: { pending: true } });
   try {
     // TODO refactor
-    const requestSmsCode = async function () {
+    const requestSmsCode = async () => {
       try {
         await api.requestSmsCode({ mobilePhoneNumber: action.payload.phone });
       } catch (error) {
@@ -37,7 +37,7 @@ function* requestSmsCodeSaga(action, api) {
 
 // watcher Saga:
 function* watcher({ api }) {
-  yield takeEvery(REQUEST_SMS_CODE, function* (action) {
+  yield takeEvery(REQUEST_SMS_CODE, function* saga(action) {
     yield* requestSmsCodeSaga(action, api);
   });
 }

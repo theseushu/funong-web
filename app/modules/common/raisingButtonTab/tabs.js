@@ -38,6 +38,6 @@ Tabs.propTypes = {
   switchTab: PropTypes.func,
   sheet: PropTypes.object.isRequired,
   children: PropTypes.any,
-}
+};
 
 export default injectSheet(styles)(Tabs);

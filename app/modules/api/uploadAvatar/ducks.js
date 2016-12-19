@@ -49,7 +49,7 @@ export function* uploadAvatarSaga({ payload: { filename, dataUrl, onprogress } }
 
 // watcher Saga:
 function* watcher({ api }) {
-  yield takeEvery(UPLOAD_AVATAR, function* (action) {
+  yield takeEvery(UPLOAD_AVATAR, function* saga(action) {
     yield* uploadAvatarSaga(action, api);
   });
 }

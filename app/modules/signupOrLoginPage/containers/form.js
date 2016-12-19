@@ -40,9 +40,9 @@ export default reduxForm({
         dispatch(fetchProfile({ meta: { resolve, reject: rejectFuc } }));
       };
 
-      // TODO remove this line and uncomment the following
-      dispatch(fetchProfile({ meta: { resolve, reject: rejectFuc } }));
-      // dispatch(signupOrLoginWithMobilePhone({ phone, smsCode, meta: { resolve: resolveFuc, reject: rejectFuc } }));
+      // use this line to skip real signup
+      // dispatch(fetchProfile({ meta: { resolve, reject: rejectFuc } }));
+      dispatch(signupOrLoginWithMobilePhone({ phone, smsCode, meta: { resolve: resolveFuc, reject: rejectFuc } }));
     }),
   })
 )(SignupOrLoginForm));

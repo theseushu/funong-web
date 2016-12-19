@@ -12,7 +12,6 @@ import Avatar from '../../common/avatar';
 import AvatarCropper from '../avatarCropper';
 import { Tabs, Tab } from '../../common/raisingButtonTab';
 
-
 const styles = {
   avatar: {
     width: 160,
@@ -37,13 +36,6 @@ const ProfilePage = ({ tabIndex, sheet: { classes }, actions: { switchTab } }) =
       <div className="container">
         <Tabs index={tabIndex} switchTab={switchTab}>
           <Tab icon={<FaPagelines />} label="货品" index={0}>
-            {/*<div className={renderer.renderRule(addButtonStyle)}>
-              <div className="container">
-                <FloatingActionButton secondary style={{ float: 'right' }}>
-                  <ContentAdd />
-                </FloatingActionButton>
-              </div>
-            </div>*/}
           </Tab>
           <Tab icon={<MdBlurCircular />} label="交易圈" index={1}>
           </Tab>

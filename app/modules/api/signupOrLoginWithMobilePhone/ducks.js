@@ -40,7 +40,7 @@ function* signupOrLoginWithMobilePhoneSaga(action, api) {
 
 // watcher Saga:
 function* watcher({ api }) {
-  yield takeEvery(SIGNUP_OR_LOGIN_WITH_MOBILEPHONE, function* (action) {
+  yield takeEvery(SIGNUP_OR_LOGIN_WITH_MOBILEPHONE, function* saga(action) {
     yield* signupOrLoginWithMobilePhoneSaga(action, api);
   });
 }
