@@ -75,7 +75,6 @@ const styles = {
     width: '100%',
     top: 0,
     zIndex: 1000,
-    transition: 'all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms',
   },
   waypoint: {
     position: 'absolute',
@@ -137,7 +136,7 @@ class AppBarComponent extends Component {
             onLeave={() => this.toggleRaising(true)}
           />
         </div>
-        <div className={classes.wrapper} style={{ marginTop: raising ? 0 : 30 }}>
+        <div className={`${classes.wrapper} material-transition`} style={{ marginTop: raising ? 0 : 30 }}>
           <Navbar inverse collapseOnSelect style={raising ? {} : { background: 'none', border: 'none' }}>
             <Navbar.Header>
               <div className={classes.headerWrapper}>

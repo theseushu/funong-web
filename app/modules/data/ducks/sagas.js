@@ -17,16 +17,6 @@ function* setCurrentUserSaga(action) {
   const data = normalize(user, UserSchema);
   const payload = Object.assign({}, data, { currentUser: data.result });
   yield put({ type: UPDATE_DATA, payload });
-
-  // TODO move these to proper place
-  // following side effects are sync
-  // const sessionToken = user.getSessionToken();
-  // // this method works only if __CLIENT__ is true. so it's safe to call it here even in nodejs env
-  // // there are situations user object has no session token. to be refactored
-  // if (sessionToken) {
-  //   yield call(saveSessionTokenInCookie, sessionToken);
-  // }
-  // yield call(api.replaceToken, sessionToken);
 }
 
 function* setCatalogTypesSaga(action) {

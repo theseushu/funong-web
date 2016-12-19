@@ -1,9 +1,9 @@
 import { connect } from 'react-redux';
-import { selectors } from '../../data/ducks';
+import { currentUserSelector } from '../../data/ducks/selectors';
 import Avatar from './components/avatar';
 
 export default connect(
-  (state) => ({ user: selectors.currentUserSelector(state) }),
+  (state) => ({ user: currentUserSelector(state) }),
   () => ({
 
   })

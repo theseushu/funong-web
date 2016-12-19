@@ -1,9 +1,9 @@
 import { connect } from 'react-redux';
-import { selectors } from '../../data/ducks';
+import { currentUserSelector } from '../../data/ducks/selectors';
 import Appbar from './components';
 
 export default connect(
-  (state) => ({ currentUser: selectors.currentUserSelector(state) }),
+  (state) => ({ currentUser: currentUserSelector(state) }),
   () => ({
 
   })

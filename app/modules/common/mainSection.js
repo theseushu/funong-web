@@ -33,7 +33,7 @@ const MainSectionComponent = ({ children, sheet: { classes } }) => (
 
 MainSectionComponent.propTypes = {
   sheet: PropTypes.object.isRequired,
-  children: PropTypes.element.isRequired,
+  children: PropTypes.any,
 };
 
 export default injectSheet(styles)(MainSectionComponent);

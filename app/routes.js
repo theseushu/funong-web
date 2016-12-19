@@ -1,9 +1,5 @@
-// These are the pages you can go to.
-// They are all wrapped in the App component, which should contain the navbar etc
-// See http://blog.mxstbr.com/2016/01/react-apps-with-pages for more information
-// about the code splitting business
 import { getAsyncInjectors } from 'utils/asyncInjectors';
-import { fetchProfile } from './modules/api/fetchProfile';
+import createProfilePageRoute from './modules/profilePage/route';
 
 const errorLoading = (err) => {
   console.error('Dynamic page loading failed', err); // eslint-disable-line no-console
@@ -45,35 +41,13 @@ export default function createRoutes(store) {
         const renderRoute = loadModule(cb);
 
         importModules.then(([component]) => {
-          // injectReducer('signupOrLogin', reducer.default);
-          // injectSagas(sagas.default);
           renderRoute(component);
         });
 
         importModules.catch(errorLoading);
       },
-    }, {
-      path: '/profile',
-      name: 'profile',
-      getComponent(nextState, cb) {
-        const importModules = Promise.all([
-          System.import('modules/profilePage'),
-          new Promise((resolve, reject) => {
-            store.dispatch(fetchProfile({ meta: { resolve, reject } }));
-          }),
-        ]);
-
-        const renderRoute = loadModule(cb);
-
-        importModules.then(([component]) => {
-          // injectReducer('signupOrLogin', reducer.default);
-          // injectSagas(sagas.default);
-          renderRoute(component);
-        });
-
-        importModules.catch(errorLoading);
-      },
-    }, {
+    },
+    createProfilePageRoute({ store, injectReducer, injectSagas, loadModule, errorLoading }), {
       path: '*',
       name: 'notfound',
       getComponent(nextState, cb) {
