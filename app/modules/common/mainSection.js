@@ -25,7 +25,7 @@ const styles = {
 
 const MainSectionComponent = ({ children, sheet: { classes } }) => (
   <section className={classes.mainSection}>
-    <Panel className={classes.panel} style={{ height: 200 }}>
+    <Panel className={classes.panel}>
       { children }
     </Panel>
   </section>

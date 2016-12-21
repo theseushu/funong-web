@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 import injectSheet from 'react-jss';
-import TabButton from './tabButton';
+import RaisingButton from '../raisingButton';
 
 const styles = {
   style: {
@@ -19,7 +19,7 @@ const Tabs = ({ index, switchTab, children, sheet: { classes } }) => {
   const activeChild = children[index];
   const buttons = children.map((child, i) => {
     const childIndex = child.props.index || i;
-    return <TabButton key={childIndex} label={child.props.label} icon={child.props.icon} active={childIndex === index} onClick={() => switchTab(childIndex)} />;
+    return <RaisingButton key={childIndex} label={child.props.label} icon={child.props.icon} active={childIndex === index} onClick={() => switchTab(childIndex)} />;
   });
   return (
     <div className="col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-4 mt-5">

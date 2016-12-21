@@ -3,25 +3,22 @@ import Button from 'react-bootstrap/lib/Button';
 import injectSheet from 'react-jss';
 
 const styles = {
-  button: {
-    padding: '1em',
-    cursor: 'pointer',
-    minHeight: '6em',
-    minWidth: '6em',
-  },
   active: {
     opacity: '1 !important',
   },
   normal: {
     border: 'none !important',
+    paddingTop: '7px !important',
+    paddingBottom: '7px !important',
     background: 'none !important',
   },
   icon: {
     fontSize: '3em',
+    width: '1.25em',
     lineHeight: 1,
+    marginBottom: '8px',
   },
   label: {
-    paddingTop: '0.5em',
   },
 };
 
@@ -35,7 +32,7 @@ const PartIcon = ({ icon, classes }) => {
 };
 
 PartIcon.propTypes = {
-  icon: PropTypes.object.isRequired,
+  icon: PropTypes.object,
   classes: PropTypes.object.isRequired,
 };
 
@@ -50,24 +47,25 @@ PartLabel.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-const TabButton = ({ label, icon, active, onClick, sheet: { classes } }) => (
+const RaisingButton = ({ label, icon, active = false, onClick, shadow = 4, sheet: { classes } }) => (
   <Button
     bsStyle={active ? 'primary' : 'default'}
-    className={active ? `${classes.active} shadow--4 material-transition` : `${classes.normal} material-transition`}
+    className={active ? `${classes.active} shadow--${shadow} material-transition` : `${classes.normal} material-transition`}
     disabled={active}
     onClick={onClick}
   >
     <PartIcon icon={icon} active={active} classes={classes} />
     <PartLabel label={label} active={active} classes={classes} />
   </Button>
-  );
+);
 
-TabButton.propTypes = {
-  active: PropTypes.bool.isRequired,
-  onClick: PropTypes.func.isRequired,
+RaisingButton.propTypes = {
+  active: PropTypes.bool,
+  onClick: PropTypes.func,
   label: PropTypes.string.isRequired,
   icon: PropTypes.object,
   sheet: PropTypes.object.isRequired,
+  shadow: PropTypes.number,
 };
 
-export default injectSheet(styles)(TabButton);
+export default injectSheet(styles)(RaisingButton);
