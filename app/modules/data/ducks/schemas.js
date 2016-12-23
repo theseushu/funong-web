@@ -4,8 +4,8 @@ export const UserSchema = new Schema('users', {
   idAttribute: 'objectId',
 });
 
-export const CatalogTypeSchema = new Schema('catalogTypes', {
+export const CatalogSchema = new Schema('catalogs', {
   idAttribute: 'objectId',
 });
 
-export const CatalogTypesSchema = arrayOf(CatalogTypeSchema);
+export const CatalogsSchema = arrayOf(CatalogSchema);

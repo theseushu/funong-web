@@ -56,8 +56,9 @@ export const availablePeriods = () => {
         case 21:
           result[year][month].third = { name: '下旬', start: periodStart.valueOf(), end: periodEnd.valueOf() - 1000, year, month };
           break;
-        default:
-          console.error('error period!');
+        default: {
+          throw new Error('error period!');
+        }
       }
     }
   }

@@ -23,7 +23,14 @@ export const signupOrLoginWithMobilePhone = (...params) => AV.User.signUpOrlogIn
   userId: user.get('objectId'),
 }));
 
-export const fetchCatalogTypes = () => new AV.Query('CatalogType').find();
+// TODO deal with empty catalogType
+export const fetchCatalogs = () => new AV.Query('Catalog').include(['catalogType']).find()
+  .then((results) => {
+    return results.map((result) => {
+      console.log(Object.assign({}, result.toJSON()))
+      return Object.assign({}, result.toJSON(), { catalogType: result.get('catalogType').toJSON() });
+    });
+  });
 
 export default (params = {}) => {
   let sessionToken = params.sessionToken;
@@ -61,7 +68,7 @@ export default (params = {}) => {
   return {
     requestSmsCode,
     signupOrLoginWithMobilePhone,
-    fetchCatalogTypes,
+    fetchCatalogs,
     ...createAMapApi(),
     replaceToken,
     fetchProfile,

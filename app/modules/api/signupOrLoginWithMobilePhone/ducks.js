@@ -25,7 +25,7 @@ function* signupOrLoginWithMobilePhoneSaga(action, api) {
   try {
     const { sessionToken, userId } = yield call(api.signupOrLoginWithMobilePhone, phone, smsCode);
     yield call(saveSessionTokenInCookie, { sessionToken, userId });
-    yield call(api.replaceToken, sessionToken);
+    yield call(api.replaceToken, { sessionToken, userId });
     yield put({ type: SIGNUP_OR_LOGIN_WITH_MOBILEPHONE_STATE, payload: { fulfilled: true } });
     if (typeof resolve === 'function') {
       resolve({ sessionToken, userId });

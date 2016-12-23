@@ -15,24 +15,27 @@ import { Provider } from 'react-redux';
 import { applyRouterMiddleware, Router, browserHistory } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
 import { useScroll } from 'react-router-scroll';
-// TODO I thinks sanitizecss is useless here since bootstrap's included. Remove it after confirming
-// import 'sanitize.css/sanitize.css';
-import 'bootstrap/dist/css/bootstrap.css';
-
-// Import root app
-import App from 'containers/App';
-
-// Import selector for `syncHistoryWithStore`
-import { makeSelectLocationState } from 'containers/App/selectors';
-
-// Import Language Provider
-import LanguageProvider from 'containers/LanguageProvider';
 
 // Load the favicon, the manifest.json file and the .htaccess file
 /* eslint-disable import/no-unresolved, import/extensions */
 import '!file?name=[name].[ext]!./favicon.ico';
 import '!file?name=[name].[ext]!./manifest.json';
 import 'file?name=[name].[ext]!./.htaccess';
+
+// TODO I thinks sanitizecss is useless here since bootstrap's included. Remove it after confirming
+// import 'sanitize.css/sanitize.css';
+// import 'bootstrap/dist/css/bootstrap.css';
+import './styles/bootstrap.scss';
+
+// Import root app
+import App from './containers/App';
+
+// Import selector for `syncHistoryWithStore`
+import { makeSelectLocationState } from './containers/App/selectors';
+
+// Import Language Provider
+import LanguageProvider from './containers/LanguageProvider';
+
 /* eslint-enable import/no-unresolved, import/extensions */
 
 import configureStore from './store';

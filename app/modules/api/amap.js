@@ -75,14 +75,17 @@ export default () => {
       });
     };
 
-    const searchDistinct = async ({ name, level, subdistrict }) => {
+    const searchDistrict = async ({ name, level, subdistrict = 1 }) => {
       await loadScript();
       return new Promise((resolve, reject) => {
-        districtSearch.setLevel(level);
-        districtSearch.setSubDistrict(subdistrict);
+        if (level) {
+          districtSearch.setLevel(level);
+        }
+        districtSearch.setSubdistrict(subdistrict);
         districtSearch.search(name, (status, result) => {
-          if (status === 'complete') {
-            resolve(result);
+          if (status === 'complete' && result.info === 'OK') {
+            // todo this method should always resolve an array. it could be empty but never null
+            resolve(result.districtList);
           } else {
             reject(result);
           }
@@ -92,11 +95,11 @@ export default () => {
 
     return {
       getCurrentLocation,
-      searchDistinct,
+      searchDistrict,
     };
   }
   return {
     getCurrentLocation: () => { throw new Error('Do not call this method outside browser'); },
-    searchDistinct: () => { throw new Error('Do not call this method outside browser'); },
+    searchDistrict: () => { throw new Error('Do not call this method outside browser'); },
   };
 };

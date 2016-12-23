@@ -28,7 +28,7 @@ module.exports = (options) => ({
       loaders: ['style-loader', 'css-loader'],
     }, {
       test: /\.scss$/,
-      exclude: /node_modules/,
+      // exclude: /node_modules/,
       loaders: ['style-loader', 'css-loader', 'sass-loader'],
     }, {
       test: /\.(eot|svg|ttf|woff|woff2)$/,

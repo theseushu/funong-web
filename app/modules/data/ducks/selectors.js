@@ -10,10 +10,10 @@ export const currentUserSelector = createSelector(
   }
 );
 
-export const catalogTypesSelector = createSelector(
+export const catalogsSelector = createSelector(
   rootSelector,
   (data) => {
-    const { entities: { catalogTypes = [] } } = data;
-    return catalogTypes;
+    const { entities: { catalogs = {} } } = data;
+    return Object.keys(catalogs);
   }
 );

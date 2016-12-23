@@ -2,8 +2,8 @@ import { normalize } from 'normalizr';
 import { takeEvery } from 'redux-saga';
 import { put } from 'redux-saga/effects';
 
-import { UPDATE_DATA, SET_CURRENT_USER, UPDATE_CURRENT_USER_INFO, SET_CATALOG_TYPES } from './constants';
-import { UserSchema, CatalogTypesSchema } from './schemas';
+import { UPDATE_DATA, SET_CURRENT_USER, UPDATE_CURRENT_USER_INFO, SET_CATALOGS } from './constants';
+import { UserSchema, CatalogsSchema } from './schemas';
 
 function* updateCurrentUserInfoSaga(action) {
   const { user } = action.payload;
@@ -19,9 +19,9 @@ function* setCurrentUserSaga(action) {
   yield put({ type: UPDATE_DATA, payload });
 }
 
-function* setCatalogTypesSaga(action) {
-  const types = action.payload.types;
-  const data = normalize(types, CatalogTypesSchema);
+function* setCatalogsSaga(action) {
+  const catalogs = action.payload.catalogs;
+  const data = normalize(catalogs, CatalogsSchema);
   const payload = Object.assign({}, data);
   yield put({ type: UPDATE_DATA, payload });
 }
@@ -31,7 +31,7 @@ function* rootSaga(api) {
     yield* setCurrentUserSaga(action, api);
   });
   yield takeEvery(UPDATE_CURRENT_USER_INFO, updateCurrentUserInfoSaga);
-  yield takeEvery(SET_CATALOG_TYPES, setCatalogTypesSaga);
+  yield takeEvery(SET_CATALOGS, setCatalogsSaga);
 }
 
 export default [rootSaga];

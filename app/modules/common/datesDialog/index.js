@@ -1,20 +1,14 @@
 import React, { Component, PropTypes } from 'react';
 import injectSheet from 'react-jss';
-import Modal from 'react-bootstrap/lib/Modal';
 import Button from 'react-bootstrap/lib/Button';
-import RaisingButton from './raisingButton';
+import RaisingButton from '../raisingButton';
+import Dialog from '../dialog';
 
-import { availablePeriods, displayPeriod } from '../../utils/momentUtils';
+import { availablePeriods, displayPeriod } from '../../../utils/momentUtils';
 
 const styles = {
-  dialog: {
-    width: 500,
-    maxWidth: '100%',
-    margin: '0 auto 0 auto',
-  },
   monthLine: {
     display: 'flex',
-    marginTop: 5,
   },
   monthLineLabel: {
     width: 50,
@@ -54,11 +48,15 @@ class PickDatesDialog extends Component {
       if (typeof this.state.end === 'number' && start > this.state.end) {
         this.setState({ end: null });
       }
+      return;
     } else if (this.state.start < end) {
-      this.setState({ end });
-    } else {
-      console.error(`Wrong status! start (${this.state.start}), end to be set (${end})`);
+      this.setState({ end }, () => {
+        this.submit();
+      });
+      return;
     }
+    console.error(`Wrong status! start (${this.state.start}), end to be set (${end})`); // eslint-disable-line no-console
+    // TODO it should not happen. maybe report an error to cloud
   }
   submit = () => {
     if (typeof this.props.onSubmit === 'function') {
@@ -102,33 +100,33 @@ class PickDatesDialog extends Component {
   }
   renderYearBlock = (year, months) => (
     <div key={year}>
-      <h4><small>{year}年</small></h4>
+      <div><small>{year}年</small></div>
       { Object.values(months).map((month, i) => (this.renderMonthLine(month, i)))}
     </div>
     )
   render() {
-    const { close, sheet: { classes } } = this.props;
+    const { close } = this.props;
     const { start, end, selectStart } = this.state;
     return (
-      <Modal show onHide={close}>
-        <Modal.Header>
-          <Modal.Title className={classes.dialog}>选择供货时间</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <div className="text-center">
+      <Dialog
+        show
+        submitDisabled={start === null || end === null}
+        onHide={close}
+        onCancel={close}
+        title={'选择供货时间'}
+        fixedContent={
+          <div>
             <RaisingButton label="开始时间" shadow={3} active={selectStart} onClick={() => this.setState({ selectStart: true })} />
             <RaisingButton label="结束时间" shadow={3} active={!selectStart} onClick={() => this.setState({ selectStart: false })} />
+            <p style={{ paddingLeft: '2em' }}><small>{displayPeriod(start, end) || '请选择起止日期'}</small></p>
           </div>
-          <h4 className="text-center"><small>{displayPeriod(start, end)}</small></h4>
-          <div className={classes.dialog}>
+        }
+        scrollableContent={
+          <div>
             { Object.keys(periods).map((key) => this.renderYearBlock(key, periods[key])) }
           </div>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button onClick={close}>取消</Button>
-          <Button disabled={start === null || end === null} onClick={this.submit}>确定</Button>
-        </Modal.Footer>
-      </Modal>
+        }
+      />
     );
   }
 }

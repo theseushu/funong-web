@@ -6,7 +6,7 @@ import ControlLabel from 'react-bootstrap/lib/ControlLabel';
 import FormControl from 'react-bootstrap/lib/FormControl';
 import HelpBlock from 'react-bootstrap/lib/HelpBlock';
 
-import PickDatesDialog from '../../../common/periodSelectionDialog';
+import DatesDialog from '../../../common/datesDialog';
 import { displayPeriod } from '../../../../utils/momentUtils';
 
 const styles = {
@@ -45,7 +45,7 @@ class DatesField extends Component {
           readOnly
         />
         {showError && <HelpBlock>{error}</HelpBlock>}
-        {showDialog && <PickDatesDialog close={this.hideDialog} value={typeof value === 'string' ? {} : value} onSubmit={({ start, end }) => onChange({ start, end })} />}
+        {showDialog && <DatesDialog close={this.hideDialog} value={typeof value === 'string' ? {} : value} onSubmit={({ start, end }) => onChange({ start, end })} />}
       </FormGroup>
     );
   }

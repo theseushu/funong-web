@@ -13,37 +13,6 @@ import HelpBlock from 'react-bootstrap/lib/HelpBlock';
 import FaMobile from 'react-icons/lib/fa/mobile';
 import MdTextsms from 'react-icons/lib/md/textsms';
 
-//
-// const confirmButtonStyle = () => ({
-//   width: '60%',
-//   maxWidth: '100%',
-//   marginBottom: '20px'
-// });
-// const confirmPhoneField = () => ({
-//   position: 'relative',
-//   paddingLeft: '2em',
-//   '> ._requestSmsButton': {
-//     position: 'absolute',
-//     height: '72px',
-//     right: 0,
-//     top: '14px',
-//     display: 'flex',
-//     flexDirection: 'column',
-//     justifyContent: 'center'
-//   },
-//   '> ._label': {
-//     position: 'absolute',
-//     left: 0,
-//     top: '36px',
-//   }
-// });
-// const errorMessage = ({color}) => ({
-//   display: 'flex',
-//   justifyContent: 'center',
-//   color
-//
-// });
-
 const PhoneField = ({ name, input: { value, onChange }, meta: { dirty, error }, RequestSmsCodeButton }) => {
   const showError = (!!dirty) && (!!error);
   return (

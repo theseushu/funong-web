@@ -6,6 +6,7 @@ import NameField from './nameField';
 import PriceField from './priceField';
 import AvailableField from './availableField';
 import DatesField from './datesField';
+import LocationField from './locationField';
 
 
 const Form = ({ handleSubmit, pristine, submitting, submitSucceeded, invalid, error, onSubmit = () => {} }) => (
@@ -22,6 +23,9 @@ const Form = ({ handleSubmit, pristine, submitting, submitSucceeded, invalid, er
     </div>
     <div>
       <Field name="startAndEndDates" component={DatesField} />
+    </div>
+    <div>
+      <Field name="location" component={LocationField} />
     </div>
     {
       error && (
@@ -53,7 +57,7 @@ Form.propTypes = {
   submitSucceeded: PropTypes.bool,
   invalid: PropTypes.bool,
   error: PropTypes.any,
-  // onSubmit: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func,
 };
 
 export default Form;

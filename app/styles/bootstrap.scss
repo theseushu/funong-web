@@ -1,0 +1,80 @@
+@import "./variables";
+@import "~bootstrap-sass/assets/stylesheets/bootstrap/variables";
+@import "~bootstrap-sass/assets/stylesheets/bootstrap/mixins";
+
+// Reset and dependencies
+@import "~bootstrap-sass/assets/stylesheets/bootstrap/normalize";
+@import "~bootstrap-sass/assets/stylesheets/bootstrap/print";
+
+// Core CSS
+@import "~bootstrap-sass/assets/stylesheets/bootstrap/scaffolding";
+@import "~bootstrap-sass/assets/stylesheets/bootstrap/type";
+@import "~bootstrap-sass/assets/stylesheets/bootstrap/code";
+@import "~bootstrap-sass/assets/stylesheets/bootstrap/grid";
+@import "~bootstrap-sass/assets/stylesheets/bootstrap/tables";
+@import "~bootstrap-sass/assets/stylesheets/bootstrap/forms";
+@import "~bootstrap-sass/assets/stylesheets/bootstrap/buttons";
+
+// Components
+@import "~bootstrap-sass/assets/stylesheets/bootstrap/component-animations";
+@import "~bootstrap-sass/assets/stylesheets/bootstrap/dropdowns";
+@import "~bootstrap-sass/assets/stylesheets/bootstrap/button-groups";
+@import "~bootstrap-sass/assets/stylesheets/bootstrap/input-groups";
+@import "~bootstrap-sass/assets/stylesheets/bootstrap/navs";
+@import "~bootstrap-sass/assets/stylesheets/bootstrap/navbar";
+@import "~bootstrap-sass/assets/stylesheets/bootstrap/breadcrumbs";
+@import "~bootstrap-sass/assets/stylesheets/bootstrap/pagination";
+@import "~bootstrap-sass/assets/stylesheets/bootstrap/pager";
+@import "~bootstrap-sass/assets/stylesheets/bootstrap/labels";
+@import "~bootstrap-sass/assets/stylesheets/bootstrap/badges";
+@import "~bootstrap-sass/assets/stylesheets/bootstrap/jumbotron";
+@import "~bootstrap-sass/assets/stylesheets/bootstrap/thumbnails";
+@import "~bootstrap-sass/assets/stylesheets/bootstrap/alerts";
+@import "~bootstrap-sass/assets/stylesheets/bootstrap/progress-bars";
+@import "~bootstrap-sass/assets/stylesheets/bootstrap/media";
+@import "~bootstrap-sass/assets/stylesheets/bootstrap/list-group";
+@import "~bootstrap-sass/assets/stylesheets/bootstrap/panels";
+@import "~bootstrap-sass/assets/stylesheets/bootstrap/responsive-embed";
+@import "~bootstrap-sass/assets/stylesheets/bootstrap/wells";
+@import "~bootstrap-sass/assets/stylesheets/bootstrap/close";
+
+// Components w/ JavaScript
+@import "~bootstrap-sass/assets/stylesheets/bootstrap/modals";
+@import "~bootstrap-sass/assets/stylesheets/bootstrap/tooltip";
+@import "~bootstrap-sass/assets/stylesheets/bootstrap/popovers";
+@import "~bootstrap-sass/assets/stylesheets/bootstrap/carousel";
+
+// Utility classes
+@import "~bootstrap-sass/assets/stylesheets/bootstrap/utilities";
+@import "~bootstrap-sass/assets/stylesheets/bootstrap/responsive-utilities";
+@import "./bootswatch";
+
+
+//@mixin btnFlat($class,$color){
+//  .btn-#{$class} .flat {
+//    background: none;
+//    color: $color;
+//    &:focus {
+//      background-color: $btn-default-bg;
+//    }
+//
+//    &:hover,
+//    &:active:hover {
+//      background-color: darken($btn-default-bg, 6%);
+//    }
+//
+//    &:active {
+//      @include box-shadow(2px 2px 4px rgba(0,0,0,.4));
+//    }
+//
+//    @include ripple($btn-default-color);
+//  }
+//}
+//
+//@include btnFlat(default,$btn-default-color);
+//@include btnFlat(primary,$btn-primary-bg);
+//@include btnFlat(success,$btn-success-bg);
+//@include btnFlat(info,$btn-info-bg);
+//@include btnFlat(warning,$btn-warning-bg);
+//@include btnFlat(danger,$btn-danger-bg);
+//@include btnFlat(link,#fff);

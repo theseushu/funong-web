@@ -12,47 +12,6 @@ import injectSheet from 'react-jss';
 
 const backgroundImg = require('./assets/appbar-bg.jpg');
 
-// const background = props => ({
-//   height: '250px',
-//   position: 'relative',
-//   background: `url(${require('../../../../assets/appbar-bg.jpg')})`,
-//   ':before': {
-//     height: '100%'
-//   }
-// });
-//
-// const overlay = props => ({
-//   position: 'absolute',
-//   width: '100%',
-//   height: '100%',
-//   top: 0,
-//   left: 0,
-//   background: 'rgba(0, 0, 0, 0.3)'
-// });
-//
-// const styles = props => ({
-//   position: 'fixed',
-//   width: '100%',
-//   top: 0,
-//   '@media (max-width: 768px)': {
-//     top: '0',
-//   },
-//   zIndex: 1000
-// });
-//
-// const waypoint = props => ({
-//   position: 'absolute',
-//   width: '100%',
-//   top: '100px'
-// })
-//
-// const title = ({color}) => ({
-//   display: 'flex',
-//   alignItems: 'center',
-//   width: '100%',
-//   color
-// })
-
 const styles = {
   background: {
     height: '250px',
@@ -89,6 +48,8 @@ const styles = {
       flex: 1,
       paddingTop: 0,
       paddingBottom: 0,
+      border: 'none',
+      boxShadow: 'none',
       '&>.form-group': {
         width: '100%',
         display: 'inline-block',
@@ -97,9 +58,9 @@ const styles = {
   },
   avatar: {
     '&>a': {
-      width: 50,
-      height: 50,
-      padding: '10px !important',
+      width: 64,
+      height: 64,
+      padding: '14px !important',
       '&>img': {
         maxWidth: '100% !important',
       },
@@ -137,7 +98,7 @@ class AppBarComponent extends Component {
           />
         </div>
         <div className={`${classes.wrapper} material-transition`} style={{ marginTop: raising ? 0 : 30 }}>
-          <Navbar inverse collapseOnSelect style={raising ? {} : { background: 'none', border: 'none' }}>
+          <Navbar inverse collapseOnSelect style={raising ? {} : { background: 'none', border: 'none', boxShadow: 'none' }}>
             <Navbar.Header>
               <div className={classes.headerWrapper}>
                 <Navbar.Brand bsStyle="custom">
