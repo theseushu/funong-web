@@ -31,11 +31,13 @@ export const fetchCatalogs = () => new AV.Query('Catalog').include(['catalogType
 export const fetchCategories = (catalog) => new AV.Query('Category')
   .equalTo('catalog', AV.Object.createWithoutData('Catalog', catalog.objectId))
   .addAscending('name')
+  .limit(1000)
   .find()
   .then((results) => results.map((result) => Object.assign({}, result.toJSON())));
 
 export const fetchSpecies = (category) => new AV.Query('Species')
   .equalTo('category', AV.Object.createWithoutData('Category', category.objectId))
+  .limit(1000)
   .find()
   .then((results) => results.map((result) => Object.assign({}, result.toJSON())));
 

@@ -5,7 +5,8 @@ import Button from 'react-bootstrap/lib/Button';
 
 const styles = {
   modalBody: {
-    maxHeight: 'calc(100vh - 182px)',
+    maxHeight: 'calc(100vh - 212px)',
+    minHeight: 180,
     overflow: 'hidden',
     display: 'flex',
     flexDirection: 'column',
@@ -27,7 +28,7 @@ const styles = {
 
 const Dialog = ({ title, fixedContent, scrollableContent, sheet: { classes }, show = true, onHide, onCancel, submit }) => (
   <Modal show={show} backdrop={false} onHide={onHide}>
-    <Modal.Header>
+    <Modal.Header closeButton>
       <Modal.Title>{title}</Modal.Title>
     </Modal.Header>
     <Modal.Body className={classes.modalBody}>
@@ -38,10 +39,12 @@ const Dialog = ({ title, fixedContent, scrollableContent, sheet: { classes }, sh
         {scrollableContent}
       </div>
     </Modal.Body>
-    <Modal.Footer>
-      <Button onClick={onCancel}>取消</Button>
-      {submit && <Button onClick={submit.onSubmit} disabled={submit.disabled}>确定</Button>}
-    </Modal.Footer>
+    {submit &&
+      <Modal.Footer>
+        <Button onClick={onCancel}>取消</Button>
+        <Button onClick={submit.onSubmit} disabled={submit.disabled}>确定</Button>
+      </Modal.Footer>
+    }
   </Modal>
 );
 
