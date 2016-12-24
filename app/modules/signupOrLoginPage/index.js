@@ -6,8 +6,8 @@ import Panel from 'react-bootstrap/lib/Panel';
 
 // import messages from './messages';
 
-import RequestSmsCodeButton from './containers/requestSmsCodeButton';
-import Form from './containers/form';
+import RequestSmsCodeButton from './requestSmsCodeButton/requestSmsCodeButtonContainer';
+import Form from './signupOrLoginForm/signupOrLoginFormContainer';
 
 const backgroundImg = require('./assets/login-bg.jpg');
 const styles = {

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { fetchProfile } from '../../api/fetchProfile';
 import { selector, signupOrLoginWithMobilePhone } from '../../api/signupOrLoginWithMobilePhone';
 
-import SignupOrLoginForm from '../components/form';
+import SignupOrLoginForm from './signupOrLoginForm';
 
 // export for unit testing
 export const validate = (values) => {

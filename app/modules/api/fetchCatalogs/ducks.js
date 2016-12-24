@@ -18,7 +18,7 @@ export const actions = {
   fetchCatalogs: ({ meta = {} }) => ({ type: FETCH_CATALOGS, payload: {}, meta }),
 };
 
-export const selector = createSelector(rootSelector, (api) => api.fetchCatalogs);
+export const selector = createSelector([rootSelector, catalogsSelector], (api, catalogs) => ({ ...api.fetchCatalogs, catalogs }));
 
 function* fetchCatalogsSaga(action, api) {
   const { resolve, reject } = action.meta;
@@ -32,8 +32,7 @@ function* fetchCatalogsSaga(action, api) {
     yield put({ type: FETCH_CATALOGS_STATE, payload: { pending: true } });
     try {
       const catalogs = yield call(api.fetchCatalogs);
-      console.log(catalogs)
-      yield put({ type: FETCH_CATALOGS_STATE, payload: { fulfilled: true, catalogs } });
+      yield put({ type: FETCH_CATALOGS_STATE, payload: { fulfilled: true } });
       yield put(setCatalogs(catalogs));
       if (typeof resolve === 'function') {
         resolve(catalogs);

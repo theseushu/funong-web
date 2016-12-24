@@ -7,6 +7,7 @@ import createAMapApi from './amap';
 
 const debug = require('debug')('app:api');
 
+// TODO put these in configuration file
 const APP_ID = 'ouy08OrFpGAJNxS1T69ceUH7-gzGzoHsz';
 const APP_KEY = 'JNUXol0O66lg5H24kxcmcnOt';
 
@@ -25,12 +26,18 @@ export const signupOrLoginWithMobilePhone = (...params) => AV.User.signUpOrlogIn
 
 // TODO deal with empty catalogType
 export const fetchCatalogs = () => new AV.Query('Catalog').include(['catalogType']).find()
-  .then((results) => {
-    return results.map((result) => {
-      console.log(Object.assign({}, result.toJSON()))
-      return Object.assign({}, result.toJSON(), { catalogType: result.get('catalogType').toJSON() });
-    });
-  });
+  .then((results) => results.map((result) => Object.assign({}, result.toJSON())));
+
+export const fetchCategories = (catalog) => new AV.Query('Category')
+  .equalTo('catalog', AV.Object.createWithoutData('Catalog', catalog.objectId))
+  .addAscending('name')
+  .find()
+  .then((results) => results.map((result) => Object.assign({}, result.toJSON())));
+
+export const fetchSpecies = (category) => new AV.Query('Species')
+  .equalTo('category', AV.Object.createWithoutData('Category', category.objectId))
+  .find()
+  .then((results) => results.map((result) => Object.assign({}, result.toJSON())));
 
 export default (params = {}) => {
   let sessionToken = params.sessionToken;
@@ -69,6 +76,8 @@ export default (params = {}) => {
     requestSmsCode,
     signupOrLoginWithMobilePhone,
     fetchCatalogs,
+    fetchCategories,
+    fetchSpecies,
     ...createAMapApi(),
     replaceToken,
     fetchProfile,

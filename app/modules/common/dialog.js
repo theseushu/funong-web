@@ -11,7 +11,12 @@ const styles = {
     flexDirection: 'column',
   },
   fixedContent: {
-    borderBottom: 'solid 1px grey',
+    borderBottom: 'solid 1px lightgray',
+    paddingBottom: 15,
+    '& ol': {
+      marginTop: 15,
+      marginBottom: '0 !important',
+    },
   },
   scrollableContent: {
     paddingTop: 15,

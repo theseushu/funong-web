@@ -46,7 +46,8 @@ export const actions = {
   searchSubdistrict: ({ name, level, meta = {} }) => ({ type: SEARCH_DISTRICT, payload: { name, level, subdistrict: 2 }, meta }),
 };
 
-export const selector = createSelector(rootSelector, (api) => Object.assign({}, api.searchDistrict, { result: api.searchDistrict.result && api.searchDistrict.searches[api.searchDistrict.result] }));
+export const selector = createSelector(rootSelector,
+  (api) => Object.assign({}, api.searchDistrict, { result: api.searchDistrict.result && api.searchDistrict.searches[api.searchDistrict.result] }));
 
 function* searchDistrictSaga(action, api) {
   const { resolve, reject } = action.meta;

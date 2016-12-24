@@ -1,29 +1,27 @@
 import React, { PropTypes } from 'react';
 import RaisingButton from '../../raisingButton';
 
-const Types = ({ classes, catalogTypes, catalogType, onButtonClick }) => (
-  <div className={classes.catalogTypes}>
-    <span>
-      {
-          catalogTypes.map((type, i) => (
-            <RaisingButton
-              key={i}
-              label={catalogType.name}
-              active={catalogType === type}
-              onClick={() => {
-                onButtonClick({ catalogType });
-              }}
-            />
-          ))
-        }
-    </span>
+const catalogTypes = [{
+  name: '农产品',
+}, {
+  name: '农资',
+}, {
+  name: '物流',
+},
+];
+
+const Types = ({ catalogType, onButtonClick }) => (
+  <div>
+    {
+      catalogTypes.map(({ name }, i) => (
+        <RaisingButton key={i} label={name} active={name === catalogType} onClick={() => onButtonClick(name)} />
+      ))
+    }
   </div>
   );
 
 Types.propTypes = {
-  classes: PropTypes.object.isRequired,
-  catalogTypes: PropTypes.array.isRequired,
-  catalogType: PropTypes.object.isRequired,
+  catalogType: PropTypes.string.isRequired,
   onButtonClick: PropTypes.func.isRequired,
 };
 

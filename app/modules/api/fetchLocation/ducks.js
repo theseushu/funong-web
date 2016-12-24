@@ -11,7 +11,7 @@ const FETCH_LOCATION_STATE = 'api/fetch_location_state';
 const SET_LOCATION = 'api/set_location';
 
 export default {
-  fetchLocation: (state = { searches: {} }, action) => {
+  fetchLocation: (state = {}, action) => {
     if (action.type === FETCH_LOCATION_STATE) {
       return Object.assign({}, state, {
         pending: undefined,

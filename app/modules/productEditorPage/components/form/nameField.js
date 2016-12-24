@@ -8,6 +8,8 @@ import HelpBlock from 'react-bootstrap/lib/HelpBlock';
 
 import SpeciesSelectorDialog from '../../../common/speciesSelectorDialog';
 
+const formatValue = (value) => typeof value === 'string' ? value : value.name;
+
 
 class NameField extends Component {
   constructor(props) {
@@ -35,12 +37,12 @@ class NameField extends Component {
         <FormControl
           placeholder="点击选择"
           name={name}
-          value={value}
+          value={formatValue(value)}
           onClick={this.showDialog}
           readOnly
         />
         {showError && <HelpBlock>{error}</HelpBlock>}
-        { showDialog && <SpeciesSelectorDialog close={this.hideDialog} value={typeof value === 'string' ? {} : value} onSubmit={onChange} />}
+        { showDialog && <SpeciesSelectorDialog close={this.hideDialog} value={typeof value === 'string' ? null : value} onSubmit={onChange} />}
       </FormGroup>
     );
   }

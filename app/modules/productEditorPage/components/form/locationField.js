@@ -45,7 +45,7 @@ class LocationField extends Component {
           readOnly
         />
         {showError && <HelpBlock>{error}</HelpBlock>}
-        { showDialog && <LocationDialog close={this.hideDialog} value={typeof value === 'string' ? {} : value} onSubmit={onChange} />}
+        { showDialog && <LocationDialog close={this.hideDialog} value={typeof value === 'string' ? null : value} onSubmit={onChange} />}
       </FormGroup>
     );
   }

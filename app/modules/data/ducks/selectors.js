@@ -14,6 +14,16 @@ export const catalogsSelector = createSelector(
   rootSelector,
   (data) => {
     const { entities: { catalogs = {} } } = data;
-    return Object.keys(catalogs);
+    return Object.values(catalogs);
   }
+);
+
+export const categoriesSelector = createSelector(
+  rootSelector,
+  (data) => data.entities.categories,
+);
+
+export const speciesSelector = createSelector(
+  rootSelector,
+  (data) => data.entities.species,
 );
