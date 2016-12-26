@@ -18,7 +18,6 @@ const styles = {
     width: '100%',
     marginTop: -16,
     '&>.panel-body': {
-      padding: 0,
     },
   },
 };

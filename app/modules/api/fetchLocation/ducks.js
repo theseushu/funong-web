@@ -37,7 +37,6 @@ function* fetchLocationSaga(action, api) {
   const { resolve, reject } = action.meta;
   const { location } = yield select(selector);
   if (location) {
-    yield put({ type: FETCH_LOCATION_STATE, payload: { fulfilled: true } });
     if (typeof resolve === 'function') {
       resolve(location);
     }

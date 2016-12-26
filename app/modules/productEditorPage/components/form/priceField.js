@@ -1,38 +1,106 @@
-import React, { PropTypes } from 'react';
+import React, { Component, PropTypes } from 'react';
+import injectSheet from 'react-jss';
 
 import FormGroup from 'react-bootstrap/lib/FormGroup';
 import ControlLabel from 'react-bootstrap/lib/ControlLabel';
-import FormControl from 'react-bootstrap/lib/FormControl';
-import InputGroup from 'react-bootstrap/lib/InputGroup';
 import HelpBlock from 'react-bootstrap/lib/HelpBlock';
-import DropdownButton from 'react-bootstrap/lib/DropdownButton';
-import MenuItem from 'react-bootstrap/lib/MenuItem';
+// import Button from 'react-bootstrap/lib/Button';
+// import Collapse from 'react-bootstrap/lib/Collapse';
+// import Panel from 'react-bootstrap/lib/Panel';
+// import PriceDefinitionsDropdownButton from '../../../common/priceDefinitionsDropdownButton';
 
-
-const priceField = ({ name, input: { value, onChange }, meta: { dirty, error } }) => {
-  const showError = (!!dirty) && (!!error);
-  return (
-    <FormGroup validationState={showError ? 'error' : undefined}>
-      <ControlLabel>货品单价</ControlLabel>
-      <InputGroup>
-        <FormControl placeholder="点击选择" type="tel" name={name} value={value} maxLength={11} onChange={(e) => onChange(e.target.value)} />
-        <DropdownButton
-          componentClass={InputGroup.Button}
-          id="input-dropdown-addon"
-          title="Action"
-        >
-          <MenuItem key="1">Item</MenuItem>
-        </DropdownButton>
-      </InputGroup>
-      {showError && <HelpBlock>{error}</HelpBlock>}
-    </FormGroup>
-  );
+const styles = {
+  inputsWrapper: {
+    display: 'flex',
+    flexDirection: 'column',
+    marginBottom: 15,
+    '& > ._price': {
+      width: '100%',
+    },
+    '@media (min-width: 544px)': {
+      flexDirection: 'row',
+      '& > ._price': {
+        width: 200,
+        marginRight: 15,
+      },
+    },
+  },
 };
 
-priceField.propTypes = {
+const PriceInputComponent = ({ sheet: { classes }, value, onChange }) => (
+  <div className={classes.inputsWrapper}>
+    <input
+      type="number"
+      className="form-control _price"
+      placeholder="输入价格，单位（元）"
+      value={value.price}
+      onChange={(e) => {
+        try {
+          const price = Number(e.target.value);
+          if (price < 100000) {
+            onChange({ price: price > 0 ? price : '', desc: value.desc });
+          }
+            } catch (e) { // eslint-disable-line
+              // do nothing. if the price cannot convert to number, ignore it
+        }
+      }}
+    />
+    <input
+      type="text"
+      className="form-control"
+      maxLength={140}
+      placeholder={value.price === '' ? '说明，如20元/斤，10元/包，每包500克' : `${value.price}元每斤`}
+      value={(value.desc === '' && value.price !== '') ? `${value.price}元每斤` : value.desc}
+      onChange={(e) => onChange({ price: value.price, desc: e.target.value })}
+    />
+  </div>
+);
+
+PriceInputComponent.propTypes = {
+  sheet: PropTypes.object.isRequired,
+  onChange: PropTypes.func.isRequired,
+  value: PropTypes.object.isRequired,
+}
+
+const PriceInput = injectSheet(styles)(PriceInputComponent);
+
+class PriceField extends Component {
+  static propTypes = {
+    input: PropTypes.object.isRequired,
+    meta: PropTypes.object,
+  }
+  constructor(props) {
+    super(props);
+    this.state = { showInput: false };
+  }
+  toggleInput = () => {
+    this.setState({ showInput: !this.state.showInput });
+  }
+  render() {
+    const { input: { value, onChange }, meta: { dirty, error } } = this.props;
+    const showError = (!!dirty) && (!!error);
+    return (
+      <div>
+        <FormGroup validationState={showError ? 'error' : undefined}>
+          <ControlLabel>货品价格</ControlLabel>
+          <PriceInput value={value === '' ? { price: '', desc: '' } : value} onChange={onChange} />
+          {showError && <HelpBlock>{error}</HelpBlock>}
+        </FormGroup>
+        {/*
+        <Collapse in={this.state.showInput}>
+          <Panel>
+            <PriceInput onCancel={() => this.setState({ showInput: false })} />
+          </Panel>
+        </Collapse>*/}
+      </div>
+    );
+  }
+}
+
+PriceField.propTypes = {
   name: PropTypes.string.isRequired,
   input: PropTypes.object.isRequired,
   meta: PropTypes.object,
 };
 
-export default priceField;
+export default PriceField;

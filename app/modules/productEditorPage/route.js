@@ -1,4 +1,6 @@
 import _toPairs from 'lodash/toPairs';
+import { fetchProfile } from '../api/fetchProfile';
+import { currentUserSelector } from '../data/ducks/selectors';
 export default ({ store, injectReducer, injectSagas, loadModule, errorLoading }) => ({ // eslint-disable-line no-unused-vars
   path: '/product/:id',
   name: 'newProduct',
@@ -8,6 +10,14 @@ export default ({ store, injectReducer, injectSagas, loadModule, errorLoading })
     const importModules = Promise.all([
       System.import('./index'),
       System.import('./ducks'),
+      new Promise((resolve, reject) => {
+        const currentUser = currentUserSelector(store.getState());
+        if (currentUser) {
+          resolve();
+        } else {
+          store.dispatch(fetchProfile({ meta: { resolve, reject } }));
+        }
+      }),
     ]);
 
     const renderRoute = loadModule(cb);

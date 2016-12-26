@@ -1,32 +1,33 @@
 import React, { PropTypes } from 'react';
 import { Field } from 'redux-form';
 import Button from 'react-bootstrap/lib/Button';
+import injectSheet from 'react-jss';
 
 import NameField from './nameField';
 import PriceField from './priceField';
 import AvailableField from './availableField';
 import DatesField from './datesField';
 import LocationField from './locationField';
+import DescField from './descField';
+import PhotosField from './photosField';
+const styles = {
+  form: {
+    '& input': {
+      cursor: 'text',
+    },
+  },
+};
 
-
-const Form = ({ handleSubmit, pristine, submitting, submitSucceeded, invalid, error, onSubmit = () => {} }) => (
-  <form onSubmit={handleSubmit(onSubmit)}>
-    <h3 className="text-center">立即加入</h3>
-    <div>
-      <Field name="category" component={NameField} />
-    </div>
-    <div>
-      <Field name="price" component={PriceField} />
-    </div>
-    <div>
-      <Field name="available" component={AvailableField} />
-    </div>
-    <div>
-      <Field name="startAndEndDates" component={DatesField} />
-    </div>
-    <div>
-      <Field name="location" component={LocationField} />
-    </div>
+const Form = ({ handleSubmit, pristine, submitting, submitSucceeded, invalid, error, onSubmit = () => {}, sheet: { classes } }) => (
+  <form onSubmit={handleSubmit(onSubmit)} className={classes.form}>
+    <h3 className="text-center">货品信息</h3>
+    <Field name="category" component={NameField} />
+    <Field name="price" component={PriceField} />
+    <Field name="available" component={AvailableField} />
+    <Field name="startAndEndDates" component={DatesField} />
+    <Field name="location" component={LocationField} />
+    <Field name="desc" component={DescField} />
+    <Field name="photos" component={PhotosField} />
     {
       error && (
         <p className={'text-center text-danger'}>
@@ -60,4 +61,4 @@ Form.propTypes = {
   onSubmit: PropTypes.func,
 };
 
-export default Form;
+export default injectSheet(styles)(Form);

@@ -43,7 +43,6 @@ function* fetchCategoriesSaga({ payload: { catalog }, meta }, api) {
   const key = generateKey(catalog);
   const { searches } = yield select(selector);
   if (searches[key]) {
-    yield put({ type: FETCH_CATEGORIES_STATE, payload: { fulfilled: true, result: key } });
     if (typeof resolve === 'function') {
       resolve(searches[key]);
     }

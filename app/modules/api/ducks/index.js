@@ -8,6 +8,8 @@ import * as fetchLocation from '../fetchLocation/ducks';
 import * as fetchCatalogs from '../fetchCatalogs/ducks';
 import * as fetchCategories from '../fetchCategories/ducks';
 import * as fetchSpecies from '../fetchSpecies/ducks';
+import * as fetchPriceDefinitions from '../fetchPriceDefinitions/ducks';
+import * as uploadFile from '../uploadFile/ducks';
 
 export default {
   api: combineReducers({
@@ -20,6 +22,8 @@ export default {
     ...fetchCatalogs.default,
     ...fetchCategories.default,
     ...fetchSpecies.default,
+    ...fetchPriceDefinitions.default,
+    ...uploadFile.default,
   }),
 };
 
@@ -33,4 +37,6 @@ export const sagas = [
   ...fetchCatalogs.sagas,
   ...fetchCategories.sagas,
   ...fetchSpecies.sagas,
+  ...fetchPriceDefinitions.sagas,
+  ...uploadFile.sagas,
 ];
