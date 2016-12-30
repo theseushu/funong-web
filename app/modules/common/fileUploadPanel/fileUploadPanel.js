@@ -16,10 +16,12 @@ function asyncLoadImage(file) {
   return new Promise((resolve, reject) => {
     const loadingCanvas = loadImage(
       file,
-      (canvas) => resolve(canvas),
+      (canvas) => {
+        resolve(canvas);
+      },
       { contain: true, maxWidth: 1024, minWidth: 1024, canvas: true, downsamplingRatio: 0.2 }
     );
-    loadingCanvas.onerror = (error) => reject(error);
+    loadingCanvas.onerror = (error) => { reject(error); };
   });
 }
 
@@ -46,7 +48,7 @@ class FileUploadPanel extends Component {
   }
   processFiles = (files) => {
     files
-      .filter((file) => !file.process.dataUrl)
+      .filter((file) => !file.process.rejected && !file.process.dataUrl)
       .forEach((file) => {
         asyncLoadImage(file.rawFile)
           .then((canvas) => this.props.onProcessed(files.indexOf(file), canvas.toDataURL()))

@@ -5,12 +5,13 @@
 
 import { combineReducers } from 'redux';
 import { LOCATION_CHANGE } from 'react-router-redux';
-
-import languageProviderReducer from 'containers/LanguageProvider/reducer';
-import api from 'modules/api/ducks';
-import data from 'modules/data/ducks';
-
 import { reducer as formReducer } from 'redux-form';
+import { reducer as toastrReducer } from 'react-redux-toastr';
+
+import languageProviderReducer from './containers/LanguageProvider/reducer';
+import api from './modules/api/ducks';
+import data from './modules/data/ducks';
+
 
 /*
  * routeReducer
@@ -48,6 +49,7 @@ export default function createReducer(asyncReducers) {
     route: routeReducer,
     language: languageProviderReducer,
     form: formReducer,
+    toastr: toastrReducer,
     ...api,
     ...data,
     ...asyncReducers,

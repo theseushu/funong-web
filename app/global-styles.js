@@ -1,4 +1,9 @@
+// TODO I thinks sanitizecss is useless here since bootstrap's included. Remove it after confirming
+// import 'sanitize.css/sanitize.css';
+// import 'bootstrap/dist/css/bootstrap.css';
+import 'react-redux-toastr/src/styles/index.scss';
 import { jss } from 'react-jss';
+import './styles/bootstrap.scss';
 
 /* eslint no-unused-expressions: 0 */
 jss.createStyleSheet({

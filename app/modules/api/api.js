@@ -17,6 +17,15 @@ AV.init({
   disableCurrentUser: true,
 });
 
+class Specification extends AV.Object {}
+AV.Object.register(Specification);
+
+class Product extends AV.Object {}
+AV.Object.register(Product);
+
+class Shop extends AV.Object {}
+AV.Object.register(Shop);
+
 export const requestSmsCode = (...params) => AV.Cloud.requestSmsCode(...params);
 
 export const signupOrLoginWithMobilePhone = (...params) => AV.User.signUpOrlogInWithMobilePhone(...params).then((user) => ({
@@ -44,6 +53,13 @@ export const fetchSpecies = (category) => new AV.Query('Species')
   .limit(1000)
   .find()
   .then((results) => results.map((result) => Object.assign({}, result.toJSON())));
+
+export const fetchSpecifications = (species) => new AV.Query('Specification')
+  .equalTo('species', AV.Object.createWithoutData('Species', species.objectId))
+  .limit(1000)
+  .find()
+  .then((results) => results.map((result) => Object.assign({}, result.toJSON())));
+
 
 export default (params = {}) => {
   let sessionToken = params.sessionToken;
@@ -79,9 +95,50 @@ export default (params = {}) => {
       const uploadedFile = await uploadFile({ filename, file, onprogress, metaData });
       await AV.Query.doCloudQuery('update _User set avatar=pointer("_File", ?) where objectId=?', [uploadedFile.id, userId], {
         sessionToken,
-        AuthOptions: { sessionToken },
       });
       return uploadedFile;
+    } catch (err) {
+      debug(err);
+      throw err;
+    }
+  };
+
+  const createSpecification = async ({ species, creator, name }) => {
+    try {
+      const spec = new Specification();
+      spec.set('species', AV.Object.createWithoutData('Species', species.objectId));
+      spec.set('name', name);
+      spec.set('creator', AV.Object.createWithoutData('_User', creator.objectId));
+      const savedSpec = await spec.save(null, {
+        fetchWhenSave: true,
+        sessionToken,
+      });
+      return { ...savedSpec.toJSON(), species };
+    } catch (err) {
+      debug(err);
+      throw err;
+    }
+  };
+
+  const createProduct = async ({ species, specifications, price, available, startAt, endAt, location, geopoint, desc, photos, owner }) => {
+    try {
+      const product = new Product();
+      product.set('species', AV.Object.createWithoutData('Species', species.objectId));
+      product.set('specifications', specifications.map((spec) => AV.Object.createWithoutData('Specification', spec.objectId)));
+      product.set('price', price);
+      product.set('available', available);
+      product.set('startAt', new Date(startAt));
+      product.set('endAt', new Date(endAt));
+      product.set('location', location);
+      product.set('geopoint', new AV.GeoPoint(geopoint));
+      product.set('desc', desc);
+      product.set('photos', photos.map((photo) => AV.Object.createWithoutData('_File', photo.objectId)));
+      product.set('owner', AV.Object.createWithoutData('_User', owner.objectId));
+      const savedSpec = await product.save(null, {
+        fetchWhenSave: true,
+        sessionToken,
+      });
+      return { ...savedSpec.toJSON(), owner, specifications, species };
     } catch (err) {
       debug(err);
       throw err;
@@ -100,5 +157,8 @@ export default (params = {}) => {
     uploadFile,
     uploadAvatar,
     fetchPriceDefinitions,
+    fetchSpecifications,
+    createSpecification,
+    createProduct,
   };
 };

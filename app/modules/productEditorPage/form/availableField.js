@@ -2,10 +2,10 @@ import React, { PropTypes } from 'react';
 
 import FormGroup from 'react-bootstrap/lib/FormGroup';
 import ControlLabel from 'react-bootstrap/lib/ControlLabel';
-import FormControl from 'react-bootstrap/lib/FormControl';
 import InputGroup from 'react-bootstrap/lib/InputGroup';
 import HelpBlock from 'react-bootstrap/lib/HelpBlock';
 import Radio from 'react-bootstrap/lib/Radio';
+import FaStar from 'react-icons/lib/fa/star';
 
 
 const AvailableField = ({ name, input: { value, onChange }, meta: { dirty, error } }) => {
@@ -14,11 +14,11 @@ const AvailableField = ({ name, input: { value, onChange }, meta: { dirty, error
     <FormGroup validationState={showError ? 'error' : undefined}>
       <ControlLabel>是否现货</ControlLabel>
       <InputGroup>
-        <Radio name={name} onChange={(e) => onChange(e.target.value)} inline>
+        <Radio name={name} checked={value} onChange={() => onChange(true)} inline>
           供应充足，现在即可发货
         </Radio>
         {' '}
-        <Radio name={name} onChange={(e) => onChange(e.target.value)} inline>
+        <Radio name={name} checked={!value} onChange={() => onChange(false)} inline>
           即将上市
         </Radio>
       </InputGroup>

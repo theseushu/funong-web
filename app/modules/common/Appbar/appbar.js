@@ -14,11 +14,14 @@ const backgroundImg = require('./assets/appbar-bg.jpg');
 
 const styles = {
   background: {
-    height: '250px',
+    height: '200px',
     position: 'relative',
     background: `url(${backgroundImg})`,
     '&:before': {
       height: '100%',
+    },
+    '@media (min-width: 768px)': {
+      height: '250px',
     },
   },
   overlay: {
@@ -38,7 +41,7 @@ const styles = {
   waypoint: {
     position: 'absolute',
     width: '100%',
-    top: '100px',
+    top: '50px',
     height: 1,
   },
   headerWrapper: {

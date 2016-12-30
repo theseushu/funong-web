@@ -14,15 +14,14 @@ const styles = {
 };
 
 const Content = ({ user }) => (
-    user && user.avatar ?
+    !(user && user.avatar) ?
       <img role="presentation" src={user.avatar.url} /> :
       <MdAccountCircle
         style={{
           position: 'relative',
-          top: '-10%',
-          left: '-10%',
-          width: '120%',
-          height: '120%',
+          width: '100%',
+          height: '100%',
+          transform: 'scale(1.2,1.2)',
         }}
       />
   );

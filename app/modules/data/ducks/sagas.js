@@ -2,8 +2,8 @@ import { normalize } from 'normalizr';
 import { takeEvery } from 'redux-saga';
 import { put } from 'redux-saga/effects';
 
-import { UPDATE_DATA, SET_CURRENT_USER, UPDATE_CURRENT_USER_INFO, SET_CATALOGS, SET_CATAGORIES, SET_SPECIES } from './constants';
-import { UserSchema, CatalogsSchema, CategoriesSchema, SpeciesArraySchema } from './schemas';
+import { UPDATE_DATA, SET_CURRENT_USER, UPDATE_CURRENT_USER_INFO, SET_CATALOGS, SET_CATAGORIES, SET_SPECIES, SET_SPECIFICATIONS, SET_PRODUCT } from './constants';
+import { UserSchema, CatalogsSchema, CategoriesSchema, SpeciesArraySchema, SpecificationsSchema, ProductSchema } from './schemas';
 
 function* updateCurrentUserInfoSaga(action) {
   const { user } = action.payload;
@@ -39,6 +39,21 @@ function* setSpeciesSaga(action) {
   const payload = Object.assign({}, data);
   yield put({ type: UPDATE_DATA, payload });
 }
+
+function* setSpecificationsSaga(action) {
+  const specifications = action.payload.specifications;
+  const data = normalize(specifications, SpecificationsSchema);
+  const payload = Object.assign({}, data);
+  yield put({ type: UPDATE_DATA, payload });
+}
+
+function* setProductSaga(action) {
+  const { product } = action.payload;
+  const data = normalize(product, ProductSchema);
+  const payload = Object.assign({}, data);
+  yield put({ type: UPDATE_DATA, payload });
+}
+
 // watcher Saga:
 function* rootSaga(api) {
   yield takeEvery(SET_CURRENT_USER, function* saga(action) {
@@ -48,6 +63,8 @@ function* rootSaga(api) {
   yield takeEvery(SET_CATALOGS, setCatalogsSaga);
   yield takeEvery(SET_CATAGORIES, setCategoriesSaga);
   yield takeEvery(SET_SPECIES, setSpeciesSaga);
+  yield takeEvery(SET_SPECIFICATIONS, setSpecificationsSaga);
+  yield takeEvery(SET_PRODUCT, setProductSaga);
 }
 
 export default [rootSaga];

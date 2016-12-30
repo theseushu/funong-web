@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import Appbar from '../common/Appbar';
 import MainSection from '../common/mainSection';
 
-import Form from './containers/form';
+import Form from './form';
 
 class Page extends Component {
   render() {

@@ -2,11 +2,13 @@ import React, { Component, PropTypes } from 'react';
 import _without from 'lodash/without';
 import injectSheet from 'react-jss';
 
+import { toastr } from 'react-redux-toastr';
+
 import FormGroup from 'react-bootstrap/lib/FormGroup';
 import ControlLabel from 'react-bootstrap/lib/ControlLabel';
 import HelpBlock from 'react-bootstrap/lib/HelpBlock';
 import Button from 'react-bootstrap/lib/Button';
-import FileUploadPanel from '../../../common/fileUploadPanel/fileUploadPanel';
+import FileUploadPanel from '../../common/fileUploadPanel/fileUploadPanel';
 
 const debug = require('debug')('app:photosField');
 
@@ -37,13 +39,14 @@ class PhotosField extends Component {
     let file;
     if (dataUrl) {
       file = { ...files[index], process: { dataUrl } };
+      const newFiles = [...files];
+      newFiles[index] = file;
+      this.setState({ files: newFiles });
     } else {
       file = { ...files[index], process: { rejected: true, error } };
-      debug(error);
+      toastr.warning(`${file.rawFile.name}`, '无法处理，请使用图片文件');
+      this.setState({ files: _without(this.state.files, files[index]) });
     }
-    const newFiles = [...files];
-    newFiles[index] = file;
-    this.setState({ files: newFiles });
   }
   onUploaded = (index, AVFile, error) => { // content is AV.File.toJSON();
     const { files } = this.state;

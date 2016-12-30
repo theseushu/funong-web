@@ -1,13 +1,12 @@
 import React, { Component, PropTypes } from 'react';
 import injectSheet from 'react-jss';
 
-import FormGroup from 'react-bootstrap/lib/FormGroup';
-import ControlLabel from 'react-bootstrap/lib/ControlLabel';
 import FormControl from 'react-bootstrap/lib/FormControl';
-import HelpBlock from 'react-bootstrap/lib/HelpBlock';
 
-import DatesDialog from '../../../common/datesDialog';
-import { displayPeriod } from '../../../../utils/momentUtils';
+import DatesDialog from '../../common/datesDialog';
+import { displayPeriod } from '../../../utils/momentUtils';
+
+import Field from './field';
 
 const styles = {
 
@@ -30,12 +29,10 @@ class DatesField extends Component {
   }
 
   render() {
-    const { name, input: { value, onChange }, meta: { dirty, error } } = this.props;
-    const showError = (!!dirty) && (!!error);
+    const { name, input: { value, onChange }, meta } = this.props;
     const { showDialog } = this.state;
     return (
-      <FormGroup validationState={showError ? 'error' : undefined}>
-        <ControlLabel>供货时间</ControlLabel>
+      <Field label="供货时间" required meta={meta}>
         <FormControl
           placeholder="点击选择"
           onFocus={() => this.setState({ showDialog: true })}
@@ -44,9 +41,8 @@ class DatesField extends Component {
           onClick={this.showDialog}
           readOnly
         />
-        {showError && <HelpBlock>{error}</HelpBlock>}
         {showDialog && <DatesDialog close={this.hideDialog} value={typeof value === 'string' ? {} : value} onSubmit={({ start, end }) => onChange({ start, end })} />}
-      </FormGroup>
+      </Field>
     );
   }
 }

@@ -20,10 +20,20 @@ export const catalogsSelector = createSelector(
 
 export const categoriesSelector = createSelector(
   rootSelector,
-  (data) => data.entities.categories,
+  (data) => data.entities.categories || {},
 );
 
 export const speciesSelector = createSelector(
   rootSelector,
-  (data) => data.entities.species,
+  (data) => data.entities.species || {},
+);
+
+export const specificationsSelector = createSelector(
+  rootSelector,
+  (data) => data.entities.specifications || {},
+);
+
+export const productsSelector = createSelector(
+  rootSelector,
+  (data) => data.entities.products || {},
 );

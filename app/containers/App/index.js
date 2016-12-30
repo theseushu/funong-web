@@ -12,6 +12,7 @@
  */
 
 import React from 'react';
+import ReduxToastr from 'react-redux-toastr';
 
 export default class App extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
 
@@ -23,6 +24,15 @@ export default class App extends React.PureComponent { // eslint-disable-line re
     return (
       <div>
         {React.Children.toArray(this.props.children)}
+        <ReduxToastr
+          timeOut={4000}
+          newestOnTop={false}
+          preventDuplicates
+          position="top-center"
+          transitionIn="fadeIn"
+          transitionOut="fadeOut"
+          progressBar
+        />
       </div>
     );
   }

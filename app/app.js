@@ -22,11 +22,6 @@ import '!file?name=[name].[ext]!./favicon.ico';
 import '!file?name=[name].[ext]!./manifest.json';
 import 'file?name=[name].[ext]!./.htaccess';
 
-// TODO I thinks sanitizecss is useless here since bootstrap's included. Remove it after confirming
-// import 'sanitize.css/sanitize.css';
-// import 'bootstrap/dist/css/bootstrap.css';
-import './styles/bootstrap.scss';
-
 // Import root app
 import App from './containers/App';
 

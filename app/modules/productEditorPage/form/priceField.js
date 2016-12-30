@@ -1,13 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import injectSheet from 'react-jss';
 
-import FormGroup from 'react-bootstrap/lib/FormGroup';
-import ControlLabel from 'react-bootstrap/lib/ControlLabel';
-import HelpBlock from 'react-bootstrap/lib/HelpBlock';
-// import Button from 'react-bootstrap/lib/Button';
-// import Collapse from 'react-bootstrap/lib/Collapse';
-// import Panel from 'react-bootstrap/lib/Panel';
-// import PriceDefinitionsDropdownButton from '../../../common/priceDefinitionsDropdownButton';
+import Field from './field';
 
 const styles = {
   inputsWrapper: {
@@ -60,7 +54,7 @@ PriceInputComponent.propTypes = {
   sheet: PropTypes.object.isRequired,
   onChange: PropTypes.func.isRequired,
   value: PropTypes.object.isRequired,
-}
+};
 
 const PriceInput = injectSheet(styles)(PriceInputComponent);
 
@@ -77,28 +71,16 @@ class PriceField extends Component {
     this.setState({ showInput: !this.state.showInput });
   }
   render() {
-    const { input: { value, onChange }, meta: { dirty, error } } = this.props;
-    const showError = (!!dirty) && (!!error);
+    const { input: { value, onChange }, meta } = this.props;
     return (
-      <div>
-        <FormGroup validationState={showError ? 'error' : undefined}>
-          <ControlLabel>货品价格</ControlLabel>
-          <PriceInput value={value === '' ? { price: '', desc: '' } : value} onChange={onChange} />
-          {showError && <HelpBlock>{error}</HelpBlock>}
-        </FormGroup>
-        {/*
-        <Collapse in={this.state.showInput}>
-          <Panel>
-            <PriceInput onCancel={() => this.setState({ showInput: false })} />
-          </Panel>
-        </Collapse>*/}
-      </div>
+      <Field label="货品价格" required meta={meta}>
+        <PriceInput value={value === '' ? { price: '', desc: '' } : value} onChange={onChange} />
+      </Field>
     );
   }
 }
 
 PriceField.propTypes = {
-  name: PropTypes.string.isRequired,
   input: PropTypes.object.isRequired,
   meta: PropTypes.object,
 };
