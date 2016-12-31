@@ -1,7 +1,9 @@
-import constantCase from 'constant-case';
+import snakeCase from 'snake-case';
 
-export default (nameSpace, apiName) => ({
+export default (apiName) => ({
   slice: apiName,
-  actionConstant: `${constantCase(apiName)}/${constantCase(apiName)}`,
+  actionConstant: `api/${snakeCase(apiName)}`,
+  stateActionConstant: `api/${snakeCase(apiName)}_state`,
   action: apiName,
+  apiName,
 });

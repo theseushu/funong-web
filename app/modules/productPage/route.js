@@ -17,7 +17,7 @@ export default ({ store, injectReducer, injectSagas, loadModule, errorLoading })
         if (product) {
           resolve();
         } else {
-          store.dispatch(fetchProduct({ objectId: id, meta: { resolve, reject } }));
+          store.dispatch(fetchProduct({ id, meta: { resolve, reject } }));
         }
       }),
     ]);

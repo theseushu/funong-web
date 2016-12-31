@@ -60,7 +60,7 @@ export const fetchSpecies = (category) => new AV.Query('Species')
     return ({ ...json, category: { objectId: json.category.objectId } });
   }));
 
-export const fetchSpecifications = (species) => new AV.Query('Specification')
+export const fetchSpecifications = ({ species }) => new AV.Query('Specification')
   .equalTo('species', AV.Object.createWithoutData('Species', species.objectId))
   .limit(1000)
   .find()
@@ -140,7 +140,9 @@ export default (params = {}) => {
       product.set('location', location);
       product.set('geopoint', new AV.GeoPoint(geopoint));
       product.set('desc', desc);
-      product.set('photos', photos.map((photo) => AV.Object.createWithoutData('_File', photo.objectId)));
+      if (photos && photos.length > 0) {
+        product.set('photos', photos.map((photo) => AV.Object.createWithoutData('_File', photo.objectId)));
+      }
       product.set('owner', AV.Object.createWithoutData('_User', owner.objectId));
       const savedSpec = await product.save(null, {
         fetchWhenSave: true,
@@ -163,7 +165,7 @@ export default (params = {}) => {
         const json = product.toJSON();
         const speciesJson = product.get('species').toJSON();
         const specificationsJson = product.get('specifications').map((spec) => spec.toJSON());
-        const photosJson = product.get('photos').map((photo) => photo.toJSON());
+        const photosJson = (product.get('photos') || []).map((photo) => photo.toJSON());
         return ({
           ...json,
           owner: user,
@@ -177,7 +179,7 @@ export default (params = {}) => {
         });
       }));
 
-  const fetchProduct = async (id) => AV.Object.createWithoutData('Product', id)
+  const fetchProduct = async ({ id }) => AV.Object.createWithoutData('Product', id)
     .fetch({
       include: ['owner', 'species', 'specifications', 'photos'],
     }, {
@@ -188,7 +190,7 @@ export default (params = {}) => {
       const speciesJson = product.get('species').toJSON();
       const ownerJSON = product.get('owner').toJSON();
       const specificationsJson = product.get('specifications').map((spec) => spec.toJSON());
-      const photosJson = product.get('photos').map((photo) => photo.toJSON());
+      const photosJson = (product.get('photos') || []).map((photo) => photo.toJSON());
       return ({
         ...json,
         owner: ownerJSON,
