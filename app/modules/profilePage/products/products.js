@@ -6,11 +6,13 @@ import Product from '../../common/product';
 const styles = {
   container: {
     display: 'flex',
+    justifyContent: 'space-between',
+    flexWrap: 'wrap',
   },
   product: {
     width: '100%',
     '@media (min-width: 768px)': {
-      width: '50%',
+      width: '49%',
     },
   },
 };

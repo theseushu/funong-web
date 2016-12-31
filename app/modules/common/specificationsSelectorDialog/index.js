@@ -7,8 +7,6 @@ import { selector as createSpecificationSelector, actions as createSpecification
 import { specificationsSelector } from '../../data/ducks/selectors';
 import Component from './speciesSelectorDialog';
 
-console.log(fetchSpecificationsActions)
-
 export default connect(
   (state, ownProps) => ({
     fetchSpecificationsState: fetchSpecificationsSelector(state),

@@ -16,7 +16,8 @@ const styles = {
   background: {
     height: 200,
     position: 'relative',
-    background: `url(${backgroundImg})`,
+    backgroundImage: `url(${backgroundImg})`,
+    backgroundSize: 'cover',
     '@media (min-width: 768px)': {
       height: 250,
     },
@@ -73,6 +74,7 @@ class AppBarComponent extends Component {
   static propTypes = {
     currentUser: PropTypes.object,
     sheet: PropTypes.object.isRequired,
+    backgroundImage: PropTypes.string,
   };
 
   constructor(props, context) {
@@ -85,11 +87,11 @@ class AppBarComponent extends Component {
   };
 
   render() {
-    const { sheet: { classes }, currentUser } = this.props;
+    const { sheet: { classes }, currentUser, backgroundImage } = this.props;
     const { raising } = this.state;
-
+    console.log(backgroundImage)
     return ( // there's transition: all .... defined in AppBar. so there's no need to add specific animation anymore
-      <div className={classes.background}>
+      <div className={classes.background} style={{ backgroundImage: backgroundImage ? `url(${backgroundImage})` : undefined }}>
         <div className={classes.overlay} />
         <div className={classes.waypoint}>
           <Waypoint

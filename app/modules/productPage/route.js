@@ -22,7 +22,7 @@ export default ({ store, injectReducer, injectSagas, loadModule, errorLoading })
       }),
     ]);
 
-    const renderRoute = loadModule(cb);
+    const renderRoute = loadModule(cb, { 1: 1 });
 
     importModules.then(([component, ducks]) => {
       _toPairs(ducks.default).forEach((pair) => {

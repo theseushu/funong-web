@@ -9,9 +9,7 @@ export default () => (
   <div>
     <Appbar />
     <MainSection>
-      <div className="container">
-        <Form />
-      </div>
+      <Form />
     </MainSection>
   </div>
 );

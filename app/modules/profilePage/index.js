@@ -18,7 +18,7 @@ const styles = {
   avatar: {
     width: 160,
     height: 160,
-    marginTop: -80,
+    marginTop: -95, // padding 15 of panel
     marginLeft: 'auto',
     marginRight: 'auto',
     position: 'relative',

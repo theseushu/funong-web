@@ -22,7 +22,7 @@ const Tabs = ({ index, switchTab, children, sheet: { classes } }) => {
     return <RaisingButton key={childIndex} label={child.props.label} icon={child.props.icon} active={childIndex === index} onClick={() => switchTab(childIndex)} />;
   });
   return (
-    <div className="container">
+    <div>
       <div className="row">
         <div className={`col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-4 mt-5 ${classes.style}`}>
           {buttons}

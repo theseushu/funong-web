@@ -22,12 +22,17 @@ const styles = {
     '&>.panel-body': {
     },
   },
+  container: {
+    maxWidth: 1170,
+  }
 };
 
 const MainSectionComponent = ({ children, sheet: { classes } }) => (
   <section className={classes.mainSection}>
     <Panel className={classes.panel}>
-      { children }
+      <div className={`container-fluid ${classes.container}`}>
+        { children }
+      </div>
     </Panel>
   </section>
 );
