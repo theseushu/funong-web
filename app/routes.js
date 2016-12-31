@@ -1,5 +1,6 @@
-import { getAsyncInjectors } from 'utils/asyncInjectors';
+import { getAsyncInjectors } from './utils/asyncInjectors';
 import createProfilePageRoute from './modules/profilePage/route';
+import createProductPageRoute from './modules/productPage/route';
 import createProductEditorRoute from './modules/productEditorPage/route';
 
 const errorLoading = (err) => {
@@ -49,6 +50,7 @@ export default function createRoutes(store) {
       },
     },
     createProfilePageRoute({ store, injectReducer, injectSagas, loadModule, errorLoading }),
+    createProductPageRoute({ store, injectReducer, injectSagas, loadModule, errorLoading }),
     createProductEditorRoute({ store, injectReducer, injectSagas, loadModule, errorLoading }), {
       path: '*',
       name: 'notfound',

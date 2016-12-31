@@ -1,4 +1,4 @@
-import { SET_CURRENT_USER, UPDATE_CURRENT_USER_INFO, SET_CATALOGS, SET_CATAGORIES, SET_SPECIES, SET_SPECIFICATIONS, SET_PRODUCT } from './constants';
+import { SET_CURRENT_USER, UPDATE_CURRENT_USER_INFO, SET_CATALOGS, SET_CATAGORIES, SET_SPECIES, SET_SPECIFICATIONS, SET_PRODUCT, SET_PRODUCTS } from './constants';
 
 export const setCurrentUser = (user) => ({
   type: SET_CURRENT_USER,
@@ -27,5 +27,9 @@ export const setSpecifications = (specifications) => ({
 export const setProduct = (product) => ({
   type: SET_PRODUCT,
   payload: { product },
+});
+export const setProducts = (products) => ({
+  type: SET_PRODUCTS,
+  payload: { products },
 });
 

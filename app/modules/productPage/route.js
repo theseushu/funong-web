@@ -1,9 +1,10 @@
 import _toPairs from 'lodash/toPairs';
-import { fetchProfile } from '../api/fetchProfile';
-import { currentUserSelector } from '../data/ducks/selectors';
+import _find from 'lodash/find';
+import { fetchProduct } from '../api/fetchProduct';
+import { productsSelector } from '../data/ducks/selectors';
 export default ({ store, injectReducer, injectSagas, loadModule, errorLoading }) => ({ // eslint-disable-line no-unused-vars
-  path: '/new',
-  name: 'newProduct',
+  path: '/product/:id',
+  name: 'product',
   getComponent(nextState, cb) {
     // TODO fetch product
     const { params: { id } } = nextState; // eslint-disable-line no-unused-vars
@@ -11,11 +12,12 @@ export default ({ store, injectReducer, injectSagas, loadModule, errorLoading })
       System.import('./index'),
       System.import('./ducks'),
       new Promise((resolve, reject) => {
-        const currentUser = currentUserSelector(store.getState());
-        if (currentUser) {
+        const products = productsSelector(store.getState());
+        const product = _find(products, (prod) => prod.objectId === id);
+        if (product) {
           resolve();
         } else {
-          store.dispatch(fetchProfile({ meta: { resolve, reject } }));
+          store.dispatch(fetchProduct({ objectId: id, meta: { resolve, reject } }));
         }
       }),
     ]);

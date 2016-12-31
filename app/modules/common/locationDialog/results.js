@@ -5,7 +5,6 @@ import { selector } from '../../api/searchDistrict/ducks';
 import Liner from '../svgs/liner';
 
 const Results = ({ pending, fulfilled, rejected, error, result = [], location: { country, province, city, district }, locationSelected }) => {
-  console.log({ country, province, city, district })
   if (pending) {
     return <div><Liner /></div>;
   } else if (rejected) {

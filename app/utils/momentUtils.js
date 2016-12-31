@@ -98,3 +98,20 @@ export const displayPeriod = (startTimestamp, endTimestap) => {
   }
   return `${start.year()}年${start.month() + 1}月${converDateToString(start.date(), true)} - ${end.year()}年${end.month() + 1}月${converDateToString(end.date())}`;
 };
+
+export const humanizeTime = (timestamp) => {
+  const now = moment().valueOf();
+  const duration = moment.duration(now - timestamp);
+  if (duration.years() > 0) {
+    return `${duration.years()}年前`;
+  } else if (duration.months() > 0) {
+    return `${duration.months()}月前`;
+  } else if (duration.weeks() > 0) {
+    return `${duration.weeks()}周前`;
+  } else if (duration.days() > 0) {
+    return `${duration.days()}天前`;
+  } else if (duration.hours() > 0) {
+    return `${duration.hours()}小时前`;
+  }
+  return '刚刚';
+};

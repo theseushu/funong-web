@@ -7,10 +7,12 @@ const styles = {
     width: 'auto',
     marginLeft: 8,
     marginRight: 8,
+    minHeight: 'calc(100vh - 200px)',
     position: 'relative',
     '@media (min-width: 768px)': {
       marginLeft: 16,
       marginRight: 16,
+      minHeight: 'calc(100vh - 250px)',
     },
     display: 'flex',
   },

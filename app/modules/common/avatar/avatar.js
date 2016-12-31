@@ -14,7 +14,7 @@ const styles = {
 };
 
 const Content = ({ user }) => (
-    !(user && user.avatar) ?
+    (user && user.avatar) ?
       <img role="presentation" src={user.avatar.url} /> :
       <MdAccountCircle
         style={{

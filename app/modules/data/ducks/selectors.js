@@ -1,4 +1,8 @@
 import { createSelector } from 'reselect';
+import { denormalize } from 'denormalizr';
+
+import { ProductsSchema } from './schemas';
+
 const rootSelector = (state) => state.data;
 
 export const currentUserSelector = createSelector(
@@ -35,5 +39,11 @@ export const specificationsSelector = createSelector(
 
 export const productsSelector = createSelector(
   rootSelector,
-  (data) => data.entities.products || {},
+  (data) => {
+    if (!data.entities.products) {
+      return [];
+    }
+    const result = Object.values(denormalize(data.entities.products, data.entities, ProductsSchema));
+    return result;
+  },
 );

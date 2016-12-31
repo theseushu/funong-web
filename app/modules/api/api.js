@@ -46,20 +46,28 @@ export const fetchCategories = (catalog) => new AV.Query('Category')
   .addAscending('name')
   .limit(1000)
   .find()
-  .then((results) => results.map((result) => Object.assign({}, result.toJSON())));
+  .then((results) => results.map((result) => {
+    const json = result.toJSON();
+    return ({ ...json, catalog: { objectId: json.catalog.objectId } });
+  }));
 
 export const fetchSpecies = (category) => new AV.Query('Species')
   .equalTo('category', AV.Object.createWithoutData('Category', category.objectId))
   .limit(1000)
   .find()
-  .then((results) => results.map((result) => Object.assign({}, result.toJSON())));
+  .then((results) => results.map((result) => {
+    const json = result.toJSON();
+    return ({ ...json, category: { objectId: json.category.objectId } });
+  }));
 
 export const fetchSpecifications = (species) => new AV.Query('Specification')
   .equalTo('species', AV.Object.createWithoutData('Species', species.objectId))
   .limit(1000)
   .find()
-  .then((results) => results.map((result) => Object.assign({}, result.toJSON())));
-
+  .then((results) => results.map((result) => {
+    const json = result.toJSON();
+    return ({ ...json, species: { objectId: json.species.objectId } });
+  }));
 
 export default (params = {}) => {
   let sessionToken = params.sessionToken;
@@ -145,6 +153,55 @@ export default (params = {}) => {
     }
   };
 
+  const fetchUserProducts = async ({ user }) => new AV
+      .Query('Product')
+      .include(['species', 'specifications', 'photos'])
+      .equalTo('owner', AV.Object.createWithoutData('_User', user.objectId))
+      .limit(1000)
+      .find()
+      .then((products) => products.map((product) => {
+        const json = product.toJSON();
+        const speciesJson = product.get('species').toJSON();
+        const specificationsJson = product.get('specifications').map((spec) => spec.toJSON());
+        const photosJson = product.get('photos').map((photo) => photo.toJSON());
+        return ({
+          ...json,
+          owner: user,
+          species: speciesJson,
+          specifications: specificationsJson,
+          photos: photosJson,
+          createdAt: product.get('createdAt').getTime(),
+          updatedAt: product.get('updatedAt').getTime(),
+          startAt: product.get('startAt').getTime(),
+          endAt: product.get('endAt').getTime(),
+        });
+      }));
+
+  const fetchProduct = async (id) => AV.Object.createWithoutData('Product', id)
+    .fetch({
+      include: ['owner', 'species', 'specifications', 'photos'],
+    }, {
+      sessionToken,
+    })
+    .then((product) => {
+      const json = product.toJSON();
+      const speciesJson = product.get('species').toJSON();
+      const ownerJSON = product.get('owner').toJSON();
+      const specificationsJson = product.get('specifications').map((spec) => spec.toJSON());
+      const photosJson = product.get('photos').map((photo) => photo.toJSON());
+      return ({
+        ...json,
+        owner: ownerJSON,
+        species: speciesJson,
+        specifications: specificationsJson,
+        photos: photosJson,
+        createdAt: product.get('createdAt').getTime(),
+        updatedAt: product.get('updatedAt').getTime(),
+        startAt: product.get('startAt').getTime(),
+        endAt: product.get('endAt').getTime(),
+      });
+    });
+
   return {
     requestSmsCode,
     signupOrLoginWithMobilePhone,
@@ -160,5 +217,7 @@ export default (params = {}) => {
     fetchSpecifications,
     createSpecification,
     createProduct,
+    fetchUserProducts,
+    fetchProduct,
   };
 };

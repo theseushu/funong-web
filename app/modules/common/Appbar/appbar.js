@@ -14,14 +14,11 @@ const backgroundImg = require('./assets/appbar-bg.jpg');
 
 const styles = {
   background: {
-    height: '200px',
+    height: 200,
     position: 'relative',
     background: `url(${backgroundImg})`,
-    '&:before': {
-      height: '100%',
-    },
     '@media (min-width: 768px)': {
-      height: '250px',
+      height: 250,
     },
   },
   overlay: {

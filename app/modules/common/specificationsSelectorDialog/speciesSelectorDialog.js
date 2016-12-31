@@ -124,7 +124,6 @@ class specificationsSelectorDialog extends Component {
         }
         submit={{
           onSubmit: () => {
-            console.log(1)
             onSubmit(this.state.selected);
             close();
           },

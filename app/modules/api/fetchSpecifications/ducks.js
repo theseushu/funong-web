@@ -1,5 +1,5 @@
 import { takeEvery } from 'redux-saga';
-import { call, put, select } from 'redux-saga/effects';
+import { call, put } from 'redux-saga/effects';
 import { createSelector } from 'reselect';
 import rootSelector from '../ducks/rootSelector';
 

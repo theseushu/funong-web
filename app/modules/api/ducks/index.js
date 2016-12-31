@@ -13,6 +13,8 @@ import * as uploadFile from '../uploadFile/ducks';
 import * as createSpecification from '../createSpecification/ducks';
 import * as fetchSpecifications from '../fetchSpecifications/ducks';
 import * as createProduct from '../createProduct/ducks';
+import * as fetchUserProducts from '../fetchUserProducts/ducks';
+import * as fetchProduct from '../fetchProduct/ducks';
 
 export default {
   api: combineReducers({
@@ -30,6 +32,8 @@ export default {
     ...createSpecification.default,
     ...fetchSpecifications.default,
     ...createProduct.default,
+    ...fetchUserProducts.default,
+    ...fetchProduct.default,
   }),
 };
 
@@ -48,4 +52,6 @@ export const sagas = [
   ...createSpecification.sagas,
   ...fetchSpecifications.sagas,
   ...createProduct.sagas,
+  ...fetchUserProducts.sagas,
+  ...fetchProduct.sagas,
 ];

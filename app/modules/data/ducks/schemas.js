@@ -45,3 +45,5 @@ export const CategoriesSchema = arrayOf(CategorySchema);
 export const SpeciesArraySchema = arrayOf(SpeciesSchema);
 
 export const SpecificationsSchema = arrayOf(SpecificationSchema);
+
+export const ProductsSchema = arrayOf(ProductSchema);

@@ -26,9 +26,7 @@ export function* createProductSaga({ payload: { species, specifications, price, 
   yield put({ type: CREATE_PRODUCT_STATE, payload: { pending: true } });
   try {
     const currentUser = yield select(currentUserSelector);
-    console.log(1)
     const prod = yield call(api.createProduct, { species, specifications, price, available, startAt, endAt, location, geopoint, desc, photos, owner: currentUser });
-    console.log(prod)
     yield put(setProduct([prod]));
     yield put({ type: CREATE_PRODUCT_STATE, payload: { fulfilled: true } });
     if (typeof resolve === 'function') {
@@ -45,7 +43,6 @@ export function* createProductSaga({ payload: { species, specifications, price, 
 // watcher Saga:
 function* watcher({ api }) {
   yield takeEvery(CREATE_PRODUCT, function* saga(action) {
-    console.log(0)
     yield* createProductSaga(action, api);
   });
 }

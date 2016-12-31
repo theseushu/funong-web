@@ -90,7 +90,7 @@ class FileUpload extends Component {
       } else if (rejected) {
         info = (
           <div className={classes.info} style={{ height: '100%', background: 'rgba(255, 0, 0, 0.5)' }}>
-            <a href="#dummy" onClick={(e) => {e.preventDefault(); this.uploadFile()}}>上传失败<br />点击重试</a>
+            <a href="#dummy" onClick={(e) => { e.preventDefault(); this.uploadFile(); }}>上传失败<br />点击重试</a>
           </div>
         );
       }
