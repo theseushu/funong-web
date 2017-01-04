@@ -7,13 +7,13 @@ import { productsSelector } from '../data/ducks/selectors';
 import Appbar from '../common/Appbar';
 import MainSection from '../common/mainSection';
 
-import Form from './form';
+import Product from './product';
 
 const ProductPage = ({ product }) => (
   <div>
     <Appbar backgroundImage={(product.photos && product.photos.length > 0) ? product.photos[0].url : undefined} />
     <MainSection>
-      <Form />
+      <Product product={product} />
     </MainSection>
   </div>
   );
