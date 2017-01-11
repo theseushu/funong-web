@@ -2,6 +2,8 @@ import { getAsyncInjectors } from './utils/asyncInjectors';
 import createProfilePageRoute from './modules/profilePage/route';
 import createProductPageRoute from './modules/productPage/route';
 import createProductEditorRoute from './modules/productEditorPage/route';
+import createPrototypeRoutes from './modules/prototypes/routes';
+import createSampleRoutes from './modules/prototypes/sample/routes';
 
 const errorLoading = (err) => {
   console.error('Dynamic page loading failed', err); // eslint-disable-line no-console
@@ -51,6 +53,8 @@ export default function createRoutes(store) {
     },
     createProfilePageRoute({ store, injectReducer, injectSagas, loadModule, errorLoading }),
     createProductPageRoute({ store, injectReducer, injectSagas, loadModule, errorLoading }),
+    createPrototypeRoutes(),
+    createSampleRoutes(),
     createProductEditorRoute({ store, injectReducer, injectSagas, loadModule, errorLoading }), {
       path: '*',
       name: 'notfound',
