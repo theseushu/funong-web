@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
 import * as requestSmsCode from '../requestSmsCode/ducks';
 import * as fetchProfile from '../fetchProfile/ducks';
-import * as signupOrLoginWithMobilePhone from '../signupOrLoginWithMobilePhone/ducks';
+import * as signupOrLoginWithMobilePhone from '../signupOrLogin/ducks';
 import * as uploadAvatar from '../uploadAvatar/ducks';
 import * as searchDistinct from '../searchDistrict/ducks';
 import * as fetchLocation from '../fetchLocation/ducks';

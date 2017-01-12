@@ -3,7 +3,7 @@ import injectSheet from 'react-jss';
 import { Layout, Content } from 'react-mdl/lib/Layout';
 import { Footer, FooterLinkList, FooterSection } from 'react-mdl/lib/Footer';
 
-import styles, { breakpoints } from '../../common/styles';
+import styles, { breakpoints } from '../styles';
 
 import SideMenu from './sideMenu';
 import { AppHeader, AppDrawer } from './appHeader';
@@ -11,21 +11,24 @@ import { AppHeader, AppDrawer } from './appHeader';
 class Sample extends Component {
   static propTypes = {
     sheet: PropTypes.object,
-    children: PropTypes.any,
+    sideMenu: PropTypes.object,
+    content: PropTypes.any,
+    header: PropTypes.any,
   }
   constructor(props) {
     super(props);
     this.state = { activeTab: 0 };
   }
   render() {
-    const { sheet: { classes } } = this.props;
+    const { sheet: { classes }, content, sideMenu, header } = this.props;
     return (
       <Layout fixedHeader fixedTabs className={classes.layout}>
-        <AppHeader />
+        <AppHeader header={header} />
         <AppDrawer />
         <Content>
           <div className={styles.container} style={{ paddingTop: 16, paddingBottom: 16, display: 'flex', minHeight: 'calc(100vh - 163px)' }}>
-            {this.props.children}
+            { sideMenu && <SideMenu activeTab={this.state.activeTab} onChange={(activeTab) => this.setState({ activeTab })} /> }
+            {content}
           </div>
           <Footer size="mini">
             <FooterSection className={styles.container} type="left" logo="Title">

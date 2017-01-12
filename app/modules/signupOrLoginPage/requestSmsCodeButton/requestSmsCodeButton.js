@@ -1,12 +1,13 @@
 import React, { PropTypes } from 'react';
-import Button from 'react-bootstrap/lib/Button';
+import Button from 'react-mdl/lib/Button';
 import _now from 'lodash/now';
 
 import CountDown from '../../common/CountDown';
 
 export const ButtonSendSmsCode = ({ onClick, phone, text, bsStyle, disabled }) => (
   <Button
-    bsStyle={bsStyle}
+    raised
+    colored
     onClick={(e) => {
       e.preventDefault();
       onClick(phone);
@@ -27,7 +28,7 @@ ButtonSendSmsCode.propTypes = {
 
 export const CountDownButton = ({ remains, phone, onClick, disabled }) => {
   if (remains != null && remains > 0) { // put disabled at last so it can override 'disabled' in props
-    return (<Button disabled>
+    return (<Button raised colored disabled>
       {`再次发送(${remains})`}</Button>);
   }
   return <ButtonSendSmsCode disabled={disabled} phone={phone} onClick={onClick} text="发送验证码" bsStyle="primary" />;
@@ -43,7 +44,7 @@ CountDownButton.propTypes = {
 // the keys in props are slice state in store and action creators. see ./ducks.js
 const RequestSmsCodeButton = ({ pending, fulfilled, time = 0, rejected, onClick, phone, disabled }) => {
   if (pending) { // put disabled at last so it can override 'disabled' in props
-    return <Button disabled>发送验证码</Button>;
+    return <Button colored raised disabled>发送验证码</Button>;
   } else if (rejected) {
     return <ButtonSendSmsCode disabled={disabled} text="发送失败,请重试" phone={phone} onClick={onClick} bsStyle="warning"></ButtonSendSmsCode>;
   } else if (fulfilled) { // count 1 min since ${time}

@@ -33,6 +33,11 @@ export const signupOrLoginWithMobilePhone = (...params) => AV.User.signUpOrlogIn
   userId: user.get('objectId'),
 }));
 
+export const login = (...params) => AV.User.logIn(...params).then((user) => ({
+  sessionToken: user.getSessionToken(),
+  userId: user.get('objectId'),
+}));
+
 // TODO deal with empty catalogType
 export const fetchPriceDefinitions = () => new AV.Query('PriceDefinition').find()
   .then((results) => results.map((result) => Object.assign({}, result.toJSON())));
@@ -207,6 +212,7 @@ export default (params = {}) => {
   return {
     requestSmsCode,
     signupOrLoginWithMobilePhone,
+    login,
     fetchCatalogs,
     fetchCategories,
     fetchSpecies,
