@@ -1,6 +1,9 @@
 import React, { Component, PropTypes } from 'react';
+import { findDOMNode } from 'react-dom';
 import { Dialog, DialogActions } from 'react-mdl/lib/Dialog';
 import Button from 'react-mdl/lib/Button';
+import dialogPolyfill from 'dialog-polyfill';
+import 'dialog-polyfill/dialog-polyfill.css';
 import Cropper from 'cropperjs';
 import 'cropperjs/dist/cropper.css';
 import injectSheet from 'react-jss';
@@ -20,7 +23,16 @@ class CropperDialog extends Component {
     sheet: PropTypes.object.isRequired,
   };
 
+  constructor(props) {
+    super(props);
+    this.state = { open: true };
+  }
+
   componentDidMount() {
+    const dialog = findDOMNode(this);
+    if (!dialog.showModal) {   // avoid chrome warnings and update only on unsupported browsers
+      dialogPolyfill.registerDialog(dialog);
+    }
     this.imageWrapper.appendChild(this.props.image);
     this.cropper = new Cropper(this.props.image, {
       viewMode: 1,
@@ -41,13 +53,22 @@ class CropperDialog extends Component {
   }
 
   crop = () => {
-    const croppedCanvas = this.cropper.getCroppedCanvas();
-    const roundedCanvas = getRoundedScaledCanvas(croppedCanvas, 160, 160);
-    this.props.onCrop(roundedCanvas.toDataURL());
+    this.setState({ open: false }, () => {
+      const croppedCanvas = this.cropper.getCroppedCanvas();
+      const roundedCanvas = getRoundedScaledCanvas(croppedCanvas, 160, 160);
+      this.props.onCrop(roundedCanvas.toDataURL());
+    });
   };
 
+  close = () => {
+    const { close } = this.props;
+    this.setState({ open: false }, () => {
+      close();
+    });
+  }
+
   render() {
-    const { close, sheet: { classes }, image } = this.props;
+    const { sheet: { classes }, image } = this.props;
     // if screenWidth > desktop width, let height be image height. if not, it will be a full screen dialog
     let height = 0;
     const imageHeight = image.getAttribute('height');
@@ -60,11 +81,11 @@ class CropperDialog extends Component {
       height = 'calc(100vh - 68px)';
     }
     return (
-      <Dialog open onCancel={close} className={classes.dialog}>
+      <Dialog open={this.state.open} onCancel={this.close} className={classes.dialog}>
         <div ref={(imageWrapper) => { this.imageWrapper = imageWrapper; }} className={classes.defaultCanvasWrapper} style={{ height, maxHeight: 'calc(100vh - 68px)' }}>
         </div>
         <DialogActions>
-          <Button onClick={close}>取消</Button>
+          <Button onClick={this.close}>取消</Button>
           <Button onClick={this.crop}>确定</Button>
         </DialogActions>
       </Dialog>

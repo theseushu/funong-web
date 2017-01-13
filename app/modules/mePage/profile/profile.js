@@ -8,6 +8,7 @@ import Tooltip from 'react-mdl/lib/Tooltip';
 import styles, { breakpoints } from '../../common/styles';
 import Avatar from '../../common/avatar';
 import AvatarCropper from '../avatarCropper';
+import Name from './name';
 
 class Profile extends Component {
   static propTypes = {
@@ -43,21 +44,19 @@ class Profile extends Component {
                 手机号
               </Cell>
               <Cell col={6} offsetDesktop={2} tablet={5} phone={3} offsetPhone={1} style={{ textAlign: 'left' }}>
-                <Button colored>13012345678</Button>
+                <Button colored>{user.mobilePhoneNumber}</Button>
               </Cell>
               <Cell component="h6" col={2} offsetDesktop={2} tablet={3} phone={4} style={{ display: 'flex', alignItems: 'center' }}>
-                您的称呼
+                名称
               </Cell>
               <Cell col={6} offsetDesktop={2} tablet={5} phone={3} offsetPhone={1} style={{ textAlign: 'left' }}>
-                <Button colored>胡小为</Button>
+                <Name name={user.profile.name} />
               </Cell>
               <Cell component="h6" col={2} offsetDesktop={2} tablet={3} phone={4} style={{ display: 'flex', alignItems: 'center' }}>
-                行业类型
+                用户类型
               </Cell>
               <Cell col={6} offsetDesktop={2} tablet={5} phone={3} offsetPhone={1} style={{ textAlign: 'left' }}>
-                <Button colored>批发商</Button>
-                <Button colored>代办</Button>
-                <Button colored>代卖</Button>
+                <Button colored accent={!user.profile.type}>{user.profile.type || '请添加'}</Button>
               </Cell>
               <Cell component="h6" col={2} offsetDesktop={2} tablet={3} phone={4} style={{ display: 'flex', alignItems: 'center' }}>
                 修改密码
@@ -69,7 +68,7 @@ class Profile extends Component {
                 个人介绍
               </Cell>
               <Cell col={6} offsetDesktop={2} tablet={5} phone={3} offsetPhone={1} style={{ textAlign: 'left' }}>
-                <Button colored>介绍一下自己吧</Button>
+                <Button colored accent={!user.profile.desc}>介绍一下自己吧</Button>
               </Cell>
             </Grid>
           </CardActions>

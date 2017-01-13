@@ -131,6 +131,19 @@ export default (params = {}) => {
     }
   };
 
+  const updateProfile = async ({ profileId, ...params }) => {
+    try {
+      const Profile = new Profile(profileId);
+      await AV.Query.doCloudQuery('update Profile set avatar=pointer("_File", ?) where objectId=?', [uploadedFile.id, profileId], {
+        sessionToken,
+      });
+      return uploadedFile;
+    } catch (err) {
+      debug(err);
+      throw err;
+    }
+  };
+
   const createSpecification = async ({ species, creator, name }) => {
     try {
       const spec = new Specification();
@@ -237,6 +250,7 @@ export default (params = {}) => {
     createProfile,
     uploadFile,
     uploadAvatar,
+    updateProfile,
     fetchPriceDefinitions,
     fetchSpecifications,
     createSpecification,
