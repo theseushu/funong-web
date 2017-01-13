@@ -1,26 +1,31 @@
 import React, { PropTypes } from 'react';
 import { Tabs, Tab } from 'react-mdl/lib/Tabs';
 import injectSheet from 'react-jss';
+import _findIndex from 'lodash/findIndex';
 
-const SideMenu = ({ sheet: { classes }, activeTab, onChange }) => (
-  <div>
-    <Tabs
-      activeTab={activeTab} className={[classes.sidebar, 'mdl-shadow--2dp'].join(' ')}
-      onChange={(tabId) => onChange(tabId)} ripple
-    >
-      <Tab>个人信息</Tab>
-      <Tab>实名认证</Tab>
-      <Tab>购物车</Tab>
-      <Tab>历史订单</Tab>
-      <Tab>我的收藏</Tab>
-    </Tabs>
-  </div>
-);
+const SideMenu = ({ routes, sheet: { classes } }, { router }) => {
+  return (
+    <div>
+      <Tabs
+        activeTab={_findIndex(routes, (route) => router.isActive(route.path, true))}
+        className={[classes.sidebar, 'mdl-shadow--2dp'].join(' ')}
+        ripple
+      >
+        { routes.map((route, i) => <Tab
+          key={i}
+          onClick={() => router.push(route.path)}
+        >{route.title}</Tab>)}
+      </Tabs>
+    </div>
+  );
+}
 
+SideMenu.contextTypes = {
+  router: PropTypes.object.isRequired,
+};
 SideMenu.propTypes = {
   sheet: PropTypes.object,
-  activeTab: PropTypes.number.isRequired,
-  onChange: PropTypes.func.isRequired,
+  routes: PropTypes.array.isRequired,
 };
 
 

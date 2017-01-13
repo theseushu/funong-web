@@ -1,4 +1,6 @@
 import { getAsyncInjectors } from './utils/asyncInjectors';
+import createWelcomePageRoute from './modules/welcomePage/route';
+import createMePageRoute from './modules/mePage/route';
 import createProfilePageRoute from './modules/profilePage/route';
 import createProductPageRoute from './modules/productPage/route';
 import createProductEditorRoute from './modules/productEditorPage/route';
@@ -41,13 +43,10 @@ export default function createRoutes(store) {
         const importModules = Promise.all([
           System.import('modules/signupOrLoginPage'),
         ]);
-
         const renderRoute = loadModule(cb);
-
         importModules.then(([component]) => {
           renderRoute(component);
         });
-
         importModules.catch(errorLoading);
       },
     }, {
@@ -57,16 +56,15 @@ export default function createRoutes(store) {
         const importModules = Promise.all([
           System.import('modules/signupOrLoginPage'),
         ]);
-
         const renderRoute = loadModule(cb);
-
         importModules.then(([component]) => {
           renderRoute(component);
         });
-
         importModules.catch(errorLoading);
       },
     },
+    createWelcomePageRoute({ store, injectReducer, injectSagas, loadModule, errorLoading }),
+    createMePageRoute({ store, injectReducer, injectSagas, loadModule, errorLoading }),
     createProfilePageRoute({ store, injectReducer, injectSagas, loadModule, errorLoading }),
     createProductPageRoute({ store, injectReducer, injectSagas, loadModule, errorLoading }),
     createPrototypeRoutes(),

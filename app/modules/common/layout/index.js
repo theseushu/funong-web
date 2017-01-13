@@ -11,7 +11,7 @@ import { AppHeader, AppDrawer } from './appHeader';
 class Sample extends Component {
   static propTypes = {
     sheet: PropTypes.object,
-    sideMenu: PropTypes.object,
+    sideMenu: PropTypes.array,
     content: PropTypes.any,
     header: PropTypes.any,
   }
@@ -27,7 +27,7 @@ class Sample extends Component {
         <AppDrawer />
         <Content>
           <div className={styles.container} style={{ paddingTop: 16, paddingBottom: 16, display: 'flex', minHeight: 'calc(100vh - 163px)' }}>
-            { sideMenu && <SideMenu activeTab={this.state.activeTab} onChange={(activeTab) => this.setState({ activeTab })} /> }
+            { sideMenu && <SideMenu routes={sideMenu} /> }
             {content}
           </div>
           <Footer size="mini">
@@ -46,6 +46,7 @@ class Sample extends Component {
 
 export default injectSheet({
   layout: {
+    zIndex: 100001,
     '& .mdl-layout__tab-bar-container': {
       display: 'none',
     },

@@ -2,32 +2,44 @@ import React, { PropTypes } from 'react';
 import injectSheet from 'react-jss';
 import { Header, HeaderRow, HeaderTabs } from 'react-mdl/lib/Layout';
 import { Tab } from 'react-mdl/lib/Tabs';
+import _findIndex from 'lodash/findIndex';
 
 import logo from '../../../../assets/logo.png';
 import background from './assets/header-bg.jpg';
 
 import styles from '../../styles';
 
-const AppHeader = ({ sheet: { classes }, header }) => (
+const routes = [
+  { title: '首页', path: '/' },
+  { title: '供应', path: '/supplies' },
+  { title: '采购', path: '/' },
+  { title: '微店', path: '/shops' },
+  { title: '市场行情', path: '/market' },
+  { title: '我的润财', path: '/me' },
+];
+
+const AppHeader = ({ sheet: { classes }, header }, { router }) => (
   <Header waterfall hideTop={false} className={classes.header}>
     <HeaderRow className={classes.logoRow}>
       { header || <div className={classes.logo} /> }
     </HeaderRow>
-    <HeaderTabs ripple activeTab={1} className={[styles.container, classes.nav].join(' ')}>
-      <Tab>首页</Tab>
-      <Tab>供应</Tab>
-      <Tab>采购</Tab>
-      <Tab>微店</Tab>
-      <Tab>市场行情</Tab>
-      <Tab>我的润财</Tab>
+    <HeaderTabs activeTab={_findIndex(routes, (route) => router.isActive(route.path))} ripple className={[styles.container, classes.nav].join(' ')}>
+      { routes.map((route, i) => <Tab
+        key={i}
+        onClick={() => router.push(route.path)}
+      >{route.title}</Tab>)}
     </HeaderTabs>
   </Header>
-);
+  );
+
+AppHeader.contextTypes = {
+  router: PropTypes.object.isRequired,
+};
 
 AppHeader.propTypes = {
   sheet: PropTypes.object,
   header: PropTypes.any,
-}
+};
 
 export default injectSheet({
   header: {

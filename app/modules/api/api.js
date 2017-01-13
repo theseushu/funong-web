@@ -26,6 +26,9 @@ AV.Object.register(Product);
 class Shop extends AV.Object {}
 AV.Object.register(Shop);
 
+class Profile extends AV.Object {}
+AV.Object.register(Profile);
+
 export const requestSmsCode = (...params) => AV.Cloud.requestSmsCode(...params);
 
 export const signupOrLoginWithMobilePhone = (...params) => AV.User.signUpOrlogInWithMobilePhone(...params).then((user) => ({
@@ -83,8 +86,20 @@ export default (params = {}) => {
   };
 
   // TODO create a leanengine function to do this in a single step
-  const fetchProfile = () => AV.Object.createWithoutData('_User', userId).fetch({ include: ['avatar'] }, { sessionToken })
-    .then((user) => user.toJSON());
+  const fetchProfile = () => AV.Object.createWithoutData('_User', userId).fetch({ include: ['profile', 'profile.avatar'] }, { sessionToken })
+    .then((user) => ({ ...user.toJSON(), profile: user.get('profile') ? user.get('profile').toJSON() : null }));
+
+  const createProfile = async ({ type }) => {
+    const profile = new Profile();
+    profile.set('type', type);
+    const requestParams = { sessionToken };
+    const savedProfile = await profile.save(null, requestParams);
+    await AV.Query.doCloudQuery('update _User set profile=pointer("Profile", ?) where objectId=?', [savedProfile.id, userId], {
+      fetchWhenSave: true,
+      sessionToken,
+    });
+    return savedProfile.toJSON();
+  };
 
   const uploadFile = async ({ filename, file, onprogress, metaData = {} }) => {
     try {
@@ -102,11 +117,11 @@ export default (params = {}) => {
     }
   };
 
-  const uploadAvatar = async ({ filename, file, onprogress }) => {
+  const uploadAvatar = async ({ profileId, filename, file, onprogress }) => {
     try {
       const metaData = { owner: userId, isAvatar: true };
       const uploadedFile = await uploadFile({ filename, file, onprogress, metaData });
-      await AV.Query.doCloudQuery('update _User set avatar=pointer("_File", ?) where objectId=?', [uploadedFile.id, userId], {
+      await AV.Query.doCloudQuery('update Profile set avatar=pointer("_File", ?) where objectId=?', [uploadedFile.id, profileId], {
         sessionToken,
       });
       return uploadedFile;
@@ -219,6 +234,7 @@ export default (params = {}) => {
     ...createAMapApi(),
     replaceToken,
     fetchProfile,
+    createProfile,
     uploadFile,
     uploadAvatar,
     fetchPriceDefinitions,

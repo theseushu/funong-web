@@ -4,7 +4,7 @@ import _now from 'lodash/now';
 
 import CountDown from '../../common/CountDown';
 
-export const ButtonSendSmsCode = ({ onClick, phone, text, bsStyle, disabled }) => (
+export const ButtonSendSmsCode = ({ onClick, phone, text, disabled }) => (
   <Button
     raised
     colored
@@ -22,7 +22,6 @@ ButtonSendSmsCode.propTypes = {
   onClick: PropTypes.func.isRequired,
   phone: PropTypes.string,
   text: PropTypes.string.isRequired,
-  bsStyle: PropTypes.string.isRequired,
   disabled: PropTypes.bool,
 };
 

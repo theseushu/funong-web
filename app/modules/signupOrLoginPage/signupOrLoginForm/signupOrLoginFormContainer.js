@@ -1,5 +1,6 @@
 import { reduxForm, SubmissionError } from 'redux-form';
 import { connect } from 'react-redux';
+import { push } from 'react-router-redux';
 import { fetchProfile } from '../../api/fetchProfile';
 import { selector, signupOrLogin } from '../../api/signupOrLogin';
 
@@ -49,7 +50,16 @@ export default reduxForm({
 
       const resolveFuc = () => {
         // TODO donot fetch profile in case of redirecting to profile page
-        dispatch(fetchProfile({ meta: { resolve, reject: rejectFuc } }));
+        const fetchProfileResolveFunc = ({ profile }) => {
+          resolve();
+          if (!profile) {
+            dispatch(push('/welcome'));
+          }
+        };
+        const fetchProfileRejectFunc = () => {
+
+        }
+        dispatch(fetchProfile({ meta: { resolve: fetchProfileResolveFunc, reject: fetchProfileRejectFunc } }));
       };
 
       // use this line to skip real signup

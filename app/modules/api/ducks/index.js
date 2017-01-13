@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux';
 import * as requestSmsCode from '../requestSmsCode/ducks';
 import * as fetchProfile from '../fetchProfile/ducks';
+import * as createProfile from '../createProfile/ducks';
 import * as signupOrLoginWithMobilePhone from '../signupOrLogin/ducks';
 import * as uploadAvatar from '../uploadAvatar/ducks';
 import * as searchDistinct from '../searchDistrict/ducks';
@@ -20,6 +21,7 @@ export default {
   api: combineReducers({
     ...requestSmsCode.default,
     ...fetchProfile.default,
+    ...createProfile.default,
     ...signupOrLoginWithMobilePhone.default,
     ...uploadAvatar.default,
     ...searchDistinct.default,
@@ -40,6 +42,7 @@ export default {
 export const sagas = [
   ...requestSmsCode.sagas,
   ...fetchProfile.sagas,
+  ...createProfile.sagas,
   ...signupOrLoginWithMobilePhone.sagas,
   ...uploadAvatar.sagas,
   ...searchDistinct.sagas,
