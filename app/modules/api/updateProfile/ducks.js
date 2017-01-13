@@ -4,11 +4,11 @@ import { setCurrentUser } from '../../data/ducks/actions';
 import { currentUserSelector } from '../../data/ducks/selectors';
 
 const ducks = createDucks({
-  apiName: 'createProfile',
+  apiName: 'updateProfile',
   sagas: {
-    * fulfilled(profile) {
+    * fulfilled(attrs) { // since the limitation of the api, here's only the updated attributes
       const user = yield select(currentUserSelector);
-      yield put(setCurrentUser({ ...user, profile }));
+      yield put(setCurrentUser({ ...user, profile: { ...user.profile, ...attrs } }));
     },
   },
 });

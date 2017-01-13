@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux';
 import * as requestSmsCode from '../requestSmsCode/ducks';
 import * as fetchProfile from '../fetchProfile/ducks';
+import * as updateProfile from '../updateProfile/ducks';
 import * as createProfile from '../createProfile/ducks';
 import * as signupOrLoginWithMobilePhone from '../signupOrLogin/ducks';
 import * as uploadAvatar from '../uploadAvatar/ducks';
@@ -36,6 +37,7 @@ export default {
     ...createProduct.default,
     ...fetchUserProducts.default,
     ...fetchProduct.default,
+    ...updateProfile.default,
   }),
 };
 
@@ -57,4 +59,5 @@ export const sagas = [
   ...createProduct.sagas,
   ...fetchUserProducts.sagas,
   ...fetchProduct.sagas,
+  ...updateProfile.sagas,
 ];

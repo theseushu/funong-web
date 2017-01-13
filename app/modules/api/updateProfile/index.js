@@ -2,5 +2,5 @@ import { selector as moduleSelector, actions } from './ducks';
 
 export const selector = moduleSelector;
 
-export const createProfile = actions.createProfile;
+export const updateProfile = actions.updateProfile;
 

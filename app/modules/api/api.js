@@ -131,13 +131,11 @@ export default (params = {}) => {
     }
   };
 
-  const updateProfile = async ({ profileId, ...params }) => {
+  const updateProfile = async ({ profileId, ...attrs }) => {
     try {
-      const Profile = new Profile(profileId);
-      await AV.Query.doCloudQuery('update Profile set avatar=pointer("_File", ?) where objectId=?', [uploadedFile.id, profileId], {
-        sessionToken,
-      });
-      return uploadedFile;
+      const profile = AV.Object.createWithoutData('Profile', profileId);
+      profile.save(attrs, { sessionToken });
+      return attrs;
     } catch (err) {
       debug(err);
       throw err;
