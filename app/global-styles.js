@@ -3,7 +3,8 @@
 // import 'bootstrap/dist/css/bootstrap.css';
 import 'react-redux-toastr/src/styles/index.scss';
 import { jss } from 'react-jss';
-import './styles/bootstrap.scss';
+import 'react-mdl/extra/material';
+import './styles/_material-design-lite.scss';
 
 /* eslint no-unused-expressions: 0 */
 jss.createStyleSheet({

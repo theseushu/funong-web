@@ -37,9 +37,9 @@ export function* uploadAvatarSaga({ payload: { filename, dataUrl, onprogress } }
   try {
     const currentUser = yield select(currentUserSelector);
     const avatarFile = yield call(api.uploadAvatar, {
-      userId: currentUser.objectId, filename, file: { base64: dataUrl.split(',')[1] }, onprogress,
+      profileId: currentUser.profile.objectId, filename, file: { base64: dataUrl.split(',')[1] }, onprogress,
     });
-    const nextUser = Object.assign({}, currentUser, { avatar: avatarFile });
+    const nextUser = { ...currentUser, profile: { ...currentUser.profile, avatar: avatarFile } };
     yield put(updateCurrentUserInfo(nextUser));
     yield put({ type: UPLOAD_AVATAR_STATE, payload: { fulfilled: true } });
   } catch (error) {

@@ -1,27 +1,19 @@
 import React, { PropTypes } from 'react';
-
 import MdAccountCircle from 'react-icons/lib/md/account-circle';
 import injectSheet from 'react-jss';
+import { colors } from '../styles';
 
-const styles = {
-  wrapper: {
-    borderRadius: '50%',
-    '&>img': {
-      width: '100%',
-      height: '100%',
-    },
-  },
-};
 
 const Content = ({ user }) => (
-    (user && user.avatar) ?
-      <img role="presentation" src={user.avatar.url} /> :
+    (user && user.profile && user.profile.avatar) ?
+      <img role="presentation" src={user.profile.avatar.url} /> :
       <MdAccountCircle
         style={{
           position: 'relative',
           width: '100%',
           height: '100%',
           transform: 'scale(1.2,1.2)',
+          color: colors.colorSubTitle,
         }}
       />
   );
@@ -56,4 +48,12 @@ AvatarComponent.propTypes = {
   sheet: PropTypes.object.isRequired,
 };
 
-export default injectSheet(styles)(AvatarComponent);
+export default injectSheet({
+  wrapper: {
+    borderRadius: '50%',
+    '&>img': {
+      width: '100%',
+      height: '100%',
+    },
+  },
+})(AvatarComponent);
