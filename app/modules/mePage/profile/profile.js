@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import injectSheet from 'react-jss';
-import { Card, CardTitle, CardMedia, CardActions } from 'react-mdl/lib/Card';
+import { Card, CardTitle, CardMedia } from 'react-mdl/lib/Card';
 import Button from 'react-mdl/lib/Button';
 import IconButton from 'react-mdl/lib/IconButton';
 import { Grid, Cell } from 'react-mdl/lib/Grid';
@@ -8,7 +8,10 @@ import Tooltip from 'react-mdl/lib/Tooltip';
 import styles, { breakpoints } from '../../common/styles';
 import Avatar from '../../common/avatar';
 import AvatarCropper from '../avatarCropper';
+import Line from './line';
 import Name from './name';
+import Type from './type';
+import Desc from './desc';
 
 class Profile extends Component {
   static propTypes = {
@@ -38,40 +41,11 @@ class Profile extends Component {
               </div>
             </div>
           </CardMedia>
-          <CardActions border>
-            <Grid style={{ width: '100%', boxSizing: 'border-box' }}>
-              <Cell component="h6" col={2} offsetDesktop={2} tablet={3} phone={4} style={{ display: 'flex', alignItems: 'center' }}>
-                手机号
-              </Cell>
-              <Cell col={6} offsetDesktop={2} tablet={5} phone={3} offsetPhone={1} style={{ textAlign: 'left' }}>
-                <Button colored>{user.mobilePhoneNumber}</Button>
-              </Cell>
-              <Cell component="h6" col={2} offsetDesktop={2} tablet={3} phone={4} style={{ display: 'flex', alignItems: 'center' }}>
-                名称
-              </Cell>
-              <Cell col={6} offsetDesktop={2} tablet={5} phone={3} offsetPhone={1} style={{ textAlign: 'left' }}>
-                <Name name={user.profile.name} />
-              </Cell>
-              <Cell component="h6" col={2} offsetDesktop={2} tablet={3} phone={4} style={{ display: 'flex', alignItems: 'center' }}>
-                用户类型
-              </Cell>
-              <Cell col={6} offsetDesktop={2} tablet={5} phone={3} offsetPhone={1} style={{ textAlign: 'left' }}>
-                <Button colored accent={!user.profile.type}>{user.profile.type || '请添加'}</Button>
-              </Cell>
-              <Cell component="h6" col={2} offsetDesktop={2} tablet={3} phone={4} style={{ display: 'flex', alignItems: 'center' }}>
-                修改密码
-              </Cell>
-              <Cell col={6} offsetDesktop={2} tablet={5} phone={3} offsetPhone={1} style={{ textAlign: 'left' }}>
-                <Button colored>验证手机号码后开始</Button>
-              </Cell>
-              <Cell component="h6" col={2} offsetDesktop={2} tablet={3} phone={4} style={{ display: 'flex', alignItems: 'center' }}>
-                个人介绍
-              </Cell>
-              <Cell col={6} offsetDesktop={2} tablet={5} phone={3} offsetPhone={1} style={{ textAlign: 'left' }}>
-                <Button colored accent={!user.profile.desc}>介绍一下自己吧</Button>
-              </Cell>
-            </Grid>
-          </CardActions>
+          <Line title="手机号" content={<Button colored>{user.mobilePhoneNumber}</Button>} />
+          <Name />
+          <Type />
+          <Line title="修改密码" content={<Button colored>验证手机号码后开始</Button>} />
+          <Desc />
         </Card>
       </div>
     );

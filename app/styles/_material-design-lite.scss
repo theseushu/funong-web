@@ -42,3 +42,13 @@ $color-accent-contrast: $color-dark-contrast !default;
 @import "~material-design-lite/src/tooltip/tooltip";
 @import "~material-design-lite/src/shadow/shadow";
 @import "~material-design-lite/src/grid/grid";
+
+// hack to make react-mdl-extra work
+// see react-mdl dialog, layout is required to set zIndex = 100001
+// so if there's a dropdown, it must have a higher zIndex to show on top of layout
+.mdl-dropdown {
+  z-index: 100002 !important;
+}
+.pswp {
+  z-index: 100002 !important;
+}

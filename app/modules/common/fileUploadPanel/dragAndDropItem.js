@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
-
 import { DragSource, DropTarget } from 'react-dnd';
+import styles from '../styles';
 
 class DraggableFileUpload extends Component {
   static propTypes = {
@@ -16,7 +16,10 @@ class DraggableFileUpload extends Component {
     return (
       connectDropTarget(
         connectDragSource(
-          <div className="material-transition" style={{ width: 100, height: 100, padding: 7, opacity: (isDragging || isOver) ? 0.2 : 1 }}>
+          <div
+            className={`${styles.contentCenter} material-transition`}
+            style={{ opacity: (isDragging || isOver) ? 0.2 : 1 }}
+          >
             {this.props.children}
           </div>
         )

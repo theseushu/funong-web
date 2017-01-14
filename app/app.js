@@ -47,6 +47,8 @@ import createRoutes from './routes';
 // create an api instance with sessionToken attached
 import createApi from './createApi';
 
+import FullScreenGallery from './modules/fullScreenGallery';
+
 // Create redux store with history
 // this uses the singleton browserHistory provided by react-router
 // Optionally, this could be changed to leverage a created history
@@ -84,6 +86,19 @@ const render = (messages) => {
     </Provider>,
     document.getElementById('app')
   );
+  if (window) { // todo switch to standard client detection
+    const galleryEl = document.createElement('div');
+    galleryEl.setAttribute('id', '_fullScreenGallery_');
+    document.body.appendChild(galleryEl);
+    ReactDOM.render(
+      <Provider store={store}>
+        <LanguageProvider messages={messages}>
+          <FullScreenGallery />
+        </LanguageProvider>
+      </Provider>,
+      galleryEl
+    );
+  }
 };
 
 // Hot reloadable translation json files

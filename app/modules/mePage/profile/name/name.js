@@ -4,6 +4,8 @@ import Textfield from 'react-mdl/lib/Textfield';
 import IconButton from 'react-mdl/lib/IconButton';
 import Spinner from 'react-mdl/lib/Spinner';
 import injectSheet from 'react-jss';
+import Line from '../line';
+import styles from '../styles';
 
 class Name extends Component {
   static propTypes = {
@@ -33,29 +35,37 @@ class Name extends Component {
     const { name, editing } = this.state;
     const { sheet: { classes }, pending, profile } = this.props;
     return (
-      editing ?
-        <span className={classes.textfield}>
-          <form onSubmit={this.updateProfile}>
-            <Textfield
-              id="_nameInput"
-              label="名称"
-              style={{ flex: 1 }}
-              maxLength={20}
-              onChange={(e) => this.setState({ name: e.target.value })}
-              value={name}
-            />
-            {pending ? <Spinner /> : <IconButton colored name="save" disabled={!name} type="submit" />}
-            <IconButton colored name="block" onClick={() => this.setState({ editing: false })} />
-          </form>
-        </span> :
-        <Button colored accent={!profile.name} onClick={() => this.setState({ editing: true })}>{profile.name || '请添加名称'}</Button>
+      <Line
+        title="名称"
+        content={
+          editing ?
+            <form onSubmit={this.updateProfile}>
+              <Textfield
+                autoFocus
+                label="名称"
+                maxLength={20}
+                onChange={(e) => this.setState({ name: e.target.value })}
+                value={name}
+                className={classes.input}
+              />
+              {pending ? <Spinner /> : <IconButton colored name="save" disabled={!name} type="submit" />}
+              <IconButton
+                colored name="block" onClick={(e) => {
+                  e.preventDefault();
+                  this.setState({ editing: false });
+                }}
+              />
+            </form> :
+            <Button
+              colored accent={!profile.name}
+              onClick={() => this.setState({ editing: true })}
+            >{profile.name || '请添加名称'}</Button>
+        }
+      />
     );
   }
 }
 
 export default injectSheet({
-  textfield: {
-    display: 'flex',
-    alignItems: 'center',
-  },
+  ...styles,
 })(Name);

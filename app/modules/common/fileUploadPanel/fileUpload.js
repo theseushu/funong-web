@@ -5,8 +5,10 @@ import _now from 'lodash/now';
 
 const styles = {
   wrapper: {
-    width: '100%',
-    height: '100%',
+    width: 72,
+    height: 72,
+    padding: 4,
+    boxSizing: 'border-box',
     position: 'relative',
     display: 'flex',
     justifyContent: 'center',

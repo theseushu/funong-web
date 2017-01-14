@@ -11,6 +11,7 @@ import { reducer as toastrReducer } from 'react-redux-toastr';
 import languageProviderReducer from './containers/LanguageProvider/reducer';
 import api from './modules/api/ducks';
 import data from './modules/data/ducks';
+import fullScreenGallery from './modules/fullScreenGallery/ducks';
 
 
 /*
@@ -53,5 +54,6 @@ export default function createReducer(asyncReducers) {
     ...api,
     ...data,
     ...asyncReducers,
+    ...fullScreenGallery,
   });
 }
