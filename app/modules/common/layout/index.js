@@ -37,8 +37,8 @@ class Sample extends Component {
           <Footer size="mini">
             <FooterSection className={styles.container} type="left" logo="Title">
               <FooterLinkList>
-                <a href="#">Help</a>
-                <a href="#">Privacy & Terms</a>
+                <a href="#help">Help</a>
+                <a href="#privacy">Privacy & Terms</a>
               </FooterLinkList>
             </FooterSection>
           </Footer>

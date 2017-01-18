@@ -98,7 +98,6 @@ export default (params = {}) => {
     const avProfile = user.get('profile');
     if (avProfile) {
       const avAvatar = avProfile.get('avatar');
-      console.log(avProfile.get('desc'))
       const avDescFiles = avProfile.get('descFiles');
       const avatar = avAvatar ? avAvatar.toJSON() : undefined;
       const descFiles = avDescFiles ? avDescFiles.map((adf) => ({ ...adf.toJSON(), metaData: adf.get('metaData') })) : undefined;

@@ -1,6 +1,5 @@
 import React, { Component, PropTypes } from 'react';
 import injectSheet from 'react-jss';
-import Image from 'react-bootstrap/lib/Image';
 import _now from 'lodash/now';
 import IconButton from 'react-mdl/lib/IconButton';
 

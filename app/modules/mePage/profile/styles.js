@@ -19,7 +19,7 @@ export const layout = {
     tablet: 8,
     phone: 4,
   },
-}
+};
 
 export default {
   grid: { width: '100%', boxSizing: 'border-box' },

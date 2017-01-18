@@ -11,7 +11,7 @@ const Title = ({ classes, title }) => (
 Title.propTypes = {
   classes: PropTypes.object,
   title: PropTypes.string.isRequired,
-}
+};
 
 const Content = ({ classes, content }) => (
   <Cell {...layout.content} className={classes.content}>
@@ -23,7 +23,7 @@ const Content = ({ classes, content }) => (
 Content.propTypes = {
   classes: PropTypes.object,
   content: PropTypes.any.isRequired,
-}
+};
 
 const Line = ({ sheet: { classes }, title, content, children }) => (
   <Grid className={classes.grid}>
