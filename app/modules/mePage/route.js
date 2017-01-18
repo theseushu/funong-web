@@ -72,8 +72,8 @@ export default ({ store, injectReducer, injectSagas, loadModule, errorLoading })
     name: 'certs',
     getComponent(nextState, cb) {
       const importModules = Promise.all([
-        System.import('modules/mePage/products'),
-        System.import('modules/mePage/products/ducks'),
+        System.import('modules/mePage/certs'),
+        System.import('modules/mePage/certs/ducks'),
       ]);
 
       const renderRoute = loadModule(cb);

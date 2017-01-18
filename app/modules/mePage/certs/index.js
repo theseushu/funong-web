@@ -1,8 +1,8 @@
 import { connect } from 'react-redux';
 import { currentUserSelector } from '../../data/ducks/selectors';
 
-import Profile from './profile';
+import Certs from './certs';
 
 export default connect(
   (state) => ({ user: currentUserSelector(state) }),
-)(Profile);
+)(Certs);

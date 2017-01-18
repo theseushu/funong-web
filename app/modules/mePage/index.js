@@ -10,18 +10,18 @@ import Avatar from '../common/avatar';
 
 import { colors } from '../common/styles';
 
-const sideRoutes = [
-  { title: '个人信息', path: '/me' },
+const sideRoutes = (type) => [
+  { title: type === '微店店主' ? '店铺信息' : '个人信息', path: '/me' },
   { title: '实名认证', path: '/me/certs' },
   { title: '购物车', path: '/me/cart' },
   { title: '历史订单', path: '/me/orders' },
   { title: '我的收藏', path: '/me/bookmarks' },
 ];
 
-const MePage = ({ user: { profile }, sheet: { classes }, children }) => (
+const MePage = ({ user: { profile: { avatar, type } }, sheet: { classes }, children }) => (
   <Layout
-    header={profile && profile.avatar ? <div className={classes.headerAvatar}><Avatar /></div> : null}
-    sideMenu={sideRoutes}
+    header={avatar ? <div className={classes.headerAvatar}><Avatar /></div> : null}
+    sideMenu={sideRoutes(type)}
     content={children}
     smallContent
   >

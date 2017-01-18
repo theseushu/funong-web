@@ -22,12 +22,12 @@ class Profile extends Component {
     this.state = { activeTab: 0 };
   }
   render() {
-    const { user, sheet: { classes } } = this.props;
+    const { user: { profile: { type }, mobilePhoneNumber }, sheet: { classes } } = this.props;
     return (
       <div className={classes.content}>
         <Card shadow={2} style={{ width: '100%', margin: 'auto' }}>
           <CardTitle>
-            <h2 className="mdl-card__title-text">个人信息</h2>
+            <h2 className="mdl-card__title-text">{type === '微店店主' ? '店铺信息' : '个人信息'}</h2>
             <Tooltip label={<span>点击条目内容即可开始修改<br />您也可以点击图像更换新的头像</span>}>
               <IconButton colored name="help_outline"></IconButton>
             </Tooltip>
@@ -40,7 +40,7 @@ class Profile extends Component {
               </div>
             </div>
           </CardMedia>
-          <Line title="手机号" content={<Button colored>{user.mobilePhoneNumber}</Button>} />
+          <Line title="手机号" content={<Button colored>{mobilePhoneNumber}</Button>} />
           <Name />
           <Type />
           <Line title="修改密码" content={<Button colored>验证手机号码后开始</Button>} />
