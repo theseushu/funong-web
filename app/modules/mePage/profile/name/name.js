@@ -35,33 +35,40 @@ class Name extends Component {
     const { name, editing } = this.state;
     const { sheet: { classes }, pending, profile } = this.props;
     return (
-      <Line
-        title="名称"
-        content={
-          editing ?
-            <form onSubmit={this.updateProfile}>
+      editing ?
+        <form onSubmit={this.updateProfile}>
+          <Line
+            title="名称"
+            content={[
               <Textfield
+                key={0}
                 autoFocus
                 label="名称"
                 maxLength={20}
                 onChange={(e) => this.setState({ name: e.target.value })}
                 value={name}
                 className={classes.input}
-              />
-              {pending ? <Spinner /> : <IconButton colored name="save" disabled={!name} type="submit" />}
+              />,
+              pending ? <Spinner key={1} /> : <IconButton key={1} colored name="save" disabled={!name} type="submit" />,
               <IconButton
+                key={2}
                 colored name="block" onClick={(e) => {
                   e.preventDefault();
                   this.setState({ editing: false });
                 }}
-              />
-            </form> :
+              />,
+            ]}
+          />
+        </form> :
+        <Line
+          title="名称"
+          content={
             <Button
               colored accent={!profile.name}
               onClick={() => this.setState({ editing: true })}
             >{profile.name || '请添加名称'}</Button>
-        }
-      />
+          }
+        />
     );
   }
 }

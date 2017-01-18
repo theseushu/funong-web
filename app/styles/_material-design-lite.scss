@@ -49,6 +49,7 @@ $color-accent-contrast: $color-dark-contrast !default;
 .mdl-dropdown {
   z-index: 100002 !important;
 }
+// hack to make photoSwipe work
 .pswp {
   z-index: 100002 !important;
 }

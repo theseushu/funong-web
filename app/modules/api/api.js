@@ -86,8 +86,26 @@ export default (params = {}) => {
   };
 
   // TODO create a leanengine function to do this in a single step
-  const fetchProfile = () => AV.Object.createWithoutData('_User', userId).fetch({ include: ['profile', 'profile.avatar'] }, { sessionToken })
-    .then((user) => ({ ...user.toJSON(), profile: user.get('profile') ? user.get('profile').toJSON() : null }));
+  // const fetchProfile = () => AV.Object.createWithoutData('_User', userId).fetch({ include: ['profile', 'profile.avatar'] }, { sessionToken })
+  //   .then((user) => ({
+  //     ...user.toJSON(),
+  //     profile: user.get('profile') ? { ...user.get('profile').toJSON() } : null,
+  //   }));
+
+  const fetchProfile = async () => {
+    const user = await AV.Object.createWithoutData('_User', userId).fetch({ include: ['profile', 'profile.avatar', 'profile.desc.images'] }, { sessionToken });
+    const result = { ...user.toJSON() };
+    const avProfile = user.get('profile');
+    if (avProfile) {
+      const avAvatar = avProfile.get('avatar');
+      console.log(avProfile.get('desc'))
+      const avDescFiles = avProfile.get('descFiles');
+      const avatar = avAvatar ? avAvatar.toJSON() : undefined;
+      const descFiles = avDescFiles ? avDescFiles.map((adf) => ({ ...adf.toJSON(), metaData: adf.get('metaData') })) : undefined;
+      result.profile = { ...avProfile.toJSON(), avatar, descFiles };
+    }
+    return result;
+  };
 
   const createProfile = async ({ type }) => {
     const profile = new Profile();
@@ -110,7 +128,7 @@ export default (params = {}) => {
         requestParams.onprogress = onprogress;
       }
       const uploadedFile = await fileToUpload.save(requestParams);
-      return uploadedFile.toJSON();
+      return { ...uploadedFile.toJSON(), metaData: uploadedFile.get('metaData') };
     } catch (err) {
       debug(err);
       throw err;
@@ -131,10 +149,18 @@ export default (params = {}) => {
     }
   };
 
-  const updateProfile = async ({ profileId, ...attrs }) => {
+  const updateProfile = async ({ profileId, desc, ...attrs }) => {
     try {
       const profile = AV.Object.createWithoutData('Profile', profileId);
-      profile.save(attrs, { sessionToken });
+      const attributes = { ...attrs };
+      if (desc) {
+        if (desc.images) {
+          profile.set('desc', { ...desc, images: desc.images.map((image) => AV.Object.createWithoutData('_File', image.id)) });
+        } else {
+          profile.set('desc', desc);
+        }
+      }
+      profile.save(attributes, { sessionToken });
       return attrs;
     } catch (err) {
       debug(err);

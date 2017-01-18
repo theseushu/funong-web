@@ -42,5 +42,8 @@ export default {
     flex: 1,
     width: 150,
     marginLeft: 16,
+    [breakpoints.mediaTabletBelow]: {
+      marginLeft: 0,
+    },
   },
 };

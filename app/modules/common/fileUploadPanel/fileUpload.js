@@ -2,34 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import injectSheet from 'react-jss';
 import Image from 'react-bootstrap/lib/Image';
 import _now from 'lodash/now';
-
-const styles = {
-  wrapper: {
-    width: 72,
-    height: 72,
-    padding: 4,
-    boxSizing: 'border-box',
-    position: 'relative',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    '& img': {
-      maxWidth: '100%',
-      maxHeight: '100%',
-    },
-  },
-  info: {
-    position: 'absolute',
-    width: '100%',
-    height: '100%',
-    left: 0,
-    bottom: 0,
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    background: 'rgba(0, 0, 0, 0.5)',
-  },
-};
+import IconButton from 'react-mdl/lib/IconButton';
 
 const generateKey = () => _now();
 
@@ -38,7 +11,7 @@ class FileUpload extends Component {
     file: PropTypes.shape({
       process: PropTypes.shape({
         dataUrl: PropTypes.string.isRequired,
-      }).isRequired,
+      }),
       upload: PropTypes.shape({
         rejected: PropTypes.bool,
         file: PropTypes.shape({
@@ -67,11 +40,13 @@ class FileUpload extends Component {
     }
   }
   uploadFile = () => {
-    const { uploadFile, uploadFileProgress, file: { process: { dataUrl } } } = this.props;
+    const { uploadFile, uploadFileProgress, file: { process: { dataUrl, width, height } } } = this.props;
     uploadFile({
       key: this.key,
       filename: `${this.key}.png`,
       dataUrl,
+      width,
+      height,
       onprogress: (percent) => {
         uploadFileProgress(this.key, percent);
       },
@@ -82,7 +57,7 @@ class FileUpload extends Component {
     });
   }
   render() {
-    const { file: { process: { dataUrl }, upload: { file } }, sheet: { classes }, uploadStates } = this.props;
+    const { file: { process, upload }, sheet: { classes }, uploadStates } = this.props;
     let info;
     const uploadingState = uploadStates[this.key];
     if (uploadingState) {
@@ -91,19 +66,47 @@ class FileUpload extends Component {
         info = <div className={classes.info} style={{ height: `${100 - percent}%` }} />;
       } else if (rejected) {
         info = (
-          <div className={classes.info} style={{ height: '100%', background: 'rgba(255, 0, 0, 0.5)' }}>
-            <a href="#dummy" onClick={(e) => { e.preventDefault(); this.uploadFile(); }}>上传失败<br />点击重试</a>
+          <div className={classes.info} style={{ background: 'rgba(255, 0, 0, 0.5)' }}>
+            <div>重试</div>
+            <IconButton name="refresh" onClick={(e) => { e.preventDefault(); this.uploadFile(); }} />
           </div>
         );
       }
     }
     return (
-      <div className={classes.wrapper}>
-        <Image src={file ? file.url : dataUrl} />
+      <div className={[classes.wrapper, 'mdl-shadow--2dp'].join(' ')}>
+        <img role="presentation" src={(process && process.dataUrl) ? process.dataUrl : upload.file.url} />
         {info}
       </div>
     );
   }
 }
 
-export default injectSheet(styles)(FileUpload);
+export default injectSheet({
+  wrapper: {
+    width: 72,
+    height: 96,
+    margin: 4,
+    boxSizing: 'border-box',
+    position: 'relative',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    '& img': {
+      maxWidth: '100%',
+      maxHeight: '100%',
+    },
+  },
+  info: {
+    position: 'absolute',
+    width: '100%',
+    height: '100%',
+    left: 0,
+    bottom: 0,
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    background: 'rgba(0, 0, 0, 0.5)',
+  },
+})(FileUpload);

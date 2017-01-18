@@ -3,7 +3,6 @@ import injectSheet from 'react-jss';
 import { Card, CardTitle, CardMedia } from 'react-mdl/lib/Card';
 import Button from 'react-mdl/lib/Button';
 import IconButton from 'react-mdl/lib/IconButton';
-import { Grid, Cell } from 'react-mdl/lib/Grid';
 import Tooltip from 'react-mdl/lib/Tooltip';
 import styles, { breakpoints } from '../../common/styles';
 import Avatar from '../../common/avatar';
@@ -33,7 +32,7 @@ class Profile extends Component {
               <IconButton colored name="help_outline"></IconButton>
             </Tooltip>
           </CardTitle>
-          <CardMedia className={styles.contentCenter} style={{ background: 'none', padding: 16 }}>
+          <CardMedia className={styles.contentCenter} style={{ background: 'none' }}>
             <div className={classes.avatar}>
               <Avatar />
               <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}>
@@ -61,8 +60,8 @@ export default injectSheet({
     },
   },
   avatar: {
-    width: 160,
-    height: 160,
+    width: 100,
+    height: 100,
     position: 'relative',
   },
 })(Profile);

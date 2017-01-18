@@ -23,6 +23,7 @@ const MePage = ({ user: { profile }, sheet: { classes }, children }) => (
     header={profile && profile.avatar ? <div className={classes.headerAvatar}><Avatar /></div> : null}
     sideMenu={sideRoutes}
     content={children}
+    smallContent
   >
   </Layout>
 );

@@ -3,7 +3,8 @@ import loadImage from 'blueimp-load-image';
 import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 import Icon from 'react-mdl/lib/Icon';
-import DragAndDropItem from './dragAndDropItem';
+import DragItem from './dragItem';
+import DropItem from './dropItem';
 import FileUpload from './fileUploadContainer';
 
 // const items = files.filter((file) => !!file.process.dataUrl).map((file) => ({
@@ -34,10 +35,6 @@ class FileUploadPanel extends Component {
     onDrop: PropTypes.func.isRequired,
     onImageClick: PropTypes.func,
   }
-  constructor(props) {
-    super(props);
-    this.state = { processing: true, galleryOpen: false };
-  }
   componentDidMount() {
     const { files } = this.props;
     this.processFiles(files);
@@ -55,10 +52,10 @@ class FileUploadPanel extends Component {
   }
   processFiles = (files) => {
     files
-      .filter((file) => !file.process.rejected && !file.process.dataUrl)
+      .filter((file) => !file.upload.file && !file.process.rejected && !file.process.dataUrl)
       .forEach((file) => {
         asyncLoadImage(file.rawFile)
-          .then((canvas) => this.props.onProcessed(files.indexOf(file), canvas.toDataURL(), canvas.getAttribute('width'), canvas.getAttribute('height')))
+          .then((canvas) => this.props.onProcessed(files.indexOf(file), canvas.toDataURL(), Number(canvas.getAttribute('width')), Number(canvas.getAttribute('height'))))
           .catch((error) => this.props.onProcessed(files.indexOf(file), null, null, null, error));
       });
   }
@@ -68,26 +65,28 @@ class FileUploadPanel extends Component {
     if (files.length === 0) {
       return null;
     }
-    const items = files.filter((file) => !!file.process.dataUrl).map((file, i) => {
+    const items = files.filter((file) => !!file.upload.file || !!file.process.dataUrl).map((file, i) => {
       const index = files.indexOf(file);
       return (
-        <DragAndDropItem key={i} index={index} onDrop={this.props.onSwitch}>
-          <a href="#gallery" onClick={(e) => this.onImageClick(e, i)}>
-            <FileUpload
-              file={file}
-              onUploaded={(uploadedFile, err) => onUploaded(index, uploadedFile, err)}
-            />
-          </a>
-        </DragAndDropItem>
+        <DragItem key={i} index={index}>
+          <DropItem index={index} onDrop={this.props.onSwitch}>
+            <a href="#_non_existing_anchor_" onClick={(e) => this.onImageClick(e, i)}>
+              <FileUpload
+                file={file}
+                onUploaded={(uploadedFile, err) => onUploaded(index, uploadedFile, err)}
+              />
+            </a>
+          </DropItem>
+        </DragItem>
       );
     });
     return (
       <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center' }}>
         {items}
         {items.length > 0 && (
-          <DragAndDropItem onDrop={this.props.onDrop}>
+          <DropItem onDrop={this.props.onDrop}>
             <Icon name="delete_sweep" style={{ fontSize: 50 }} />
-          </DragAndDropItem>
+          </DropItem>
         )}
       </div>
     );

@@ -14,13 +14,13 @@ const styles = {
 
 };
 
-const convertStateToFormValue = (files) => files.filter((file) => file.upload.file).map((file) => file.upload.file);
+const getUploadedFiles = (files) => files.filter((file) => file.upload.file).map((file) => file.upload.file);
 
 class PhotosField extends Component {
   constructor(props) {
     super(props);
     const { files = [] } = this.props;
-    this.state = { showPanel: false, files };
+    this.state = { showPanel: false, files: files.map((file) => ({ upload: { file } })) };
   }
   onFilesSelected = (e) => {
     const fileList = e.target.files;
@@ -57,7 +57,7 @@ class PhotosField extends Component {
     newFiles[index] = file;
     this.setState({ files: newFiles }, () => {
       const { onChange } = this.props;
-      onChange(convertStateToFormValue(newFiles));
+      onChange(getUploadedFiles(newFiles));
     });
   }
   onSwitch = (x, y) => {
@@ -67,28 +67,33 @@ class PhotosField extends Component {
     files[y] = temp;
     this.setState({ files }, () => {
       const { onChange } = this.props;
-      onChange(convertStateToFormValue(files));
+      onChange(getUploadedFiles(files));
     });
   }
   onDrop = (x) => {
     const files = _without(this.state.files, this.state.files[x]);
     this.setState({ files }, () => {
       const { onChange } = this.props;
-      onChange(convertStateToFormValue(files));
+      onChange(getUploadedFiles(files));
     });
   }
   openFullScreenGallery = (i) => {
     const { openGallery } = this.props;
-    const processedImages = this.state.files.filter((file) => !!file.process.dataUrl);
+    const processedImages = this.state.files.filter((file) => !!file.upload.file || (!!file.process && !!file.process.dataUrl));
     if (processedImages.length > 0) {
-      openGallery(processedImages.map((file) => ({ src: file.process.dataUrl, width: file.process.width, height: file.process.height })), i);
+      openGallery(processedImages.map((file) => {
+        if (file.process) {
+          return { src: file.process.dataUrl, width: file.process.width, height: file.process.height };
+        }
+        return { src: file.upload.file.url, width: file.upload.file.metaData.width, height: file.upload.file.metaData.height };
+      }), i);
     }
   }
   render() {
     return (
       <div>
         <div style={{ lineHeight: '32px' }}>
-          <small>图片介绍</small><IconButton name="add" colored onClick={() => this.fileSelector.click()}>选择文件</IconButton>
+          <small>图片</small><IconButton name="add" colored onClick={() => this.fileSelector.click()}>选择文件</IconButton>
         </div>
         <input
           className="hidden"

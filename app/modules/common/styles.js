@@ -41,6 +41,7 @@ const styles = {
   },
   container: {
     width: '100%',
+    'max-width': '1200px',
     padding: '0 16px',
     margin: '0 auto',
     'box-sizing': 'border-box',
@@ -48,8 +49,10 @@ const styles = {
   '@media (min-width: 1025px)': {
     container: {
       padding: '0 24px',
-      'max-width': '1200px',
     },
+  },
+  containerSmall: {
+    'max-width': '900px',
   },
 };
 

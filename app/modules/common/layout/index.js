@@ -14,19 +14,23 @@ class Sample extends Component {
     sideMenu: PropTypes.array,
     content: PropTypes.any,
     header: PropTypes.any,
+    smallContent: PropTypes.bool,
   }
   constructor(props) {
     super(props);
     this.state = { activeTab: 0 };
   }
   render() {
-    const { sheet: { classes }, content, sideMenu, header } = this.props;
+    const { sheet: { classes }, content, sideMenu, header, smallContent } = this.props;
     return (
       <Layout fixedHeader fixedTabs className={classes.layout}>
         <AppHeader header={header} />
         <AppDrawer />
         <Content>
-          <div className={styles.container} style={{ paddingTop: 16, paddingBottom: 16, display: 'flex', minHeight: 'calc(100vh - 163px)' }}>
+          <div
+            className={smallContent ? [styles.container, styles.containerSmall].join(' ') : styles.container}
+            style={{ paddingTop: 16, paddingBottom: 16, display: 'flex', minHeight: 'calc(100vh - 163px)' }}
+          >
             { sideMenu && <SideMenu routes={sideMenu} /> }
             {content}
           </div>

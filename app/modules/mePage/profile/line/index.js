@@ -29,9 +29,11 @@ const Line = ({ sheet: { classes }, title, content, children }) => (
   <Grid className={classes.grid}>
     <Title title={title} classes={classes} />
     <Content content={content} classes={classes} />
-    <Cell {...layout.children} className={classes.content}>
-      {children}
-    </Cell>
+    { children ?
+      <Cell {...layout.children} className={classes.content}>
+        {children}
+      </Cell> : null
+    }
   </Grid>
 );
 Line.propTypes = {
