@@ -98,10 +98,10 @@ export default (params = {}) => {
     const avProfile = user.get('profile');
     if (avProfile) {
       const avAvatar = avProfile.get('avatar');
-      const avDescFiles = avProfile.get('descFiles');
       const avatar = avAvatar ? avAvatar.toJSON() : undefined;
-      const descFiles = avDescFiles ? avDescFiles.map((adf) => ({ ...adf.toJSON(), metaData: adf.get('metaData') })) : undefined;
-      result.profile = { ...avProfile.toJSON(), avatar, descFiles };
+      const avDesc = avProfile.get('desc') || {};
+      const desc = { ...avDesc, images: avDesc.images ? avDesc.images.map((image) => ({ ...image.toJSON(), metaData: image.get('metaData') })) : [] };
+      result.profile = { ...avProfile.toJSON(), avatar, desc };
     }
     return result;
   };

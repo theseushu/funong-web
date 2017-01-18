@@ -5,7 +5,7 @@ import Spinner from 'react-mdl/lib/Spinner';
 import Textfield from 'react-mdl/lib/Textfield';
 import injectSheet from 'react-jss';
 import Line from '../line';
-import Photos from './photos';
+import Images from './images';
 
 class Desc extends Component {
   static propTypes = {
@@ -16,15 +16,14 @@ class Desc extends Component {
   }
   constructor(props) {
     super(props);
-    const { desc } = this.props.profile;
-    this.state = { editing: false, desc: (desc && desc.text) || '', descFiles: (desc && desc.images) || [] };
+    const { desc = {} } = this.props.profile;
+    this.state = { editing: false, text: desc.text || '', images: (desc && desc.images) || [] };
   }
-  updateProfile = (e) => {
-    e.preventDefault();
+  save = () => {
     const { profile, updateProfile } = this.props;
-    const { desc, descFiles } = this.state;
+    const { text, images } = this.state;
     updateProfile({ profileId: profile.objectId,
-      desc: { text: desc, images: descFiles },
+      desc: { text, images },
       meta: {
         resolve: () => {
           this.setState({ editing: false });
@@ -32,36 +31,33 @@ class Desc extends Component {
       },
     });
   }
+  cancel = () => {
+    const { desc = {} } = this.props.profile;
+    this.setState({ editing: false, text: desc.text || '', images: (desc && desc.images) || [] });
+  }
   enableSave = () => {
-    const { desc, descFiles, pending } = this.state;
+    const { text, images, pending } = this.state;
     const { profile } = this.props;
-    const initDesc = (profile.desc && profile.desc.text) || '';
-    const initFiles = profile.descFiles || [];
+    const initText = (profile.desc && profile.desc.text) || '';
+    const initImages = (profile.desc && profile.desc.images) || [];
     if (pending) {
       return false;
     }
-    return desc !== initDesc && descFiles !== initFiles;
+    return text !== initText || images !== initImages;
   }
   render() {
-    const { desc, descFiles, editing } = this.state;
+    const { text, images, editing } = this.state;
     const { sheet: { classes }, pending } = this.props;
     const buttons = [];
     if (editing) {
-      buttons.push(pending ? <Spinner key={0} /> : <IconButton key={0} colored name="save" disabled={!this.enableSave()} type="submit" onClick={this.updateProfile} />);
-      buttons.push(
-        <IconButton
-          key={1} colored name="block" onClick={(e) => {
-            e.preventDefault();
-            this.setState({ editing: false });
-          }}
-        />
-      );
+      buttons.push(pending ? <Spinner key={0} /> : <IconButton key={0} colored name="save" disabled={!this.enableSave()} type="submit" onClick={this.save} />);
+      buttons.push(<IconButton key={1} colored name="block" onClick={this.cancel} />);
     } else {
       buttons.push(
         <Button
-          key={0} colored accent={!desc}
+          key={0} colored accent={!text}
           onClick={() => this.setState({ editing: true })}
-        >{desc ? '修改' : '介绍一下自己吧'}</Button>
+        >{text ? '修改' : '介绍一下自己吧'}</Button>
       );
     }
     return (
@@ -74,14 +70,14 @@ class Desc extends Component {
         }
       >
         {
-          <Photos editing={editing} files={descFiles} onChange={(f) => { this.setState({ descFiles: f }); }} />
+          <Images editing={editing} images={images} onChange={(newImages) => { this.setState({ images: newImages }); }} />
         }
         {
           editing ? <Textfield
             style={{ width: '100%', boxSizing: 'border-box' }} rows={4}
             label="介绍文字" maxLength={20000}
-            value={desc} autoFocus onChange={(e) => this.setState({ desc: e.target.value })}
-          /> : <p style={{ paddingTop: 20, fontSize: 16 }}>{desc}</p>
+            value={text} autoFocus onChange={(e) => this.setState({ text: e.target.value })}
+          /> : <p style={{ paddingTop: 20, fontSize: 16 }}>{text}</p>
         }
       </Line>
     );

@@ -4,9 +4,8 @@ import { bindActionCreators } from 'redux';
 import _without from 'lodash/without';
 import injectSheet from 'react-jss';
 import { toastr } from 'react-redux-toastr';
-import IconButton from 'react-mdl/lib/IconButton';
-import FileUploadPanel from '../../../common/fileUploadPanel/fileUploadPanel';
-import { actions } from '../../../fullScreenGallery/ducks';
+import Files from './files';
+import { actions } from '../../fullScreenGallery/ducks';
 
 const debug = require('debug')('app:photosField');
 
@@ -16,11 +15,15 @@ const styles = {
 
 const getUploadedFiles = (files) => files.filter((file) => file.upload.file).map((file) => file.upload.file);
 
-class PhotosField extends Component {
+class FilesUpload extends Component {
   constructor(props) {
     super(props);
-    const { files = [] } = this.props;
-    this.state = { showPanel: false, files: files.map((file) => ({ upload: { file } })) };
+    const { files = [] } = this.props; // files here are uploaded files for sure
+    this.state = { files: files.map((file) => ({ upload: { file } })) };
+  }
+  componentWillReceiveProps(newProps) {
+    const { files = [] } = newProps; // files here are uploaded files for sure
+    this.state = { files: files.map((file) => ({ upload: { file } })) };
   }
   onFilesSelected = (e) => {
     const fileList = e.target.files;
@@ -91,33 +94,22 @@ class PhotosField extends Component {
   }
   render() {
     return (
-      <div>
-        <div style={{ lineHeight: '32px' }}>
-          <small>图片</small><IconButton name="add" colored onClick={() => this.fileSelector.click()}>选择文件</IconButton>
-        </div>
-        <input
-          className="hidden"
-          multiple
-          type="file"
-          placeholder="点击选择"
-          ref={(fileSelector) => { this.fileSelector = fileSelector; }}
-          onChange={this.onFilesSelected}
-        />
-        { this.state.files && <FileUploadPanel
-          show={this.state.files.length > 0}
-          files={this.state.files}
-          onProcessed={this.onProcessed} onUploaded={this.onUploaded} onSwitch={this.onSwitch} onDrop={this.onDrop}
-          onImageClick={this.openFullScreenGallery}
-        /> }
-      </div>
+      <Files
+        editing={this.props.editing}
+        files={this.state.files}
+        onProcessed={this.onProcessed} onUploaded={this.onUploaded} onSwitch={this.onSwitch} onDrop={this.onDrop}
+        onItemClick={this.openFullScreenGallery}
+        onFilesSelected={this.onFilesSelected}
+      />
     );
   }
 }
 
-PhotosField.propTypes = {
+FilesUpload.propTypes = {
   files: PropTypes.array,
   onChange: PropTypes.func.isRequired,
   openGallery: PropTypes.func.isRequired,
+  editing: PropTypes.bool,
 };
 
 export default connect(
@@ -125,4 +117,4 @@ export default connect(
   (dispatch) => ({
     ...bindActionCreators(actions, dispatch),
   })
-)(injectSheet(styles)(PhotosField));
+)(injectSheet(styles)(FilesUpload));
