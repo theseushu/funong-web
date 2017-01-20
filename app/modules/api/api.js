@@ -29,6 +29,9 @@ AV.Object.register(Shop);
 class Profile extends AV.Object {}
 AV.Object.register(Profile);
 
+class Cert extends AV.Object {}
+AV.Object.register(Cert);
+
 export const requestSmsCode = (...params) => AV.Cloud.requestSmsCode(...params);
 
 export const signupOrLoginWithMobilePhone = (...params) => AV.User.signUpOrlogInWithMobilePhone(...params).then((user) => ({
@@ -118,6 +121,25 @@ export default (params = {}) => {
     return savedProfile.toJSON();
   };
 
+  const updateProfile = async ({ profileId, desc, ...attrs }) => {
+    try {
+      const profile = AV.Object.createWithoutData('Profile', profileId);
+      const attributes = { ...attrs };
+      if (desc) {
+        if (desc.images) {
+          profile.set('desc', { ...desc, images: desc.images.map((image) => AV.Object.createWithoutData('_File', image.id)) });
+        } else {
+          profile.set('desc', desc);
+        }
+      }
+      profile.save(attributes, { sessionToken });
+      return attrs;
+    } catch (err) {
+      debug(err);
+      throw err;
+    }
+  };
+
   const uploadFile = async ({ filename, file, onprogress, metaData = {} }) => {
     try {
       const fileToUpload = new AV.File(filename, file);
@@ -148,19 +170,40 @@ export default (params = {}) => {
     }
   };
 
-  const updateProfile = async ({ profileId, desc, ...attrs }) => {
+
+  const fetchCerts = () => new AV.Query('Cert')
+    .equalTo('user', AV.Object.createWithoutData('_User', userId))
+    .include(['images'])
+    .find({ sessionToken })
+    .then((certs) => certs.map((cert) => cert.toJSON()));
+
+  const createCert = async (attrs) => {
+    const certs = new Cert();
+    certs.set('user', AV.Object.createWithoutData('_User', userId));
+    const attributes = { ...attrs };
+    if (attrs.images) {
+      attributes.images = attrs.images.map((image) => AV.Object.createWithoutData('_File', image.id));
+    }
+    const requestParams = { sessionToken };
+    const savedCerts = await certs.save(attributes, requestParams);
+    return savedCerts.toJSON();
+  };
+
+  const updateCert = async ({ objectId, ...attrs }) => {
     try {
-      const profile = AV.Object.createWithoutData('Profile', profileId);
+      const certs = AV.Object.createWithoutData('Cert', objectId);
       const attributes = { ...attrs };
-      if (desc) {
-        if (desc.images) {
-          profile.set('desc', { ...desc, images: desc.images.map((image) => AV.Object.createWithoutData('_File', image.id)) });
-        } else {
-          profile.set('desc', desc);
-        }
+      if (attributes.personal && attributes.personal.images) {
+        attributes.personal = { ...attributes.personal, images: attributes.personal.images.map((image) => AV.Object.createWithoutData('_File', image.id)) };
       }
-      profile.save(attributes, { sessionToken });
-      return attrs;
+      if (attributes.selfEmployed && attributes.selfEmployed.images) {
+        attributes.selfEmployed = { ...attributes.selfEmployed, images: attributes.selfEmployed.images.map((image) => AV.Object.createWithoutData('_File', image.id)) };
+      }
+      if (attributes.company && attributes.company.images) {
+        attributes.company = { ...attributes.company, images: attributes.company.images.map((image) => AV.Object.createWithoutData('_File', image.id)) };
+      }
+      const { updateAt } = certs.save(attributes, { sessionToken });
+      return { ...attrs, objectId, updateAt };
     } catch (err) {
       debug(err);
       throw err;
@@ -280,5 +323,8 @@ export default (params = {}) => {
     createProduct,
     fetchUserProducts,
     fetchProduct,
+    createCert,
+    updateCert,
+    fetchCerts,
   };
 };

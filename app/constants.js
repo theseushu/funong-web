@@ -6,3 +6,9 @@ export const userTypes = [
   { icon: 'local_shipping', title: '物流', value: '物流供应商' },
   { icon: 'headset_mic', title: '注册农贸专家', value: '农贸专家' },
 ];
+
+export const certTypes = {
+  personal: 'personal',
+  selfEmployed: 'selfEmployed',
+  company: 'company',
+};

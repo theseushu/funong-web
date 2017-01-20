@@ -56,9 +56,6 @@ class Editing extends Component {
   render() {
     const { files, onUploaded, onItemClick } = this.props;
 
-    if (files.length === 0) {
-      return null;
-    }
     const items = files.filter((file) => !!file.upload.file || !!file.process.dataUrl).map((file, i) => {
       const index = files.indexOf(file);
       return (

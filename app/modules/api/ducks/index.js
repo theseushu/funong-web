@@ -17,6 +17,9 @@ import * as fetchSpecifications from '../fetchSpecifications/ducks';
 import * as createProduct from '../createProduct/ducks';
 import * as fetchUserProducts from '../fetchUserProducts/ducks';
 import * as fetchProduct from '../fetchProduct/ducks';
+import * as createCert from '../createCert/ducks';
+import * as updateCert from '../updateCert/ducks';
+import * as fetchCerts from '../fetchCerts/ducks';
 
 export default {
   api: combineReducers({
@@ -38,6 +41,9 @@ export default {
     ...fetchUserProducts.default,
     ...fetchProduct.default,
     ...updateProfile.default,
+    ...createCert.default,
+    ...updateCert.default,
+    ...fetchCerts.default,
   }),
 };
 
@@ -60,4 +66,7 @@ export const sagas = [
   ...fetchUserProducts.sagas,
   ...fetchProduct.sagas,
   ...updateProfile.sagas,
+  ...createCert.sagas,
+  ...updateCert.sagas,
+  ...fetchCerts.sagas,
 ];

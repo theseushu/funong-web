@@ -1,6 +1,7 @@
 import _toPairs from 'lodash/toPairs';
 import { fetchProfile } from '../api/fetchProfile';
 import { createProfile } from '../api/createProfile';
+import { fetchCerts } from '../api/fetchCerts';
 import { currentUserSelector } from '../data/ducks/selectors';
 export default ({ store, injectReducer, injectSagas, loadModule, errorLoading }) => ({ // eslint-disable-line no-unused-vars
   path: '/me',
@@ -25,7 +26,7 @@ export default ({ store, injectReducer, injectSagas, loadModule, errorLoading })
             meta: {
               resolve: (user) => {
                 if (!user.profile) {
-                  store.dispatch(createProfile({ type: '一般用户', meta: { resolve, reject }}));
+                  store.dispatch(createProfile({ type: '一般用户', meta: { resolve, reject } }));
                 } else {
                   resolve();
                 }
@@ -74,6 +75,14 @@ export default ({ store, injectReducer, injectSagas, loadModule, errorLoading })
       const importModules = Promise.all([
         System.import('modules/mePage/certs'),
         System.import('modules/mePage/certs/ducks'),
+        new Promise((resolve, reject) => {
+          store.dispatch(fetchCerts({
+            meta: {
+              resolve,
+              reject,
+            },
+          }));
+        }),
       ]);
 
       const renderRoute = loadModule(cb);

@@ -38,6 +38,13 @@ ProductSchema.define({
   specifications: SpecificationsSchema,
 });
 
+export const CertSchema = new Schema('certs', {
+  idAttribute: 'objectId',
+});
+CertSchema.define({
+  user: UserSchema,
+});
+
 export const CatalogsSchema = arrayOf(CatalogSchema);
 
 export const CategoriesSchema = arrayOf(CategorySchema);
@@ -47,3 +54,5 @@ export const SpeciesArraySchema = arrayOf(SpeciesSchema);
 export const SpecificationsSchema = arrayOf(SpecificationSchema);
 
 export const ProductsSchema = arrayOf(ProductSchema);
+
+export const CertsSchema = arrayOf(CertSchema);

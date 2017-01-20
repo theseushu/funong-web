@@ -2,8 +2,8 @@ import { normalize } from 'normalizr';
 import { takeEvery } from 'redux-saga';
 import { put } from 'redux-saga/effects';
 
-import { UPDATE_DATA, SET_CURRENT_USER, UPDATE_CURRENT_USER_INFO, SET_CATALOGS, SET_CATAGORIES, SET_SPECIES, SET_SPECIFICATIONS, SET_PRODUCT, SET_PRODUCTS } from './constants';
-import { UserSchema, CatalogsSchema, CategoriesSchema, SpeciesArraySchema, SpecificationsSchema, ProductSchema, ProductsSchema } from './schemas';
+import { UPDATE_DATA, SET_CURRENT_USER, UPDATE_CURRENT_USER_INFO, SET_CATALOGS, SET_CATAGORIES, SET_SPECIES, SET_SPECIFICATIONS, SET_PRODUCT, SET_PRODUCTS, SET_CERTS } from './constants';
+import { UserSchema, CatalogsSchema, CategoriesSchema, SpeciesArraySchema, SpecificationsSchema, ProductSchema, ProductsSchema, CertsSchema } from './schemas';
 
 function* updateCurrentUserInfoSaga(action) {
   const { user } = action.payload;
@@ -61,6 +61,13 @@ function* setProductsSaga(action) {
   yield put({ type: UPDATE_DATA, payload });
 }
 
+function* setCertsSaga(action) {
+  const { certs } = action.payload;
+  const data = normalize(certs, CertsSchema);
+  const payload = Object.assign({}, data);
+  yield put({ type: UPDATE_DATA, payload });
+}
+
 // watcher Saga:
 function* rootSaga(api) {
   yield takeEvery(SET_CURRENT_USER, function* saga(action) {
@@ -73,6 +80,7 @@ function* rootSaga(api) {
   yield takeEvery(SET_SPECIFICATIONS, setSpecificationsSaga);
   yield takeEvery(SET_PRODUCT, setProductSaga);
   yield takeEvery(SET_PRODUCTS, setProductsSaga);
+  yield takeEvery(SET_CERTS, setCertsSaga);
 }
 
 export default [rootSaga];

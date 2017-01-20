@@ -1,7 +1,8 @@
 import { createSelector } from 'reselect';
 import { denormalize } from 'denormalizr';
+import _find from 'lodash/find';
 
-import { ProductsSchema } from './schemas';
+import { ProductsSchema, CertsSchema } from './schemas';
 
 const rootSelector = (state) => state.data;
 
@@ -44,6 +45,18 @@ export const productsSelector = createSelector(
       return [];
     }
     const result = Object.values(denormalize(data.entities.products, data.entities, ProductsSchema));
+    return result;
+  },
+);
+
+export const certsSelector = createSelector(
+  rootSelector,
+  (data) => {
+    const { certs } = data.entities;
+    if (!data.entities.certs || Object.values(data.entities.certs) === 0) {
+      return [];
+    }
+    const result = denormalize(Object.values(certs), data.entities, CertsSchema);
     return result;
   },
 );
