@@ -16,10 +16,6 @@ export const validate = ({ name, idCard, images }) => ({
 const NameField = createTextfield('姓名');
 
 const IDCardField = createTextfield('身份证号');
-IDCardField.propTypes = {
-  input: PropTypes.object.isRequired,
-  meta: PropTypes.object.isRequired,
-};
 
 // export for unit testing
 const personalCertForm = (props) => {
@@ -27,20 +23,20 @@ const personalCertForm = (props) => {
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <h5>请提交以下认证材料<small>（手持身份证正面半身照、身份证正面照、身份证反面照）</small></h5>
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap' }}>
-        <div style={{ flex: 1, minWidth: 300 }}>
+      <div className={classes.line}>
+        <div className={classes.input}>
           <Field name="name" component={NameField} />
         </div>
         <h5 style={{ margin: 0 }}><small>请输入身份证上相同的姓名</small></h5>
       </div>
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap' }}>
-        <div style={{ flex: 1, minWidth: 300 }}>
+      <div className={classes.line}>
+        <div className={classes.input}>
           <Field name="IDCard" component={IDCardField} />
         </div>
         <h5 style={{ margin: 0 }}><small>请保证号码与照片上一致</small></h5>
       </div>
       <Field name="images" component={ImagesField} />
-      <div className={[styles.contentCenter, classes.buttonLine].join(' ')}>
+      <div className={[styles.contentCenter, classes.marginTop16].join(' ')}>
         <Button raised colored type="submit" disabled={pristine || invalid || submitting}>{submitSucceeded ? '保存成功' : '确定'}</Button>
       </div>
     </form>
@@ -58,7 +54,13 @@ personalCertForm.propTypes = {
 };
 
 export default injectSheet({
-  buttonLine: {
+  marginTop16: {
     marginTop: 16,
+  },
+  line: {
+    display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap',
+  },
+  input: {
+    flex: 1, minWidth: 300,
   },
 })(personalCertForm);

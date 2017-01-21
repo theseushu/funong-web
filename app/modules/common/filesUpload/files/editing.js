@@ -83,7 +83,7 @@ class Editing extends Component {
           </Droppable>
         )}
         <div className={styles.contentCenter} style={{ width: 80 }}>
-          <FABButton colored onClick={(e) => {e.preventDefault(); this.fileSelector.click()}}>
+          <FABButton colored onClick={(e) => { e.preventDefault(); this.fileSelector.click(); }}>
             <Icon name="add" />
           </FABButton>
           <input

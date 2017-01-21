@@ -9,6 +9,5 @@ export const userTypes = [
 
 export const certTypes = {
   personal: 'personal',
-  selfEmployed: 'selfEmployed',
   company: 'company',
 };

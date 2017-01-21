@@ -34,5 +34,5 @@ imagesField.propTypes = {
 };
 
 export default injectSheet({
-  title: { lineHeight: '32px', paddingTop: 20 },
+  title: { lineHeight: '32px' },
 })(imagesField);

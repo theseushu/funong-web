@@ -7,6 +7,7 @@ import { Tabs, Tab } from 'react-mdl/lib/Tabs';
 import { breakpoints } from '../../common/styles';
 import { certsSelector } from '../../data/ducks/selectors';
 import Personal from './personal';
+import Company from './company';
 
 
 class Certs extends Component {
@@ -19,18 +20,19 @@ class Certs extends Component {
   }
   render() {
     const { sheet: { classes } } = this.props;
+    const { activeTab } = this.state;
     return (
       <div className={classes.content}>
         <Card shadow={2} style={{ width: '100%', margin: 'auto' }}>
           <CardTitle>
             实名认证
           </CardTitle>
-          <Tabs activeTab={this.state.activeTab} className={classes.tab} onChange={(tabId) => this.setState({ activeTab: tabId })} ripple>
+          <Tabs activeTab={activeTab} className={classes.tab} onChange={(tabId) => this.setState({ activeTab: tabId })} ripple>
             <Tab><span>个人<Icon name="check_circle" style={{ fontSize: '1em' }} /></span></Tab>
-            <Tab>个体</Tab>
             <Tab>企业</Tab>
           </Tabs>
-          <Personal />
+          {activeTab === 0 && <Personal />}
+          {activeTab === 1 && <Company />}
         </Card>
       </div>
     );
