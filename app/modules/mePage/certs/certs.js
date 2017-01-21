@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import injectSheet from 'react-jss';
-import { Card, CardTitle, CardText } from 'react-mdl/lib/Card';
+import { Card, CardTitle } from 'react-mdl/lib/Card';
 import Icon from 'react-mdl/lib/Icon';
 import { Tabs, Tab } from 'react-mdl/lib/Tabs';
 import { breakpoints } from '../../common/styles';
@@ -12,14 +12,13 @@ import Personal from './personal';
 class Certs extends Component {
   static propTypes = {
     sheet: PropTypes.object,
-    certs: PropTypes.array,
   }
   constructor(props) {
     super(props);
     this.state = { activeTab: 0 };
   }
   render() {
-    const { sheet: { classes }, certs } = this.props;
+    const { sheet: { classes } } = this.props;
     return (
       <div className={classes.content}>
         <Card shadow={2} style={{ width: '100%', margin: 'auto' }}>

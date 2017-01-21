@@ -4,6 +4,7 @@
 
 import AV from 'leancloud-storage/dist/node/index';
 import createAMapApi from './amap';
+import { fileToJSON } from './utils/converters';
 
 const debug = require('debug')('app:api');
 
@@ -103,7 +104,7 @@ export default (params = {}) => {
       const avAvatar = avProfile.get('avatar');
       const avatar = avAvatar ? avAvatar.toJSON() : undefined;
       const avDesc = avProfile.get('desc') || {};
-      const desc = { ...avDesc, images: avDesc.images ? avDesc.images.map((image) => ({ ...image.toJSON(), metaData: image.get('metaData') })) : [] };
+      const desc = { ...avDesc, images: avDesc.images ? avDesc.images.map(fileToJSON) : [] };
       result.profile = { ...avProfile.toJSON(), avatar, desc };
     }
     return result;
@@ -149,7 +150,7 @@ export default (params = {}) => {
         requestParams.onprogress = onprogress;
       }
       const uploadedFile = await fileToUpload.save(requestParams);
-      return { ...uploadedFile.toJSON(), metaData: uploadedFile.get('metaData') };
+      return fileToJSON(uploadedFile);
     } catch (err) {
       debug(err);
       throw err;
@@ -175,7 +176,7 @@ export default (params = {}) => {
     .equalTo('user', AV.Object.createWithoutData('_User', userId))
     .include(['images'])
     .find({ sessionToken })
-    .then((certs) => certs.map((cert) => cert.toJSON()));
+    .then((certs) => certs.map((cert) => ({ ...cert.toJSON(), images: cert.get('images') ? cert.get('images').map(fileToJSON) : [] })));
 
   const createCert = async (attrs) => {
     const certs = new Cert();
@@ -193,14 +194,8 @@ export default (params = {}) => {
     try {
       const certs = AV.Object.createWithoutData('Cert', objectId);
       const attributes = { ...attrs };
-      if (attributes.personal && attributes.personal.images) {
-        attributes.personal = { ...attributes.personal, images: attributes.personal.images.map((image) => AV.Object.createWithoutData('_File', image.id)) };
-      }
-      if (attributes.selfEmployed && attributes.selfEmployed.images) {
-        attributes.selfEmployed = { ...attributes.selfEmployed, images: attributes.selfEmployed.images.map((image) => AV.Object.createWithoutData('_File', image.id)) };
-      }
-      if (attributes.company && attributes.company.images) {
-        attributes.company = { ...attributes.company, images: attributes.company.images.map((image) => AV.Object.createWithoutData('_File', image.id)) };
+      if (attrs.images) {
+        attributes.images = attrs.images.map((image) => AV.Object.createWithoutData('_File', image.id));
       }
       const { updateAt } = certs.save(attributes, { sessionToken });
       return { ...attrs, objectId, updateAt };

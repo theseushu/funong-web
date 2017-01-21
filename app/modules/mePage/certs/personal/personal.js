@@ -1,7 +1,11 @@
 import React, { Component, PropTypes } from 'react';
 import injectSheet from 'react-jss';
-import { CardText } from 'react-mdl/lib/Card';
-import PersonalCertForm from '../forms/personal';
+import createForm from './createForm';
+import { colors } from '../../../common/styles';
+import FilesUpload from '../../../common/filesUpload';
+import image1 from '../assets/img1.png';
+import image2 from '../assets/img2.png';
+import image3 from '../assets/img3.png';
 
 
 class Personal extends Component {
@@ -15,12 +19,20 @@ class Personal extends Component {
   }
   render() {
     const { sheet: { classes }, cert } = this.props;
-    console.log(cert)
+    const Form = createForm(cert);
     return (
-      <div>
-        <PersonalCertForm cert={cert} />
-        <CardText>
-          <h5>审核须知：</h5>
+      <div className={classes.wrapper}>
+        <Form />
+        <div className={classes.instructions}>
+          <h5>示例照片</h5>
+          <FilesUpload
+            onChange={() => {}} files={[
+            { id: '', url: image1, metaData: { width: 685, height: 308 } },
+            { id: '', url: image2, metaData: { width: 710, height: 307 } },
+            { id: '', url: image3, metaData: { width: 732, height: 984 } }]
+          }
+          />
+          <h5>审核须知</h5>
           <ul className={classes.text}>
             <li>请选择网络安全环境提交认证信息</li>
             <li>我们保证您提供的信息将被予以保护，不挪作他用</li>
@@ -32,13 +44,22 @@ class Personal extends Component {
             <li>审核通过后不支持修改证件，请确定无误后提交审核</li>
             <li>临时身份证、第一代身份证、过期身份证将无法通过审核</li>
           </ul>
-        </CardText>
+        </div>
       </div>
     );
   }
 }
 
 export default injectSheet({
+  wrapper: {
+    maxWidth: 580, margin: '0 auto', padding: 16,
+  },
+  instructions: {
+    color: colors.colorSubTitle,
+  },
+  sampleImages: {
+    listStyle: 'none',
+  },
   text: {
     marginTop: 0,
     fontSize: 'smaller',

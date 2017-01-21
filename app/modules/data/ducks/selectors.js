@@ -1,6 +1,5 @@
 import { createSelector } from 'reselect';
 import { denormalize } from 'denormalizr';
-import _find from 'lodash/find';
 
 import { ProductsSchema, CertsSchema } from './schemas';
 
