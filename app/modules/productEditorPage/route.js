@@ -2,8 +2,8 @@ import _toPairs from 'lodash/toPairs';
 import { fetchProfile } from '../api/fetchProfile';
 import { currentUserSelector } from '../data/ducks/selectors';
 export default ({ store, injectReducer, injectSagas, loadModule, errorLoading }) => ({ // eslint-disable-line no-unused-vars
-  path: '/new',
-  name: 'newProduct',
+  path: '/supply/new',
+  name: 'newSupply',
   getComponent(nextState, cb) {
     // TODO fetch product
     const { params: { id } } = nextState; // eslint-disable-line no-unused-vars

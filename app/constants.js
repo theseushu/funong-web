@@ -11,3 +11,13 @@ export const certTypes = {
   personal: 'personal',
   company: 'company',
 };
+
+export const catalogTypes = {
+  supply: {
+    farm: { title: '农产品', value: '农产品' },
+    other: { title: '农资农机', value: '农资' },
+    logistics: { title: '物流', value: '物流' },
+  },
+  shop: {
+  },
+};

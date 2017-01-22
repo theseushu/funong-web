@@ -110,7 +110,6 @@ class PhotosField extends Component {
 }
 
 PhotosField.propTypes = {
-  name: PropTypes.string.isRequired, // eslint-disable-line
   input: PropTypes.object.isRequired,
   meta: PropTypes.object,
 };

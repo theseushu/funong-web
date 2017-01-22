@@ -1,40 +1,36 @@
-import React, { Component, PropTypes } from 'react';
+import React, { PropTypes } from 'react';
 import injectSheet from 'react-jss';
+import { Tabs, Tab } from 'react-mdl/lib/Tabs';
+import { breakpoints } from '../../common/styles';
 
-import Product from '../../common/product';
-
-const styles = {
-  container: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    flexWrap: 'wrap',
-  },
-  product: {
-    width: '100%',
-    '@media (min-width: 768px)': {
-      width: '49%',
-    },
-  },
+const Products = ({ children, sheet: { classes } }, { router }) => (
+  <div className={classes.content}>
+    <Tabs activeTab={router.isActive('/me/products/supply') ? 0 : 1} onChange={(tabId) => router.push(tabId === 0 ? '/me/products/supply' : '/me/products/shop')} ripple>
+      <Tab>农资农产供应</Tab>
+      <Tab>微店商品</Tab>
+    </Tabs>
+    {children}
+  </div>
+);
+Products.contextTypes = {
+  router: PropTypes.object.isRequired,
+};
+Products.propTypes = {
+  sheet: PropTypes.object.isRequired,
+  children: PropTypes.object,
 };
 
-class Products extends Component {
-  static propTypes = {
-    fetchUserProducts: PropTypes.func.isRequired,
-    user: PropTypes.object.isRequired,
-    products: PropTypes.array.isRequired,
-    sheet: PropTypes.object.isRequired,
-  }
-  componentDidMount() {
-    this.props.fetchUserProducts({ user: this.props.user });
-  }
-  render() {
-    const { products, sheet: { classes } } = this.props;
-    return (
-      <div className={classes.container}>
-        {products.map((product, i) => <div key={i} className={classes.product}><Product product={product} /></div>)}
-      </div>
-    );
-  }
-}
-
-export default injectSheet(styles)(Products);
+export default injectSheet({
+  content: {
+    flex: '1',
+    marginLeft: 24,
+    [breakpoints.mediaDestkopBelow]: {
+      marginLeft: 0,
+    },
+  },
+  avatar: {
+    width: 100,
+    height: 100,
+    position: 'relative',
+  },
+})(Products);

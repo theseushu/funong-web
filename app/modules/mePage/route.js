@@ -1,8 +1,9 @@
 import _toPairs from 'lodash/toPairs';
 import { fetchProfile } from '../api/fetchProfile';
 import { createProfile } from '../api/createProfile';
-import { fetchCerts } from '../api/fetchCerts';
 import { currentUserSelector } from '../data/ducks/selectors';
+import createCertsRoute from './certs/route';
+import createProductsRoute from './products/route';
 export default ({ store, injectReducer, injectSagas, loadModule, errorLoading }) => ({ // eslint-disable-line no-unused-vars
   path: '/me',
   name: 'me',
@@ -68,32 +69,8 @@ export default ({ store, injectReducer, injectSagas, loadModule, errorLoading })
       importModules.catch(errorLoading);
     },
   },
-  childRoutes: [{
-    path: 'certs',
-    name: 'certs',
-    getComponent(nextState, cb) {
-      const importModules = Promise.all([
-        System.import('modules/mePage/certs'),
-        System.import('modules/mePage/certs/ducks'),
-        new Promise((resolve, reject) => {
-          store.dispatch(fetchCerts({
-            meta: {
-              resolve,
-              reject,
-            },
-          }));
-        }),
-      ]);
-
-      const renderRoute = loadModule(cb);
-
-      importModules.then(([component, ducks]) => {
-        _toPairs(ducks.default).forEach((pair) => {
-          injectReducer(pair[0], pair[1]);
-        });
-        renderRoute(component);
-      });
-      importModules.catch(errorLoading);
-    },
-  }],
+  childRoutes: [
+    createCertsRoute({ store, injectReducer, injectSagas, loadModule, errorLoading }),
+    createProductsRoute({ store, injectReducer, injectSagas, loadModule, errorLoading }),
+  ],
 });

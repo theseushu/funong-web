@@ -8,12 +8,11 @@ const styles = {
 
 };
 
-const DescField = ({ name, input: { value, onChange }, meta }) => (
+const DescField = ({ input: { value, onChange }, meta }) => (
   <Field label="描述" required meta={meta}>
     <FormControl
       componentClass="textarea"
       placeholder="请详细描述您的产品。详尽的描述更能引起客户的关注哦"
-      name={name}
       value={value}
       onChange={onChange}
       rows={4}
@@ -23,7 +22,6 @@ const DescField = ({ name, input: { value, onChange }, meta }) => (
   );
 
 DescField.propTypes = {
-  name: PropTypes.string.isRequired,
   input: PropTypes.object.isRequired,
   meta: PropTypes.object,
 };

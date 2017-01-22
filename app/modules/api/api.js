@@ -50,7 +50,7 @@ export const fetchPriceDefinitions = () => new AV.Query('PriceDefinition').find(
   .then((results) => results.map((result) => Object.assign({}, result.toJSON())));
 
 // TODO deal with empty catalogType
-export const fetchCatalogs = () => new AV.Query('Catalog').include(['catalogType']).find()
+export const fetchCatalogs = () => new AV.Query('Catalog').find()
   .then((results) => results.map((result) => Object.assign({}, result.toJSON())));
 
 export const fetchCategories = (catalog) => new AV.Query('Category')
@@ -249,10 +249,10 @@ export default (params = {}) => {
     }
   };
 
-  const fetchUserProducts = async ({ user }) => new AV
+  const fetchUserProducts = async () => new AV
       .Query('Product')
       .include(['species', 'specifications', 'photos'])
-      .equalTo('owner', AV.Object.createWithoutData('_User', user.objectId))
+      .equalTo('owner', AV.Object.createWithoutData('_User', userId))
       .limit(1000)
       .find()
       .then((products) => products.map((product) => {
@@ -262,7 +262,7 @@ export default (params = {}) => {
         const photosJson = (product.get('photos') || []).map((photo) => photo.toJSON());
         return ({
           ...json,
-          owner: user,
+          owner: AV.Object.createWithoutData('_User', userId),
           species: speciesJson,
           specifications: specificationsJson,
           photos: photosJson,

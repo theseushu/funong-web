@@ -1,9 +1,49 @@
 import React, { PropTypes } from 'react';
 import injectSheet from 'react-jss';
-import Modal from 'react-bootstrap/lib/Modal';
-import Button from 'react-bootstrap/lib/Button';
+import { Dialog, DialogContent, DialogActions, DialogTitle } from 'react-mdl/lib/Dialog';
+import Button from 'react-mdl/lib/Button';
 
-const styles = {
+const DialogComponent = ({ title, fixedContent, scrollableContent, sheet: { classes }, show = true, onHide, onCancel, submit }) => (
+  <Dialog open={show} onCancel={onHide} style={{ maxWidth: 500, width: '100%', height: 'calc(100vh - 48px)', minHeight: 400, boxSizing: 'border-box' }}>
+    <DialogTitle>
+      {title}
+    </DialogTitle>
+    <DialogContent className={classes.modalBody}>
+      <div className={classes.fixedContent}>
+        {fixedContent}
+      </div>
+      <div className={classes.scrollableContent}>
+        {scrollableContent}
+      </div>
+    </DialogContent>
+    <DialogActions>
+      {submit && <Button colored onClick={submit.onSubmit} disabled={submit.disabled}>确定</Button>}
+      <Button colored onClick={onCancel}>取消</Button>
+    </DialogActions>
+  </Dialog>
+);
+
+DialogComponent.propTypes = {
+  title: PropTypes.oneOfType([
+    PropTypes.string, PropTypes.func, PropTypes.element,
+  ]),
+  fixedContent: PropTypes.oneOfType([
+    PropTypes.string, PropTypes.func, PropTypes.element,
+  ]),
+  scrollableContent: PropTypes.oneOfType([
+    PropTypes.string, PropTypes.func, PropTypes.element,
+  ]),
+  sheet: PropTypes.object.isRequired,
+  onHide: PropTypes.func,
+  onCancel: PropTypes.func,
+  show: PropTypes.bool,
+  submit: PropTypes.shape({
+    onSubmit: PropTypes.func,
+    disabled: PropTypes.bool,
+  }),
+};
+
+export default injectSheet({
   modalBody: {
     maxHeight: 'calc(100vh - 212px)',
     minHeight: 180,
@@ -24,48 +64,4 @@ const styles = {
     flex: 1,
     overflowY: 'auto',
   },
-};
-
-const Dialog = ({ title, fixedContent, scrollableContent, sheet: { classes }, show = true, onHide, onCancel, submit }) => (
-  <Modal show={show} backdrop={false} onHide={onHide}>
-    <Modal.Header closeButton>
-      <Modal.Title>{title}</Modal.Title>
-    </Modal.Header>
-    <Modal.Body className={classes.modalBody}>
-      <div className={classes.fixedContent}>
-        {fixedContent}
-      </div>
-      <div className={classes.scrollableContent}>
-        {scrollableContent}
-      </div>
-    </Modal.Body>
-    {submit &&
-      <Modal.Footer>
-        <Button onClick={onCancel}>取消</Button>
-        <Button onClick={submit.onSubmit} disabled={submit.disabled}>确定</Button>
-      </Modal.Footer>
-    }
-  </Modal>
-);
-
-Dialog.propTypes = {
-  title: PropTypes.oneOfType([
-    PropTypes.string, PropTypes.func, PropTypes.element,
-  ]),
-  fixedContent: PropTypes.oneOfType([
-    PropTypes.string, PropTypes.func, PropTypes.element,
-  ]),
-  scrollableContent: PropTypes.oneOfType([
-    PropTypes.string, PropTypes.func, PropTypes.element,
-  ]),
-  sheet: PropTypes.object.isRequired,
-  onHide: PropTypes.func,
-  onCancel: PropTypes.func,
-  show: PropTypes.bool,
-  submit: PropTypes.shape({
-    onSubmit: PropTypes.func,
-    disabled: PropTypes.bool,
-  }),
-};
-
-export default injectSheet(styles)(Dialog);
+})(DialogComponent);

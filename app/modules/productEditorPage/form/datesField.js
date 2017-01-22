@@ -29,14 +29,13 @@ class DatesField extends Component {
   }
 
   render() {
-    const { name, input: { value, onChange }, meta } = this.props;
+    const { input: { value, onChange }, meta } = this.props;
     const { showDialog } = this.state;
     return (
       <Field label="供货时间" required meta={meta}>
         <FormControl
           placeholder="点击选择"
           onFocus={() => this.setState({ showDialog: true })}
-          name={name}
           value={value && displayPeriod(value.start, value.end)}
           onClick={this.showDialog}
           readOnly
@@ -48,7 +47,6 @@ class DatesField extends Component {
 }
 
 DatesField.propTypes = {
-  name: PropTypes.string.isRequired,
   input: PropTypes.object.isRequired,
   meta: PropTypes.object,
 };
