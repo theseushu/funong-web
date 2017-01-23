@@ -18,6 +18,9 @@ AV.init({
   disableCurrentUser: true,
 });
 
+class Species extends AV.Object {}
+AV.Object.register(Species);
+
 class Specification extends AV.Object {}
 AV.Object.register(Specification);
 
@@ -205,6 +208,23 @@ export default (params = {}) => {
     }
   };
 
+  const createSpecies = async ({ category, name }) => {
+    try {
+      const species = new Species();
+      species.set('category', AV.Object.createWithoutData('Category', category.objectId));
+      species.set('name', name);
+      species.set('creator', AV.Object.createWithoutData('_User', userId));
+      const savedSpecies = await species.save(null, {
+        fetchWhenSave: true,
+        sessionToken,
+      });
+      return { ...savedSpecies.toJSON(), category };
+    } catch (err) {
+      debug(err);
+      throw err;
+    }
+  };
+
   const createSpecification = async ({ species, creator, name }) => {
     try {
       const spec = new Specification();
@@ -305,6 +325,7 @@ export default (params = {}) => {
     fetchCatalogs,
     fetchCategories,
     fetchSpecies,
+    createSpecies,
     ...createAMapApi(),
     replaceToken,
     fetchProfile,

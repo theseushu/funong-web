@@ -9,6 +9,7 @@ import * as searchDistinct from '../searchDistrict/ducks';
 import * as fetchLocation from '../fetchLocation/ducks';
 import * as fetchCatalogs from '../fetchCatalogs/ducks';
 import * as fetchCategories from '../fetchCategories/ducks';
+import * as createSpecies from '../createSpecies/ducks';
 import * as fetchSpecies from '../fetchSpecies/ducks';
 import * as fetchPriceDefinitions from '../fetchPriceDefinitions/ducks';
 import * as uploadFile from '../uploadFile/ducks';
@@ -44,6 +45,7 @@ export default {
     ...createCert.default,
     ...updateCert.default,
     ...fetchCerts.default,
+    ...createSpecies.default,
   }),
 };
 
@@ -69,4 +71,5 @@ export const sagas = [
   ...createCert.sagas,
   ...updateCert.sagas,
   ...fetchCerts.sagas,
+  ...createSpecies.sagas,
 ];

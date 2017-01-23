@@ -3,10 +3,11 @@ import { connect } from 'react-redux';
 import { reduxForm, Field } from 'redux-form';  // eslint-disable-line no-unused-vars
 import { bindActionCreators } from 'redux';
 import Button from 'react-mdl/lib/Button';
-import { Card, CardTitle, CardText, CardActions } from 'react-mdl/lib/Card';
+import { Card, CardTitle, CardActions } from 'react-mdl/lib/Card';
 import { Grid, Cell } from 'react-mdl/lib/Grid';
 import injectSheet from 'react-jss';
 import { createProduct as createProductAction, selector } from '../../api/createProduct';
+import FORM_NAME from './formName';
 import NameField from './nameField';
 import CategoryField from './categoryField';
 import SpeciesField from './speciesField';
@@ -82,14 +83,11 @@ const Form = (props) => {
           <Cell col={10} className={classes.fieldContent}>
             <Field name="category" component={CategoryField} />
           </Cell>
+          <Cell col={12} className={classes.fieldContent}>
+            <Field name="species" component={SpeciesField} />
+          </Cell>
           <Cell col={12}>
             <Field name="name" component={NameField} />
-          </Cell>
-          <Cell col={2} className={classes.fieldName}>
-            品类
-          </Cell>
-          <Cell col={10} className={classes.fieldContent}>
-            <Field name="species" component={SpeciesField} />
           </Cell>
           <Field name="specifications" component={SpecificationsField} />
           <Field name="price" component={PriceField} />
@@ -134,8 +132,6 @@ Form.propTypes = {
   sheet: PropTypes.object.isRequired,
   createProduct: PropTypes.func.isRequired,
 };
-
-export const FORM_NAME = 'product';
 
 export default reduxForm({
   form: FORM_NAME,

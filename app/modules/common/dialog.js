@@ -26,7 +26,7 @@ const DialogComponent = ({ title, fixedContent, scrollableContent, sheet: { clas
       </DialogActions>
     </Dialog>
   );
-}
+};
 
 DialogComponent.propTypes = {
   title: PropTypes.oneOfType([
