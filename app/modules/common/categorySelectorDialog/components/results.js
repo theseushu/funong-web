@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
 import Button from 'react-mdl/lib/Button';
+import injectSheet from 'react-jss';
 import Liner from '../../svgs/liner';
 
 function renderButton(result, i, onClick) {
@@ -17,16 +18,18 @@ function renderButtonWithActiveCheck(result, i, isButtonActive, onClick) {
   );
 }
 
-const Results = ({ pending, fulfilled, rejected, error, results, onClick, isButtonActive }) => {
+const Results = ({ pending, fulfilled, rejected, error, results, onClick, isButtonActive, sheet: { classes } }) => {
   if (pending) {
     return <Liner />;
   } else if (rejected) {
-    return (<div className="text-center">
-      <span className="text-danger">读取列表失败, 请重试{error && error.toString()}</span>
-    </div>);
+    return (
+      <div className="text-center">
+        <span className="text-danger">读取列表失败, 请重试{error && error.toString()}</span>
+      </div>
+    );
   } else if (fulfilled) {
     return (
-      <div>
+      <div className={classes.results}>
         {
           isButtonActive ? results.map((result, i) => renderButtonWithActiveCheck(result, i, isButtonActive, onClick))
             : results.map((result, i) => renderButton(result, i, onClick))
@@ -38,6 +41,7 @@ const Results = ({ pending, fulfilled, rejected, error, results, onClick, isButt
 };
 
 Results.propTypes = {
+  sheet: PropTypes.object,
   pending: PropTypes.bool,
   fulfilled: PropTypes.bool,
   rejected: PropTypes.bool,
@@ -50,4 +54,9 @@ Results.propTypes = {
   isButtonActive: PropTypes.func,
 };
 
-export default Results;
+export default injectSheet({
+  results: {
+    display: 'flex',
+    flexWrap: 'wrap',
+  },
+})(Results);

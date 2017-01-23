@@ -32,27 +32,23 @@ class categorySelectorDialog extends Component {
       error: PropTypes.object,
       categories: PropTypes.array,
     }).isRequired,
-    value: PropTypes.shape({
-      category: PropTypes.shape({
-        name: PropTypes.string.isRequired,
-        objectId: PropTypes.string.isRequired,
-        catalog: PropTypes.shape({
-          name: PropTypes.string.isRequired,
-          objectId: PropTypes.string.isRequired,
-          catalogType: PropTypes.string.isRequired,
-        }).isRequired,
-      }).isRequired,
+    category: PropTypes.shape({
       name: PropTypes.string.isRequired,
       objectId: PropTypes.string.isRequired,
+      catalog: PropTypes.shape({
+        name: PropTypes.string.isRequired,
+        objectId: PropTypes.string.isRequired,
+        catalogType: PropTypes.string.isRequired,
+      }).isRequired,
     }),
   };
   constructor(props) {
     super(props);
-    const { value } = props;
+    const { category } = props;
     this.state = { // catalogType is string, others are objects
-      catalogType: catalogTypes.supply.farm.value,
-      catalog: value && value.category.catalog,
-      category: value,
+      catalogType: (category && category.catalog.catalogType) || catalogTypes.supply.farm.value,
+      catalog: category && category.category.catalog,
+      category,
     };
   }
   componentDidMount() {
@@ -114,17 +110,20 @@ class categorySelectorDialog extends Component {
   renderSearchResult = () => {
     const { catalogType, catalog, category } = this.state;
     let resultsParams = {};
+    let selection;
     if (!catalog) {
       const { pending, fulfilled, rejected, error, catalogs } = this.props.fetchCatalogsState;
       resultsParams = { pending, fulfilled, rejected, error, results: catalogs.filter((c) => c.type === catalogType) };
       resultsParams.onClick = (selectedCatalog) => this.setSelection({ catalogType, catalog: selectedCatalog });
-    } else if (!category) {
+      selection = null;
+    } else {
       const { pending, fulfilled, rejected, error, categories } = this.props.fetchCategoriesState;
       resultsParams = { pending, fulfilled, rejected, error, results: categories };
       resultsParams.onClick = (selectedCategory) => this.setSelection({ catalogType, catalog, category: selectedCategory });
+      selection = category && category.objectId;
     }
     return (
-      <Results {...resultsParams} />
+      <Results {...resultsParams} isButtonActive={(c) => c.objectId === selection} />
     );
   }
   render() {
@@ -141,11 +140,7 @@ class categorySelectorDialog extends Component {
             {this.renderHeader()}
           </div>
         }
-        scrollableContent={
-          <div>
-            {this.renderSearchResult()}
-          </div>
-        }
+        scrollableContent={this.renderSearchResult()}
       />
     );
   }

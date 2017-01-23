@@ -20,10 +20,10 @@ import PhotosField from './photosField';
 
 // export for unit testing
 export const validate = (values) => {
-  const { species, specifications, price, dates, location, desc } = values;
+  const { category, specifications, price, dates, location, desc } = values;
   const errors = {};
-  if (!species || !species.name) {
-    errors.species = '必填';
+  if (!category) {
+    errors.category = '必填';
   }
   if (!specifications || specifications.length < 1) {
     errors.specifications = '必填';
@@ -52,70 +52,68 @@ const Form = (props) => {
       <CardTitle>
         货品信息
       </CardTitle>
-      <CardText>
-        <form
-          onSubmit={handleSubmit(({ species, specifications, price, available, dates, location, desc, photos }) => {
-            const { start, end } = dates;
-            const { geopoint, ...address } = location;
-            return new Promise((resolve, reject) => {
-              createProduct({
-                species,
-                specifications,
-                price,
-                available,
-                startAt: start,
-                endAt: end,
-                desc,
-                photos,
-                geopoint,
-                location: address,
-                meta: {
-                  resolve,
-                  reject,
-                } });
-            });
-          })} className={classes.form}
-        >
-          <Grid>
-            <Cell col={2} className={classes.fieldName}>
-              品种
-            </Cell>
-            <Cell col={10} className={classes.fieldContent}>
-              <Field name="category" component={CategoryField} />
-            </Cell>
-            <Cell col={12}>
-              <Field name="name" component={NameField} />
-            </Cell>
-            <Cell col={2} className={classes.fieldName}>
-              品类
-            </Cell>
-            <Cell col={10} className={classes.fieldContent}>
-              <Field name="species" component={SpeciesField} />
-            </Cell>
-            <Field name="specifications" component={SpecificationsField} />
-            <Field name="price" component={PriceField} />
-            <Field name="available" component={AvailableField} />
-            <Field name="dates" component={DatesField} />
-            <Field name="location" component={LocationField} />
-            <Field name="desc" component={DescField} />
-            <Field name="photos" component={PhotosField} />
-            {
-              error && (
-                <p className={'text-center text-danger'}>
-                  <span>{error.message}</span>
-                </p>
-              )
-            }
-            {
-              submitSucceeded && (
-                <p className={'text-center text-info'}>
-                  <span>{'登录成功，请稍候'}</span>
-                </p>
-              )
-            }
-          </Grid>
-        </form>
-      </CardText>
+      <form
+        onSubmit={handleSubmit(({ species, specifications, price, available, dates, location, desc, photos }) => {
+          const { start, end } = dates;
+          const { geopoint, ...address } = location;
+          return new Promise((resolve, reject) => {
+            createProduct({
+              species,
+              specifications,
+              price,
+              available,
+              startAt: start,
+              endAt: end,
+              desc,
+              photos,
+              geopoint,
+              location: address,
+              meta: {
+                resolve,
+                reject,
+              } });
+          });
+        })} className={classes.form}
+      >
+        <Grid>
+          <Cell col={2} className={classes.fieldName}>
+            品种
+          </Cell>
+          <Cell col={10} className={classes.fieldContent}>
+            <Field name="category" component={CategoryField} />
+          </Cell>
+          <Cell col={12}>
+            <Field name="name" component={NameField} />
+          </Cell>
+          <Cell col={2} className={classes.fieldName}>
+            品类
+          </Cell>
+          <Cell col={10} className={classes.fieldContent}>
+            <Field name="species" component={SpeciesField} />
+          </Cell>
+          <Field name="specifications" component={SpecificationsField} />
+          <Field name="price" component={PriceField} />
+          <Field name="available" component={AvailableField} />
+          <Field name="dates" component={DatesField} />
+          <Field name="location" component={LocationField} />
+          <Field name="desc" component={DescField} />
+          <Field name="photos" component={PhotosField} />
+          {
+            error && (
+              <p className={'text-center text-danger'}>
+                <span>{error.message}</span>
+              </p>
+            )
+          }
+          {
+            submitSucceeded && (
+              <p className={'text-center text-info'}>
+                <span>{'登录成功，请稍候'}</span>
+              </p>
+            )
+          }
+        </Grid>
+      </form>
       <CardActions>
         <Button
           type="submit" raised colored

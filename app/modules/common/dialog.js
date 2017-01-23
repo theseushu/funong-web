@@ -3,25 +3,30 @@ import injectSheet from 'react-jss';
 import { Dialog, DialogContent, DialogActions, DialogTitle } from 'react-mdl/lib/Dialog';
 import Button from 'react-mdl/lib/Button';
 
-const DialogComponent = ({ title, fixedContent, scrollableContent, sheet: { classes }, show = true, onHide, onCancel, submit }) => (
-  <Dialog open={show} onCancel={onHide} style={{ maxWidth: 500, width: '100%', height: 'calc(100vh - 48px)', minHeight: 400, boxSizing: 'border-box' }}>
-    <DialogTitle>
-      {title}
-    </DialogTitle>
-    <DialogContent className={classes.modalBody}>
-      <div className={classes.fixedContent}>
-        {fixedContent}
-      </div>
-      <div className={classes.scrollableContent}>
-        {scrollableContent}
-      </div>
-    </DialogContent>
-    <DialogActions>
-      {submit && <Button colored onClick={submit.onSubmit} disabled={submit.disabled}>确定</Button>}
-      <Button colored onClick={onCancel}>取消</Button>
-    </DialogActions>
-  </Dialog>
-);
+const DialogComponent = ({ title, fixedContent, scrollableContent, sheet: { classes }, show = true, onHide, onCancel, submit }) => {
+  // The dialog focuses on first focusable element automatically, its anoyying. this firstAnchor is not really visible, it shall be focused without affecting any display styles
+  const firstAnchor = <a href="#_non_existing_" />; // eslint-disable-line
+  return (
+    <Dialog open={show} onCancel={onHide} className={classes.modal}>
+      <DialogTitle>
+        {title}
+      </DialogTitle>
+      <DialogContent className={classes.modalBody}>
+        {firstAnchor}
+        <div className={classes.fixedContent}>
+          {fixedContent}
+        </div>
+        <div className={classes.scrollableContent}>
+          {scrollableContent}
+        </div>
+      </DialogContent>
+      <DialogActions>
+        {submit && <Button colored onClick={submit.onSubmit} disabled={submit.disabled}>确定</Button>}
+        <Button colored onClick={onCancel}>取消</Button>
+      </DialogActions>
+    </Dialog>
+  );
+}
 
 DialogComponent.propTypes = {
   title: PropTypes.oneOfType([
@@ -44,9 +49,14 @@ DialogComponent.propTypes = {
 };
 
 export default injectSheet({
+  modal: {
+    maxWidth: 500, width: '100%', height: '100vh', minHeight: 400, maxHeight: 600, boxSizing: 'border-box',
+  },
   modalBody: {
-    maxHeight: 'calc(100vh - 212px)',
-    minHeight: 180,
+    boxSizing: 'border-box',
+    height: 'calc(100vh - 140px)', // dialog padding 32 + button line 52 + title 56
+    maxHeight: 460,
+    minHeight: 260,
     overflow: 'hidden',
     display: 'flex',
     flexDirection: 'column',
@@ -60,7 +70,6 @@ export default injectSheet({
     },
   },
   scrollableContent: {
-    paddingTop: 15,
     flex: 1,
     overflowY: 'auto',
   },
