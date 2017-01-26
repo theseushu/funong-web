@@ -5,6 +5,7 @@ import { AutoComplete } from 'react-mdl-extra';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { formValueSelector } from 'redux-form';
+import { Grid, Cell } from 'react-mdl/lib/Grid';
 import Tooltip from 'react-mdl/lib/Tooltip';
 import IconButton from 'react-mdl/lib/IconButton';
 import Button from 'react-mdl/lib/Button';
@@ -14,6 +15,7 @@ import { selector as fetchSpeciesSelector, fetchSpecies as fetchSpeciesAction } 
 import { selector as createSpeciesSelector, createSpecies as createSpeciesAction } from '../../api/createSpecies';
 import { speciesSelector } from '../../data/ducks/selectors';
 import FORM_NAME from './formName';
+import styles from '../../common/styles';
 
 const CreateButton = ({ createSpeciesState: { pending, error }, onClick }) => (
   <Button
@@ -72,8 +74,10 @@ class SpeciesField extends Component {
           onCancel: () => this.setState({ text: '', value: null }),
           okText: '保存并使用',
           cancelText: '放弃',
-        }
+        };
         toastr.confirm(`您输入的品类${text}尚未保存，需要保存吗？`, toastrOptions);
+      } else {
+        this.setState({ text: '', value: null });
       }
     }, 1);
   }
@@ -103,34 +107,37 @@ class SpeciesField extends Component {
     const pending = createSpeciesState.pending || fetchSpeciesState.pending;
     const { text, value } = this.state;
     const enableCreating = this.enableCreating();
-    console.log({ text, value })
     return (
-      <div className={classes.species}>
-        <div className={classes.wrapper}>
-          <AutoComplete
-            className={classes.input}
-            label={'品类'}
-            floatingLabel
-            items={Object.values(species)}
-            valueIndex={'objectId'}
-            dataIndex={'name'}
-            onChange={this.onChange}
-            onTextChange={this.onTextChange}
-            onFocus={() => fetchSpecies({ category })}
-            onBlur={this.onBlur}
-            disabled={!category}
-            value={value || text}
-            autoComplete="off"
-          />
-          {enableCreating && <CreateButton createSpeciesState={createSpeciesState} onClick={this.createSpecies} />}
-        </div>
-        {pending && <div style={{ width: 32, height: 30 }}>
-          <Spinner />
-        </div>}
-        <Tooltip label={<span>请先选择品种<br /></span>}>
-          <IconButton colored name="help_outline"></IconButton>
-        </Tooltip>
-      </div>
+      <Grid>
+        <Cell col={12} className={classes.species}>
+          <div className={classes.wrapper}>
+            <AutoComplete
+              className={classes.input}
+              label={'品类'}
+              floatingLabel
+              items={Object.values(species)}
+              valueIndex={'objectId'}
+              dataIndex={'name'}
+              onChange={this.onChange}
+              onTextChange={this.onTextChange}
+              onFocus={() => fetchSpecies({ category })}
+              onBlur={this.onBlur}
+              disabled={!category}
+              value={value || text}
+              autoComplete="off"
+            />
+            {enableCreating && <CreateButton createSpeciesState={createSpeciesState} onClick={this.createSpecies} />}
+          </div>
+          {pending && <div style={{ width: 32, height: 30 }}>
+            <Spinner />
+          </div>}
+          {!category &&
+            <Tooltip label={<span>请先选择品种<br /></span>}>
+              <IconButton className={styles.colorError} name="help_outline"></IconButton>
+            </Tooltip>
+          }
+        </Cell>
+      </Grid>
     );
   }
 }

@@ -21,3 +21,19 @@ export const catalogTypes = {
   shop: {
   },
 };
+
+export const specificationTypes = {
+  length: { title: '长度', value: 'length' },
+  width: { title: '宽度', value: 'width' },
+  height: { title: '高度', value: 'height' },
+  weight: { title: '重量', value: 'weight' },
+  color: { title: '颜色', value: 'color' },
+  quality: { title: '质量', value: 'quality' },
+  size: { title: '大小', value: 'size' },
+  custom: { title: '自定义', value: 'custom' },
+};
+
+export const units = [
+  '斤', '两', '公斤', '克', '袋', '盒', '箱', '包', '只', '条', '台',
+];
+

@@ -49,7 +49,7 @@ export const validate = (values) => {
 const Form = (props) => {
   const { handleSubmit, pristine, submitting, submitSucceeded, invalid, error, sheet: { classes }, createProduct } = props;
   return (
-    <Card shadow={0} style={{ width: '100%', textAlign: 'center' }}>
+    <Card shadow={0} style={{ width: '100%' }}>
       <CardTitle>
         货品信息
       </CardTitle>
@@ -76,20 +76,13 @@ const Form = (props) => {
           });
         })} className={classes.form}
       >
+        <Field name="category" component={CategoryField} />
+        <Field name="species" component={SpeciesField} />
+        <Field name="name" component={NameField} />
+        <Field name="specifications" component={SpecificationsField} />
         <Grid>
-          <Cell col={2} className={classes.fieldName}>
-            品种
-          </Cell>
           <Cell col={10} className={classes.fieldContent}>
-            <Field name="category" component={CategoryField} />
           </Cell>
-          <Cell col={12} className={classes.fieldContent}>
-            <Field name="species" component={SpeciesField} />
-          </Cell>
-          <Cell col={12}>
-            <Field name="name" component={NameField} />
-          </Cell>
-          <Field name="specifications" component={SpecificationsField} />
           <Field name="price" component={PriceField} />
           <Field name="available" component={AvailableField} />
           <Field name="dates" component={DatesField} />
@@ -142,7 +135,7 @@ export default reduxForm({
 })(injectSheet({
   form: {
     maxWidth: 500,
-    margin: 'auto',
+    margin: '0 auto',
     '& input': {
       cursor: 'text',
     },

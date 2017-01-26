@@ -55,6 +55,9 @@ const styles = {
   containerSmall: {
     'max-width': '900px',
   },
+  colorError: {
+    color: colors.colorError,
+  },
 };
 
 const { classes } = jss.createStyleSheet(styles).attach();
