@@ -1,6 +1,5 @@
 import React, { PropTypes } from 'react';
 import injectSheet from 'react-jss';
-import _findIndex from 'lodash/findIndex';
 import Textfield from 'react-mdl/lib/Textfield';
 import Button from 'react-mdl/lib/Button';
 import IconButton from 'react-mdl/lib/IconButton';
@@ -117,7 +116,7 @@ const SpecificationEditorDialog = ({
       </div>
         }
     submit={{
-      onSubmit: (e) => { e.preventDefault(); onSubmit({ name, params, prices }); close(); },
+      onSubmit: (e) => { e.preventDefault(); onSubmit({ name, params, prices }); },
       disabled: (!isDefault && name.trim() === '') || params.length === 0 || prices.length === 0,
     }}
   />

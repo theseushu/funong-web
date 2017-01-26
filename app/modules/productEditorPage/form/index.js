@@ -130,6 +130,7 @@ export default reduxForm({
   form: FORM_NAME,
   initialValues: {
     available: true,
+    specifications: [],
   },
   validate,
 })(injectSheet({

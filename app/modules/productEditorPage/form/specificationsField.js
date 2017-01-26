@@ -4,59 +4,74 @@ import injectSheet from 'react-jss';
 import IconButton from 'react-mdl/lib/IconButton';
 import { Grid, Cell } from 'react-mdl/lib/Grid';
 import { List, ListItem, ListItemContent, ListItemAction } from 'react-mdl/lib/List';
+import { formatPrices } from '../../../utils/displayUtils';
 
 import SpecificationDialog from '../../common/specificationDialog';
 
 class SpecificationsField extends Component {
   static propTypes = {
-    input: PropTypes.object.isRequired,
+    input: PropTypes.shape({
+      value: PropTypes.array.isRequired,
+      onChange: PropTypes.func.isRequired,
+    }).isRequired,
     meta: PropTypes.object,
     sheet: PropTypes.object,
   }
   constructor(props) {
     super(props);
-    this.state = { showDialog: false };
-  }
-
-  showDialog = (e) => {
-    if (e) {
-      e.preventDefault();
-    }
-    this.setState({ showDialog: true });
+    this.state = { editingIndex: null };
   }
 
   hideDialog = (e) => {
     if (e) {
       e.preventDefault();
     }
-    this.setState({ showDialog: false });
+    this.setState({ editingIndex: null });
   }
 
-  addSpec = (spec) => {
+  addSpec = () => {
+    const { input: { value } } = this.props;
+    this.setState({ editingIndex: value.length });
+  }
+
+  editSpec = (index) => {
+    this.setState({ editingIndex: index });
+  }
+
+  saveSpec = (spec) => {
     const { input: { value, onChange } } = this.props;
-    if (value === '') {
-      onChange([spec]);
-    } else {
-      onChange([...value, spec]);
-    }
+    const { editingIndex } = this.state;
+    const specs = [...value];
+    specs[editingIndex] = spec;
+    onChange(specs);
+    this.setState({ editingIndex: null });
   }
 
   removeSpec = (spec) => {
-    const { input: { onChange } } = this.props;
-    onChange(_without(spec, spec));
+    const { input: { value, onChange } } = this.props;
+    onChange(_without(value, spec));
   }
 
   render() {
-    const { input: { value }, meta, sheet: { classes } } = this.props;
-    const { showDialog } = this.state;
+    const { input: { value }, meta, sheet: { classes } } = this.props; // eslint-disable-line
+    const { editingIndex } = this.state;
     return (
       <Grid>
         <Cell col={2} tablet={2} phone={1} className={classes.field}>
           规格
         </Cell>
         <Cell col={10} tablet={6} phone={3} className={classes.field}>
-          <IconButton colored name="add_circle" ripple onClick={this.showDialog}></IconButton>
-          { showDialog && <SpecificationDialog isDefault={!value} close={this.hideDialog} value={typeof value === 'string' ? [] : value} onSubmit={this.addSpec} />}
+          <IconButton name="add_circle" ripple onClick={(e) => { e.preventDefault(); this.addSpec(); }}></IconButton>
+          {
+            editingIndex !== null && (
+              <SpecificationDialog
+                isDefault={editingIndex === 0}
+                specification={value[editingIndex]}
+                close={this.hideDialog}
+                onSubmit={this.saveSpec}
+              />
+            )
+          }
         </Cell>
         {
           value.length > 0 && <List className={classes.list}>
@@ -65,9 +80,10 @@ class SpecificationsField extends Component {
                 <ListItem key={i} threeLine>
                   <ListItemContent
                     subtitle={spec.params.join(', ')}
-                  >{spec.name}</ListItemContent>
+                  ><span>{spec.name}<small>{formatPrices(spec.prices)}</small></span></ListItemContent>
                   <ListItemAction>
-                    <IconButton name="delete_sweep" accent onClick={() => this.removeSpec(spec)} />
+                    <IconButton name="edit" onClick={() => this.editSpec(i)} />
+                    <IconButton name="delete_sweep" onClick={() => this.removeSpec(spec)} />
                   </ListItemAction>
                 </ListItem>
               ))

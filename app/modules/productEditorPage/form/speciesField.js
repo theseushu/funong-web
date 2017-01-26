@@ -103,7 +103,7 @@ class SpeciesField extends Component {
     return false;
   }
   render() {
-    const { createSpeciesState, fetchSpeciesState, fetchSpecies, species, category, meta, sheet: { classes } } = this.props;
+    const { createSpeciesState, fetchSpeciesState, fetchSpecies, species, category, meta, sheet: { classes } } = this.props; // eslint-disable-line
     const pending = createSpeciesState.pending || fetchSpeciesState.pending;
     const { text, value } = this.state;
     const enableCreating = this.enableCreating();
