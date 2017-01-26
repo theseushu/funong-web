@@ -46,7 +46,7 @@ export default () => {
       await new Promise((resolve) => {
         window.initAMap = () => {
           globalInstance = window.AMap;
-          map = new globalInstance.Map('', {
+          map = new globalInstance.Map('_amap_container', {
             resizeEnable: true,
             zoom: 11,
           });

@@ -11,9 +11,6 @@ import FORM_NAME from './formName';
 import NameField from './nameField';
 import CategoryField from './categoryField';
 import SpeciesField from './speciesField';
-import PriceField from './priceField';
-import AvailableField from './availableField';
-import DatesField from './datesField';
 import LocationField from './locationField';
 import DescField from './descField';
 import SpecificationsField from './specificationsField';
@@ -81,11 +78,6 @@ const Form = (props) => {
         <Field name="name" component={NameField} />
         <Field name="specifications" component={SpecificationsField} />
         <Grid>
-          <Cell col={10} className={classes.fieldContent}>
-          </Cell>
-          <Field name="price" component={PriceField} />
-          <Field name="available" component={AvailableField} />
-          <Field name="dates" component={DatesField} />
           <Field name="location" component={LocationField} />
           <Field name="desc" component={DescField} />
           <Field name="photos" component={PhotosField} />

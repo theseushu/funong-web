@@ -77,7 +77,7 @@ class SpecificationsField extends Component {
           value.length > 0 && <List className={classes.list}>
             {
               value.map((spec, i) => (
-                <ListItem key={i} threeLine>
+                <ListItem key={i} threeLine className="mdl-shadow--2dp">
                   <ListItemContent
                     subtitle={spec.params.join(', ')}
                   ><span>{spec.name}<small>{formatPrices(spec.prices)}</small></span></ListItemContent>

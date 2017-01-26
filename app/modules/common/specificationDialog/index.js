@@ -14,7 +14,6 @@ class SpecificationsSelectorDialog extends Component {
   constructor(props) {
     super(props);
     const { specification = { name: props.isDefault ? '默认' : '', params: [], prices: [] } } = this.props;
-    console.log(specification)
     this.state = { specification, editingPriceIndex: null, newParam: '' };
   }
   onSpecNameChanged = (e) => {

@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import injectSheet from 'react-jss';
 import FormControl from 'react-bootstrap/lib/FormControl';
 import Field from './field';
-import LocationDialog from '../../common/locationDialog';
+import MapDialog from '../../common/mapDialog';
 
 const styles = {
 
@@ -37,7 +37,7 @@ class LocationField extends Component {
           onClick={this.showDialog}
           readOnly
         />
-        { showDialog && <LocationDialog close={this.hideDialog} value={typeof value === 'string' ? null : value} onSubmit={onChange} />}
+        { showDialog && <MapDialog close={this.hideDialog} value={typeof value === 'string' ? null : value} onSubmit={onChange} />}
       </Field>
     );
   }
