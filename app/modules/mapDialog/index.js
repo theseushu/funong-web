@@ -14,19 +14,22 @@ class mapDialog extends Component {
   static propTypes = {
     open: PropTypes.bool.isRequired,
     closeDialog: PropTypes.func.isRequired,
-    value: PropTypes.shape({
-      geopoint: PropTypes.shape({
+    location: PropTypes.shape({
+      lnglat: PropTypes.shape({
         latitude: PropTypes.number,
         longitude: PropTypes.number,
       }),
-      country: PropTypes.string,
-      province: PropTypes.string,
-      city: PropTypes.string,
-      district: PropTypes.string,
-      details: PropTypes.string,
+      address: PropTypes.shape({
+        country: PropTypes.string,
+        province: PropTypes.string,
+        city: PropTypes.string,
+        district: PropTypes.string,
+        details: PropTypes.string,
+      }),
     }),
     initAMap: PropTypes.func.isRequired,
     fetchLocation: PropTypes.func.isRequired,
+    onSubmit: PropTypes.func.isRequired,
     // fetchLocationState: PropTypes.shape({
     //   pending: PropTypes.bool,
     //   fulfilled: PropTypes.bool,
@@ -37,14 +40,16 @@ class mapDialog extends Component {
   };
   constructor(props) {
     super(props);
-    this.state = { location: props.value || INITIAL_LOCATION, current: { country: '中国' } };
+    this.state = { location: props.location || INITIAL_LOCATION, current: { country: '中国' } };
   }
   componentDidMount() {
+    const { location } = this.props;
     this.props.initAMap({
       onClick: this.onMapClick,
+      center: location ? [location.lnglat.longitude, location.lnglat.latitude] : null,
       meta: {
         resolve: () => {
-          if (!this.props.value) {
+          if (!this.props.location) {
             this.props.fetchLocation({
               meta: {
                 resolve: ({ address, lnglat }) => {
@@ -53,7 +58,7 @@ class mapDialog extends Component {
                   }
                   // do nothing if user has changed state.location already
                 },
-                reject: () => {
+                reject: (e) => {
                 },
               },
             });
@@ -62,6 +67,14 @@ class mapDialog extends Component {
       },
     });
   }
+  componentWillReceiveProps({ location }) {
+    if (location) {
+      console.log(location.lnglat)
+      this.props.initAMap({
+        center: { longitude: location.lnglat.longitude, latitude: location.lnglat.latitude },
+      });
+    }
+  }
   onMapClick = ({ address, lnglat }) => {
     this.setState({ location: { address, lnglat } });
   }
@@ -69,7 +82,7 @@ class mapDialog extends Component {
     this.props.closeDialog();
   }
   render() {
-    const { open, closeDialog } = this.props;
+    const { open, closeDialog, onSubmit } = this.props;
     // const { fetchLocationState: { pending, fulfilled }, open, closeDialog } = this.props;
     // const fetchLocationText = pending ? '正在读取当前地址' : (fulfilled ? location.formattedAddress : null); // eslint-disable-line no-nested-ternary
     const { location } = this.state;
@@ -93,7 +106,10 @@ class mapDialog extends Component {
           </div>
         }
         submit={{
-          onSubmit: () => {},
+          onSubmit: () => {
+            onSubmit(this.state.location);
+            closeDialog();
+          },
           disabled: location === INITIAL_LOCATION,
         }}
       />

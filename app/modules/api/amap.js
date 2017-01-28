@@ -5,6 +5,43 @@ export default () => {
     let geolocation;
     let districtSearch;
     let geocoder;
+    let clickHandler;
+    let marker;
+
+    const bindOnClick = (onClick) => {
+      if (clickHandler) {
+        map.off('click', clickHandler);
+      }
+      clickHandler = (e) => {
+        if (marker) {
+          marker.setMap(null);
+        }
+        marker = new globalInstance.Marker({
+          position: e.lnglat,
+          map,
+          animation: 'AMAP_ANIMATION_DROP',
+        });
+        geocoder.getAddress(e.lnglat, (status, result) => {
+          if (status === 'complete' && result.info === 'OK') {
+            const { addressComponent, formattedAddress } = result.regeocode;
+            onClick({
+              lnglat: {
+                longitude: e.lnglat.lng,
+                latitude: e.lnglat.lat,
+              },
+              address: {
+                country: addressComponent.country || '中国',
+                province: addressComponent.province,
+                city: addressComponent.province && addressComponent.city,
+                district: addressComponent.city && addressComponent.district,
+                details: formattedAddress,
+              },
+            });
+          }
+        });
+      }
+      map.on('click', clickHandler);
+    }
 
     const loadGeocoder = (GLOBAL_INSTANCE) => {
       if (geocoder) {
@@ -55,11 +92,26 @@ export default () => {
       });
     };
 
-    const initAMap = async (params) => {
+    const initAMap = async (params = {}) => {
+      const { onClick, center } = params;
       if (map && geolocation && globalInstance && districtSearch) {
+        if (onClick) {
+          bindOnClick(onClick);
+        }
+        if (center) {
+          const lnglat = new globalInstance.LngLat(center.longitude, center.latitude);
+          map.setCenter(lnglat);
+          if (marker) {
+            marker.setMap(null);
+          }
+          marker = new globalInstance.Marker({
+            position: lnglat,
+            map,
+            animation: 'AMAP_ANIMATION_DROP',
+          });
+        }
         return { globalInstance, map, geolocation, districtSearch };
       }
-      const { onClick } = params;
       await new Promise((resolve) => {
         window.initAMap = () => {
           globalInstance = window.AMap;
@@ -77,23 +129,7 @@ export default () => {
         document.head.appendChild(script);
       });
       await Promise.all([loadGeocoder(globalInstance), loadGeolocation(globalInstance, map), loadDistrictSearch(globalInstance)]);
-      map.on('click', (e) => {
-        geocoder.getAddress(e.lnglat, (status, result) => {
-          if (status === 'complete' && result.info === 'OK') {
-            const { addressComponent, formattedAddress } = result.regeocode;
-            onClick({
-              lnglat: e.lnglat,
-              address: {
-                country: addressComponent.country || '中国',
-                province: addressComponent.province,
-                city: addressComponent.province && addressComponent.city,
-                district: addressComponent.city && addressComponent.district,
-                details: formattedAddress,
-              },
-            });
-          }
-        });
-      });
+      bindOnClick(onClick);
       return { map, geolocation, globalInstance, districtSearch };
     };
 

@@ -77,8 +77,8 @@ const Form = (props) => {
         <Field name="species" component={SpeciesField} />
         <Field name="name" component={NameField} />
         <Field name="specifications" component={SpecificationsField} />
+        <Field name="location" component={LocationField} />
         <Grid>
-          <Field name="location" component={LocationField} />
           <Field name="desc" component={DescField} />
           <Field name="photos" component={PhotosField} />
           {
