@@ -4,6 +4,20 @@ export default () => {
     let map;
     let geolocation;
     let districtSearch;
+    let geocoder;
+
+    const loadGeocoder = (GLOBAL_INSTANCE) => {
+      if (geocoder) {
+        return geocoder;
+      }
+      return new Promise((resolve) => {
+        GLOBAL_INSTANCE.plugin('AMap.Geocoder', () => {
+          const result = new GLOBAL_INSTANCE.Geocoder({});
+          geocoder = result;
+          resolve(result);
+        });
+      });
+    };
 
     const loadGeolocation = (GLOBAL_INSTANCE, MAP_INSTANCE) => {
       if (geolocation) {
@@ -12,10 +26,12 @@ export default () => {
       return new Promise((resolve) => {
         MAP_INSTANCE.plugin('AMap.Geolocation', () => {
           const result = new GLOBAL_INSTANCE.Geolocation({
+            panToLocation: true,
             enableHighAccuracy: true, // 是否使用高精度定位，默认:true
             timeout: 10000,          // 超过10秒后停止定位，默认：无穷大
-            zoomToAccuracy: true,      // 定位成功后调整地图视野范围使定位位置及精度范围视野内可见，默认：false
+            zoomToAccuracy: false,      // 定位成功后调整地图视野范围使定位位置及精度范围视野内可见，默认：false
             buttonPosition: 'RB',
+            maximumAge: 100000000, // todo caching result forever. seems useless, to be removed
           });
           MAP_INSTANCE.addControl(result);
           geolocation = result;
@@ -39,16 +55,18 @@ export default () => {
       });
     };
 
-    const loadScript = async () => {
+    const initAMap = async (params) => {
       if (map && geolocation && globalInstance && districtSearch) {
         return { globalInstance, map, geolocation, districtSearch };
       }
+      const { onClick } = params;
       await new Promise((resolve) => {
         window.initAMap = () => {
           globalInstance = window.AMap;
           map = new globalInstance.Map('_amap_container', {
             resizeEnable: true,
-            zoom: 11,
+            zoom: 10,
+            mapStyle: 'fresh',
           });
           resolve();
         };
@@ -58,15 +76,44 @@ export default () => {
         script.src = 'https://webapi.amap.com/maps?v=1.3&key=47126811591e35236dbde1130d579dde&callback=initAMap';
         document.head.appendChild(script);
       });
-      await Promise.all([loadGeolocation(globalInstance, map), loadDistrictSearch(globalInstance)]);
+      await Promise.all([loadGeocoder(globalInstance), loadGeolocation(globalInstance, map), loadDistrictSearch(globalInstance)]);
+      map.on('click', (e) => {
+        geocoder.getAddress(e.lnglat, (status, result) => {
+          if (status === 'complete' && result.info === 'OK') {
+            const { addressComponent, formattedAddress } = result.regeocode;
+            onClick({
+              lnglat: e.lnglat,
+              address: {
+                country: addressComponent.country || '中国',
+                province: addressComponent.province,
+                city: addressComponent.province && addressComponent.city,
+                district: addressComponent.city && addressComponent.district,
+                details: formattedAddress,
+              },
+            });
+          }
+        });
+      });
       return { map, geolocation, globalInstance, districtSearch };
     };
 
     const getCurrentLocation = async () => {
-      await loadScript();
+      await initAMap();
       return new Promise((resolve, reject) => {
-        globalInstance.event.addListenerOnce(geolocation, 'complete', (data) => {
-          resolve(data);
+        globalInstance.event.addListenerOnce(geolocation, 'complete', ({ addressComponent, formattedAddress, position }) => {
+          resolve({
+            address: {
+              country: addressComponent.country || '中国',
+              province: addressComponent.province,
+              city: addressComponent.province && addressComponent.city,
+              district: addressComponent.city && addressComponent.district,
+              details: formattedAddress,
+            },
+            lnglat: {
+              longitude: position.lng,
+              latitude: position.lat,
+            },
+          });
         });
         globalInstance.event.addListenerOnce(geolocation, 'error', (err) => {
           reject(err);
@@ -76,7 +123,7 @@ export default () => {
     };
 
     const searchDistrict = async ({ name, level, subdistrict = 1 }) => {
-      await loadScript();
+      await initAMap();
       return new Promise((resolve, reject) => {
         if (level) {
           districtSearch.setLevel(level);
@@ -96,10 +143,12 @@ export default () => {
     return {
       getCurrentLocation,
       searchDistrict,
+      initAMap,
     };
   }
   return {
     getCurrentLocation: () => { throw new Error('Do not call this method outside browser'); },
     searchDistrict: () => { throw new Error('Do not call this method outside browser'); },
+    initAMap: () => { throw new Error('Do not call this method outside browser'); },
   };
 };

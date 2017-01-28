@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 
 import Label from 'react-bootstrap/lib/Label';
-import { formatLocation } from '../../../utils/displayUtils';
+import { formatAddress } from '../../../utils/displayUtils';
 import { displayPeriod } from '../../../utils/momentUtils';
 
 
@@ -13,7 +13,7 @@ function renderSpecifications(product) {
 const Product = ({ product }) => (
   <div className="text-center">
     <h3>{product.species.name}</h3>
-    <div>发货地点：{formatLocation(product.location)}</div>
+    <div>发货地点：{formatAddress(product.location)}</div>
     <div>详细规格：{renderSpecifications(product)}</div>
     <div>价格：{JSON.stringify(product.price)}</div>
     {

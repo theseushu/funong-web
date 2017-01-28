@@ -4,7 +4,7 @@ import { reduxForm, Field } from 'redux-form';  // eslint-disable-line no-unused
 import { bindActionCreators } from 'redux';
 import Button from 'react-mdl/lib/Button';
 import { Card, CardTitle, CardActions } from 'react-mdl/lib/Card';
-import { Grid, Cell } from 'react-mdl/lib/Grid';
+import { Grid } from 'react-mdl/lib/Grid';
 import injectSheet from 'react-jss';
 import { createProduct as createProductAction, selector } from '../../api/createProduct';
 import FORM_NAME from './formName';

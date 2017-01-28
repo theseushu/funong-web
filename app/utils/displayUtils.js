@@ -1,6 +1,6 @@
 import _reduce from 'lodash/reduce';
 
-export const formatLocation = ({ country = '', province = '', city = '', district = '' }) =>
+export const formatAddress = ({ country = '', province = '', city = '', district = '' }) =>
   `${country === '中国' ? '' : country}${province}${city}${district}`;
 
 export const formatPrices = (prices) => {

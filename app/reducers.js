@@ -12,6 +12,7 @@ import languageProviderReducer from './containers/LanguageProvider/reducer';
 import api from './modules/api/ducks';
 import data from './modules/data/ducks';
 import fullScreenGallery from './modules/fullScreenGallery/ducks';
+import mapDialog from './modules/mapDialog/ducks';
 
 
 /*
@@ -55,5 +56,6 @@ export default function createReducer(asyncReducers) {
     ...data,
     ...asyncReducers,
     ...fullScreenGallery,
+    ...mapDialog,
   });
 }

@@ -7,6 +7,7 @@ import * as signupOrLoginWithMobilePhone from '../signupOrLogin/ducks';
 import * as uploadAvatar from '../uploadAvatar/ducks';
 import * as searchDistinct from '../searchDistrict/ducks';
 import * as fetchLocation from '../fetchLocation/ducks';
+import * as initAMap from '../initAMap/ducks';
 import * as fetchCatalogs from '../fetchCatalogs/ducks';
 import * as fetchCategories from '../fetchCategories/ducks';
 import * as createSpecies from '../createSpecies/ducks';
@@ -46,6 +47,7 @@ export default {
     ...updateCert.default,
     ...fetchCerts.default,
     ...createSpecies.default,
+    ...initAMap.default,
   }),
 };
 
@@ -72,4 +74,5 @@ export const sagas = [
   ...updateCert.sagas,
   ...fetchCerts.sagas,
   ...createSpecies.sagas,
+  ...initAMap.sagas,
 ];

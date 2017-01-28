@@ -48,7 +48,7 @@ import createRoutes from './routes';
 import createApi from './createApi';
 
 import FullScreenGallery from './modules/fullScreenGallery';
-import MapDialog from './modules/common/mapDialog';
+import MapDialog from './modules/mapDialog';
 
 // Create redux store with history
 // this uses the singleton browserHistory provided by react-router
@@ -100,7 +100,7 @@ const render = (messages) => {
       galleryEl
     );
     const mapDialogEl = document.createElement('div');
-    mapDialogEl.setAttribute('id', '_amap_container');
+    mapDialogEl.setAttribute('id', '_map_dialog_');
     document.body.appendChild(mapDialogEl);
     ReactDOM.render(
       <Provider store={store}>

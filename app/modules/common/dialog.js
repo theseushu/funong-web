@@ -1,53 +1,63 @@
-import React, { PropTypes } from 'react';
+import React, { Component, PropTypes } from 'react';
+import dialogPolyfill from 'dialog-polyfill';
+import 'dialog-polyfill/dialog-polyfill.css';
 import injectSheet from 'react-jss';
 import { Dialog, DialogContent, DialogActions, DialogTitle } from 'react-mdl/lib/Dialog';
 import Button from 'react-mdl/lib/Button';
+import { findDOMNode } from 'react-dom';
 
-const DialogComponent = ({ title, fixedContent, scrollableContent, sheet: { classes }, show = true, onHide, onCancel, submit, fixedHeight = true }) => {
-  // The dialog focuses on first focusable element automatically, its anoyying. this firstAnchor is not really visible, it shall be focused without affecting any display styles
-  const firstAnchor = <a href="#_non_existing_" />; // eslint-disable-line
-  return (
-    <Dialog open={show} onCancel={onHide} className={`${classes.modal}${fixedHeight ? ' ' : ''}${fixedHeight ? classes.fixedHeight : ''}`}>
-      <DialogTitle>
-        {title}
-      </DialogTitle>
-      <DialogContent className={`${classes.modalBody}${fixedHeight ? ' ' : ''}${fixedHeight ? classes.fixedHeightBody : ''}`}>
-        {firstAnchor}
-        {fixedContent && <div className={classes.fixedContent}>
-          {fixedContent}
-        </div>}
-        {scrollableContent && <div className={classes.scrollableContent}>
-          {scrollableContent}
-        </div>}
-      </DialogContent>
-      <DialogActions>
-        {submit && <Button colored onClick={submit.onSubmit} disabled={submit.disabled}>确定</Button>}
-        <Button colored onClick={onCancel}>取消</Button>
-      </DialogActions>
-    </Dialog>
-  );
-};
+class DialogComponent extends Component {
+  static propTypes = {
+    title: PropTypes.oneOfType([
+      PropTypes.string, PropTypes.func, PropTypes.element,
+    ]),
+    fixedContent: PropTypes.oneOfType([
+      PropTypes.string, PropTypes.func, PropTypes.element,
+    ]),
+    scrollableContent: PropTypes.oneOfType([
+      PropTypes.string, PropTypes.func, PropTypes.element,
+    ]),
+    sheet: PropTypes.object.isRequired,
+    onHide: PropTypes.func,
+    onCancel: PropTypes.func,
+    show: PropTypes.bool,
+    fixedHeight: PropTypes.bool,
+    submit: PropTypes.shape({
+      onSubmit: PropTypes.func,
+      disabled: PropTypes.bool,
+    }),
+  }
+  componentDidMount() {
+    const dialog = findDOMNode(this);
+    if (!dialog.showModal) {   // avoid chrome warnings and update only on unsupported browsers
+      dialogPolyfill.registerDialog(dialog);
+    }
+  }
+  render() {
+    const { title, fixedContent, scrollableContent, sheet: { classes }, show = true, onHide, onCancel, submit, fixedHeight = true } = this.props;const firstAnchor = <a href="#_non_existing_" />; // eslint-disable-line
+    return (
+      <Dialog open={show} onCancel={onHide} className={`${classes.modal}${fixedHeight ? ' ' : ''}${fixedHeight ? classes.fixedHeight : ''}`}>
+        <DialogTitle>
+          {title}
+        </DialogTitle>
+        <DialogContent className={`${classes.modalBody}${fixedHeight ? ' ' : ''}${fixedHeight ? classes.fixedHeightBody : ''}`}>
+          {firstAnchor}
+          {fixedContent && <div className={classes.fixedContent}>
+            {fixedContent}
+          </div>}
+          {scrollableContent && <div className={classes.scrollableContent}>
+            {scrollableContent}
+          </div>}
+        </DialogContent>
+        <DialogActions>
+          <Button colored onClick={onCancel}>取消</Button>
+          {submit && <Button colored onClick={submit.onSubmit} disabled={submit.disabled}>确定</Button>}
+        </DialogActions>
+      </Dialog>
+    );
+  }
+}
 
-DialogComponent.propTypes = {
-  title: PropTypes.oneOfType([
-    PropTypes.string, PropTypes.func, PropTypes.element,
-  ]),
-  fixedContent: PropTypes.oneOfType([
-    PropTypes.string, PropTypes.func, PropTypes.element,
-  ]),
-  scrollableContent: PropTypes.oneOfType([
-    PropTypes.string, PropTypes.func, PropTypes.element,
-  ]),
-  sheet: PropTypes.object.isRequired,
-  onHide: PropTypes.func,
-  onCancel: PropTypes.func,
-  show: PropTypes.bool,
-  fixedHeight: PropTypes.bool,
-  submit: PropTypes.shape({
-    onSubmit: PropTypes.func,
-    disabled: PropTypes.bool,
-  }),
-};
 
 export default injectSheet({
   modal: {

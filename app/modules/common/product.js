@@ -5,7 +5,7 @@ import Media from 'react-bootstrap/lib/Media';
 import Label from 'react-bootstrap/lib/Label';
 import FaQuestionCircle from 'react-icons/lib/fa/question-circle';
 import { humanizeTime } from '../../utils/momentUtils';
-import { formatLocation } from '../../utils/displayUtils';
+import { formatAddress } from '../../utils/displayUtils';
 
 const styles = {
   left: {
@@ -40,7 +40,7 @@ const Product = ({ product, sheet: { classes } }) => (
       </Media.Left>
       <Media.Body>
         <Media.Heading>{product.species.name}<small>{` ${humanizeTime(product.createdAt)}`}</small></Media.Heading>
-        <div>{formatLocation(product.location)}</div>
+        <div>{formatAddress(product.location)}</div>
         <div>{renderSpecifications(product)}</div>
         <div>{product.desc}</div>
       </Media.Body>
