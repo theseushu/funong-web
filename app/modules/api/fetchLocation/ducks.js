@@ -50,7 +50,6 @@ function* fetchLocationSaga(action, api) {
         resolve(result);
       }
     } catch (error) {
-      console.log(error)
       yield put({ type: FETCH_LOCATION_STATE, payload: { rejected: true, error } });
       if (typeof reject === 'function') {
         reject({ code: 'unknown', message: `无法读取地区${name}` });

@@ -13,5 +13,5 @@ Panel.propTypes = {
 };
 
 export default injectSheet({
-  panel: { display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'center' },
+  panel: { display: 'flex', flexWrap: 'wrap', alignItems: 'center' },
 })(Panel);

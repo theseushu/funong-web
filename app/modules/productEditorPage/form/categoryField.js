@@ -27,10 +27,10 @@ class SpeciesField extends Component {
     const category = value || null;
     return (
       <Grid>
-        <Cell col={2} tablet={2} phone={1} className={classes.field}>
+        <Cell col={4} tablet={3} phone={2} className={classes.field}>
           品种
         </Cell>
-        <Cell col={10} tablet={6} phone={3} className={classes.field} style={{ color: error ? colors.colorError : null }}>
+        <Cell col={8} tablet={5} phone={2} className={classes.field} style={{ color: error ? colors.colorError : null }}>
           <CategorySelectorDialog category={category} show={showDialog} close={this.hideDialog} onSubmit={this.setCategory} />
           <Button colored onClick={this.showDialog}>{category ? category.name : '点击选择'}</Button>
         </Cell>

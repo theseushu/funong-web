@@ -58,7 +58,7 @@ class mapDialog extends Component {
                   }
                   // do nothing if user has changed state.location already
                 },
-                reject: (e) => {
+                reject: () => {
                 },
               },
             });
@@ -69,7 +69,6 @@ class mapDialog extends Component {
   }
   componentWillReceiveProps({ location }) {
     if (location) {
-      console.log(location.lnglat)
       this.props.initAMap({
         center: { longitude: location.lnglat.longitude, latitude: location.lnglat.latitude },
       });

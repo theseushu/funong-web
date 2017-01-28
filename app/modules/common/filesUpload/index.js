@@ -4,14 +4,13 @@ import { bindActionCreators } from 'redux';
 import _without from 'lodash/without';
 import injectSheet from 'react-jss';
 import { toastr } from 'react-redux-toastr';
+import Icon from 'react-mdl/lib/Icon';
+import IconButton from 'react-mdl/lib/IconButton';
+import Tooltip from 'react-mdl/lib/Tooltip';
 import Files from './files';
 import { actions } from '../../fullScreenGallery/ducks';
 
 const debug = require('debug')('app:photosField');
-
-const styles = {
-
-};
 
 const getUploadedFiles = (files) => files.filter((file) => file.upload.file).map((file) => file.upload.file);
 
@@ -93,23 +92,57 @@ class FilesUpload extends Component {
     }
   }
   render() {
+    const { title, editing, sheet: { classes }, allowGallery = true } = this.props;
     return (
-      <Files
-        editing={this.props.editing}
-        files={this.state.files}
-        onProcessed={this.onProcessed} onUploaded={this.onUploaded} onSwitch={this.onSwitch} onDrop={this.onDrop}
-        onItemClick={this.openFullScreenGallery}
-        onFilesSelected={this.onFilesSelected}
-      />
+      <div>
+        {
+          editing && (
+            <div>
+              <small className={classes.title}>{title || '图片内容'}</small>
+              <IconButton colored name="add_circle" onClick={(e) => { e.preventDefault(); this.fileSelector.click(); }}></IconButton>
+              <input
+                className="hidden"
+                multiple
+                type="file"
+                placeholder="点击选择"
+                ref={(fileSelector) => { this.fileSelector = fileSelector; }}
+                onChange={this.onFilesSelected}
+              />
+              <Tooltip
+                label={
+                  <div>
+                    <div>点击 <Icon name="add" style={{ fontSize: 10 }} /> 按钮添加图片</div>
+                    <div>拖拽图片到 <Icon name="delete_sweep" style={{ fontSize: 10 }} /> 删除图片</div>
+                    <div>您也可以拖拽交换图片的位置</div>
+                    <div>单击图片可预览</div>
+                  </div>
+                }
+              >
+                <IconButton accent name="help_outline"></IconButton>
+              </Tooltip>
+            </div>
+          )
+        }
+        <Files
+          editing={editing}
+          files={this.state.files}
+          onProcessed={this.onProcessed} onUploaded={this.onUploaded} onSwitch={this.onSwitch} onDrop={this.onDrop}
+          onItemClick={allowGallery ? this.openFullScreenGallery : null}
+          onFilesSelected={this.onFilesSelected}
+        />
+      </div>
     );
   }
 }
 
 FilesUpload.propTypes = {
   files: PropTypes.array,
-  onChange: PropTypes.func.isRequired,
+  onChange: PropTypes.func,
+  allowGallery: PropTypes.bool,
   openGallery: PropTypes.func.isRequired,
   editing: PropTypes.bool,
+  title: PropTypes.string,
+  sheet: PropTypes.object.isRequired,
 };
 
 export default connect(
@@ -117,4 +150,8 @@ export default connect(
   (dispatch) => ({
     ...bindActionCreators(actions, dispatch),
   })
-)(injectSheet(styles)(FilesUpload));
+)(injectSheet({
+  title: {
+    marginRight: 24,
+  },
+})(FilesUpload));

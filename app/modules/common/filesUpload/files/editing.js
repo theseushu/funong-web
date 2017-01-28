@@ -1,5 +1,4 @@
 import React, { Component, PropTypes } from 'react';
-import FABButton from 'react-mdl/lib/FABButton';
 import loadImage from 'blueimp-load-image';
 import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
@@ -41,9 +40,6 @@ class Editing extends Component {
     const { files } = newProps;
     this.processFiles(files);
   }
-  onFilesSelected = (e) => {
-    this.props.onFilesSelected(e);
-  }
   processFiles = (files) => {
     files
       .filter((file) => !file.upload.file && !file.process.rejected && !file.process.dataUrl)
@@ -77,24 +73,11 @@ class Editing extends Component {
         {items}
         {items.length > 0 && (
           <Droppable onDrop={this.props.onDrop}>
-            <div className={styles.contentCenter} style={{ width: 80 }}>
-              <Icon name="delete_sweep" style={{ fontSize: 56 }} />
+            <div className={`${styles.contentCenter} mdl-shadow--4dp`} style={{ width: 48, height: 48, margin: 16, borderRadius: '20%' }}>
+              <Icon name="delete_sweep" className={styles.colorAccent} style={{ fontSize: 32 }} />
             </div>
           </Droppable>
         )}
-        <div className={styles.contentCenter} style={{ width: 80 }}>
-          <FABButton colored onClick={(e) => { e.preventDefault(); this.fileSelector.click(); }}>
-            <Icon name="add" />
-          </FABButton>
-          <input
-            className="hidden"
-            multiple
-            type="file"
-            placeholder="点击选择"
-            ref={(fileSelector) => { this.fileSelector = fileSelector; }}
-            onChange={this.onFilesSelected}
-          />
-        </div>
       </Panel>
     );
   }

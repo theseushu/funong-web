@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { reduxForm, Field } from 'redux-form';  // eslint-disable-line no-unused-vars
+import { reduxForm, Field } from 'redux-form';
 import { bindActionCreators } from 'redux';
 import Button from 'react-mdl/lib/Button';
 import { Card, CardTitle, CardActions } from 'react-mdl/lib/Card';
@@ -12,7 +12,7 @@ import NameField from './nameField';
 import CategoryField from './categoryField';
 import SpeciesField from './speciesField';
 import LocationField from './locationField';
-import DescField from './descField';
+import DescField from './descField/index';
 import SpecificationsField from './specificationsField';
 import PhotosField from './photosField';
 
@@ -78,24 +78,21 @@ const Form = (props) => {
         <Field name="name" component={NameField} />
         <Field name="specifications" component={SpecificationsField} />
         <Field name="location" component={LocationField} />
-        <Grid>
-          <Field name="desc" component={DescField} />
-          <Field name="photos" component={PhotosField} />
-          {
-            error && (
-              <p className={'text-center text-danger'}>
-                <span>{error.message}</span>
-              </p>
-            )
-          }
-          {
-            submitSucceeded && (
-              <p className={'text-center text-info'}>
-                <span>{'登录成功，请稍候'}</span>
-              </p>
-            )
-          }
-        </Grid>
+        <Field name="desc" component={DescField} />
+        {
+          error && (
+            <p className={'text-center text-danger'}>
+              <span>{error.message}</span>
+            </p>
+          )
+        }
+        {
+          submitSucceeded && (
+            <p className={'text-center text-info'}>
+              <span>{'保存成功，请稍候'}</span>
+            </p>
+          )
+        }
       </form>
       <CardActions>
         <Button
@@ -127,10 +124,15 @@ export default reduxForm({
   validate,
 })(injectSheet({
   form: {
+    width: '100%',
     maxWidth: 500,
     margin: '0 auto',
     '& input': {
       cursor: 'text',
+    },
+    '& > div': {
+      width: '100%',
+      boxSizing: 'border-box',
     },
   },
   fieldName: {

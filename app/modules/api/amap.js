@@ -39,9 +39,9 @@ export default () => {
             });
           }
         });
-      }
+      };
       map.on('click', clickHandler);
-    }
+    };
 
     const loadGeocoder = (GLOBAL_INSTANCE) => {
       if (geocoder) {

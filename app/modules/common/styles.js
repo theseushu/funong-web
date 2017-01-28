@@ -58,6 +58,9 @@ const styles = {
   colorError: {
     color: colors.colorError,
   },
+  colorAccent: {
+    color: colors.colorAccent,
+  },
 };
 
 const { classes } = jss.createStyleSheet(styles).attach();

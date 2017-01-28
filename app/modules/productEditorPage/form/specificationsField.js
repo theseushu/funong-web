@@ -57,11 +57,11 @@ class SpecificationsField extends Component {
     const { editingIndex } = this.state;
     return (
       <Grid>
-        <Cell col={2} tablet={2} phone={1} className={classes.field}>
+        <Cell col={4} tablet={3} phone={2} className={classes.field}>
           规格
         </Cell>
-        <Cell col={10} tablet={6} phone={3} className={classes.field}>
-          <IconButton name="add_circle" ripple onClick={(e) => { e.preventDefault(); this.addSpec(); }}></IconButton>
+        <Cell col={8} tablet={5} phone={2} className={classes.field}>
+          <IconButton className={classes.addButton} name="add_circle" ripple onClick={(e) => { e.preventDefault(); this.addSpec(); }}></IconButton>
           {
             editingIndex !== null && (
               <SpecificationDialog
@@ -100,6 +100,9 @@ export default injectSheet({
     display: 'flex',
     justifyContent: 'flex-start',
     alignItems: 'center',
+  },
+  addButton: {
+    marginLeft: 12,
   },
   list: {
     margin: '0 auto',
