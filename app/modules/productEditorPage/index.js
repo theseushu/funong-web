@@ -1,13 +1,15 @@
 import React from 'react';
 import Layout from '../common/layout';
 
-import Form from './form';
+import createForm from './form';
 
-export default () => (
-  <Layout
-    content={<Form />}
-    smallContent
-  >
-  </Layout>
-);
-
+export default () => {
+  const Form = createForm();
+  return (
+    <Layout
+      content={<Form />}
+      smallContent
+    >
+    </Layout>
+  );
+};

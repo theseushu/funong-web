@@ -5,12 +5,16 @@ import Images from './images';
 
 const richContent = ({ richContent: { text, images }, textLabel, sheet: { classes }, editing, onTextChange, onImagesChange, allowGallery }) => (
   <div>
-    <div style={{ marginTop: 24 }}>
-      <Images editing={editing} images={images} onChange={onImagesChange} allowGallery={allowGallery} />
-    </div>
+    {
+      (editing || images.length > 0) && (
+        <div className={classes.marginTop}>
+          <Images editing={editing} images={images} onChange={onImagesChange} allowGallery={allowGallery} />
+        </div>
+      )
+    }
     {
       editing && (
-        <div style={{ marginTop: 24 }}>
+        <div className={classes.marginTop}>
           <small>文字内容</small>
         </div>
       )
@@ -23,7 +27,7 @@ const richContent = ({ richContent: { text, images }, textLabel, sheet: { classe
             label={textLabel || '点击开始输入'} maxLength={20000}
             value={text} autoFocus onChange={(e) => onTextChange(e.target.value)}
           />
-        ) : <p className={classes.p}>{text}</p>
+        ) : (text.length > 0 && <div className={classes.marginTop}>{text}</div>)
       }
     </div>
   </div>
@@ -43,7 +47,7 @@ richContent.propTypes = {
 };
 
 export default injectSheet({
-  p: {
-    paddingTop: 20,
+  marginTop: {
+    marginTop: 16,
   },
 })(richContent);

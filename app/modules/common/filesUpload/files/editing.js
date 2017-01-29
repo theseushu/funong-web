@@ -30,7 +30,6 @@ class Editing extends Component {
     onSwitch: PropTypes.func.isRequired,
     onDrop: PropTypes.func.isRequired,
     onItemClick: PropTypes.func,
-    onFilesSelected: PropTypes.func.isRequired,
   }
   componentDidMount() {
     const { files } = this.props;

@@ -2,9 +2,9 @@ import React, { Component, PropTypes } from 'react';
 import injectSheet from 'react-jss';
 import { Grid, Cell } from 'react-mdl/lib/Grid';
 import Button from 'react-mdl/lib/Button';
-import DescDialog from '../../../common/descDialog';
-import { colors } from '../../../common/styles';
-import RichContent from '../../../common/richContent';
+import DescDialog from '../../common/descDialog';
+import { colors, breakpoints } from '../../common/styles';
+import RichContent from '../../common/richContent';
 
 // '请详细描述您的产品。详尽的描述更能引起客户的关注哦'
 class DescField extends Component {
@@ -38,9 +38,9 @@ class DescField extends Component {
           }
           <Button colored onClick={() => this.setState({ showDialog: true })}>{value ? '修改' : '添加描述'}</Button>
         </Cell>
-        <Cell col={12}>
+        <div className={classes.content}>
           <RichContent editing={false} richContent={value || { text: '', images: [] }} />
-        </Cell>
+        </div>
       </Grid>
     );
   }
@@ -51,5 +51,10 @@ export default injectSheet({
     display: 'flex',
     justifyContent: 'flex-start',
     alignItems: 'center',
+  },
+  content: {
+    [breakpoints.mediaTabletAbove]: {
+      margin: '0 16px',
+    },
   },
 })(DescField);
