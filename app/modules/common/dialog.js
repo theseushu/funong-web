@@ -50,7 +50,7 @@ class DialogComponent extends Component {
           </div>}
         </DialogContent>
         <DialogActions>
-          <Button colored onClick={onCancel}>取消</Button>
+          <Button colored onClick={(e) => { e.preventDefault(); onCancel(); }}>取消</Button>
           {submit && <Button colored onClick={submit.onSubmit} disabled={submit.disabled}>确定</Button>}
         </DialogActions>
       </Dialog>

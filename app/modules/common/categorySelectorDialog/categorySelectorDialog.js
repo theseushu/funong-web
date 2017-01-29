@@ -47,7 +47,7 @@ class categorySelectorDialog extends Component {
     const { category } = props;
     this.state = { // catalogType is string, others are objects
       catalogType: (category && category.catalog.catalogType) || catalogTypes.supply.farm.value,
-      catalog: category && category.category.catalog,
+      catalog: category && category.catalog,
       category,
     };
   }

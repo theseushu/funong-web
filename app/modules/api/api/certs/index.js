@@ -1,3 +1,4 @@
+import { fileToJSON } from '../../utils/converters';
 const debug = require('debug')('app:api:certs');
 
 export default ({ AV, sessionToken, userId }) => {
@@ -42,6 +43,5 @@ export default ({ AV, sessionToken, userId }) => {
     fetchCerts,
     createCert,
     updateCert,
-    createSpecies,
   };
 };

@@ -1,3 +1,4 @@
+import { fileToJSON } from '../../utils/converters';
 const debug = require('debug')('app:api:profile');
 
 export default ({ AV, userId, sessionToken }) => {

@@ -9,6 +9,7 @@ import createSignupOrLoginApis from './signupOrLogin';
 import createCatalogCategorySpeciesApis from './catalogCategorySpecies';
 import createProfileApis from './profile';
 import createCertsApis from './certs';
+import createProductApis from './product';
 
 const debug = require('debug')('app:api');
 
@@ -38,7 +39,6 @@ export default (params = {}) => {
     sessionToken = newParams.sessionToken;
     userId = newParams.userId;
   };
-
 
   const uploadFile = async ({ filename, file, onprogress, metaData = {} }) => {
     try {
@@ -70,6 +70,7 @@ export default (params = {}) => {
     }
   };
 
+  // todo remove this one
   const createProduct = async ({ species, specifications, price, available, startAt, endAt, location, geopoint, desc, photos, owner }) => {
     try {
       const product = new Product();
@@ -97,6 +98,7 @@ export default (params = {}) => {
     }
   };
 
+  // todo remove this one
   const fetchUserProducts = async () => new AV
     .Query('Product')
     .include(['species', 'specifications', 'photos'])
@@ -121,6 +123,7 @@ export default (params = {}) => {
       });
     }));
 
+  // todo remove this one
   const fetchProduct = async ({ id }) => AV.Object.createWithoutData('Product', id)
     .fetch({
       include: ['owner', 'species', 'specifications', 'photos'],
@@ -151,6 +154,7 @@ export default (params = {}) => {
     ...createCatalogCategorySpeciesApis({ AV, userId, sessionToken }),
     ...createProfileApis({ AV, userId, sessionToken }),
     ...createCertsApis({ AV, userId, sessionToken }),
+    ...createProductApis({ AV, userId, sessionToken }),
     ...createAMapApi(),
     replaceToken,
     uploadFile,

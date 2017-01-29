@@ -1,9 +1,8 @@
 import React, { Component, PropTypes } from 'react';
-import injectSheet from 'react-jss';
 import { Grid, Cell } from 'react-mdl/lib/Grid';
-import Button from 'react-mdl/lib/Button';
+import Button from '../../common/formElements/button';
 import DescDialog from '../../common/descDialog';
-import { colors, breakpoints } from '../../common/styles';
+import styles from '../../common/styles';
 import RichContent from '../../common/richContent';
 
 // '请详细描述您的产品。详尽的描述更能引起客户的关注哦'
@@ -21,11 +20,11 @@ class DescField extends Component {
     const { input: { value, onChange }, meta: { error }, sheet: { classes } } = this.props;
     const { showDialog } = this.state;
     return (
-      <Grid>
+      <Grid className={error && styles.colorError}>
         <Cell col={4} tablet={3} phone={2} className={classes.field}>
           描述
         </Cell>
-        <Cell col={8} tablet={5} phone={2} className={classes.field} style={{ color: error ? colors.colorError : null }}>
+        <Cell col={8} tablet={5} phone={2} className={classes.field}>
           {
             showDialog && (
               <DescDialog
@@ -36,9 +35,9 @@ class DescField extends Component {
               />
             )
           }
-          <Button colored onClick={() => this.setState({ showDialog: true })}>{value ? '修改' : '添加描述'}</Button>
+          <Button error={error} onClick={(e) => { e.preventDefault(); this.setState({ showDialog: true }); }}>{value ? '修改' : '添加描述'}</Button>
         </Cell>
-        <div className={classes.content}>
+        <div className={classes.fieldContent}>
           <RichContent editing={false} richContent={value || { text: '', images: [] }} />
         </div>
       </Grid>
@@ -46,15 +45,4 @@ class DescField extends Component {
   }
 }
 
-export default injectSheet({
-  field: {
-    display: 'flex',
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-  },
-  content: {
-    [breakpoints.mediaTabletAbove]: {
-      margin: '0 16px',
-    },
-  },
-})(DescField);
+export default DescField;

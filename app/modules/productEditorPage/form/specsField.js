@@ -1,12 +1,12 @@
 import React, { Component, PropTypes } from 'react';
 import _without from 'lodash/without';
-import injectSheet from 'react-jss';
 import IconButton from 'react-mdl/lib/IconButton';
 import { Grid, Cell } from 'react-mdl/lib/Grid';
 import { List, ListItem, ListItemContent, ListItemAction } from 'react-mdl/lib/List';
 import { formatPrices } from '../../../utils/displayUtils';
-
+import FormIconButton from '../../common/formElements/iconButton';
 import SpecificationDialog from '../../common/specificationDialog';
+import styles from '../../common/styles';
 
 class SpecificationsField extends Component {
   static propTypes = {
@@ -53,15 +53,19 @@ class SpecificationsField extends Component {
   }
 
   render() {
-    const { input: { value }, meta, sheet: { classes } } = this.props; // eslint-disable-line
+    const { input: { value }, meta: { error }, sheet: { classes } } = this.props; // eslint-disable-line
     const { editingIndex } = this.state;
     return (
-      <Grid>
+      <Grid className={error && styles.colorError}>
         <Cell col={4} tablet={3} phone={2} className={classes.field}>
           规格
         </Cell>
         <Cell col={8} tablet={5} phone={2} className={classes.field}>
-          <IconButton className={classes.addButton} name="add_circle" ripple onClick={(e) => { e.preventDefault(); this.addSpec(); }}></IconButton>
+          <FormIconButton
+            error={error}
+            className={classes.iconButton}
+            name="add_circle" ripple onClick={(e) => { e.preventDefault(); this.addSpec(); }}
+          ></FormIconButton>
           {
             editingIndex !== null && (
               <SpecificationDialog
@@ -74,39 +78,27 @@ class SpecificationsField extends Component {
           }
         </Cell>
         {
-          value.length > 0 && <List className={classes.list}>
-            {
-              value.map((spec, i) => (
-                <ListItem key={i} threeLine className="mdl-shadow--2dp">
-                  <ListItemContent
-                    subtitle={spec.params.join(', ')}
-                  ><span>{spec.name}<small>{formatPrices(spec.prices)}</small></span></ListItemContent>
-                  <ListItemAction>
-                    <IconButton name="edit" onClick={() => this.editSpec(i)} />
-                    <IconButton name="delete_sweep" onClick={() => this.removeSpec(spec)} />
-                  </ListItemAction>
-                </ListItem>
-              ))
-            }
+          value.length > 0 && (
+            <List className={classes.fieldContent}>
+              {
+                value.map((spec, i) => (
+                  <ListItem key={i} threeLine className="mdl-shadow--2dp">
+                    <ListItemContent
+                      subtitle={spec.params.join(', ')}
+                    ><span>{spec.name}<small>{formatPrices(spec.prices)}</small></span></ListItemContent>
+                    <ListItemAction>
+                      <IconButton name="edit" onClick={() => this.editSpec(i)} />
+                      <IconButton name="delete_sweep" onClick={() => this.removeSpec(spec)} />
+                    </ListItemAction>
+                  </ListItem>
+                ))
+              }
             </List>
+          )
         }
       </Grid>
     );
   }
 }
 
-export default injectSheet({
-  field: {
-    display: 'flex',
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-  },
-  addButton: {
-    marginLeft: 12,
-  },
-  list: {
-    margin: '0 auto',
-    padding: 0,
-    width: '100%',
-  },
-})(SpecificationsField);
+export default SpecificationsField;

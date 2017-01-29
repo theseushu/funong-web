@@ -7,6 +7,7 @@ import {
   SET_SPECIFICATIONS,
   SET_PRODUCT,
   SET_PRODUCTS,
+  SET_SUPPLY_PRODUCTS,
   SET_CERTS,
 } from './constants';
 
@@ -42,6 +43,10 @@ export const setProduct = (product) => ({
 export const setProducts = (products) => ({
   type: SET_PRODUCTS,
   payload: { products },
+});
+export const setSupplyProducts = (supplyProducts) => ({
+  type: SET_SUPPLY_PRODUCTS,
+  payload: { supplyProducts },
 });
 export const setCerts = (certs) => ({
   type: SET_CERTS,

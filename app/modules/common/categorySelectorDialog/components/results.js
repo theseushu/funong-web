@@ -4,7 +4,7 @@ import injectSheet from 'react-jss';
 import Liner from '../../svgs/liner';
 
 function renderButton(result, i, onClick) {
-  return <Button key={i} onClick={() => onClick(result)}>{result.name}</Button>;
+  return <Button key={i} onClick={() => (e) => { e.preventDefault(); onClick(result); }}>{result.name}</Button>;
 }
 
 function renderButtonWithActiveCheck(result, i, isButtonActive, onClick) {
@@ -13,7 +13,7 @@ function renderButtonWithActiveCheck(result, i, isButtonActive, onClick) {
     <Button
       key={i}
       colored={active}
-      onClick={active ? null : () => onClick(result)}
+      onClick={(e) => { e.preventDefault(); onClick(result); }}
     >{result.name}</Button>
   );
 }

@@ -1,5 +1,5 @@
 import { loadSessionTokenInCookie } from './utils/sessionTokenUtils';
-import createApi from './modules/api/api_bak';
+import createApi from './modules/api/api';
 
 export default () => {
   const sessionToken = loadSessionTokenInCookie();

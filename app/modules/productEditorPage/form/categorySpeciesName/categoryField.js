@@ -1,9 +1,8 @@
 import React, { Component, PropTypes } from 'react';
-import Button from 'react-mdl/lib/Button';
-import injectSheet from 'react-jss';
 import { Grid, Cell } from 'react-mdl/lib/Grid';
-import CategorySelectorDialog from '../../common/categorySelectorDialog';
-import { colors } from '../../common/styles';
+import FormButton from '../../../common/formElements/button';
+import CategorySelectorDialog from '../../../common/categorySelectorDialog';
+import styles from '../../../common/styles';
 
 class SpeciesField extends Component {
   constructor(props) {
@@ -26,13 +25,13 @@ class SpeciesField extends Component {
     const { showDialog } = this.state;
     const category = value || null;
     return (
-      <Grid>
+      <Grid className={error && styles.colorError}>
         <Cell col={4} tablet={3} phone={2} className={classes.field}>
           品种
         </Cell>
-        <Cell col={8} tablet={5} phone={2} className={classes.field} style={{ color: error ? colors.colorError : null }}>
+        <Cell col={8} tablet={5} phone={2} className={classes.field}>
           <CategorySelectorDialog category={category} show={showDialog} close={this.hideDialog} onSubmit={this.setCategory} />
-          <Button colored onClick={this.showDialog}>{category ? category.name : '点击选择'}</Button>
+          <FormButton error={error} onClick={this.showDialog}>{category ? category.name : '点击选择'}</FormButton>
         </Cell>
       </Grid>
     );
@@ -45,10 +44,4 @@ SpeciesField.propTypes = {
   sheet: PropTypes.object,
 };
 
-export default injectSheet({
-  field: {
-    display: 'flex',
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-  },
-})(SpeciesField);
+export default SpeciesField;

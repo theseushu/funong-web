@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect';
 import { denormalize } from 'denormalizr';
 
-import { ProductsSchema, CertsSchema } from './schemas';
+import { ProductsSchema, CertsSchema, SupplyProductsSchema } from './schemas';
 
 const rootSelector = (state) => state.data;
 
@@ -44,6 +44,17 @@ export const productsSelector = createSelector(
       return [];
     }
     const result = Object.values(denormalize(data.entities.products, data.entities, ProductsSchema));
+    return result;
+  },
+);
+
+export const supplyProductsSelector = createSelector(
+  rootSelector,
+  (data) => {
+    if (!data.entities.products) {
+      return [];
+    }
+    const result = Object.values(denormalize(data.entities.supplyProducts, data.entities, SupplyProductsSchema));
     return result;
   },
 );

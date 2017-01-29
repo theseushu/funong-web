@@ -38,6 +38,16 @@ ProductSchema.define({
   specifications: SpecificationsSchema,
 });
 
+export const SupplyProductSchema = new Schema('supplyProducts', {
+  idAttribute: 'objectId',
+});
+SupplyProductSchema.define({
+  owner: UserSchema,
+  species: SpeciesSchema,
+  category: CategorySchema,
+});
+export const SupplyProductsSchema = arrayOf(SupplyProductSchema);
+
 export const CertSchema = new Schema('certs', {
   idAttribute: 'objectId',
 });

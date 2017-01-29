@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import _find from 'lodash/find';
 import _delay from 'lodash/delay';
 import injectJss from 'react-jss';
 import { AutoComplete } from 'react-mdl-extra';
@@ -11,11 +12,11 @@ import IconButton from 'react-mdl/lib/IconButton';
 import Button from 'react-mdl/lib/Button';
 import Spinner from 'react-mdl/lib/Spinner';
 import { toastr } from 'react-redux-toastr';
-import { selector as fetchSpeciesSelector, fetchSpecies as fetchSpeciesAction } from '../../api/fetchSpecies';
-import { selector as createSpeciesSelector, createSpecies as createSpeciesAction } from '../../api/createSpecies';
-import { speciesSelector } from '../../data/ducks/selectors';
-import FORM_NAME from './formName';
-import styles from '../../common/styles';
+import { selector as fetchSpeciesSelector, fetchSpecies as fetchSpeciesAction } from '../../../api/fetchSpecies';
+import { selector as createSpeciesSelector, createSpecies as createSpeciesAction } from '../../../api/createSpecies';
+import { speciesSelector } from '../../../data/ducks/selectors';
+import FORM_NAME from '../formName';
+import styles from '../../../common/styles';
 
 const CreateButton = ({ createSpeciesState: { pending, error }, onClick }) => (
   <Button
@@ -48,21 +49,28 @@ class SpeciesField extends Component {
   constructor(props) {
     super(props);
     const { input: { value } } = props;
-    this.state = { text: value ? null : '', value: value || null };
+    this.state = { text: value ? value.name : '' };
   }
   componentWillReceiveProps({ input: { value } }) {
-    this.state = { text: value ? null : '', value: value || null };
+    this.state = { text: value ? value.name : '' };
   }
   onTextChange = (text) => {
-    this.setState({ text, value: null });
+    const trimmed = text.trim();
+    const { species, input: { onChange } } = this.props;
+    const matched = _find(species, (s) => s.name === trimmed);
+    if (matched) {
+      onChange(matched);
+    } else {
+      onChange(null);
+      this.setState({ text: trimmed });
+    }
   }
   onChange = (value) => {
     const { input: { onChange } } = this.props;
-    this.setState({ text: null, value: value || null }, () => {
-      onChange(value);
-    });
+    onChange(value);
   }
   onBlur = () => {
+    const { input: { onChange } } = this.props;
     _delay(() => { // onBlur happens before onChange, so choosing an item could cause blur too. delay this func to skip toastr call
       const { text } = this.state;
       if (this.enableCreating()) {
@@ -71,13 +79,15 @@ class SpeciesField extends Component {
           icon: toastrType,
           status: toastrType,
           onOk: () => this.createSpecies(),
-          onCancel: () => this.setState({ text: '', value: null }),
+          onCancel: () => this.setState({ text: '' }, () => onChange(null)),
           okText: '保存并使用',
           cancelText: '放弃',
+          transitionIn: 'fadeIn',
+          transitionOut: 'fadeOut',
         };
         toastr.confirm(`您输入的品类${text}尚未保存，需要保存吗？`, toastrOptions);
       } else {
-        this.setState({ text: '', value: null });
+        this.setState({ text: '' });
       }
     }, 1);
   }
@@ -96,16 +106,17 @@ class SpeciesField extends Component {
     }
   }
   enableCreating = () => {
+    const { input: { value } } = this.props;
     const { text } = this.state;
-    if (text) {
+    if (!value && text) {
       return text.trim().length > 1;
     }
     return false;
   }
   render() {
-    const { createSpeciesState, fetchSpeciesState, fetchSpecies, species, category, meta, sheet: { classes } } = this.props; // eslint-disable-line
+    const { input: { value }, createSpeciesState, fetchSpeciesState, fetchSpecies, species, category, meta: { error }, sheet: { classes } } = this.props;
     const pending = createSpeciesState.pending || fetchSpeciesState.pending;
-    const { text, value } = this.state;
+    const { text } = this.state;
     const enableCreating = this.enableCreating();
     return (
       <Grid>
@@ -125,6 +136,8 @@ class SpeciesField extends Component {
               disabled={!category}
               value={value || text}
               autoComplete="off"
+              required={!!error}
+              error={!value && ' '}
             />
             {enableCreating && <CreateButton createSpeciesState={createSpeciesState} onClick={this.createSpecies} />}
           </div>

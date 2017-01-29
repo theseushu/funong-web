@@ -1,45 +1,28 @@
 import React, { PropTypes } from 'react';
-import { Field } from 'redux-form';
+import { Fields, Field } from 'redux-form';
 import Button from 'react-mdl/lib/Button';
 import { Card, CardTitle, CardActions } from 'react-mdl/lib/Card';
 import injectSheet from 'react-jss';
-import NameField from './nameField';
-import CategoryField from './categoryField';
-import SpeciesField from './speciesField';
+import CategorySpeciesName from './categorySpeciesName';
 import LocationField from './locationField';
 import DescField from './descField';
-import SpecificationsField from './specificationsField';
-import styles from '../../common/styles';
+import SpecsField from './specsField';
+import AvailableField from './availableField';
+import styles, { breakpoints } from '../../common/styles';
 
 const Form = (props) => {
-  const { handleSubmit, pristine, submitting, submitSucceeded, invalid, error, sheet: { classes }, createProduct } = props;
+  const { handleSubmit, pristine, submitting, submitSucceeded, invalid, error, sheet: { classes }, createSupplyProduct } = props;
   return (
     <Card shadow={0} style={{ width: '100%' }}>
       <CardTitle>
         货品信息
       </CardTitle>
-      <form
-        onSubmit={handleSubmit(({ category, species, name, specs, location, desc }) =>
-          new Promise((resolve, reject) => {
-            createProduct({
-              category,
-              species,
-              name,
-              specs,
-              desc,
-              location,
-              meta: {
-                resolve,
-                reject,
-              } });
-          }))} className={classes.form}
-      >
-        <Field name="category" component={CategoryField} />
-        <Field name="species" component={SpeciesField} />
-        <Field name="name" component={NameField} />
-        <Field name="specs" component={SpecificationsField} />
-        <Field name="location" component={LocationField} />
-        <Field name="desc" component={DescField} />
+      <form className={classes.form}>
+        <Fields names={['category', 'species', 'name']} component={CategorySpeciesName} sheet={{ classes }} />
+        <Field name="specs" component={SpecsField} sheet={{ classes }} />
+        <Field name="location" component={LocationField} sheet={{ classes }} />
+        <Field name="desc" component={DescField} sheet={{ classes }} />
+        <Field name="available" component={AvailableField} sheet={{ classes }} />
         {
           error && (
             <p className={'text-center text-danger'}>
@@ -59,7 +42,23 @@ const Form = (props) => {
         <Button
           type="submit" raised colored
           disabled={pristine || invalid || submitting}
-        >确定</Button>
+          onClick={handleSubmit(({ category, species, name, specs, location, desc, available }) =>
+            new Promise((resolve, reject) => {
+              console.log(JSON.stringify({ category, species, name, specs, location, desc, available }))
+              createSupplyProduct({
+                category,
+                species,
+                name,
+                specs,
+                desc,
+                location,
+                available,
+                meta: {
+                  resolve,
+                  reject,
+                } });
+            }))}
+        >{submitting ? '正在处理...' : '确定'}</Button>
       </CardActions>
     </Card>
   );
@@ -73,7 +72,7 @@ Form.propTypes = {
   invalid: PropTypes.bool,
   error: PropTypes.any,
   sheet: PropTypes.object.isRequired,
-  createProduct: PropTypes.func.isRequired,
+  createSupplyProduct: PropTypes.func.isRequired,
 };
 
 export default injectSheet({
@@ -89,14 +88,22 @@ export default injectSheet({
       boxSizing: 'border-box',
     },
   },
-  fieldName: {
+  field: {
     display: 'flex',
     justifyContent: 'flex-start',
     alignItems: 'center',
   },
+  iconButton: {
+    marginLeft: 12,
+  },
   fieldContent: {
-    display: 'flex',
-    justifyContent: 'flex-start',
-    alignItems: 'center',
+    flex: 1,
+    margin: '0 24px',
+    [breakpoints.mediaDestkopBelow]: {
+      margin: '0 16px',
+    },
+    [breakpoints.mediaTabletBelow]: {
+      margin: '0 0',
+    },
   },
 })(Form);
