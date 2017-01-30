@@ -7,7 +7,9 @@ export default ({ apiName, actionConstant, stateActionConstant }, fulfilledSaga,
     try {
       const result = apiSaga ? yield* apiSaga(api[apiName], payload) : yield call(api[apiName], payload);
       yield put({ type: stateActionConstant, payload: { fulfilled: true } });
-      yield* fulfilledSaga(result, { payload, meta: { resolve, reject } });
+      if (fulfilledSaga) {
+        yield* fulfilledSaga(result, { payload, meta: { resolve, reject } });
+      }
       if (typeof resolve === 'function') {
         resolve(result);
       }

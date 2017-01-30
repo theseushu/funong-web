@@ -1,3 +1,4 @@
+import { supplyProductToJSON } from '../../utils/converters';
 const debug = require('debug')('app:api:supply');
 
 export default ({ AV, userId, sessionToken }) => {
@@ -14,13 +15,14 @@ export default ({ AV, userId, sessionToken }) => {
       product.set('address', location.address);
       product.set('lnglat', new AV.GeoPoint(location.lnglat));
       product.set('desc', { ...desc, images: desc.images.map((image) => AV.Object.createWithoutData('_File', image.id)) });
+      product.set('thumbnail', AV.Object.createWithoutData('_File', desc.images[0].id))
       product.set('owner', AV.Object.createWithoutData('_User', userId));
       product.set('available', available);
       const savedProduct = await product.save(null, {
         fetchWhenSave: true,
         sessionToken,
       });
-      return { ...savedProduct.toJSON(), category, species, specs, location, desc };
+      return { ...savedProduct.toJSON(), category, species, specs, location, desc, thumbnail: desc.images[0] };
     } catch (err) {
       debug(err);
       throw err;
@@ -50,6 +52,9 @@ export default ({ AV, userId, sessionToken }) => {
       }
       if (desc) {
         product.set('desc', { ...desc, images: desc.images.map((image) => AV.Object.createWithoutData('_File', image.id)) });
+        if (desc.images && desc.images.length > 0) {
+          product.set('thumbnail', AV.Object.createWithoutData('_File', desc.images[0].id));
+        }
       }
       if (available != null) {
         product.set('available', available);
@@ -58,15 +63,26 @@ export default ({ AV, userId, sessionToken }) => {
         fetchWhenSave: true,
         sessionToken,
       });
-      return { ...savedProduct.toJSON(), category, species, specs, location, desc };
+      return { ...savedProduct.toJSON(), category, species, specs, location, desc, thumbnail: desc.images[0] };
     } catch (err) {
       debug(err);
       throw err;
     }
   };
 
+  const fetchSupplyProducts = async ({ ownerId }) => {
+    const products = await new AV.Query('SupplyProduct')
+      .include(['desc.images', 'thumbnail', 'category', 'category.catalog', 'species', 'owner'])
+      .equalTo('owner', AV.Object.createWithoutData('_User', ownerId))
+      .limit(1000)
+      .find();
+
+    return products.map(supplyProductToJSON);
+  };
+
   return {
     createSupplyProduct,
     updateSupplyProduct,
+    fetchSupplyProducts,
   };
 };

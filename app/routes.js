@@ -1,7 +1,6 @@
 import { getAsyncInjectors } from './utils/asyncInjectors';
 import createWelcomePageRoute from './modules/welcomePage/route';
 import createMePageRoute from './modules/mePage/route';
-import createProfilePageRoute from './modules/profilePage/route';
 import createProductPageRoute from './modules/productPage/route';
 import createProductEditorRoute from './modules/productEditorPage/route';
 import createPrototypeRoutes from './modules/prototypes/routes';
@@ -65,7 +64,6 @@ export default function createRoutes(store) {
     },
     createWelcomePageRoute({ store, injectReducer, injectSagas, loadModule, errorLoading }),
     createMePageRoute({ store, injectReducer, injectSagas, loadModule, errorLoading }),
-    createProfilePageRoute({ store, injectReducer, injectSagas, loadModule, errorLoading }),
     createProductPageRoute({ store, injectReducer, injectSagas, loadModule, errorLoading }),
     createPrototypeRoutes(),
     createSampleRoutes(),

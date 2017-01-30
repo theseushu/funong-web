@@ -32,11 +32,6 @@ export const speciesSelector = createSelector(
   (data) => data.entities.species || {},
 );
 
-export const specificationsSelector = createSelector(
-  rootSelector,
-  (data) => data.entities.specifications || {},
-);
-
 export const productsSelector = createSelector(
   rootSelector,
   (data) => {
@@ -51,10 +46,22 @@ export const productsSelector = createSelector(
 export const supplyProductsSelector = createSelector(
   rootSelector,
   (data) => {
-    if (!data.entities.products) {
+    const { entities: { supplyProducts } } = data;
+    if (!supplyProducts) {
       return [];
     }
-    const result = Object.values(denormalize(data.entities.supplyProducts, data.entities, SupplyProductsSchema));
+    const result = Object.values(denormalize(supplyProducts, data.entities, SupplyProductsSchema));
+    return result;
+  },
+);
+
+export const userSupplyProductsSelector = ({ objectId }) => createSelector(
+  supplyProductsSelector,
+  (products) => {
+    if (!products) {
+      return [];
+    }
+    const result = products.filter((p) => p.owner.objectId === objectId);
     return result;
   },
 );

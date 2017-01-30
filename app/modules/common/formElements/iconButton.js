@@ -10,5 +10,5 @@ formButton.propTypes = {
   error: PropTypes.any,
   className: PropTypes.string,
   children: PropTypes.any,
-}
+};
 export default formButton;

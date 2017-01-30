@@ -15,6 +15,6 @@ const AvailableField = ({ input: { value, onChange }, sheet: { classes } }) => (
 AvailableField.propTypes = {
   input: PropTypes.object.isRequired,
   sheet: PropTypes.object.isRequired,
-}
+};
 
 export default AvailableField;

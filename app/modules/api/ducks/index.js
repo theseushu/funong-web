@@ -19,6 +19,7 @@ import * as fetchSpecifications from '../fetchSpecifications/ducks';
 import * as createProduct from '../createProduct/ducks';
 import * as createSupplyProduct from '../createSupplyProduct/ducks';
 import * as fetchUserProducts from '../fetchUserProducts/ducks';
+import * as fetchSupplyProducts from '../fetchSupplyProducts/ducks';
 import * as fetchProduct from '../fetchProduct/ducks';
 import * as createCert from '../createCert/ducks';
 import * as updateCert from '../updateCert/ducks';
@@ -43,6 +44,7 @@ export default {
     ...createProduct.default,
     ...createSupplyProduct.default,
     ...fetchUserProducts.default,
+    ...fetchSupplyProducts.default,
     ...fetchProduct.default,
     ...updateProfile.default,
     ...createCert.default,
@@ -71,6 +73,7 @@ export const sagas = [
   ...createProduct.sagas,
   ...createSupplyProduct.sagas,
   ...fetchUserProducts.sagas,
+  ...fetchSupplyProducts.sagas,
   ...fetchProduct.sagas,
   ...updateProfile.sagas,
   ...createCert.sagas,

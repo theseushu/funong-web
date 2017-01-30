@@ -44,7 +44,6 @@ const Form = (props) => {
           disabled={pristine || invalid || submitting}
           onClick={handleSubmit(({ category, species, name, specs, location, desc, available }) =>
             new Promise((resolve, reject) => {
-              console.log(JSON.stringify({ category, species, name, specs, location, desc, available }))
               createSupplyProduct({
                 category,
                 species,

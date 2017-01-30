@@ -1,5 +1,6 @@
 import _toPairs from 'lodash/toPairs';
 import { fetchCerts } from '../../api/fetchCerts';
+import ensureProfile from '../ensureProfile';
 
 export default ({ store, injectReducer, injectSagas, loadModule, errorLoading }) => ({ // eslint-disable-line
   path: 'certs',
@@ -9,12 +10,14 @@ export default ({ store, injectReducer, injectSagas, loadModule, errorLoading })
       System.import('./index'),
       System.import('./ducks'),
       new Promise((resolve, reject) => {
-        store.dispatch(fetchCerts({
-          meta: {
-            resolve,
-            reject,
-          },
-        }));
+        ensureProfile(store).then(() => {
+          store.dispatch(fetchCerts({
+            meta: {
+              resolve,
+              reject,
+            },
+          }));
+        });
       }),
     ]);
 

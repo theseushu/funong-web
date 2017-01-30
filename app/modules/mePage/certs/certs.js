@@ -4,6 +4,7 @@ import injectSheet from 'react-jss';
 import { Card, CardTitle } from 'react-mdl/lib/Card';
 import Icon from 'react-mdl/lib/Icon';
 import { Tabs, Tab } from 'react-mdl/lib/Tabs';
+import Page from '../page';
 import { breakpoints } from '../../common/styles';
 import { certsSelector } from '../../data/ducks/selectors';
 import Personal from './personal';
@@ -22,19 +23,21 @@ class Certs extends Component {
     const { sheet: { classes } } = this.props;
     const { activeTab } = this.state;
     return (
-      <div className={classes.content}>
-        <Card shadow={2} style={{ width: '100%', margin: 'auto' }}>
-          <CardTitle>
-            实名认证
-          </CardTitle>
-          <Tabs activeTab={activeTab} className={classes.tab} onChange={(tabId) => this.setState({ activeTab: tabId })} ripple>
-            <Tab><span>个人<Icon name="check_circle" style={{ fontSize: '1em' }} /></span></Tab>
-            <Tab>企业</Tab>
-          </Tabs>
-          {activeTab === 0 && <Personal />}
-          {activeTab === 1 && <Company />}
-        </Card>
-      </div>
+      <Page>
+        <div className={classes.content}>
+          <Card shadow={2} style={{ width: '100%', margin: 'auto' }}>
+            <CardTitle>
+              实名认证
+            </CardTitle>
+            <Tabs activeTab={activeTab} className={classes.tab} onChange={(tabId) => this.setState({ activeTab: tabId })} ripple>
+              <Tab><span>个人<Icon name="check_circle" style={{ fontSize: '1em' }} /></span></Tab>
+              <Tab>企业</Tab>
+            </Tabs>
+            {activeTab === 0 && <Personal />}
+            {activeTab === 1 && <Company />}
+          </Card>
+        </div>
+      </Page>
     );
   }
 }

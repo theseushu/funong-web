@@ -1,4 +1,7 @@
 import _toPairs from 'lodash/toPairs';
+import ensureProfile from '../ensureProfile';
+import { fetchSupplyProducts } from '../../api/fetchSupplyProducts';
+
 
 export default ({ store, injectReducer, injectSagas, loadModule, errorLoading }) => { // eslint-disable-line
   const supplyRoute = {
@@ -8,6 +11,17 @@ export default ({ store, injectReducer, injectSagas, loadModule, errorLoading })
       const importModules = Promise.all([
         System.import('./supply'),
         System.import('./supply/ducks'),
+        new Promise((resolve, reject) => {
+          ensureProfile(store).then((currentUser) => {
+            store.dispatch(fetchSupplyProducts({
+              ownerId: currentUser.objectId,
+              meta: {
+                resolve,
+                reject,
+              },
+            }));
+          });
+        }),
       ]);
       const renderRoute = loadModule(cb);
       importModules.then(([component, ducks]) => {
@@ -22,20 +36,6 @@ export default ({ store, injectReducer, injectSagas, loadModule, errorLoading })
   return { // eslint-disable-line
     path: 'products',
     name: 'products',
-    getComponent(nextState, cb) {
-      const importModules = Promise.all([
-        System.import('./index'),
-        System.import('./ducks'),
-      ]);
-      const renderRoute = loadModule(cb);
-      importModules.then(([component, ducks]) => {
-        _toPairs(ducks.default).forEach((pair) => {
-          injectReducer(pair[0], pair[1]);
-        });
-        renderRoute(component);
-      });
-      importModules.catch(errorLoading);
-    },
     indexRoute: { getComponent: supplyRoute.getComponent },
     childRoutes: [
       supplyRoute,
@@ -46,6 +46,7 @@ export default ({ store, injectReducer, injectSagas, loadModule, errorLoading })
           const importModules = Promise.all([
             System.import('./shop'),
             System.import('./shop/ducks'),
+            ensureProfile(store),
           ]);
           const renderRoute = loadModule(cb);
           importModules.then(([component, ducks]) => {
