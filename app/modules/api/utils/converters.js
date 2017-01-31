@@ -9,6 +9,7 @@ export const supplyProductToJSON = (product) => {
   const specs = product.get('specs');
   const owner = product.get('owner').toJSON();
   const thumbnail = product.get('thumbnail').toJSON();
+  const labels = product.get('labels');
   return {
     ...product.toJSON(),
     category,
@@ -18,5 +19,6 @@ export const supplyProductToJSON = (product) => {
     desc,
     owner,
     thumbnail,
+    labels,
   };
 };

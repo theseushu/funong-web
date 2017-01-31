@@ -37,3 +37,9 @@ export const units = [
   '斤', '两', '公斤', '克', '袋', '盒', '箱', '包', '只', '条', '台',
 ];
 
+export const productLabels = {
+  includesTransportation: { title: '包运费', key: 'includesTransportation' },
+  supportsLogistics: { title: '协助找物流', key: 'supportsLogistics' },
+  supportsDelivery: { title: '支持走快递', key: 'supportsDelivery' },
+  supportsAssurance: { title: '担保交易', key: 'supportsAssurance' },
+};

@@ -124,7 +124,6 @@ class categorySelectorDialog extends Component {
   }
   render() {
     const { close, show } = this.props;
-    console.log(show)
     return (
       <Dialog
         show={show}

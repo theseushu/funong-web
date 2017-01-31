@@ -8,6 +8,7 @@ import LocationField from './locationField';
 import DescField from './descField';
 import SpecsField from './specsField';
 import AvailableField from './availableField';
+import LabelsField from './labelsField';
 import styles, { breakpoints } from '../../common/styles';
 
 const Form = (props) => {
@@ -23,6 +24,7 @@ const Form = (props) => {
         <Field name="location" component={LocationField} sheet={{ classes }} />
         <Field name="desc" component={DescField} sheet={{ classes }} />
         <Field name="available" component={AvailableField} sheet={{ classes }} />
+        <Field name="labels" component={LabelsField} sheet={{ classes }} />
         {
           error && (
             <p className={'text-center text-danger'}>

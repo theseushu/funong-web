@@ -5,7 +5,7 @@ export default ({ AV, userId, sessionToken }) => {
   class SupplyProduct extends AV.Object {}
   AV.Object.register(SupplyProduct);
 
-  const createSupplyProduct = async ({ category, species, name, specs, location, desc, available }) => {
+  const createSupplyProduct = async ({ category, species, name, specs, location, desc, available, labels }) => {
     try {
       const product = new SupplyProduct();
       product.set('category', AV.Object.createWithoutData('Category', category.objectId));
@@ -18,6 +18,7 @@ export default ({ AV, userId, sessionToken }) => {
       product.set('thumbnail', AV.Object.createWithoutData('_File', desc.images[0].id));
       product.set('owner', AV.Object.createWithoutData('_User', userId));
       product.set('available', available);
+      product.set('labels', labels);
       const savedProduct = await product.save(null, {
         fetchWhenSave: true,
         sessionToken,
@@ -29,7 +30,7 @@ export default ({ AV, userId, sessionToken }) => {
     }
   };
 
-  const updateSupplyProduct = async ({ objectId, category, species, name, specs, location, desc, available }) => {
+  const updateSupplyProduct = async ({ objectId, category, species, name, specs, location, desc, available, labels }) => {
     if (!objectId) {
       throw new Error('objectId is empty');
     }
@@ -61,6 +62,9 @@ export default ({ AV, userId, sessionToken }) => {
       }
       if (available != null) {
         product.set('available', available);
+      }
+      if (labels != null) {
+        product.set('labels', labels);
       }
       const savedProduct = await product.save(null, {
         fetchWhenSave: true,

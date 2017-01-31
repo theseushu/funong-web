@@ -36,11 +36,11 @@ export const validate = (values) => {
 export default reduxForm({
   form: FORM_NAME,  // a unique identifier for this form
   validate,                // <--- validation function given to redux-form
-  onSubmit: ({ category, species, name, specs, location, desc, available }, dispatch, { product }) => (
-      product ?
+  onSubmit: ({ category, species, name, specs, location, desc, available, labels }, dispatch, { initialValues }) => (
+      initialValues ?
         new Promise((resolve, reject) => {
           dispatch(updateSupplyProduct({
-            objectId: product.objectId,
+            objectId: initialValues.objectId,
             category,
             species,
             name,
@@ -48,6 +48,7 @@ export default reduxForm({
             desc,
             location,
             available,
+            labels,
             meta: {
               resolve,
               reject,
@@ -63,6 +64,7 @@ export default reduxForm({
             desc,
             location,
             available,
+            labels,
             meta: {
               resolve,
               reject,

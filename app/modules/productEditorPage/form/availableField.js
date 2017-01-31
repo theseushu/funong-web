@@ -7,7 +7,7 @@ const AvailableField = ({ input: { value, onChange }, sheet: { classes } }) => (
     <Cell col={4} tablet={3} phone={2} className={classes.field}>
       直接上架
     </Cell>
-    <Cell col={8} tablet={5} phone={2} className={classes.fieldContent}>
+    <Cell col={8} tablet={5} phone={2} className={classes.field}>
       <Switch style={{ marginLeft: 16 }} ripple id="_supply_product_available" checked={value} onChange={(e) => onChange(e.target.checked)}></Switch>
     </Cell>
   </Grid>
