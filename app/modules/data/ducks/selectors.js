@@ -1,4 +1,5 @@
 import { createSelector } from 'reselect';
+import _find from 'lodash/find';
 import { denormalize } from 'denormalizr';
 
 import { ProductsSchema, CertsSchema, SupplyProductsSchema } from './schemas';
@@ -55,6 +56,12 @@ export const supplyProductsSelector = createSelector(
   },
 );
 
+export const createSupplyProductSelector = (objectId) => createSelector(
+  supplyProductsSelector,
+  (products) => _find(products, (p) => p.objectId === objectId),
+);
+
+// todo change { objectId } to objectId
 export const userSupplyProductsSelector = ({ objectId }) => createSelector(
   supplyProductsSelector,
   (products) => {

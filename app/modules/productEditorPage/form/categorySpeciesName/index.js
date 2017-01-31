@@ -13,6 +13,7 @@ const generateName = (category, species) => {
 const CategorySpeciesName = ({ category, species, name, sheet }) => {
   const onCategoryChange = (newCategory) => {
     category.input.onChange(newCategory);
+    species.input.onChange(null);
     const generatedName = generateName(newCategory, species.input.value);
     if (generatedName) {
       name.input.onChange(generatedName);
@@ -36,7 +37,7 @@ const CategorySpeciesName = ({ category, species, name, sheet }) => {
   return (
     <div>
       <CategoryField {...category2} sheet={sheet} />
-      <SpeciesField {...species2} />
+      <SpeciesField category={category.input.value} {...species2} />
       <NameField {...name} />
     </div>
   );

@@ -37,7 +37,7 @@ const MePage = ({ user: { profile: { avatar, type } }, sheet: { classes }, child
     >
     </Layout>
   );
-}
+};
 
 MePage.contextTypes = {
   router: PropTypes.object.isRequired,

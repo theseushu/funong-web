@@ -7,7 +7,7 @@ const supplyTypes = catalogTypes.supply;
 const Types = ({ catalogType, onButtonClick }) => (
   <div>
     {Object.values(supplyTypes).map(({ title, value }, i) =>
-      <RaisingButton key={i} label={title} active={value === catalogType} onClick={() => onButtonClick(value)} />
+      <RaisingButton key={i} label={title} active={value === catalogType} onClick={(e) => { e.preventDefault(); onButtonClick(value); }} />
     )}
   </div>
 );

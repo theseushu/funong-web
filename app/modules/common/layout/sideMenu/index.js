@@ -3,22 +3,20 @@ import { Tabs, Tab } from 'react-mdl/lib/Tabs';
 import injectSheet from 'react-jss';
 import _findIndex from 'lodash/findIndex';
 
-const SideMenu = ({ routes, sheet: { classes } }, { router }) => {
-  return (
-    <div>
-      <Tabs
-        activeTab={_findIndex(routes, (route) => route.active)}
-        className={[classes.sidebar, 'mdl-shadow--2dp'].join(' ')}
-        ripple
-      >
-        { routes.map((route, i) => <Tab
-          key={i}
-          onClick={() => router.push(route.path)}
-        >{route.title}</Tab>)}
-      </Tabs>
-    </div>
+const SideMenu = ({ routes, sheet: { classes } }, { router }) => (
+  <div>
+    <Tabs
+      activeTab={_findIndex(routes, (route) => route.active)}
+      className={[classes.sidebar, 'mdl-shadow--2dp'].join(' ')}
+      ripple
+    >
+      { routes.map((route, i) => <Tab
+        key={i}
+        onClick={() => router.push(route.path)}
+      >{route.title}</Tab>)}
+    </Tabs>
+  </div>
   );
-}
 
 SideMenu.contextTypes = {
   router: PropTypes.object.isRequired,

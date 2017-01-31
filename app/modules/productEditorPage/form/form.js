@@ -11,7 +11,7 @@ import AvailableField from './availableField';
 import styles, { breakpoints } from '../../common/styles';
 
 const Form = (props) => {
-  const { handleSubmit, pristine, submitting, submitSucceeded, invalid, error, sheet: { classes }, createSupplyProduct } = props;
+  const { handleSubmit, pristine, submitting, submitSucceeded, invalid, error, sheet: { classes } } = props;
   return (
     <Card shadow={0} style={{ width: '100%' }}>
       <CardTitle>
@@ -42,21 +42,7 @@ const Form = (props) => {
         <Button
           type="submit" raised colored
           disabled={pristine || invalid || submitting}
-          onClick={handleSubmit(({ category, species, name, specs, location, desc, available }) =>
-            new Promise((resolve, reject) => {
-              createSupplyProduct({
-                category,
-                species,
-                name,
-                specs,
-                desc,
-                location,
-                available,
-                meta: {
-                  resolve,
-                  reject,
-                } });
-            }))}
+          onClick={(e) => { e.preventDefault(); handleSubmit(); }}
         >{submitting ? '正在处理...' : '确定'}</Button>
       </CardActions>
     </Card>
@@ -71,7 +57,6 @@ Form.propTypes = {
   invalid: PropTypes.bool,
   error: PropTypes.any,
   sheet: PropTypes.object.isRequired,
-  createSupplyProduct: PropTypes.func.isRequired,
 };
 
 export default injectSheet({

@@ -1,11 +1,10 @@
 import React, { Component, PropTypes } from 'react';
 import injectSheet from 'react-jss';
 import { Tabs, Tab } from 'react-mdl/lib/Tabs';
-import { Grid, Cell } from 'react-mdl/lib/Grid';
-import Button from 'react-mdl/lib/Button';
-import Link from 'react-router/lib/Link';
+// import Button from 'react-mdl/lib/Button';
+// import Link from 'react-router/lib/Link';
 import Page from '../../page';
-import { breakpoints } from '../../../common/styles';
+import styles, { breakpoints } from '../../../common/styles';
 import { Card } from '../../../common/product';
 
 class Supply extends Component { // eslint-disable-line
@@ -32,15 +31,15 @@ class Supply extends Component { // eslint-disable-line
             <Tab>农资农产供应</Tab>
             <Tab>微店商品</Tab>
           </Tabs>
-          <Grid>
+          <div className={classes.products}>
             {
               products.map((product, i) => (
-                <Cell key={i} col={4} tablet={4} phone={4}>
+                <div key={i} className={`${classes.cell} ${styles.contentCenter}`}>
                   <Card product={product} />
-                </Cell>
+                </div>
               ))
             }
-          </Grid>
+          </div>
         </div>
       </Page>
     );
@@ -56,7 +55,28 @@ export default injectSheet({
     },
   },
   products: {
+    width: '100%',
     display: 'flex',
     flexWrap: 'wrap',
+  },
+  cell: {
+    width: '25%',
+    boxSizing: 'border-box',
+    padding: 8,
+    [breakpoints.mediaSmallScreen]: {
+      width: '33.33%',
+    },
+    [breakpoints.mediaDestkopBelow]: {
+      width: '33.33%',
+    },
+    '@media (max-width: 680px)': {
+      width: '50%',
+    },
+    [breakpoints.mediaTabletBelow]: {
+      width: '50%',
+    },
+    '@media (max-width: 400px)': {
+      width: '100%',
+    },
   },
 })(Supply);

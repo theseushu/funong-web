@@ -1,13 +1,9 @@
 import React, { Component, PropTypes } from 'react';
-import injectSheet from 'react-jss';
 import Dialog from '../dialog';
 import Breadcrumb from './components/breadcrumb';
 import Types from './components/types';
 import Results from './components/results';
 import { catalogTypes } from '../../../constants';
-
-const styles = {
-};
 
 class categorySelectorDialog extends Component {
   static propTypes = {
@@ -38,7 +34,7 @@ class categorySelectorDialog extends Component {
       catalog: PropTypes.shape({
         name: PropTypes.string.isRequired,
         objectId: PropTypes.string.isRequired,
-        catalogType: PropTypes.string.isRequired,
+        type: PropTypes.string.isRequired,
       }).isRequired,
     }),
   };
@@ -46,7 +42,7 @@ class categorySelectorDialog extends Component {
     super(props);
     const { category } = props;
     this.state = { // catalogType is string, others are objects
-      catalogType: (category && category.catalog.catalogType) || catalogTypes.supply.farm.value,
+      catalogType: (category && category.catalog.type) || catalogTypes.supply.farm.value,
       catalog: category && category.catalog,
       category,
     };
@@ -88,7 +84,7 @@ class categorySelectorDialog extends Component {
       }
     }
     if (typeof this.props.onSubmit === 'function') {
-      this.props.onSubmit({ ...category, catalog: { ...catalog, catalogType } });
+      this.props.onSubmit({ ...category, catalog: { ...catalog, type: catalogType } });
     }
     this.props.close();
   }
@@ -128,6 +124,7 @@ class categorySelectorDialog extends Component {
   }
   render() {
     const { close, show } = this.props;
+    console.log(show)
     return (
       <Dialog
         show={show}
@@ -146,4 +143,4 @@ class categorySelectorDialog extends Component {
   }
 }
 
-export default injectSheet(styles)(categorySelectorDialog);
+export default categorySelectorDialog;

@@ -1,8 +1,9 @@
 import _toPairs from 'lodash/toPairs';
-import { fetchProfile } from '../api/fetchProfile';
-import { currentUserSelector } from '../data/ducks/selectors';
+import { ensureProfile } from '../../utils/routerUtils';
+import { fetchSupplyProduct } from '../api/fetchSupplyProduct';
+
 export default ({ store, injectReducer, injectSagas, loadModule, errorLoading }) => ({ // eslint-disable-line no-unused-vars
-  path: '/supply/new',
+  path: '/supply/:id',
   name: 'newSupply',
   getComponent(nextState, cb) {
     // TODO fetch product
@@ -11,12 +12,23 @@ export default ({ store, injectReducer, injectSagas, loadModule, errorLoading })
       System.import('./index'),
       System.import('./ducks'),
       new Promise((resolve, reject) => {
-        const currentUser = currentUserSelector(store.getState());
-        if (currentUser) {
-          resolve();
-        } else {
-          store.dispatch(fetchProfile({ meta: { resolve, reject } }));
-        }
+        ensureProfile(store).then(() => {
+          if (id === 'new') {
+            resolve();
+          } else {
+            store.dispatch(fetchSupplyProduct({
+              objectId: id,
+              meta: {
+                resolve,
+                reject: (err) => {
+                  console.log(err); // eslint-disable-line
+                  reject();
+                  // todo deal with error
+                },
+              },
+            }));
+          }
+        });
       }),
     ]);
 

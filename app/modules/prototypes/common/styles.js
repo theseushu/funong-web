@@ -7,6 +7,7 @@ export const colors = {
   colorAccent: '#9C27B0', // purple500
   colorPrimaryContrast: 'black',
   colorAccentContrast: 'white',
+  colorText: 'rgba(0,0,0, 0.87)',
   colorSubTitle: 'rgba(0,0,0, 0.6)',
 };
 

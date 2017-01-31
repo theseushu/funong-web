@@ -1,6 +1,6 @@
 import _toPairs from 'lodash/toPairs';
 import { fetchCerts } from '../../api/fetchCerts';
-import ensureProfile from '../ensureProfile';
+import { ensureProfile } from '../../../utils/routerUtils';
 
 export default ({ store, injectReducer, injectSagas, loadModule, errorLoading }) => ({ // eslint-disable-line
   path: 'certs',

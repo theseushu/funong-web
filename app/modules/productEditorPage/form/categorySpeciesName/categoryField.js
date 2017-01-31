@@ -15,6 +15,7 @@ class SpeciesField extends Component {
   }
   showDialog = (e) => {
     e.preventDefault();
+    e.stopPropagation();
     this.setState({ showDialog: true });
   }
   hideDialog = () => {
@@ -30,7 +31,12 @@ class SpeciesField extends Component {
           品种
         </Cell>
         <Cell col={8} tablet={5} phone={2} className={classes.field}>
-          <CategorySelectorDialog category={category} show={showDialog} close={this.hideDialog} onSubmit={this.setCategory} />
+          { showDialog &&
+            <CategorySelectorDialog
+              category={category} show close={this.hideDialog}
+              onSubmit={this.setCategory}
+            />
+          }
           <FormButton error={error} onClick={this.showDialog}>{category ? category.name : '点击选择'}</FormButton>
         </Cell>
       </Grid>

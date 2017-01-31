@@ -1,5 +1,5 @@
 import _toPairs from 'lodash/toPairs';
-import ensureProfile from '../ensureProfile';
+import { ensureProfile } from '../../../utils/routerUtils';
 import { fetchSupplyProducts } from '../../api/fetchSupplyProducts';
 
 

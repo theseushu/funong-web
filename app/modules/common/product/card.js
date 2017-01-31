@@ -2,6 +2,8 @@ import React, { PropTypes } from 'react';
 import injectSheet from 'react-jss';
 import { Card, CardTitle, CardText, CardActions } from 'react-mdl/lib/Card';
 import Button from 'react-mdl/lib/Button';
+import IconButton from 'react-mdl/lib/IconButton';
+import { colors } from '../styles';
 
 const CardComponent = ({ product, sheet: { classes } }) => {
   const { thumbnail: { url }, name, desc: { text }, available } = product;
@@ -14,12 +16,14 @@ const CardComponent = ({ product, sheet: { classes } }) => {
         <h6>{name}</h6>
         <p>{text}</p>
       </CardText>
-      <CardActions border>
-        <Button colored>{available ? '下架' : '上架'}</Button>
+      <CardActions className={classes.cardActions} border>
+        <Button colored accent={available}>{available ? '下架' : '上架'}</Button>
+        <IconButton colored name="edit"></IconButton>
+        <IconButton accent name="delete_sweep">删除</IconButton>
       </CardActions>
     </Card>
   );
-}
+};
 
 CardComponent.propTypes = {
   product: PropTypes.object.isRequired,
@@ -38,13 +42,22 @@ export default injectSheet({
     paddingTop: '56.25%',
   },
   cardTitle: {
+    padding: 8,
     '& > h6': {
+      height: 48,
       marginTop: 0,
-      marginBottom: 8,
+      marginBottom: 4,
+      fontSize: 14,
+      color: colors.colorText,
+      overflow: 'hidden',
     },
     '& > p': {
       marginTop: 0,
       marginBottom: 4,
+      fontSize: 12,
     },
+  },
+  cardActions: {
+    padding: '4px 0',
   },
 })(CardComponent);

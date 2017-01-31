@@ -3,7 +3,7 @@ import createDucks from '../utils/createDucks';
 import { setSupplyProducts } from '../../data/ducks/actions';
 
 const ducks = createDucks({
-  apiName: 'createSupplyProduct',
+  apiName: 'updateSupplyProduct',
   sagas: {
     * fulfilled(supplyProduct) {
       yield put(setSupplyProducts([supplyProduct]));

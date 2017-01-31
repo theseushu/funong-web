@@ -15,7 +15,7 @@ export default ({ AV, userId, sessionToken }) => {
       product.set('address', location.address);
       product.set('lnglat', new AV.GeoPoint(location.lnglat));
       product.set('desc', { ...desc, images: desc.images.map((image) => AV.Object.createWithoutData('_File', image.id)) });
-      product.set('thumbnail', AV.Object.createWithoutData('_File', desc.images[0].id))
+      product.set('thumbnail', AV.Object.createWithoutData('_File', desc.images[0].id));
       product.set('owner', AV.Object.createWithoutData('_User', userId));
       product.set('available', available);
       const savedProduct = await product.save(null, {
@@ -30,8 +30,11 @@ export default ({ AV, userId, sessionToken }) => {
   };
 
   const updateSupplyProduct = async ({ objectId, category, species, name, specs, location, desc, available }) => {
+    if (!objectId) {
+      throw new Error('objectId is empty');
+    }
     try {
-      const product = new SupplyProduct(objectId);
+      const product = AV.Object.createWithoutData('SupplyProduct', objectId);
       if (category && category.objectId) {
         product.set('category', AV.Object.createWithoutData('Category', category.objectId));
       }
@@ -70,6 +73,16 @@ export default ({ AV, userId, sessionToken }) => {
     }
   };
 
+  const fetchSupplyProduct = async ({ objectId }) => {
+    const product = await AV.Object.createWithoutData('SupplyProduct', objectId)
+      .fetch({
+        include: ['desc.images', 'thumbnail', 'category', 'category.catalog', 'species', 'owner'],
+      }, {
+        sessionToken,
+      });
+    return product ? supplyProductToJSON(product) : null;
+  };
+
   const fetchSupplyProducts = async ({ ownerId }) => {
     const products = await new AV.Query('SupplyProduct')
       .include(['desc.images', 'thumbnail', 'category', 'category.catalog', 'species', 'owner'])
@@ -83,6 +96,7 @@ export default ({ AV, userId, sessionToken }) => {
   return {
     createSupplyProduct,
     updateSupplyProduct,
+    fetchSupplyProduct,
     fetchSupplyProducts,
   };
 };

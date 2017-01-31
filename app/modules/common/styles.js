@@ -8,6 +8,7 @@ export const colors = {
   colorPrimaryContrast: 'black',
   colorAccentContrast: 'white',
   colorSubTitle: 'rgba(0,0,0, 0.54)',
+  colorText: 'rgba(0,0,0, 0.87)',
   colorError: 'rgb(213,0,0)',
 };
 
