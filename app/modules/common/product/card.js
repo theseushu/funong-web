@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
 import injectSheet from 'react-jss';
+import Link from 'react-router/lib/Link';
 import { Card, CardTitle, CardText, CardActions } from 'react-mdl/lib/Card';
 import Button from 'react-mdl/lib/Button';
 import IconButton from 'react-mdl/lib/IconButton';
@@ -18,7 +19,7 @@ const CardComponent = ({ product, sheet: { classes } }) => {
       </CardText>
       <CardActions className={classes.cardActions} border>
         <Button colored accent={available}>{available ? '下架' : '上架'}</Button>
-        <IconButton colored name="edit"></IconButton>
+        <Link to={`/supply/${product.objectId}`}><IconButton colored name="edit"></IconButton></Link>
         <IconButton accent name="delete_sweep">删除</IconButton>
       </CardActions>
     </Card>

@@ -11,7 +11,7 @@ import AvailableField from './availableField';
 import LabelsField from './labelsField';
 import styles, { breakpoints } from '../../common/styles';
 
-const Form = (props) => {
+const Form = (props, { router }) => {
   const { handleSubmit, pristine, submitting, submitSucceeded, invalid, error, sheet: { classes } } = props;
   return (
     <Card shadow={0} style={{ width: '100%' }}>
@@ -40,15 +40,23 @@ const Form = (props) => {
           )
         }
       </form>
-      <CardActions className={styles.contentCenter}>
+      <CardActions className={classes.actions}>
         <Button
-          type="submit" raised colored
+          type="submit" accent
           disabled={pristine || invalid || submitting}
           onClick={(e) => { e.preventDefault(); handleSubmit(); }}
         >{submitting ? '正在处理...' : '确定'}</Button>
+        <Button
+          type="cancel" accent
+          onClick={(e) => { e.preventDefault(); router.goBack(); }}
+        >取消</Button>
       </CardActions>
     </Card>
   );
+};
+
+Form.contextTypes = {
+  router: PropTypes.object.isRequired,
 };
 
 Form.propTypes = {
@@ -91,5 +99,11 @@ export default injectSheet({
     [breakpoints.mediaTabletBelow]: {
       margin: '0 0',
     },
+  },
+  actions: {
+    width: '100%',
+    maxWidth: 500,
+    margin: '0 auto',
+    textAlign: 'right',
   },
 })(Form);
