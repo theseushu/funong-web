@@ -2,7 +2,10 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
 import UserTypes from './userTypes';
-import { selector, createProfile } from '../../api/createProfile';
+import { actions, selectors } from '../../api/profile';
+
+const createProfile = actions.create;
+const selector = selectors.create;
 
 export default connect(
   (state) => selector(state),

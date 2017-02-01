@@ -1,9 +1,6 @@
 import { combineReducers } from 'redux';
 import namespace from './namespace';
 import * as requestSmsCode from '../requestSmsCode/ducks';
-import * as fetchProfile from '../fetchProfile/ducks';
-import * as updateProfile from '../updateProfile/ducks';
-import * as createProfile from '../createProfile/ducks';
 import * as signupOrLoginWithMobilePhone from '../signupOrLogin/ducks';
 import * as uploadAvatar from '../uploadAvatar/ducks';
 import * as searchDistinct from '../searchDistrict/ducks';
@@ -25,12 +22,11 @@ import * as updateCert from '../updateCert/ducks';
 import * as fetchCerts from '../fetchCerts/ducks';
 
 import * as supplyProduct from '../supplyProduct';
+import * as profile from '../profile';
 
 export default {
   [namespace]: combineReducers({
     ...requestSmsCode.default,
-    ...fetchProfile.default,
-    ...createProfile.default,
     ...signupOrLoginWithMobilePhone.default,
     ...uploadAvatar.default,
     ...searchDistinct.default,
@@ -45,20 +41,18 @@ export default {
     ...createProduct.default,
     ...fetchUserProducts.default,
     ...fetchProduct.default,
-    ...updateProfile.default,
     ...createCert.default,
     ...updateCert.default,
     ...fetchCerts.default,
     ...createSpecies.default,
     ...initAMap.default,
+    ...profile.default,
     ...supplyProduct.default,
   }),
 };
 
 export const sagas = [
   ...requestSmsCode.sagas,
-  ...fetchProfile.sagas,
-  ...createProfile.sagas,
   ...signupOrLoginWithMobilePhone.sagas,
   ...uploadAvatar.sagas,
   ...searchDistinct.sagas,
@@ -73,11 +67,11 @@ export const sagas = [
   ...createProduct.sagas,
   ...fetchUserProducts.sagas,
   ...fetchProduct.sagas,
-  ...updateProfile.sagas,
   ...createCert.sagas,
   ...updateCert.sagas,
   ...fetchCerts.sagas,
   ...createSpecies.sagas,
   ...initAMap.sagas,
+  ...profile.sagas,
   ...supplyProduct.sagas,
 ];

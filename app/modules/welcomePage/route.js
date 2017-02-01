@@ -1,6 +1,8 @@
 import _toPairs from 'lodash/toPairs';
-import { fetchProfile } from '../api/fetchProfile';
 import { currentUserSelector } from '../data/ducks/selectors';
+import { actions } from '../api/profile';
+
+const fetchProfile = actions.fetch;
 export default ({ store, injectReducer, injectSagas, loadModule, errorLoading }) => ({ // eslint-disable-line no-unused-vars
   path: '/welcome',
   name: 'welcome',

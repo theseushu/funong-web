@@ -1,6 +1,8 @@
 import { currentUserSelector } from '../modules/data/ducks/selectors';
-import { fetchProfile } from '../modules/api/fetchProfile';
-import { createProfile } from '../modules/api/createProfile';
+import { actions } from '../modules/api/profile';
+
+const createProfile = actions.create;
+const fetchProfile = actions.fetch;
 
 export const ensureProfile = async (store) => {
   const currentUser = currentUserSelector(store.getState());

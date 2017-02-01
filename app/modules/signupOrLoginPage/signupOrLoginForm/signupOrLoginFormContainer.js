@@ -1,10 +1,11 @@
 import { reduxForm, SubmissionError } from 'redux-form';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
-import { fetchProfile } from '../../api/fetchProfile';
 import { selector, signupOrLogin } from '../../api/signupOrLogin';
-
 import SignupOrLoginForm from './signupOrLoginForm';
+import { actions } from '../../api/profile';
+
+const fetchProfile = actions.fetch;
 
 // export for unit testing
 export const validate = ({ phone, smsCode, password }, { login }) => {

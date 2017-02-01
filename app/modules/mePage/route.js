@@ -2,6 +2,7 @@ import _toPairs from 'lodash/toPairs';
 import { ensureProfile } from '../../utils/routerUtils';
 import createCertsRoute from './certs/route';
 import createProductsRoute from './products/route';
+
 export default ({ store, injectReducer, injectSagas, loadModule, errorLoading }) => ({ // eslint-disable-line no-unused-vars
   path: '/me',
   name: 'me',
