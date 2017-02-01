@@ -9,7 +9,7 @@ import DescField from './descField';
 import SpecsField from './specsField';
 import AvailableField from './availableField';
 import LabelsField from './labelsField';
-import styles, { breakpoints } from '../../common/styles';
+import { breakpoints } from '../../common/styles';
 
 const Form = (props, { router }) => {
   const { handleSubmit, pristine, submitting, submitSucceeded, invalid, error, sheet: { classes } } = props;

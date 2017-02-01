@@ -61,6 +61,7 @@ export function injectAsyncSagas(store, isValid) {
       '(app/utils...) injectAsyncSagas: Received an empty `sagas` array'
     );
 
+    // api has been bind to store.runSaga, so sagas can use it later. see ./store.js
     sagas.map(store.runSaga);
   };
 }
