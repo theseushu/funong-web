@@ -88,11 +88,15 @@ export default ({ AV, userId, sessionToken }) => {
   };
 
   const searchSupplyProducts = async ({ ownerId }) => {
-    const products = await new AV.Query('SupplyProduct')
-      .include(['desc.images', 'thumbnail', 'category', 'category.catalog', 'species', 'owner'])
-      .equalTo('owner', AV.Object.createWithoutData('_User', ownerId))
+    const query = new AV.Query('SupplyProduct')
+      .include(['desc.images', 'thumbnail', 'category', 'category.catalog', 'species', 'owner']);
+    if (ownerId) {
+      query.equalTo('owner', AV.Object.createWithoutData('_User', ownerId));
+    }
+    query
       .limit(1000)
       .find();
+    const products = await query.find();
 
     return products.map(supplyProductToJSON);
   };

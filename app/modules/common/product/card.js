@@ -6,10 +6,10 @@ import Button from 'react-mdl/lib/Button';
 import IconButton from 'react-mdl/lib/IconButton';
 import { colors } from '../styles';
 
-const CardComponent = ({ product, sheet: { classes } }) => {
+const CardComponent = ({ product, sheet: { classes }, className }) => {
   const { thumbnail: { url }, name, desc: { text }, available } = product;
   return (
-    <Card shadow={4} className={classes.card} >
+    <Card shadow={4} className={className ? `${classes.card} ${className}` : classes.card} >
       <CardTitle expand className={classes.cardImage} style={{ backgroundImage: `url(${url})` }}>
         <div></div>
       </CardTitle>
@@ -29,6 +29,7 @@ const CardComponent = ({ product, sheet: { classes } }) => {
 CardComponent.propTypes = {
   product: PropTypes.object.isRequired,
   sheet: PropTypes.object.isRequired,
+  className: PropTypes.string,
 };
 
 export default injectSheet({

@@ -5,6 +5,6 @@ import Supply from './supply';
 export default connect(
   (state) => {
     const user = currentUserSelector(state);
-    return { user, products: userSupplyProductsSelector(user)(state) };
+    return { user, products: userSupplyProductsSelector(user.objectId)(state) };
   }
 )(Supply);

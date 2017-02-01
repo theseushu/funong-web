@@ -3,6 +3,7 @@ import createWelcomePageRoute from './modules/welcomePage/route';
 import createMePageRoute from './modules/mePage/route';
 import createProductPageRoute from './modules/productPage/route';
 import createProductEditorRoute from './modules/productEditorPage/route';
+import createSuppliesRoute from './modules/suppliesPage/route';
 import createPrototypeRoutes from './modules/prototypes/routes';
 import createSampleRoutes from './modules/prototypes/sample/routes';
 
@@ -65,6 +66,7 @@ export default function createRoutes(store) {
     createWelcomePageRoute({ store, injectReducer, injectSagas, loadModule, errorLoading }),
     createMePageRoute({ store, injectReducer, injectSagas, loadModule, errorLoading }),
     createProductPageRoute({ store, injectReducer, injectSagas, loadModule, errorLoading }),
+    createSuppliesRoute({ store, injectReducer, injectSagas, loadModule, errorLoading }),
     createPrototypeRoutes(),
     createSampleRoutes(),
     createProductEditorRoute({ store, injectReducer, injectSagas, loadModule, errorLoading }), {

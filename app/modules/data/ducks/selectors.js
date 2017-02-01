@@ -61,8 +61,7 @@ export const createSupplyProductSelector = (objectId) => createSelector(
   (products) => _find(products, (p) => p.objectId === objectId),
 );
 
-// todo change { objectId } to objectId
-export const userSupplyProductsSelector = ({ objectId }) => createSelector(
+export const userSupplyProductsSelector = (objectId) => createSelector(
   supplyProductsSelector,
   (products) => {
     if (!products) {
