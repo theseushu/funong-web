@@ -58,8 +58,7 @@ export default reduxForm({
           }
         };
         const fetchProfileRejectFunc = () => {
-
-        }
+        };
         dispatch(fetchProfile({ meta: { resolve: fetchProfileResolveFunc, reject: fetchProfileRejectFunc } }));
       };
 
