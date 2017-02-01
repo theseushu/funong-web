@@ -1,6 +1,8 @@
 import _toPairs from 'lodash/toPairs';
 import { ensureProfile } from '../../utils/routerUtils';
-import { fetchSupplyProduct } from '../api/fetchSupplyProduct';
+import { actions } from '../api/supplyProduct';
+
+const fetchSupplyProduct = actions.fetch;
 
 export default ({ store, injectReducer, injectSagas, loadModule, errorLoading }) => ({ // eslint-disable-line no-unused-vars
   path: '/supply/:id',

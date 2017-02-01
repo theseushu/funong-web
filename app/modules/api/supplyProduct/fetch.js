@@ -5,8 +5,8 @@ import rootSelector from './rootSelector';
 import { setSupplyProducts } from '../../data/ducks/actions';
 
 const ducks = createDucks({
-  key: 'create',
-  apiName: 'createSupplyProduct',
+  key: 'fetch',
+  apiName: 'fetchSupplyProduct',
   rootSelector: (state) => rootSelector(state),
   namespace: NAMESPACE,
   sagas: {
@@ -18,9 +18,9 @@ const ducks = createDucks({
 
 // shape of ducks
 // {
-//   actions: { create },
-//   default: { create: reducer },
-//   selector rootSelector.create,
+//   actions: { fetch },
+//   default: { fetch: reducer },
+//   selector rootSelector.fetch,
 //   sagas,
 // }
 

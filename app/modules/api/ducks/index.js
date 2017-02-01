@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux';
+import namespace from './namespace';
 import * as requestSmsCode from '../requestSmsCode/ducks';
 import * as fetchProfile from '../fetchProfile/ducks';
 import * as updateProfile from '../updateProfile/ducks';
@@ -17,18 +18,16 @@ import * as uploadFile from '../uploadFile/ducks';
 import * as createSpecification from '../createSpecification/ducks';
 import * as fetchSpecifications from '../fetchSpecifications/ducks';
 import * as createProduct from '../createProduct/ducks';
-import * as fetchSupplyProduct from '../fetchSupplyProduct/ducks';
-import * as createSupplyProduct from '../createSupplyProduct/ducks';
-import * as updateSupplyProduct from '../updateSupplyProduct/ducks';
 import * as fetchUserProducts from '../fetchUserProducts/ducks';
-import * as fetchSupplyProducts from '../fetchSupplyProducts/ducks';
 import * as fetchProduct from '../fetchProduct/ducks';
 import * as createCert from '../createCert/ducks';
 import * as updateCert from '../updateCert/ducks';
 import * as fetchCerts from '../fetchCerts/ducks';
 
+import * as supplyProduct from '../supplyProduct';
+
 export default {
-  api: combineReducers({
+  [namespace]: combineReducers({
     ...requestSmsCode.default,
     ...fetchProfile.default,
     ...createProfile.default,
@@ -44,11 +43,7 @@ export default {
     ...createSpecification.default,
     ...fetchSpecifications.default,
     ...createProduct.default,
-    ...createSupplyProduct.default,
-    ...updateSupplyProduct.default,
     ...fetchUserProducts.default,
-    ...fetchSupplyProducts.default,
-    ...fetchSupplyProduct.default,
     ...fetchProduct.default,
     ...updateProfile.default,
     ...createCert.default,
@@ -56,6 +51,7 @@ export default {
     ...fetchCerts.default,
     ...createSpecies.default,
     ...initAMap.default,
+    ...supplyProduct.default,
   }),
 };
 
@@ -75,11 +71,7 @@ export const sagas = [
   ...createSpecification.sagas,
   ...fetchSpecifications.sagas,
   ...createProduct.sagas,
-  ...createSupplyProduct.sagas,
-  ...updateSupplyProduct.sagas,
   ...fetchUserProducts.sagas,
-  ...fetchSupplyProducts.sagas,
-  ...fetchSupplyProduct.sagas,
   ...fetchProduct.sagas,
   ...updateProfile.sagas,
   ...createCert.sagas,
@@ -87,4 +79,5 @@ export const sagas = [
   ...fetchCerts.sagas,
   ...createSpecies.sagas,
   ...initAMap.sagas,
+  ...supplyProduct.sagas,
 ];

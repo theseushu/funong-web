@@ -1,35 +1,42 @@
 import _toPairs from 'lodash/toPairs';
 import { ensureProfile } from '../../../utils/routerUtils';
-import { fetchSupplyProducts } from '../../api/fetchSupplyProducts';
-
 
 export default ({ store, injectReducer, injectSagas, loadModule, errorLoading }) => { // eslint-disable-line
   const supplyRoute = {
     path: 'supply',
     name: 'supplyProducts',
-    getComponent(nextState, cb) {
+    getComponent: async (nextState, cb) => {
       const importModules = Promise.all([
         System.import('./supply'),
         System.import('./supply/ducks'),
-        new Promise((resolve, reject) => {
-          ensureProfile(store).then((currentUser) => {
-            store.dispatch(fetchSupplyProducts({
-              ownerId: currentUser.objectId,
-              meta: {
-                resolve,
-                reject,
-              },
-            }));
-          });
-        }),
       ]);
       const renderRoute = loadModule(cb);
-      importModules.then(([component, ducks]) => {
-        _toPairs(ducks.default).forEach((pair) => {
-          injectReducer(pair[0], pair[1]);
-        });
-        renderRoute(component);
+      const [component, ducks] = await importModules;
+      _toPairs(ducks.default).forEach((pair) => {
+        injectReducer(pair[0], pair[1]);
       });
+      injectSagas(ducks.sagas);
+      const currentUser = await ensureProfile(store);
+      await new Promise((resolve, reject) => {
+        const { actions: { searchSupplyProducts }, selectors } = ducks;
+        const searchSupplyProductState = selectors.searchSupplyProducts(store.getState());
+        // if the data has been fetched before, don't wait for the api response. otherwise, wait for it
+        if (searchSupplyProductState && searchSupplyProductState.fulfilled) {
+          store.dispatch(searchSupplyProducts({
+            ownerId: currentUser.objectId,
+          }));
+          resolve();
+        } else {
+          store.dispatch(searchSupplyProducts({
+            ownerId: currentUser.objectId,
+            meta: {
+              resolve,
+              reject,
+            },
+          }));
+        }
+      });
+      renderRoute(component);
       importModules.catch(errorLoading);
     },
   };

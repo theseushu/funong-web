@@ -5,13 +5,13 @@ import rootSelector from './rootSelector';
 import { setSupplyProducts } from '../../data/ducks/actions';
 
 const ducks = createDucks({
-  key: 'create',
-  apiName: 'createSupplyProduct',
+  key: 'update',
+  apiName: 'updateSupplyProduct',
   rootSelector: (state) => rootSelector(state),
   namespace: NAMESPACE,
   sagas: {
-    * beforeFulfilled(products) {
-      yield put(setSupplyProducts(products));
+    * beforeFulfilled(product) {
+      yield put(setSupplyProducts([product]));
     },
   },
 });

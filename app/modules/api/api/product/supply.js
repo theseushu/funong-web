@@ -87,7 +87,7 @@ export default ({ AV, userId, sessionToken }) => {
     return product ? supplyProductToJSON(product) : null;
   };
 
-  const fetchSupplyProducts = async ({ ownerId }) => {
+  const searchSupplyProducts = async ({ ownerId }) => {
     const products = await new AV.Query('SupplyProduct')
       .include(['desc.images', 'thumbnail', 'category', 'category.catalog', 'species', 'owner'])
       .equalTo('owner', AV.Object.createWithoutData('_User', ownerId))
@@ -101,6 +101,6 @@ export default ({ AV, userId, sessionToken }) => {
     createSupplyProduct,
     updateSupplyProduct,
     fetchSupplyProduct,
-    fetchSupplyProducts,
+    searchSupplyProducts,
   };
 };

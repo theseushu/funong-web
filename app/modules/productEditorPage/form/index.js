@@ -1,10 +1,13 @@
 import { reduxForm } from 'redux-form';
 import _isEmpty from 'lodash/isEmpty';
 import { connect } from 'react-redux';
-import { createSupplyProduct, selector } from '../../api/createSupplyProduct';
-import { updateSupplyProduct } from '../../api/updateSupplyProduct';
+import { actions, selectors } from '../../api/supplyProduct';
 import FORM_NAME from './formName';
 import productForm from './form';
+
+const createSupplyProduct = actions.create;
+const createSupplyProductStateSelector = selectors.create;
+const updateSupplyProduct = actions.update;
 
 // export for unit testing
 export const validate = (values) => {
@@ -37,7 +40,7 @@ export default reduxForm({
   form: FORM_NAME,  // a unique identifier for this form
   validate,                // <--- validation function given to redux-form
   onSubmit: ({ category, species, name, specs, location, desc, available, labels }, dispatch, { initialValues }) => (
-      initialValues ?
+      initialValues.objectId ?
         new Promise((resolve, reject) => {
           dispatch(updateSupplyProduct({
             objectId: initialValues.objectId,
@@ -73,5 +76,5 @@ export default reduxForm({
         })
     ),
 })(connect(
-  (state) => ({ createSupplyProductState: selector(state) }),
+  (state) => ({ createSupplyProductState: createSupplyProductStateSelector(state) }),
 )(productForm));

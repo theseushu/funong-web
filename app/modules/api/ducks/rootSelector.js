@@ -1,1 +1,3 @@
-export default (state) => state.api;
+import namespace from './namespace';
+
+export default (state) => state[namespace];
