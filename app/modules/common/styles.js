@@ -10,6 +10,7 @@ export const colors = {
   colorSubTitle: 'rgba(0,0,0, 0.54)',
   colorText: 'rgba(0,0,0, 0.87)',
   colorError: 'rgb(213,0,0)',
+  colorLightGrey: 'rgba(0,0,0, 0.1)',
 };
 
 export const layouts = {
@@ -44,11 +45,16 @@ const styles = {
   container: {
     width: '100%',
     'max-width': '1200px',
-    padding: '0 16px',
+    padding: '0 8px',
     margin: '0 auto',
     'box-sizing': 'border-box',
   },
-  '@media (min-width: 1025px)': {
+  [breakpoints.mediaTabletAbove]: {
+    container: {
+      padding: '0 16px',
+    },
+  },
+  [breakpoints.mediaBigScreen]: {
     container: {
       padding: '0 24px',
     },

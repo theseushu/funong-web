@@ -37,15 +37,29 @@ class categorySelectorDialog extends Component {
         type: PropTypes.string.isRequired,
       }).isRequired,
     }),
+    catalog: PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      objectId: PropTypes.string.isRequired,
+      type: PropTypes.string.isRequired,
+    }),
   };
   constructor(props) {
     super(props);
-    const { category } = props;
-    this.state = { // catalogType is string, others are objects
-      catalogType: (category && category.catalog.type) || catalogTypes.supply.farm.value,
-      catalog: category && category.catalog,
-      category,
-    };
+    const { category, catalog } = props;
+    if (category) {
+      this.state = { // catalogType is string, others are objects
+        catalogType: category.catalog.type,
+        catalog: category.catalog,
+        category,
+      };
+    } else if (catalog) {
+      this.state = { // catalogType is string, others are objects
+        catalogType: catalog.type,
+        catalog,
+      };
+    } else {
+      this.state = { catalogType: catalogTypes.supply.farm.value };
+    }
   }
   componentDidMount() {
     this.search();
