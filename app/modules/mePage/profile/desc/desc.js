@@ -2,10 +2,9 @@ import React, { Component, PropTypes } from 'react';
 import Button from 'react-mdl/lib/Button';
 import IconButton from 'react-mdl/lib/IconButton';
 import Spinner from 'react-mdl/lib/Spinner';
-import Textfield from 'react-mdl/lib/Textfield';
 import injectSheet from 'react-jss';
 import Line from '../line';
-import Images from './images';
+import RichContent from '../../../common/richContent';
 
 class Desc extends Component {
   static propTypes = {
@@ -69,16 +68,14 @@ class Desc extends Component {
           </div>
         }
       >
-        {
-          <Images editing={editing} images={images} onChange={(newImages) => { this.setState({ images: newImages }); }} />
-        }
-        {
-          editing ? <Textfield
-            style={{ width: '100%', boxSizing: 'border-box' }} rows={4}
-            label="介绍文字" maxLength={20000}
-            value={text} autoFocus onChange={(e) => this.setState({ text: e.target.value })}
-          /> : <p style={{ paddingTop: 20, fontSize: 16 }}>{text}</p>
-        }
+        <RichContent
+          richContent={{ text, images }}
+          editing={editing}
+          textLabel={''}
+          onImagesChange={(newImages) => { this.setState({ images: newImages }); }}
+          onTextChange={(newText) => this.setState({ text: newText })}
+          allowGallery
+        />
       </Line>
     );
   }
