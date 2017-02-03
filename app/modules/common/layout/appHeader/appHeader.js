@@ -13,6 +13,7 @@ const routes = [
   { title: '首页', path: '/' },
   { title: '供应', path: '/supplies' },
   { title: '采购', path: '/' },
+  { title: '物流', path: '/logistics' },
   { title: '微店', path: '/shops' },
   { title: '市场行情', path: '/market' },
   { title: '我的润财', path: '/me' },

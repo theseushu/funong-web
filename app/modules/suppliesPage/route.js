@@ -13,10 +13,13 @@ export default ({ store, injectReducer, injectSagas, loadModule, errorLoading })
 
     const renderRoute = loadModule(cb);
     const [component, ducks] = await importModules;
-    _toPairs(ducks.default).forEach((pair) => {
-      injectReducer(pair[0], pair[1]);
-    });
-    injectSagas(ducks.sagas);
+    if (!this.injected) {
+      this.injected = true;
+      _toPairs(ducks.default).forEach((pair) => {
+        injectReducer(pair[0], pair[1]);
+      });
+      injectSagas(ducks.sagas);
+    }
     await new Promise((resolve, reject) => {
       const { actions: { searchSupplyProducts }, selectors } = ducks;
       const searchSupplyProductState = selectors.searchSupplyProducts(store.getState());

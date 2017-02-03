@@ -94,8 +94,7 @@ export default ({ AV, userId, sessionToken }) => {
       query.equalTo('owner', AV.Object.createWithoutData('_User', ownerId));
     }
     query
-      .limit(1000)
-      .find();
+      .limit(1000);
     const products = await query.find();
 
     return products.map(supplyProductToJSON);
