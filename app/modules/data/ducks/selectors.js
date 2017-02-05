@@ -2,7 +2,7 @@ import { createSelector } from 'reselect';
 import _find from 'lodash/find';
 import { denormalize } from 'denormalizr';
 
-import { ProductsSchema, CertsSchema, SupplyProductsSchema } from './schemas';
+import { ProductsSchema, CertsSchema, SupplyProductsSchema, LogisticsProductsSchema } from './schemas';
 
 const rootSelector = (state) => state.data;
 
@@ -63,6 +63,33 @@ export const createSupplyProductSelector = (objectId) => createSelector(
 
 export const userSupplyProductsSelector = (objectId) => createSelector(
   supplyProductsSelector,
+  (products) => {
+    if (!products) {
+      return [];
+    }
+    const result = products.filter((p) => p.owner.objectId === objectId);
+    return result;
+  },
+);
+
+export const logisticsProductsSelector = createSelector(
+  rootSelector,
+  (data) => {
+    const { entities: { logisticsProducts } } = data;
+    if (!logisticsProducts) {
+      return [];
+    }
+    const result = Object.values(denormalize(logisticsProducts, data.entities, LogisticsProductsSchema));
+    return result;
+  },
+);
+export const createLogisticsProductSelector = (objectId) => createSelector(
+  logisticsProductsSelector,
+  (products) => _find(products, (p) => p.objectId === objectId),
+);
+
+export const userLogisticsProductsSelector = (objectId) => createSelector(
+  logisticsProductsSelector,
   (products) => {
     if (!products) {
       return [];

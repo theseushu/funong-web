@@ -3,17 +3,18 @@ import injectJss from 'react-jss';
 import { Grid, Cell } from 'react-mdl/lib/Grid';
 import Textfield from 'react-mdl/lib/Textfield';
 
-const NameField = ({ input: { value, onChange }, meta: { error }, sheet: { classes } }) => (
+const PriceField = ({ input: { value, onChange }, meta: { error }, sheet: { classes } }) => (
   <Grid>
     <Cell col={12}>
       <div className={classes.wrapper}>
         <Textfield
-          label={'名称'}
+          label={'定价（请概要描述您的定价策略）'}
           floatingLabel
           className={classes.input}
           onChange={onChange}
           value={value}
           required
+          rows={2}
           error={value === '' ? null : error}
         />
       </div>
@@ -21,7 +22,7 @@ const NameField = ({ input: { value, onChange }, meta: { error }, sheet: { class
   </Grid>
   );
 
-NameField.propTypes = {
+PriceField.propTypes = {
   input: PropTypes.object.isRequired,
   meta: PropTypes.object.isRequired,
   sheet: PropTypes.object.isRequired,
@@ -40,4 +41,4 @@ export default injectJss({
   input: {
     width: '100%',
   },
-})(NameField);
+})(PriceField);

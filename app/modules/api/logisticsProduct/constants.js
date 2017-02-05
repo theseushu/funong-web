@@ -1,5 +1,5 @@
 import apiNamespace from '../ducks/namespace';
 
-export const NAMESPACE = `${apiNamespace}/supplyProduct`;
+export const NAMESPACE = `${apiNamespace}/logisticsProduct`;
 
-export const SLICE_NAME = 'supplyProduct';
+export const SLICE_NAME = 'logisticsProduct';

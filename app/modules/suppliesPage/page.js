@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
 import injectSheet from 'react-jss';
 import Layout from '../common/layout';
+import ContentMainRight from '../common/content/mainRight';
 import Card from '../common/product/card';
 import { breakpoints } from '../common/styles';
 import { catalogTypes } from '../../constants';
@@ -10,25 +11,27 @@ import Recommends from './recommends';
 const SuppliesPage = ({ user, products, sheet: { classes } }) => ( // eslint-disable-line no-unused-vars
   <Layout
     content={(
-      <div className={classes.supplies}>
-        <div className={classes.main}>
-          <Criteria
-            types={Object.values(catalogTypes.supply).map((type) => type.value)}
-          />
-          <div className={classes.products}>
-            {
-              products.map((product, i) => (
-                <div key={i} className={classes.product}>
-                  <Card key={i} product={product} />
-                </div>
-              ))
-            }
+      <ContentMainRight
+        main={
+          <div>
+            <Criteria
+              types={Object.values(catalogTypes.supply).map((type) => type.value)}
+            />
+            <div className={classes.products}>
+              {
+                products.map((product, i) => (
+                  <div key={i} className={classes.product}>
+                    <Card key={i} product={product} />
+                  </div>
+                ))
+              }
+            </div>
           </div>
-        </div>
-        <div className={classes.recommends}>
+        }
+        right={
           <Recommends />
-        </div>
-      </div>
+        }
+      />
     )}
   >
   </Layout>
@@ -41,11 +44,6 @@ SuppliesPage.propTypes = {
 };
 
 export default injectSheet({
-  supplies: { display: 'flex' },
-  main: {
-    flex: 1,
-    width: '100%',
-  },
   products: {
     flex: 1,
     display: 'flex',
@@ -70,13 +68,6 @@ export default injectSheet({
     },
     '@media (max-width: 400px)': {
       width: '100%',
-    },
-  },
-  recommends: {
-    width: 200,
-    marginLeft: 16,
-    [breakpoints.mediaDestkopBelow]: {
-      display: 'none',
     },
   },
 })(SuppliesPage);

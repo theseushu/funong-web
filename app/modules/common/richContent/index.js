@@ -47,7 +47,10 @@ class RichContent extends Component {
     return <div>正在加载编辑器</div>;
   }
   render() {
-    const { richContent: { text, images }, textLabel, sheet: { classes }, editing, onTextChange, onImagesChange, allowGallery } = this.props;
+    const {
+      richContent: { text, images }, textLabel, sheet: { classes },
+      editing, onTextChange, onImagesChange, allowGallery,
+    } = this.props;
     return (
       <div>
         {

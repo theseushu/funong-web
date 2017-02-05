@@ -11,8 +11,8 @@ import styles from '../../common/styles';
 const LocationField = ({ input: { value, onChange }, meta: { error }, openDialog, sheet: { classes } }) => (
   <Grid className={error && styles.colorError}>
     <Cell col={4} tablet={3} phone={2} className={classes.field}>
-          发货地点
-        </Cell>
+      常驻地
+    </Cell>
     <Cell col={8} tablet={5} phone={2} className={classes.field}>
       <FormButton
         error={error} onClick={(e) => {

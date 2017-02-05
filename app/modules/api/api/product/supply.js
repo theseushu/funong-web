@@ -23,7 +23,7 @@ export default ({ AV, userId, sessionToken }) => {
         fetchWhenSave: true,
         sessionToken,
       });
-      return { ...savedProduct.toJSON(), category, species, specs, location, desc, thumbnail: desc.images[0] };
+      return { ...savedProduct.toJSON(), category, species, specs, location, desc, thumbnail: desc.images[0], labels };
     } catch (err) {
       debug(err);
       throw err;
@@ -70,7 +70,7 @@ export default ({ AV, userId, sessionToken }) => {
         fetchWhenSave: true,
         sessionToken,
       });
-      return { ...savedProduct.toJSON(), category, species, specs, location, desc, thumbnail: desc.images[0] };
+      return { ...savedProduct.toJSON(), category, species, specs, location, desc, thumbnail: desc.images[0], labels };
     } catch (err) {
       debug(err);
       throw err;

@@ -7,8 +7,27 @@ import { breakpoints } from '../../common/styles';
 const Products = ({ children, sheet: { classes } }, { router }) => (
   <Page smallContent={false}>
     <div className={classes.content}>
-      <Tabs activeTab={router.isActive('/me/products/supply') ? 0 : 1} onChange={(tabId) => router.push(tabId === 0 ? '/me/products/supply' : '/me/products/shop')} ripple>
+      <Tabs
+        activeTab={() => {
+          if (router.isActive('/me/products/supply')) {
+            return 0;
+          } else if (router.isActive('/me/products/logistics')) {
+            return 1;
+          }
+          return 2;
+        }}
+        onChange={(tabId) => {
+          if (tabId === 0) {
+            router.push('/me/products/supply');
+          } else if (tabId === 1) {
+            router.push('/me/products/logistics');
+          } else {
+            router.push('/me/products/shop');
+          }
+        }} ripple
+      >
         <Tab>农资农产供应</Tab>
+        <Tab>物流</Tab>
         <Tab>微店商品</Tab>
       </Tabs>
       {children}

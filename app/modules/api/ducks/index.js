@@ -22,6 +22,7 @@ import * as updateCert from '../updateCert/ducks';
 import * as fetchCerts from '../fetchCerts/ducks';
 
 import * as supplyProduct from '../supplyProduct';
+import * as logisticsProduct from '../logisticsProduct';
 import * as profile from '../profile';
 
 export default {
@@ -48,6 +49,7 @@ export default {
     ...initAMap.default,
     ...profile.default,
     ...supplyProduct.default,
+    ...logisticsProduct.default,
   }),
 };
 
@@ -74,4 +76,5 @@ export const sagas = [
   ...initAMap.sagas,
   ...profile.sagas,
   ...supplyProduct.sagas,
+  ...logisticsProduct.sagas,
 ];

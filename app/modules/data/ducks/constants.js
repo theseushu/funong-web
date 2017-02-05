@@ -7,5 +7,6 @@ export const SET_SPECIFICATIONS = 'data/set_specifications';
 export const SET_PRODUCT = 'data/set_product';
 export const SET_PRODUCTS = 'data/set_products';
 export const SET_SUPPLY_PRODUCTS = 'data/set_supply_products';
+export const SET_LOGISTICS_PRODUCTS = 'data/set_logistics_products';
 export const UPDATE_DATA = 'data/update_data';
 export const SET_CERTS = 'data/set_certs';

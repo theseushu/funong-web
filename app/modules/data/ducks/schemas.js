@@ -48,6 +48,15 @@ SupplyProductSchema.define({
 });
 export const SupplyProductsSchema = arrayOf(SupplyProductSchema);
 
+export const LogisticsProductSchema = new Schema('logisticsProducts', {
+  idAttribute: 'objectId',
+});
+LogisticsProductSchema.define({
+  owner: UserSchema,
+});
+export const LogisticsProductsSchema = arrayOf(LogisticsProductSchema);
+
+
 export const CertSchema = new Schema('certs', {
   idAttribute: 'objectId',
 });

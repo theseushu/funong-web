@@ -1,37 +1,37 @@
 import combineReducers from 'redux/lib/combineReducers';
 import { put } from 'redux-saga/effects';
 import createDucks from '../../../api/createDucks';
-import { setSupplyProducts } from '../../../data/ducks/actions';
+import { setLogisticsProducts } from '../../../data/ducks/actions';
 
-export const SLICE_NAME = 'page_me_products_supply';
+export const SLICE_NAME = 'page_me_products_logistics';
 
 const rootSelector = (state) => state[SLICE_NAME];
 
-const searchSupplyProductsDucks = createDucks({
-  apiName: 'searchSupplyProducts',
+const searchLogisticsProductsDucks = createDucks({
+  apiName: 'searchLogisticsProducts',
   rootSelector: (state) => rootSelector(state),
   namespace: `${SLICE_NAME}`,
   sagas: {
     * beforeFulfilled(products) {
-      yield put(setSupplyProducts(products));
+      yield put(setLogisticsProducts(products));
     },
   },
 });
 
 export default {
   [SLICE_NAME]: combineReducers({
-    ...searchSupplyProductsDucks.default,
+    ...searchLogisticsProductsDucks.default,
   }),
 };
 
 export const actions = {
-  searchSupplyProducts: searchSupplyProductsDucks.actions.searchSupplyProducts,
+  searchLogisticsProducts: searchLogisticsProductsDucks.actions.searchLogisticsProducts,
 };
 
 export const selectors = {
-  searchSupplyProducts: searchSupplyProductsDucks.selector,
+  searchLogisticsProducts: searchLogisticsProductsDucks.selector,
 };
 
 export const sagas = [
-  ...searchSupplyProductsDucks.sagas,
+  ...searchLogisticsProductsDucks.sagas,
 ];

@@ -11,7 +11,7 @@ export default ({ AV, userId, sessionToken }) => {
     const avProfile = user.get('profile');
     if (avProfile) {
       const avAvatar = avProfile.get('avatar');
-      const avatar = avAvatar ? avAvatar.toJSON() : undefined;
+      const avatar = avAvatar ? fileToJSON(avAvatar) : undefined;
       const avDesc = avProfile.get('desc') || {};
       const desc = { ...avDesc, images: avDesc.images ? avDesc.images.map(fileToJSON) : [] };
       result.profile = { ...avProfile.toJSON(), avatar, desc };

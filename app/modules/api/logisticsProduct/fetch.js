@@ -2,16 +2,16 @@ import { put } from 'redux-saga/effects';
 import { NAMESPACE } from './constants';
 import createDucks from '../createDucks';
 import rootSelector from './rootSelector';
-import { setSupplyProducts } from '../../data/ducks/actions';
+import { setLogisticsProducts } from '../../data/ducks/actions';
 
 const ducks = createDucks({
   key: 'fetch',
-  apiName: 'fetchSupplyProduct',
+  apiName: 'fetchLogisticsProduct',
   rootSelector: (state) => rootSelector(state),
   namespace: NAMESPACE,
   sagas: {
     * beforeFulfilled(product) {
-      yield put(setSupplyProducts([product]));
+      yield put(setLogisticsProducts([product]));
     },
   },
 });

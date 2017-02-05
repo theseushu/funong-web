@@ -13,11 +13,6 @@ export const colors = {
   colorLightGrey: 'rgba(0,0,0, 0.1)',
 };
 
-export const layouts = {
-  gutter: 16,
-  gutterSmall: 8,
-};
-
 export const breakpoints = {
   tablet: 480,
   desktop: 840,
@@ -28,6 +23,11 @@ export const breakpoints = {
   mediaTabletBelow: '@media (max-width: 479px)',
   mediaDestkopBelow: '@media (max-width: 839px)',
   mediaSmallScreen: '@media (max-width: 1023px)',
+};
+
+export const layouts = {
+  gutter: 16,
+  gutterSmall: 8,
 };
 
 const staticClasses = {
@@ -67,6 +67,9 @@ const styles = {
   },
   colorAccent: {
     color: colors.colorAccent,
+  },
+  colorSubTitle: {
+    color: colors.colorSubTitle,
   },
 };
 

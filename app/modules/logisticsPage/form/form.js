@@ -1,26 +1,32 @@
 import React, { PropTypes } from 'react';
-import { Fields, Field } from 'redux-form';
+import { Field } from 'redux-form';
 import Button from 'react-mdl/lib/Button';
 import { Card, CardTitle, CardActions } from 'react-mdl/lib/Card';
 import injectSheet from 'react-jss';
-import CategorySpeciesName from './categorySpeciesName';
+import CapacityField from './capacityField';
+import MaxNumberField from './maxNumberField';
+import PriceField from './priceField';
+import RangeField from './rangeField';
+import NameField from './nameField';
+import AvailableField from './availableField';
 import LocationField from './locationField';
 import DescField from './descField';
-import SpecsField from './specsField';
-import AvailableField from './availableField';
 import LabelsField from './labelsField';
-import { breakpoints } from '../../common/styles';
+import { colors, breakpoints } from '../../common/styles';
 
 const Form = (props, { router }) => {
   const { handleSubmit, pristine, submitting, submitSucceeded, invalid, error, sheet: { classes } } = props;
   return (
     <Card shadow={0} style={{ width: '100%' }}>
       <CardTitle>
-        货品信息
+        物流信息
       </CardTitle>
       <form className={classes.form}>
-        <Fields names={['category', 'species', 'name']} component={CategorySpeciesName} sheet={{ classes }} />
-        <Field name="specs" component={SpecsField} sheet={{ classes }} />
+        <Field name="capacity" component={CapacityField} />
+        <Field name="maxNumber" component={MaxNumberField} />
+        <Field name="price" component={PriceField} />
+        <Field name="range" component={RangeField} sheet={{ classes }} />
+        <Field name="name" component={NameField} />
         <Field name="location" component={LocationField} sheet={{ classes }} />
         <Field name="desc" component={DescField} sheet={{ classes }} />
         <Field name="available" component={AvailableField} sheet={{ classes }} />
@@ -98,6 +104,14 @@ export default injectSheet({
     },
     [breakpoints.mediaTabletBelow]: {
       margin: '0 0',
+    },
+  },
+  range: {
+    '& > span': {
+      fontSize: 12,
+      padding: 8,
+      color: colors.colorSubTitle,
+      display: 'inline-block',
     },
   },
   actions: {

@@ -3,15 +3,19 @@ import injectJss from 'react-jss';
 import { Grid, Cell } from 'react-mdl/lib/Grid';
 import Textfield from 'react-mdl/lib/Textfield';
 
-const NameField = ({ input: { value, onChange }, meta: { error }, sheet: { classes } }) => (
+const MaxNumberField = ({ input: { value = '', onChange }, meta: { error }, sheet: { classes } }) => (
   <Grid>
     <Cell col={12}>
       <div className={classes.wrapper}>
         <Textfield
-          label={'名称'}
+          label={'车辆数（最多可同时接单数）'}
+          name="_maxNumber"
+          type="number"
           floatingLabel
           className={classes.input}
-          onChange={onChange}
+          onChange={(e) => {
+            onChange(e.target.value);
+          }}
           value={value}
           required
           error={value === '' ? null : error}
@@ -21,7 +25,7 @@ const NameField = ({ input: { value, onChange }, meta: { error }, sheet: { class
   </Grid>
   );
 
-NameField.propTypes = {
+MaxNumberField.propTypes = {
   input: PropTypes.object.isRequired,
   meta: PropTypes.object.isRequired,
   sheet: PropTypes.object.isRequired,
@@ -40,4 +44,4 @@ export default injectJss({
   input: {
     width: '100%',
   },
-})(NameField);
+})(MaxNumberField);

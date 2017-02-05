@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import injectSheet from 'react-jss';
-import { Tabs, Tab } from 'react-mdl/lib/Tabs';
+import Tabs from '../tabs';
 import Page from '../../page';
 import styles, { breakpoints } from '../../../common/styles';
 import { Card } from '../../../common/product';
@@ -10,25 +10,12 @@ class Supply extends Component { // eslint-disable-line
     sheet: PropTypes.object.isRequired,
     products: PropTypes.array.isRequired,
   }
-  static contextTypes = {
-    router: PropTypes.object.isRequired,
-  }
   render() {
     const { products, sheet: { classes } } = this.props;
-    const { router } = this.context;
     return (
       <Page smallContent={false}>
         <div className={classes.content}>
-          <Tabs
-            activeTab={0} onChange={(tabId) => {
-              if (tabId === 1) {
-                router.push('/me/products/shop');
-              }
-            }} ripple
-          >
-            <Tab>农资农产供应</Tab>
-            <Tab>微店商品</Tab>
-          </Tabs>
+          <Tabs />
           <div className={classes.products}>
             {
               products.map((product, i) => (

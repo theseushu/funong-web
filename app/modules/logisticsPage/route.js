@@ -1,12 +1,12 @@
 import _toPairs from 'lodash/toPairs';
 import { ensureProfile } from '../../utils/routerUtils';
-import { actions } from '../api/supplyProduct';
+import { actions } from '../api/logisticsProduct';
 
-const fetchSupplyProduct = actions.fetch;
+const fetchLogisticsProduct = actions.fetch;
 
 export default ({ store, injectReducer, injectSagas, loadModule, errorLoading }) => ({ // eslint-disable-line no-unused-vars
-  path: '/supply/:id',
-  name: 'newSupply',
+  path: '/logistics/:id',
+  name: 'newLogistics',
   getComponent(nextState, cb) {
     // TODO fetch product
     const { params: { id } } = nextState; // eslint-disable-line no-unused-vars
@@ -18,7 +18,7 @@ export default ({ store, injectReducer, injectSagas, loadModule, errorLoading })
           if (id === 'new') {
             resolve();
           } else {
-            store.dispatch(fetchSupplyProduct({
+            store.dispatch(fetchLogisticsProduct({
               objectId: id,
               meta: {
                 resolve,

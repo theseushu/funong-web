@@ -4,6 +4,7 @@ import createMePageRoute from './modules/mePage/route';
 import createProductPageRoute from './modules/productPage/route';
 import createProductEditorRoute from './modules/productEditorPage/route';
 import createSuppliesRoute from './modules/suppliesPage/route';
+import createLogisticsRoute from './modules/logisticsPage/route';
 import createPrototypeRoutes from './modules/prototypes/routes';
 import createSampleRoutes from './modules/prototypes/sample/routes';
 
@@ -69,7 +70,8 @@ export default function createRoutes(store) {
     createSuppliesRoute({ store, injectReducer, injectSagas, loadModule, errorLoading }),
     createPrototypeRoutes(),
     createSampleRoutes(),
-    createProductEditorRoute({ store, injectReducer, injectSagas, loadModule, errorLoading }), {
+    createProductEditorRoute({ store, injectReducer, injectSagas, loadModule, errorLoading }),
+    createLogisticsRoute({ store, injectReducer, injectSagas, loadModule, errorLoading }), {
       path: '*',
       name: 'notfound',
       getComponent(nextState, cb) {

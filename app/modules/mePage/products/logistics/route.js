@@ -2,8 +2,8 @@ import _toPairs from 'lodash/toPairs';
 import { ensureProfile } from '../../../../utils/routerUtils';
 
 export default ({ store, injectReducer, injectSagas, loadModule, errorLoading }) => ({
-  path: 'supply',
-  name: 'supplyProducts',
+  path: 'logistics',
+  name: 'logisticsProducts',
   getComponent: async (nextState, cb) => {
     const importModules = Promise.all([
       System.import('./index'),
@@ -14,19 +14,25 @@ export default ({ store, injectReducer, injectSagas, loadModule, errorLoading })
     _toPairs(ducks.default).forEach((pair) => {
       injectReducer(pair[0], pair[1]);
     });
-    injectSagas(ducks.sagas);
+    if (!this.injected) {
+      this.injected = true;
+      _toPairs(ducks.default).forEach((pair) => {
+        injectReducer(pair[0], pair[1]);
+      });
+      injectSagas(ducks.sagas);
+    }
     const currentUser = await ensureProfile(store);
     await new Promise((resolve, reject) => {
-      const { actions: { searchSupplyProducts }, selectors } = ducks;
-      const searchSupplyProductState = selectors.searchSupplyProducts(store.getState());
+      const { actions: { searchLogisticsProducts }, selectors } = ducks;
+      const searchLogisticsProductState = selectors.searchLogisticsProducts(store.getState());
         // if the data has been fetched before, don't wait for the api response. otherwise, wait for it
-      if (searchSupplyProductState && searchSupplyProductState.fulfilled) {
-        store.dispatch(searchSupplyProducts({
+      if (searchLogisticsProductState && searchLogisticsProductState.fulfilled) {
+        store.dispatch(searchLogisticsProducts({
           ownerId: currentUser.objectId,
         }));
         resolve();
       } else {
-        store.dispatch(searchSupplyProducts({
+        store.dispatch(searchLogisticsProducts({
           ownerId: currentUser.objectId,
           meta: {
             resolve,

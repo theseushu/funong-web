@@ -45,3 +45,47 @@ export const productLabels = {
   supportsDelivery: { title: '支持走快递', key: 'supportsDelivery' },
   supportsAssurance: { title: '担保交易', key: 'supportsAssurance' },
 };
+
+export const provinces = [
+  { title: '北京', value: '北京' },
+  { title: '天津', value: '天津' },
+  { title: '上海', value: '上海' },
+
+  { title: '重庆', value: '重庆' },
+  { title: '河北', value: '河北' },
+  { title: '山西', value: '山西' },
+
+  { title: '内蒙古', value: '内蒙古' },
+  { title: '辽宁', value: '辽宁' },
+  { title: '吉林', value: '吉林' },
+
+  { title: '黑龙江', value: '黑龙江' },
+  { title: '江苏', value: '江苏' },
+  { title: '浙江', value: '浙江' },
+
+  { title: '安徽', value: '安徽' },
+  { title: '福建', value: '福建' },
+  { title: '江西', value: '江西' },
+
+  { title: '山东', value: '山东' },
+  { title: '河南', value: '河南' },
+  { title: '湖北', value: '湖北' },
+
+  { title: '湖南', value: '湖南' },
+  { title: '广东', value: '广东' },
+  { title: '广西', value: '广西' },
+
+  { title: '海南', value: '海南' },
+  { title: '四川', value: '四川' },
+  { title: '贵州', value: '贵州' },
+
+  { title: '云南', value: '云南' },
+  { title: '西藏', value: '西藏' },
+  { title: '陕西', value: '陕西' },
+
+  { title: '甘肃', value: '甘肃' },
+  { title: '青海', value: '青海' },
+  { title: '宁夏', value: '宁夏' },
+
+  { title: '新疆', value: '新疆' },
+];

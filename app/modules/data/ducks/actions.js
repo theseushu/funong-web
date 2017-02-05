@@ -8,6 +8,7 @@ import {
   SET_PRODUCT,
   SET_PRODUCTS,
   SET_SUPPLY_PRODUCTS,
+  SET_LOGISTICS_PRODUCTS,
   SET_CERTS,
 } from './constants';
 
@@ -47,6 +48,10 @@ export const setProducts = (products) => ({
 export const setSupplyProducts = (supplyProducts) => ({
   type: SET_SUPPLY_PRODUCTS,
   payload: { supplyProducts },
+});
+export const setLogisticsProducts = (logisticsProducts) => ({
+  type: SET_LOGISTICS_PRODUCTS,
+  payload: { logisticsProducts },
 });
 export const setCerts = (certs) => ({
   type: SET_CERTS,

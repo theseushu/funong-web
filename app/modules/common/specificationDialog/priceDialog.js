@@ -7,8 +7,8 @@ import Dialog from '../dialog';
 import { layout } from './styles';
 import { units } from '../../../constants';
 
-const valueRegex = /-?[0-9]{1,7}(\.[0-9]{1,2})?/; // 0.01 - 9999999.99
-const minCountRegex = /[1-9][0-9]{0,7}/; // 1 - 99999999
+const valueRegex = /^[0-9]{1,7}(\.[0-9]{1,2})?$/; // 0.01 - 9999999.99
+const minCountRegex = /^[1-9][0-9]{0,7}$/; // 1 - 99999999
 
 class PriceDialog extends Component {
   static propTypes = {
