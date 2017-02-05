@@ -1,50 +1,35 @@
 import React, { PropTypes } from 'react';
+import _union from 'lodash/union';
 import injectSheet from 'react-jss';
-import { Card, CardTitle, CardText } from 'react-mdl/lib/Card';
-import { colors } from '../styles';
+import Link from 'react-router/lib/Link';
+import Card from './components/card';
+import { formatPrices } from '../../../utils/displayUtils';
 
-const CardComponent = ({ product, sheet: { classes }, className }) => {
-  const { thumbnail: { url }, name } = product;
+const formatPrice = (specs) => formatPrices(_union(...specs.map((spec) => spec.prices)));
+
+const CardComponent = ({ product, sheet: { classes } }) => {
+  const { thumbnail , name } = product;
   return (
-    <Card shadow={0} className={className ? `${classes.card} ${className}` : classes.card} >
-      <CardTitle expand className={classes.cardImage} style={{ backgroundImage: `url(${url})` }}>
-        <div></div>
-      </CardTitle>
-      <CardText className={classes.cardTitle}>
-        <h6>
-          <span>{name}</span>
-        </h6>
-      </CardText>
-    </Card>
+    <Card
+      cardImage={thumbnail.thumbnail_300_300}
+      link={`/supply/${product.objectId}`}
+      titleAccent={formatPrice(product.specs)}
+      title={<Link to={`/supply/${product.objectId}`} className={classes.title}>{name}</Link>}
+    />
   );
 };
 
 CardComponent.propTypes = {
   product: PropTypes.object.isRequired,
   sheet: PropTypes.object.isRequired,
-  className: PropTypes.string,
 };
 
 export default injectSheet({
-  card: {
-    width: '100%',
-  },
-  cardImage: {
-    background: 'center',
-    backgroundSize: 'cover',
-    width: '100%',
-    padding: 0,
-    paddingTop: '56.25%',
-  },
-  cardTitle: {
-    padding: 8,
-    '& > h6': {
-      height: 24,
-      marginTop: 0,
-      marginBottom: 4,
-      fontSize: 14,
-      color: colors.colorText,
-      overflow: 'hidden',
-    },
+  title: {
+    display: 'inline-block',
+    height: 20,
+    overflow: 'hidden',
+    color: 'inherit',
+    textDecoration: 'none',
   },
 })(CardComponent);

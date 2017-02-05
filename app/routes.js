@@ -1,8 +1,7 @@
 import { getAsyncInjectors } from './utils/asyncInjectors';
 import createWelcomePageRoute from './modules/welcomePage/route';
 import createMePageRoute from './modules/mePage/route';
-import createProductPageRoute from './modules/productPage/route';
-import createProductEditorRoute from './modules/productEditorPage/route';
+import createSupplyRoute from './modules/supplyPage/route';
 import createSuppliesRoute from './modules/suppliesPage/route';
 import createLogisticsRoute from './modules/logisticsPage/route';
 import createPrototypeRoutes from './modules/prototypes/routes';
@@ -66,11 +65,10 @@ export default function createRoutes(store) {
     },
     createWelcomePageRoute({ store, injectReducer, injectSagas, loadModule, errorLoading }),
     createMePageRoute({ store, injectReducer, injectSagas, loadModule, errorLoading }),
-    createProductPageRoute({ store, injectReducer, injectSagas, loadModule, errorLoading }),
-    createSuppliesRoute({ store, injectReducer, injectSagas, loadModule, errorLoading }),
     createPrototypeRoutes(),
     createSampleRoutes(),
-    createProductEditorRoute({ store, injectReducer, injectSagas, loadModule, errorLoading }),
+    createSuppliesRoute({ store, injectReducer, injectSagas, loadModule, errorLoading }),
+    createSupplyRoute({ store, injectReducer, injectSagas, loadModule, errorLoading }),
     createLogisticsRoute({ store, injectReducer, injectSagas, loadModule, errorLoading }), {
       path: '*',
       name: 'notfound',

@@ -1,5 +1,4 @@
 import React, { Component, PropTypes } from 'react';
-import Textfield from 'react-mdl/lib/Textfield';
 import injectSheet from 'react-jss';
 import Images from './images';
 
@@ -39,7 +38,8 @@ class RichContent extends Component {
     });
   }
   renderEditor = () => {
-    const { richContent: { text }, onTextChange } = this.props;
+    // todo place holder using textLabel
+    const { richContent: { text }, textLabel, onTextChange } = this.props; // eslint-disable-line
     const { Editor } = this.state;
     if (Editor) {
       return <Editor ref={(editor) => { this.editorInstance = editor; }} onChange={onTextChange} content={text} />;
@@ -48,8 +48,8 @@ class RichContent extends Component {
   }
   render() {
     const {
-      richContent: { text, images }, textLabel, sheet: { classes },
-      editing, onTextChange, onImagesChange, allowGallery,
+      richContent: { text, images }, sheet: { classes },
+      editing, onImagesChange, allowGallery,
     } = this.props;
     return (
       <div>
@@ -67,17 +67,6 @@ class RichContent extends Component {
             </div>
           )
         }
-        <div>
-          {
-            false ? (
-              <Textfield
-                style={{ width: '100%', boxSizing: 'border-box' }} rows={4}
-                label={textLabel || '点击开始输入'} maxLength={20000}
-                value={text} autoFocus onChange={(e) => onTextChange(e.target.value)}
-              />
-            ) : null
-          }
-        </div>
         <div>
           {
             editing ? (

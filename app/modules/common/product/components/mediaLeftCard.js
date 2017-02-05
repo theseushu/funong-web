@@ -3,36 +3,34 @@ import injectSheet from 'react-jss';
 import { Card, CardTitle, CardText, CardActions } from 'react-mdl/lib/Card';
 import { colors } from '../../styles';
 
-const CardComponent = ({ thumbnail, title, subtitle, contentText, secondaryCotent, actions, sheet: { classes }, className }) => {
-  return (
-    <Card shadow={4} className={className ? `${classes.card} ${className}` : classes.card} >
-      <CardTitle>
-        <div className={classes.title}>
-          <div className={classes.titleImage}>
-            {thumbnail}
-          </div>
-          <div className={classes.titleText}>
-            <h6>{title}</h6>
-            <div>{subtitle}</div>
-          </div>
+const CardComponent = ({ thumbnail, title, subtitle, contentText, secondaryCotent, actions, sheet: { classes }, className }) => (
+  <Card shadow={4} className={className ? `${classes.card} ${className}` : classes.card} >
+    <CardTitle>
+      <div className={classes.title}>
+        <div className={classes.titleImage}>
+          {thumbnail}
         </div>
-      </CardTitle>
-      <CardText>
-        <h6 className={classes.mainText}>
-          {contentText}
-        </h6>
-        <div className={classes.secondaryText}>
-          {secondaryCotent}
+        <div className={classes.titleText}>
+          <h6>{title}</h6>
+          <div>{subtitle}</div>
         </div>
-      </CardText>
-      { actions.length > 0 &&
+      </div>
+    </CardTitle>
+    <CardText>
+      <h6 className={classes.mainText}>
+        {contentText}
+      </h6>
+      <div className={classes.secondaryText}>
+        {secondaryCotent}
+      </div>
+    </CardText>
+    { actions.length > 0 &&
       <CardActions className={classes.cardActions} border>
         {actions}
       </CardActions>
       }
-    </Card>
+  </Card>
   );
-};
 
 CardComponent.propTypes = {
   thumbnail: PropTypes.element.isRequired,

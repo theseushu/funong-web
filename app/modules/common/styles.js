@@ -11,6 +11,9 @@ export const colors = {
   colorText: 'rgba(0,0,0, 0.87)',
   colorError: 'rgb(213,0,0)',
   colorLightGrey: 'rgba(0,0,0, 0.1)',
+  colorPrice: '#FF5722', // deepOrange500
+  colorCategoryLabel: '#827717', // lime900
+  colorSpeciesLabel: '#558B2F', // lightGreen800
 };
 
 export const breakpoints = {
