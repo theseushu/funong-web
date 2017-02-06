@@ -4,7 +4,7 @@ import * as initAMap from './initAMap/ducks';
 import * as requestSmsCode from './requestSmsCode/ducks';
 import * as signupOrLoginWithMobilePhone from './signupOrLogin/ducks';
 import * as profile from './profile';
-// import * as uploadAvatar from '../uploadAvatar/ducks';
+import * as uploadAvatar from './uploadAvatar/ducks';
 // import * as searchDistinct from '../searchDistrict/ducks';
 // import * as fetchLocation from '../fetchLocation/ducks';
 // import * as fetchCatalogs from '../fetchCatalogs/ducks';
@@ -31,7 +31,7 @@ export default {
     ...requestSmsCode.default,
     ...signupOrLoginWithMobilePhone.default,
     ...profile.default,
-    // ...uploadAvatar.default,
+    ...uploadAvatar.default,
     // ...searchDistinct.default,
     // ...fetchLocation.default,
     // ...fetchCatalogs.default,
@@ -58,7 +58,7 @@ export const sagas = [
   ...requestSmsCode.sagas,
   ...signupOrLoginWithMobilePhone.sagas,
   ...profile.sagas,
-  // ...uploadAvatar.sagas,
+  ...uploadAvatar.sagas,
   // ...searchDistinct.sagas,
   // ...fetchLocation.sagas,
   // ...fetchCatalogs.sagas,

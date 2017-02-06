@@ -43,7 +43,7 @@ export default () => {
     requestSmsCode: createRequestSmsCodeApi({ AV }),
     ...createSignupOrLoginApis({ AV, context, updateContextToken }),
     ...createProfileApis({ AV, context, updateContextProfile }),
-    ...createFileApi({ AV, context }),
+    ...createFileApi({ AV, context, updateContextProfile }),
     // ...createCatalogCategorySpeciesApis({ AV, context }),
     // ...createCertsApis({ AV, context }),
     // ...createProductApis({ AV, context }),

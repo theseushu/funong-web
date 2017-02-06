@@ -4,6 +4,6 @@ import AvatarCropper from './components/avatarCropper';
 import { selector, uploadAvatar, uploadAvatarProgress } from '../../api/uploadAvatar';
 
 export default connect(
-  (state) => selector(state),
+  (state) => selector(state) || {},
   (dispatch) => bindActionCreators({ uploadAvatar, uploadAvatarProgress }, dispatch),
 )(AvatarCropper);

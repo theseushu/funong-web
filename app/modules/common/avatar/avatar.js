@@ -5,8 +5,8 @@ import { colors } from '../styles';
 
 
 const Content = ({ user }) => (
-    (user && user.profile && user.profile.avatar) ?
-      <img role="presentation" src={user.profile.avatar.url} /> :
+    (user && user.avatar) ?
+      <img role="presentation" src={user.avatar.url} /> :
       <MdAccountCircle
         style={{
           position: 'relative',

@@ -23,7 +23,7 @@ class Profile extends Component {
     this.state = { activeTab: 0 };
   }
   render() {
-    const { user: { profile: { type }, mobilePhoneNumber }, sheet: { classes } } = this.props;
+    const { user: { type, mobilePhoneNumber }, sheet: { classes } } = this.props;
     return (
       <Page>
         <div className={classes.content}>

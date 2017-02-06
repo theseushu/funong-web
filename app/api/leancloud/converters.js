@@ -28,6 +28,14 @@ export const fileToJSON = (file) => {
   return null;
 };
 
+export const userToJSON = (user) => {
+  const avAvatar = user.get('avatar');
+  const avatar = avAvatar ? fileToJSON(avAvatar) : undefined;
+  const desc = user.get('desc') || {};
+  const images = (user.get('images') || []).map(fileToJSON);
+  return { ...user.toJSON(), avatar, desc, images };
+};
+
 export const supplyProductToJSON = (product) => {
   const avCategory = product.get('category');
   const category = avCategory ? { ...avCategory.toJSON(), catalog: avCategory.get('catalog').toJSON() } : null;

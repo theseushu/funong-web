@@ -1,7 +1,7 @@
 import { fileToJSON } from '../converters';
 const debug = require('debug')('app:api:file');
 
-export default ({ AV, context: { token: { sessionToken }, profile } }) => {
+export default ({ AV, context: { token: { sessionToken }, profile }, updateContextProfile }) => {
   const uploadFile = async ({ filename, file, onprogress, metaData = {} }) => {
     try {
       if (!sessionToken || !profile) {
@@ -21,14 +21,16 @@ export default ({ AV, context: { token: { sessionToken }, profile } }) => {
     }
   };
 
-  const uploadAvatar = async ({ profileId, filename, file, onprogress }) => {
+  const uploadAvatar = async ({ filename, file, onprogress }) => {
     try {
-      const metaData = { owner: profileId, isAvatar: true };
+      const metaData = { owner: profile.objectId, isAvatar: true };
       const uploadedFile = await uploadFile({ filename, file, onprogress, metaData });
-      await AV.Query.doCloudQuery('update Profile set avatar=pointer("_File", ?) where objectId=?', [uploadedFile.id, profileId], {
+      await AV.Query.doCloudQuery('update Profile set avatar=pointer("_File", ?) where objectId=?', [uploadedFile.id, profile.objectId], {
         sessionToken,
       });
-      return uploadedFile;
+      const updatedProfile = { ...profile, avatar: uploadedFile };
+      updateContextProfile(updatedProfile);
+      return updatedProfile;
     } catch (err) {
       debug(err);
       throw err;

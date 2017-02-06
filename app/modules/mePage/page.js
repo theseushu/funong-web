@@ -19,7 +19,7 @@ const sideRoutes = (type) => [
   { title: '我的收藏', path: '/me/bookmarks' },
 ];
 
-const MePage = ({ user: { profile: { avatar, type } }, sheet: { classes }, children, smallContent = true }, { router }) => {
+const MePage = ({ user: { avatar, type }, sheet: { classes }, children, smallContent = true }, { router }) => {
   const routes = sideRoutes(type).map((route) => {
     if (route.path !== '/me/products') {
       const active = router.isActive(route.path, true);
