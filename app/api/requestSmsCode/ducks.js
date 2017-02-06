@@ -3,7 +3,6 @@ import rootSelector from '../rootSelector';
 import namespace from '../namespace';
 
 const ducks = createDucks({
-  key: 'requestSmsCode',
   apiName: 'requestSmsCode',
   rootSelector,
   namespace,

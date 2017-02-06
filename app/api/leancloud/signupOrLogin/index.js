@@ -15,10 +15,10 @@ export default ({ AV, updateContextToken }) => {
     throw err;
   };
 
-  const login = (...params) => AV.User.logIn(...params).then(success).catch(error);
+  const loginWithPassword = (...params) => AV.User.logIn(...params).then(success).catch(error);
   const signupOrLoginWithMobilePhone = (...params) => AV.User.signUpOrlogInWithMobilePhone(...params).then(success).catch(error);
   return {
-    login,
+    loginWithPassword,
     signupOrLoginWithMobilePhone,
   };
 };

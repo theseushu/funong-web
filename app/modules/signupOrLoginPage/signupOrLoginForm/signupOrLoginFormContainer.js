@@ -1,7 +1,7 @@
 import { reduxForm, SubmissionError } from 'redux-form';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
-import { selector, signupOrLogin } from '../../api/signupOrLogin';
+import { signupOrLogin } from '../../../api/signupOrLogin';
 import SignupOrLoginForm from './signupOrLoginForm';
 import { actions } from '../../api/profile';
 
@@ -42,7 +42,7 @@ export default reduxForm({
   validate,                // <--- validation function given to redux-form
 })(connect(
   // (state) => ({ requestSmsCodeState: selectors.requestSmsCode(state) }),
-  (state) => ({ signupOrLoginWithMobilePhoneState: selector(state) }),
+  null,
   (dispatch) => ({
     onSubmit: ({ phone, smsCode, password }) => new Promise((resolve, reject) => {
       const rejectFuc = (err) => {
