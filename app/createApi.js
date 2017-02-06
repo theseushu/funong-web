@@ -1,7 +1,3 @@
-import { loadSessionTokenInCookie } from './utils/sessionTokenUtils';
-import createApi from './modules/api/api';
+import createApi from './api/leancloud';
 
-export default () => {
-  const sessionToken = loadSessionTokenInCookie();
-  return createApi(sessionToken);
-};
+export default () => createApi();

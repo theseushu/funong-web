@@ -1,4 +1,4 @@
-export default (AV) => {
+export default ({ AV }) => {
   const login = (...params) => AV.User.logIn(...params).then((user) => ({
     sessionToken: user.getSessionToken(),
     userId: user.get('objectId'),
