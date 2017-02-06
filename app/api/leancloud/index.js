@@ -26,11 +26,8 @@ AV.init({
 });
 
 export default () => {
-  // token: { sessionToken, objectId, mobilePhoneNumber }
-  const context = {
-    token: loadFromCookie(),
-    profile: null,
-  };
+  // { token: { sessionToken, objectId, mobilePhoneNumber }, profile: {} }
+  const context = loadFromCookie();
 
   const updateContextToken = (newToken) => {
     context.token = newToken;

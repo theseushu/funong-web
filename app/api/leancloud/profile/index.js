@@ -1,13 +1,13 @@
 import { fileToJSON } from '../converters';
 const debug = require('debug')('app:api:profile');
 
-export default ({ AV, context: { objectId, sessionToken, mobilePhoneNumber, profile }, updateContextProfile }) => {
+export default ({ AV, context: { token: { objectId, sessionToken, mobilePhoneNumber }, profile }, updateContextProfile }) => {
   class Profile extends AV.Object {}
   AV.Object.register(Profile);
 
   const fetchProfile = async () => {
     try {
-      const avProfile = new AV.Query('Profile')
+      const avProfile = await new AV.Query('Profile')
         .equalTo('user', AV.Object.createWithoutData('_User', objectId))
         .include(['avatar', 'desc.images'])
         .first();
@@ -32,9 +32,9 @@ export default ({ AV, context: { objectId, sessionToken, mobilePhoneNumber, prof
     }
   };
 
-  const updateProfile = async ({ profileId, desc, ...attrs }) => {
+  const updateProfile = async ({ desc, ...attrs }) => {
     try {
-      const avProfile = AV.Object.createWithoutData('Profile', profileId);
+      const avProfile = AV.Object.createWithoutData('Profile', profile.objectId);
       const attributes = { ...attrs };
       if (desc) {
         if (desc.images) {

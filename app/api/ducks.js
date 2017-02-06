@@ -3,6 +3,7 @@ import namespace from './namespace';
 import * as initAMap from './initAMap/ducks';
 import * as requestSmsCode from './requestSmsCode/ducks';
 import * as signupOrLoginWithMobilePhone from './signupOrLogin/ducks';
+import * as profile from './profile';
 // import * as uploadAvatar from '../uploadAvatar/ducks';
 // import * as searchDistinct from '../searchDistrict/ducks';
 // import * as fetchLocation from '../fetchLocation/ducks';
@@ -23,13 +24,13 @@ import * as signupOrLoginWithMobilePhone from './signupOrLogin/ducks';
 
 // import * as supplyProduct from '../supplyProduct';
 // import * as logisticsProduct from '../logisticsProduct';
-// import * as profile from '../profile';
 
 export default {
   [namespace]: combineReducers({
     ...initAMap.default,
     ...requestSmsCode.default,
     ...signupOrLoginWithMobilePhone.default,
+    ...profile.default,
     // ...uploadAvatar.default,
     // ...searchDistinct.default,
     // ...fetchLocation.default,
@@ -47,7 +48,6 @@ export default {
     // ...updateCert.default,
     // ...fetchCerts.default,
     // ...createSpecies.default,
-    // ...profile.default,
     // ...supplyProduct.default,
     // ...logisticsProduct.default,
   }),
@@ -57,6 +57,7 @@ export const sagas = [
   ...initAMap.sagas,
   ...requestSmsCode.sagas,
   ...signupOrLoginWithMobilePhone.sagas,
+  ...profile.sagas,
   // ...uploadAvatar.sagas,
   // ...searchDistinct.sagas,
   // ...fetchLocation.sagas,
@@ -74,7 +75,6 @@ export const sagas = [
   // ...updateCert.sagas,
   // ...fetchCerts.sagas,
   // ...createSpecies.sagas,
-  // ...profile.sagas,
   // ...supplyProduct.sagas,
   // ...logisticsProduct.sagas,
 ];

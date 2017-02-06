@@ -2,16 +2,16 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
 import UserTypes from './userTypes';
-import { actions, selectors } from '../../api/profile';
+import { actions, selectors } from '../../../api/profile';
 
-const createProfile = actions.create;
-const selector = selectors.create;
+const updateProfile = actions.update;
+const selector = selectors.update;
 
 export default connect(
   (state) => selector(state),
   (dispatch) => ({
     onClick: ({ type: typeValue }) => {
-      bindActionCreators({ createProfile }, dispatch).createProfile({ type: typeValue,
+      bindActionCreators({ updateProfile }, dispatch).updateProfile({ type: typeValue,
         meta: {
           resolve: ({ type }) => {
             switch (type) {
@@ -35,7 +35,7 @@ export default connect(
                 break;
               default:
                 // todo shouldn't happen. but if it happens, go to index
-                dispatch(push('/'));
+                // dispatch(push('/'));
             }
           },
           reject: (error) => {

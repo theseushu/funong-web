@@ -2,8 +2,6 @@ import React, { PropTypes } from 'react';
 import Helmet from 'react-helmet';
 import injectSheet from 'react-jss';
 import { Card, CardTitle } from 'react-mdl/lib/Card';
-import { List, ListItem, ListItemContent } from 'react-mdl/lib/List';
-import Button from 'react-mdl/lib/Button';
 import styles, { layouts, breakpoints } from '../common/styles';
 import mediaBg from './assets/media-bg.jpg';
 import backgroundImg from './assets/bg.jpg';

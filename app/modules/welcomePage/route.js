@@ -1,6 +1,6 @@
 import _toPairs from 'lodash/toPairs';
 import { currentUserSelector } from '../data/ducks/selectors';
-import { actions } from '../api/profile';
+import { actions } from '../../api/profile';
 
 const fetchProfile = actions.fetch;
 export default ({ store, injectReducer, injectSagas, loadModule, errorLoading }) => ({ // eslint-disable-line no-unused-vars
@@ -11,14 +11,20 @@ export default ({ store, injectReducer, injectSagas, loadModule, errorLoading })
       System.import('./index'),
       System.import('./ducks'),
       new Promise((resolve, reject) => {
+        const proceed = (user) => {
+          if (user.type) {
+            // todo redirect since there's no need to welcome user anymore
+            resolve();
+            console.log('TODO: redirect'); // eslint-disable-line
+          } else {
+            resolve();
+          }
+        };
         const currentUser = currentUserSelector(store.getState());
-        if (currentUser && currentUser.profile) {
-          // todo redirect since there's no need to welcome user anymore
-          resolve();
-        } else if (!currentUser) {
-          store.dispatch(fetchProfile({ meta: { resolve, reject } }));
+        if (!currentUser) {
+          store.dispatch(fetchProfile({ meta: { resolve: proceed, reject } }));
         } else {
-          resolve();
+          proceed(currentUser);
         }
       }),
     ]);
