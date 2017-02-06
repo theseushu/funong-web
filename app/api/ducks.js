@@ -4,6 +4,7 @@ import * as initAMap from './initAMap/ducks';
 import * as requestSmsCode from './requestSmsCode/ducks';
 import * as signupOrLoginWithMobilePhone from './signupOrLogin/ducks';
 import * as profile from './profile';
+import * as uploadFile from './uploadFile/ducks';
 import * as uploadAvatar from './uploadAvatar/ducks';
 // import * as searchDistinct from '../searchDistrict/ducks';
 // import * as fetchLocation from '../fetchLocation/ducks';
@@ -12,7 +13,6 @@ import * as uploadAvatar from './uploadAvatar/ducks';
 // import * as createSpecies from '../createSpecies/ducks';
 // import * as fetchSpecies from '../fetchSpecies/ducks';
 // import * as fetchPriceDefinitions from '../fetchPriceDefinitions/ducks';
-// import * as uploadFile from '../uploadFile/ducks';
 // import * as createSpecification from '../createSpecification/ducks';
 // import * as fetchSpecifications from '../fetchSpecifications/ducks';
 // import * as createProduct from '../createProduct/ducks';
@@ -31,6 +31,7 @@ export default {
     ...requestSmsCode.default,
     ...signupOrLoginWithMobilePhone.default,
     ...profile.default,
+    ...uploadFile.default,
     ...uploadAvatar.default,
     // ...searchDistinct.default,
     // ...fetchLocation.default,
@@ -59,13 +60,13 @@ export const sagas = [
   ...signupOrLoginWithMobilePhone.sagas,
   ...profile.sagas,
   ...uploadAvatar.sagas,
+  ...uploadFile.sagas,
   // ...searchDistinct.sagas,
   // ...fetchLocation.sagas,
   // ...fetchCatalogs.sagas,
   // ...fetchCategories.sagas,
   // ...fetchSpecies.sagas,
   // ...fetchPriceDefinitions.sagas,
-  // ...uploadFile.sagas,
   // ...createSpecification.sagas,
   // ...fetchSpecifications.sagas,
   // ...createProduct.sagas,

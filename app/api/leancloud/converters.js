@@ -31,9 +31,8 @@ export const fileToJSON = (file) => {
 export const userToJSON = (user) => {
   const avAvatar = user.get('avatar');
   const avatar = avAvatar ? fileToJSON(avAvatar) : undefined;
-  const desc = user.get('desc') || {};
   const images = (user.get('images') || []).map(fileToJSON);
-  return { ...user.toJSON(), avatar, desc, images };
+  return { ...user.toJSON(), avatar, images };
 };
 
 export const supplyProductToJSON = (product) => {

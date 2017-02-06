@@ -1,0 +1,4 @@
+This api requires an extra callback
+In order to use redux to manage this callback, it has to be different than normal apis
+
+Maybe refactor same time later

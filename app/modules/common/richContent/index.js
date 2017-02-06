@@ -5,14 +5,14 @@ import Images from './images';
 class RichContent extends Component {
   static propTypes = {
     richContent: PropTypes.shape({
-      text: PropTypes.string.isRequired,
+      desc: PropTypes.string.isRequired,
       images: PropTypes.array.isRequired,
     }).isRequired,
     sheet: PropTypes.object.isRequired,
     onImagesChange: PropTypes.func,
-    onTextChange: PropTypes.func,
+    onDescChange: PropTypes.func,
     editing: PropTypes.bool,
-    textLabel: PropTypes.string,
+    descLabel: PropTypes.string,
     allowGallery: PropTypes.bool,
   }
   constructor(props) {
@@ -39,16 +39,16 @@ class RichContent extends Component {
   }
   renderEditor = () => {
     // todo place holder using textLabel
-    const { richContent: { text }, textLabel, onTextChange } = this.props; // eslint-disable-line
+    const { richContent: { desc }, descLabel, onDescChange } = this.props; // eslint-disable-line
     const { Editor } = this.state;
     if (Editor) {
-      return <Editor ref={(editor) => { this.editorInstance = editor; }} onChange={onTextChange} content={text} />;
+      return <Editor ref={(editor) => { this.editorInstance = editor; }} onChange={onDescChange} content={desc} />;
     }
     return <div>正在加载编辑器</div>;
   }
   render() {
     const {
-      richContent: { text, images }, sheet: { classes },
+      richContent: { desc, images }, sheet: { classes },
       editing, onImagesChange, allowGallery,
     } = this.props;
     return (
@@ -71,7 +71,7 @@ class RichContent extends Component {
           {
             editing ? (
               this.renderEditor()
-            ) : (text.length > 0 && <div className={classes.marginTop} dangerouslySetInnerHTML={{ __html: text }} />) // eslint-disable-line
+            ) : (desc.length > 0 && <div className={classes.marginTop} dangerouslySetInnerHTML={{ __html: desc }} />) // eslint-disable-line
           }
         </div>
       </div>

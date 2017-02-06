@@ -1,4 +1,6 @@
 import React, { Component, PropTypes } from 'react';
+import _isEqual from 'lodash/isEqual';
+import _isEmpty from 'lodash/isEmpty';
 import Button from 'react-mdl/lib/Button';
 import IconButton from 'react-mdl/lib/IconButton';
 import Spinner from 'react-mdl/lib/Spinner';
@@ -15,14 +17,15 @@ class Desc extends Component {
   }
   constructor(props) {
     super(props);
-    const { desc = {} } = this.props.user;
-    this.state = { editing: false, text: desc.text || '', images: (desc && desc.images) || [] };
+    const { desc = '', images = [] } = this.props.user;
+    this.state = { editing: false, desc, images };
   }
   save = () => {
-    const { user, updateProfile } = this.props;
-    const { text, images } = this.state;
-    updateProfile({ profileId: user.objectId,
-      desc: { text, images },
+    const { updateProfile } = this.props;
+    const { desc, images } = this.state;
+    updateProfile({
+      desc,
+      images,
       meta: {
         resolve: () => {
           this.setState({ editing: false });
@@ -31,32 +34,34 @@ class Desc extends Component {
     });
   }
   cancel = () => {
-    const { desc = {} } = this.props.user;
-    this.setState({ editing: false, text: desc.text || '', images: (desc && desc.images) || [] });
+    const { desc = '', images = [] } = this.props.user;
+    this.setState({ editing: false, desc, images });
   }
+  // todo use this method to disable save button after changing to new rich editor
   enableSave = () => {
-    const { text, images, pending } = this.state;
+    const { desc, images, pending } = this.state;
     const { user } = this.props;
-    const initText = (user.desc && user.desc.text) || '';
-    const initImages = (user.desc && user.desc.images) || [];
+    const initDesc = user.desc || '';
+    const initImages = user.images || [];
     if (pending) {
       return false;
     }
-    return text !== initText || images !== initImages;
+    return desc !== initDesc || !_isEqual(images, initImages);
   }
   render() {
-    const { text, images, editing } = this.state;
+    const { desc, images, editing } = this.state;
     const { sheet: { classes }, pending } = this.props;
     const buttons = [];
     if (editing) {
-      buttons.push(pending ? <Spinner key={0} /> : <IconButton key={0} colored name="save" disabled={!this.enableSave()} type="submit" onClick={this.save} />);
+      buttons.push(pending ? <Spinner key={0} /> : <IconButton key={0} colored name="save" type="submit" onClick={this.save} />);
       buttons.push(<IconButton key={1} colored name="block" onClick={this.cancel} />);
     } else {
+      const empty = _isEmpty(desc) && _isEmpty(images);
       buttons.push(
         <Button
-          key={0} colored accent={!text}
+          key={0} colored accent={empty}
           onClick={() => this.setState({ editing: true })}
-        >{text ? '修改' : '介绍一下自己吧'}</Button>
+        >{empty ? '介绍一下自己吧' : '修改'}</Button>
       );
     }
     return (
@@ -69,11 +74,11 @@ class Desc extends Component {
         }
       >
         <RichContent
-          richContent={{ text, images }}
+          richContent={{ desc, images }}
           editing={editing}
-          textLabel={''}
+          descLabel={''}
           onImagesChange={(newImages) => { this.setState({ images: newImages }); }}
-          onTextChange={(newText) => this.setState({ text: newText })}
+          onDescChange={(newDesc) => this.setState({ desc: newDesc })}
           allowGallery
         />
       </Line>

@@ -14,7 +14,10 @@ export const createNames = ({ apiName, namespace, key = apiName }) => ({
 
 // action creators
 export const createActionCreators = ({ actionConstant, action }) => ({
-  [action]: ({ meta = {}, ...params }) => ({ type: actionConstant, payload: { ...params }, meta }),
+  [action]: ({ meta = {}, ...params }) => {
+    console.log(params)
+    return ({ type: actionConstant, payload: { ...params }, meta });
+  }
 });
 
 // reducer
