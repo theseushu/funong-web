@@ -1,4 +1,4 @@
-import { supplyProductToJSON } from '../../utils/converters';
+import { supplyProductToJSON } from '../converters';
 const debug = require('debug')('app:api:supply');
 
 export default ({ AV, userId, sessionToken }) => {

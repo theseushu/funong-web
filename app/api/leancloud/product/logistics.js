@@ -1,4 +1,4 @@
-import { logisticsToJSON } from '../../utils/converters';
+import { logisticsToJSON } from '../converters';
 const debug = require('debug')('app:api:logistics');
 
 export default ({ AV, userId, sessionToken }) => {

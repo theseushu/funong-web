@@ -3,7 +3,6 @@ import { call, put } from 'redux-saga/effects';
 import { createSelector } from 'reselect';
 import rootSelector from '../ducks/rootSelector';
 import createRestCallStateReducer from '../ducks/createRestCallStateReducer';
-import { saveSessionTokenInCookie } from '../../../utils/sessionTokenUtils';
 
 const SIGNUP_OR_LOGIN = 'api/signup_or_login';
 const SIGNUP_OR_LOGIN_STATE = 'api/signup_or_login_with_mobilephone_state';
@@ -33,7 +32,6 @@ function* signupOrLoginWithMobilePhoneSaga(action, api) {
       const { sessionToken, userId } = yield call(api.login, phone, password);
       result = { sessionToken, userId };
     }
-    yield call(saveSessionTokenInCookie, result);
     yield call(api.replaceToken, result);
     yield put({ type: SIGNUP_OR_LOGIN_STATE, payload: { fulfilled: true } });
     if (typeof resolve === 'function') {

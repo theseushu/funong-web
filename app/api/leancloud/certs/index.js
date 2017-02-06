@@ -1,4 +1,4 @@
-import { fileToJSON } from '../../utils/converters';
+import { fileToJSON } from '../converters';
 const debug = require('debug')('app:api:certs');
 
 export default ({ AV, sessionToken, userId }) => {
