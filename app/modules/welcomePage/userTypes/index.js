@@ -35,7 +35,7 @@ export default connect(
                 break;
               default:
                 // todo shouldn't happen. but if it happens, go to index
-                // dispatch(push('/'));
+                dispatch(push('/'));
             }
           },
           reject: (error) => {
