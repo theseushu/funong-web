@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux';
 import namespace from './namespace';
-import * as initAMap from '../initAMap/ducks';
-import * as requestSmsCode from '../requestSmsCode/ducks';
-import * as signupOrLoginWithMobilePhone from '../signupOrLogin/ducks';
+import * as initAMap from './initAMap/ducks';
+import * as requestSmsCode from './requestSmsCode/ducks';
+// import * as signupOrLoginWithMobilePhone from './signupOrLogin/ducks';
 // import * as uploadAvatar from '../uploadAvatar/ducks';
 // import * as searchDistinct from '../searchDistrict/ducks';
 // import * as fetchLocation from '../fetchLocation/ducks';
@@ -29,7 +29,7 @@ export default {
   [namespace]: combineReducers({
     ...initAMap.default,
     ...requestSmsCode.default,
-    ...signupOrLoginWithMobilePhone.default,
+    // ...signupOrLoginWithMobilePhone.default,
     // ...uploadAvatar.default,
     // ...searchDistinct.default,
     // ...fetchLocation.default,
@@ -56,7 +56,7 @@ export default {
 export const sagas = [
   ...initAMap.sagas,
   ...requestSmsCode.sagas,
-  ...signupOrLoginWithMobilePhone.sagas,
+  // ...signupOrLoginWithMobilePhone.sagas,
   // ...uploadAvatar.sagas,
   // ...searchDistinct.sagas,
   // ...fetchLocation.sagas,

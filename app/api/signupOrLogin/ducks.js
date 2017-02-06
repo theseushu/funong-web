@@ -1,14 +1,14 @@
 import { takeEvery } from 'redux-saga';
 import { call, put } from 'redux-saga/effects';
 import { createSelector } from 'reselect';
-import rootSelector from '../ducks/rootSelector';
-import createRestCallStateReducer from '../ducks/createRestCallStateReducer';
+import rootSelector from '../rootSelector';
+import { createStateSelector } from '../utils/createDucks';
 
 const SIGNUP_OR_LOGIN = 'api/signup_or_login';
 const SIGNUP_OR_LOGIN_STATE = 'api/signup_or_login_with_mobilephone_state';
 
 export default {
-  signupOrLogin: createRestCallStateReducer(SIGNUP_OR_LOGIN_STATE),
+  signupOrLogin: createStateSelector(rootSelector, { slice: SIGNUP_OR_LOGIN_STATE }),
 };
 
 export const actions = {

@@ -9,7 +9,7 @@ import { reducer as formReducer } from 'redux-form';
 import { reducer as toastrReducer } from 'react-redux-toastr';
 
 import languageProviderReducer from './containers/LanguageProvider/reducer';
-import api from './modules/api/ducks';
+import api from './api/ducks';
 import data from './modules/data/ducks';
 import fullScreenGallery from './modules/fullScreenGallery/ducks';
 import mapDialog from './modules/mapDialog/ducks';

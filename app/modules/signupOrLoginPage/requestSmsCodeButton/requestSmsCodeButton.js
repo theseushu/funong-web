@@ -10,7 +10,7 @@ export const ButtonSendSmsCode = ({ onClick, phone, text, disabled }) => (
     colored
     onClick={(e) => {
       e.preventDefault();
-      onClick(phone);
+      onClick({ mobilePhoneNumber: phone });
     }}
     disabled={disabled}
   >

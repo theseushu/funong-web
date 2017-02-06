@@ -5,7 +5,7 @@ import injectSheet from 'react-jss';
 import Dialog from '../common/dialog';
 import { selector as fetchLocationSelector, actions as fetchLocationActions } from '../api/fetchLocation/ducks';
 import { actions, selector } from './ducks';
-import { initAMap } from '../api/initAMap';
+import { initAMap } from '../../api/initAMap';
 import { formatAddress } from '../../utils/displayUtils';
 
 const INITIAL_LOCATION = { address: { country: '', province: '', city: '', district: '', details: '' }, lnglat: {} };
