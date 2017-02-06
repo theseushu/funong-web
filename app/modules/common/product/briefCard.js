@@ -8,7 +8,7 @@ import { formatPrices } from '../../../utils/displayUtils';
 const formatPrice = (specs) => formatPrices(_union(...specs.map((spec) => spec.prices)));
 
 const CardComponent = ({ product, sheet: { classes } }) => {
-  const { thumbnail , name } = product;
+  const { thumbnail, name } = product;
   return (
     <Card
       cardImage={thumbnail.thumbnail_300_300}

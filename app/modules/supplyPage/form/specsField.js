@@ -88,7 +88,7 @@ class SpecificationsField extends Component {
                     ><span>{spec.name}<small>{formatPrices(spec.prices)}</small></span></ListItemContent>
                     <ListItemAction>
                       <IconButton name="edit" onClick={(e) => { e.preventDefault(); this.editSpec(i); }} />
-                      <IconButton name="delete_sweep" onClick={(e) => { e.preventDefault(); this.removeSpec(spec);}} />
+                      <IconButton name="delete_sweep" onClick={(e) => { e.preventDefault(); this.removeSpec(spec); }} />
                     </ListItemAction>
                   </ListItem>
                 ))

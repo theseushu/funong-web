@@ -80,7 +80,7 @@ export default ({ AV, userId, sessionToken }) => {
   const fetchSupplyProduct = async ({ objectId }) => {
     const product = await AV.Object.createWithoutData('SupplyProduct', objectId)
       .fetch({
-        include: ['desc.images', 'thumbnail', 'category', 'category.catalog', 'species', 'owner'],
+        include: ['desc.images', 'thumbnail', 'category', 'category.catalog', 'species', 'owner', 'owner.profile', 'owner.profile.avatar'],
       }, {
         sessionToken,
       });
