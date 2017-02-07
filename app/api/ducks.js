@@ -13,7 +13,7 @@ import * as fetchCatalogs from './fetchCatalogs/ducks';
 import * as fetchCategories from './fetchCategories/ducks';
 import * as createSpecies from './createSpecies/ducks';
 import * as fetchSpecies from './fetchSpecies/ducks';
-// import * as logisticsProduct from '../logisticsProduct';
+import * as logisticsProduct from './logisticsProduct';
 // import * as searchDistinct from '../searchDistrict/ducks';
 // import * as fetchLocation from '../fetchLocation/ducks';
 // import * as fetchPriceDefinitions from '../fetchPriceDefinitions/ducks';
@@ -38,15 +38,8 @@ export default {
     ...fetchCategories.default,
     ...fetchSpecies.default,
     ...createSpecies.default,
+    ...logisticsProduct.default,
     // ...searchDistinct.default,
-    // ...fetchPriceDefinitions.default,
-    // ...uploadFile.default,
-    // ...createSpecification.default,
-    // ...fetchSpecifications.default,
-    // ...createProduct.default,
-    // ...fetchUserProducts.default,
-    // ...fetchProduct.default,
-    // ...logisticsProduct.default,
   }),
 };
 
@@ -64,12 +57,6 @@ export const sagas = [
   ...fetchCategories.sagas,
   ...fetchSpecies.sagas,
   ...createSpecies.sagas,
+  ...logisticsProduct.sagas,
   // ...searchDistinct.sagas,
-  // ...fetchPriceDefinitions.sagas,
-  // ...createSpecification.sagas,
-  // ...fetchSpecifications.sagas,
-  // ...createProduct.sagas,
-  // ...fetchUserProducts.sagas,
-  // ...fetchProduct.sagas,
-  // ...logisticsProduct.sagas,
 ];

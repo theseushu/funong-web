@@ -3,8 +3,8 @@ import injectSheet from 'react-jss';
 import { Tabs, Tab } from 'react-mdl/lib/Tabs';
 import Button from 'react-mdl/lib/Button';
 import Link from 'react-router/lib/Link';
-import Page from '../../page';
 import { breakpoints } from 'modules/common/styles';
+import Page from '../../page';
 
 class Supply extends Component { // eslint-disable-line
   static propTypes = {

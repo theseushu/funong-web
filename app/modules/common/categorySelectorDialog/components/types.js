@@ -1,7 +1,6 @@
 import React, { PropTypes } from 'react';
 import { catalogTypes } from 'appConstants';
 import RaisingButton from '../../raisingButton';
-console.log(require('constants'))
 const supplyTypes = catalogTypes.supply;
 
 const Types = ({ catalogType, onButtonClick }) => (

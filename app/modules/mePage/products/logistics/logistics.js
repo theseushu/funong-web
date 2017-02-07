@@ -3,10 +3,10 @@ import injectSheet from 'react-jss';
 import FABButton from 'react-mdl/lib/FABButton';
 import Icon from 'react-mdl/lib/Icon';
 import Link from 'react-router/lib/Link';
-import Tabs from '../tabs';
-import Page from '../../page';
 import styles, { breakpoints } from 'modules/common/styles';
 import LogisticsCard from 'modules/common/product/logisticsCard';
+import Tabs from '../tabs';
+import Page from '../../page';
 
 class Logistics extends Component { // eslint-disable-line
   static propTypes = {

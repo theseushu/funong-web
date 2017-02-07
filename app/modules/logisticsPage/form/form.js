@@ -1,8 +1,9 @@
 import React, { PropTypes } from 'react';
-import { Field } from 'redux-form';
+import { Field, Fields } from 'redux-form';
 import Button from 'react-mdl/lib/Button';
 import { Card, CardTitle, CardActions } from 'react-mdl/lib/Card';
 import injectSheet from 'react-jss';
+import { colors, breakpoints } from 'modules/common/styles';
 import CapacityField from './capacityField';
 import MaxNumberField from './maxNumberField';
 import PriceField from './priceField';
@@ -12,7 +13,6 @@ import AvailableField from './availableField';
 import LocationField from './locationField';
 import DescAndImagesFields from './descAndImagesFields';
 import LabelsField from './labelsField';
-import { colors, breakpoints } from 'modules/common/styles';
 
 const Form = (props, { router }) => {
   const { handleSubmit, pristine, submitting, submitSucceeded, invalid, error, sheet: { classes } } = props;

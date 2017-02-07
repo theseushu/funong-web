@@ -5,8 +5,8 @@ import Button from 'react-mdl/lib/Button';
 import IconButton from 'react-mdl/lib/IconButton';
 import Spinner from 'react-mdl/lib/Spinner';
 import injectSheet from 'react-jss';
-import Line from '../line';
 import RichContent from 'modules/common/richContent';
+import Line from '../line';
 
 class Desc extends Component {
   static propTypes = {
