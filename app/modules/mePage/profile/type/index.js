@@ -1,8 +1,8 @@
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import { currentUserSelector } from 'modules/data/ducks/selectors';
+import { actions, selectors } from 'api/profile';
 import Type from './type';
-import { currentUserSelector } from '../../../data/ducks/selectors';
-import { actions, selectors } from '../../../../api/profile';
 
 const updateProfile = actions.update;
 const selector = selectors.update;

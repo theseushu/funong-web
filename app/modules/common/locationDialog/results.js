@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import Button from 'react-bootstrap/lib/Button';
 import { connect } from 'react-redux';
-import { selector } from '../../api/searchDistrict/ducks';
+import { selector } from 'api/searchDistrict/ducks';
 import Liner from '../svgs/liner';
 
 const Results = ({ pending, fulfilled, rejected, error, result = [], location: { country, province, city, district }, locationSelected }) => {

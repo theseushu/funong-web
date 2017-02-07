@@ -3,10 +3,10 @@ import _without from 'lodash/without';
 import IconButton from 'react-mdl/lib/IconButton';
 import { Grid, Cell } from 'react-mdl/lib/Grid';
 import { List, ListItem, ListItemContent, ListItemAction } from 'react-mdl/lib/List';
-import { formatPrices } from '../../../utils/displayUtils';
-import FormIconButton from '../../common/formElements/iconButton';
-import SpecificationDialog from '../../common/specificationDialog';
-import styles from '../../common/styles';
+import { formatPrices } from 'utils/displayUtils';
+import FormIconButton from 'modules/common/formElements/iconButton';
+import SpecificationDialog from 'modules/common/specificationDialog';
+import styles from 'modules/common/styles';
 
 class SpecificationsField extends Component {
   static propTypes = {

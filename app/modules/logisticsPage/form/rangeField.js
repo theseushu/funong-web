@@ -1,8 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import { Grid, Cell } from 'react-mdl/lib/Grid';
-import ProvincesSelectorDialog from '../../common/provincesSelectorDialog';
-import FormButton from '../../common/formElements/button';
-import styles from '../../common/styles';
+import ProvincesSelectorDialog from 'modules/common/provincesSelectorDialog';
+import FormButton from 'modules/common/formElements/button';
+import styles from 'modules/common/styles';
 
 class LocationField extends Component {
   static propTypes = {

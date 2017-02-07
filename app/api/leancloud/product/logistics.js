@@ -1,11 +1,11 @@
 import { logisticsToJSON } from '../converters';
 const debug = require('debug')('app:api:logistics');
 
-export default ({ AV, userId, sessionToken }) => {
+export default ({ AV, context: { token: { sessionToken }, profile } }) => {
   class LogisticsProduct extends AV.Object {}
   AV.Object.register(LogisticsProduct);
 
-  const createLogisticsProduct = async ({ capacity, maxNumber, price, range, name, location, available, desc, labels }) => {
+  const createLogisticsProduct = async ({ capacity, maxNumber, price, range, name, location, available, desc, images, labels }) => {
     try {
       const logistics = new LogisticsProduct();
       logistics.set('capacity', capacity);
@@ -16,22 +16,23 @@ export default ({ AV, userId, sessionToken }) => {
       logistics.set('address', location.address);
       logistics.set('lnglat', new AV.GeoPoint(location.lnglat));
       logistics.set('available', available);
-      logistics.set('desc', { ...desc, images: desc.images.map((image) => AV.Object.createWithoutData('_File', image.id)) });
+      logistics.set('desc', desc);
+      logistics.set('images', images.map((image) => AV.Object.createWithoutData('_File', image.id)));
       logistics.set('thumbnail', AV.Object.createWithoutData('_File', desc.images[0].id));
-      logistics.set('owner', AV.Object.createWithoutData('_User', userId));
+      logistics.set('owner', AV.Object.createWithoutData('Profile', profile.objectId));
       logistics.set('labels', labels);
       const saved = await logistics.save(null, {
         fetchWhenSave: true,
         sessionToken,
       });
-      return { ...saved.toJSON(), capacity, maxNumber, price, range, name, location, desc, thumbnail: desc.images[0], labels };
+      return { ...saved.toJSON(), capacity, maxNumber, price, range, name, location, images, thumbnail: images[0], labels };
     } catch (err) {
       debug(err);
       throw err;
     }
   };
 
-  const updateLogisticsProduct = async ({ objectId, capacity, maxNumber, price, range, name, location, available, desc, labels }) => {
+  const updateLogisticsProduct = async ({ objectId, capacity, maxNumber, price, range, name, location, available, desc, images, labels }) => {
     if (!objectId) {
       throw new Error('objectId is empty');
     }
@@ -62,10 +63,11 @@ export default ({ AV, userId, sessionToken }) => {
         logistics.set('lnglat', new AV.GeoPoint(location.lnglat));
       }
       if (desc) {
-        logistics.set('desc', { ...desc, images: desc.images.map((image) => AV.Object.createWithoutData('_File', image.id)) });
-        if (desc.images && desc.images.length > 0) {
-          logistics.set('thumbnail', AV.Object.createWithoutData('_File', desc.images[0].id));
-        }
+        logistics.set('desc', desc);
+      }
+      if (images) {
+        logistics.set('images', images.map((image) => AV.Object.createWithoutData('_File', image.id)));
+        logistics.set('thumbnail', images.length > 0 ? AV.Object.createWithoutData('_File', images[0].id) : null);
       }
       if (labels != null) {
         logistics.set('labels', labels);
@@ -74,7 +76,7 @@ export default ({ AV, userId, sessionToken }) => {
         fetchWhenSave: true,
         sessionToken,
       });
-      return { ...saved.toJSON(), capacity, maxNumber, price, range, name, location, available, desc, thumbnail: desc.images[0], labels };
+      return { ...saved.toJSON(), capacity, maxNumber, price, range, name, location, available, images, thumbnail: images ? images[0] : null, labels };
     } catch (err) {
       debug(err);
       throw err;
@@ -84,7 +86,7 @@ export default ({ AV, userId, sessionToken }) => {
   const fetchLogisticsProduct = async ({ objectId }) => {
     const logistics = await AV.Object.createWithoutData('LogisticsProduct', objectId)
       .fetch({
-        include: ['desc.images', 'thumbnail', 'owner'],
+        include: ['images', 'thumbnail', 'owner', 'owner.avatar'],
       }, {
         sessionToken,
       });
@@ -93,7 +95,7 @@ export default ({ AV, userId, sessionToken }) => {
 
   const searchLogisticsProducts = async ({ ownerId }) => {
     const query = new AV.Query('LogisticsProduct')
-      .include(['desc.images', 'thumbnail', 'owner']);
+      .include(['images', 'thumbnail', 'owner', 'owner.avatar']);
     if (ownerId) {
       query.equalTo('owner', AV.Object.createWithoutData('_User', ownerId));
     }

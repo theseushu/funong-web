@@ -1,8 +1,8 @@
 import { put } from 'redux-saga/effects';
+import { setCerts } from 'modules/data/ducks/actions';
 import { NAMESPACE } from './constants';
 import createDucks from '../utils/createDucks';
 import rootSelector from './rootSelector';
-import { setCerts } from '../../modules/data/ducks/actions';
 
 const ducks = createDucks({
   key: 'create',

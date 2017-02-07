@@ -3,8 +3,8 @@ import injectSheet from 'react-jss';
 import IconButton from 'react-mdl/lib/IconButton';
 import Icon from 'react-mdl/lib/Icon';
 import Tooltip from 'react-mdl/lib/Tooltip';
-import FilesUpload from '../../common/filesUpload';
-import { colors } from '../../common/styles';
+import FilesUpload from 'modules/common/filesUpload';
+import { colors } from 'modules/common/styles';
 
 const imagesField = ({ sheet: { classes }, input: { value, onChange }, meta: { error } }) => (
   <div>

@@ -1,7 +1,5 @@
 import React, { Component, PropTypes } from 'react';
 import injectSheet from 'react-jss';
-// import CircularProgress from 'material-ui/CircularProgress';
-
 import CropperDialog from './cropperDialog';
 
 const styles = {

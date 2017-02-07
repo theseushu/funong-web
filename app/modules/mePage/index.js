@@ -2,13 +2,12 @@ import React, { PropTypes } from 'react';
 import injectSheet from 'react-jss';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import Layout from 'modules/common/layout';
+import Avatar from 'modules/common/avatar';
+import { colors } from 'modules/common/styles';
 import { actions as pageActions } from './ducks';
 import { currentUserSelector } from '../data/ducks/selectors';
 
-import Layout from '../common/layout';
-import Avatar from '../common/avatar';
-
-import { colors } from '../common/styles';
 
 const sideRoutes = (type) => [
   { title: type === '微店店主' ? '店铺信息' : '个人信息', path: '/me' },

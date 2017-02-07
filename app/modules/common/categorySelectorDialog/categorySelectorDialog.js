@@ -1,9 +1,9 @@
 import React, { Component, PropTypes } from 'react';
+import { catalogTypes } from 'appConstants';
 import Dialog from '../dialog';
 import Breadcrumb from './components/breadcrumb';
 import Types from './components/types';
 import Results from './components/results';
-import { catalogTypes } from '../../../constants';
 
 class categorySelectorDialog extends Component {
   static propTypes = {

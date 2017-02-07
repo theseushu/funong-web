@@ -1,6 +1,6 @@
 import _toPairs from 'lodash/toPairs';
-import { actions } from '../../../api/cert';
-import { ensureProfile } from '../../../utils/routerUtils';
+import { actions } from 'api/cert';
+import { ensureProfile } from 'utils/routerUtils';
 
 const searchMine = actions.searchMine;
 

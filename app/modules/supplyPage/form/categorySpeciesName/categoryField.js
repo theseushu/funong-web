@@ -1,8 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import { Grid, Cell } from 'react-mdl/lib/Grid';
-import FormButton from '../../../common/formElements/button';
-import CategorySelectorDialog from '../../../common/categorySelectorDialog';
-import styles from '../../../common/styles';
+import FormButton from 'modules/common/formElements/button';
+import CategorySelectorDialog from 'modules/common/categorySelectorDialog';
+import styles from 'modules/common/styles';
 
 class SpeciesField extends Component {
   constructor(props) {

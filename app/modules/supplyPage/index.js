@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import Layout from '../common/layout';
-import { createSupplyProductSelector } from '../data/ducks/selectors';
+import Layout from 'modules/common/layout';
+import { createSupplyProductSelector } from 'modules/data/ducks/selectors';
 import Form from './form';
 import Display from './display';
 

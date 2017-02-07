@@ -1,7 +1,7 @@
 import { reduxForm } from 'redux-form';
 import _isEmpty from 'lodash/isEmpty';
 import { connect } from 'react-redux';
-import { actions, selectors } from '../../api/logisticsProduct';
+import { actions, selectors } from 'api/logisticsProduct';
 import FORM_NAME from './formName';
 import productForm from './form';
 

@@ -1,9 +1,9 @@
 import React, { Component, PropTypes } from 'react';
 import { Grid, Cell } from 'react-mdl/lib/Grid';
-import Button from '../../common/formElements/button';
-import DescDialog from '../../common/descDialog';
-import styles from '../../common/styles';
-import RichContent from '../../common/richContent';
+import Button from 'modules/common/formElements/button';
+import DescDialog from 'modules/common/descAndImagesDialog';
+import styles from 'modules/common/styles';
+import RichContent from 'modules/common/richContent';
 
 // '请详细描述您的产品。详尽的描述更能引起客户的关注哦'
 class DescField extends Component {

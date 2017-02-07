@@ -1,9 +1,9 @@
 import { takeEvery } from 'redux-saga';
 import { call, put, select } from 'redux-saga/effects';
 import { createSelector } from 'reselect';
+import { currentUserSelector } from 'modules/data/ducks/selectors';
 
 import rootSelector from '../rootSelector';
-import { currentUserSelector } from '../../modules/data/ducks/selectors';
 
 const UPLOAD_FILE = 'api/upload_file';
 const UPLOAD_FILE_STATE = 'api/upload_file_state';

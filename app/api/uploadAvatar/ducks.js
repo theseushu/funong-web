@@ -1,8 +1,8 @@
 import { takeEvery } from 'redux-saga';
 import { call, put } from 'redux-saga/effects';
 import { createSelector } from 'reselect';
+import { setCurrentUser } from 'modules/data/ducks/actions';
 import rootSelector from '../rootSelector';
-import { setCurrentUser } from '../../modules/data/ducks/actions';
 
 const UPLOAD_AVATAR = 'api/upload_avatar';
 const UPLOAD_AVATAR_STATE = 'api/upload_avatar_state';

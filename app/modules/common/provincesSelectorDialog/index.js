@@ -2,8 +2,8 @@ import React, { Component, PropTypes } from 'react';
 import _find from 'lodash/find';
 import _without from 'lodash/without';
 import Button from 'react-mdl/lib/Button';
+import { provinces as allProvinces } from 'appConstants';
 import Dialog from '../dialog';
-import { provinces as allProvinces } from '../../../constants';
 
 class ProvincesSelectorDialog extends Component {
   static propTypes = {

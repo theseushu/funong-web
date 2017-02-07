@@ -1,5 +1,5 @@
 import _toPairs from 'lodash/toPairs';
-import { ensureProfile } from '../../utils/routerUtils';
+import { ensureProfile } from 'utils/routerUtils';
 import createCertsRoute from './certs/route';
 import createProductsRoute from './products/route';
 

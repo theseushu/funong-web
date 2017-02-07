@@ -2,11 +2,11 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import injectSheet from 'react-jss';
-import Dialog from '../common/dialog';
-import { selector as fetchLocationSelector, actions as fetchLocationActions } from '../api/fetchLocation/ducks';
+import Dialog from 'modules/common/dialog';
+import { initAMap } from 'api/initAMap';
+import { selector as fetchLocationSelector, actions as fetchLocationActions } from 'api/fetchLocation/ducks';
+import { formatAddress } from 'utils/displayUtils';
 import { actions, selector } from './ducks';
-import { initAMap } from '../../api/initAMap';
-import { formatAddress } from '../../utils/displayUtils';
 
 const INITIAL_LOCATION = { address: { country: '', province: '', city: '', district: '', details: '' }, lnglat: {} };
 

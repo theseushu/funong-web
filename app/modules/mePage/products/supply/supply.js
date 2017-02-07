@@ -1,9 +1,9 @@
 import React, { Component, PropTypes } from 'react';
 import injectSheet from 'react-jss';
+import styles, { breakpoints } from 'modules/common/styles';
+import { Card } from 'modules/common/product';
 import Tabs from '../tabs';
 import Page from '../../page';
-import styles, { breakpoints } from '../../../common/styles';
-import { Card } from '../../../common/product';
 
 class Supply extends Component { // eslint-disable-line
   static propTypes = {

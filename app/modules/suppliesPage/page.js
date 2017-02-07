@@ -4,7 +4,7 @@ import Layout from '../common/layout';
 import ContentMainRight from '../common/content/mainRight';
 import Card from '../common/product/card';
 import { breakpoints } from '../common/styles';
-import { catalogTypes } from '../../constants';
+import { catalogTypes } from '../../appConstants/index';
 import Criteria from './criteria';
 import Recommends from './recommends';
 

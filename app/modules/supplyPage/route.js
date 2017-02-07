@@ -1,6 +1,6 @@
 import _toPairs from 'lodash/toPairs';
-import { ensureProfile } from '../../utils/routerUtils';
-import { actions } from '../api/supplyProduct';
+import { ensureProfile } from 'utils/routerUtils';
+import { actions } from 'api/supplyProduct';
 
 const fetchSupplyProduct = actions.fetch;
 

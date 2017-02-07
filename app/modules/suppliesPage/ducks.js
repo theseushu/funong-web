@@ -1,6 +1,6 @@
 import combineReducers from 'redux/lib/combineReducers';
 import { put } from 'redux-saga/effects';
-import createDucks from '../api/createDucks';
+import createDucks from '../../api/utils/createDucks';
 import { setSupplyProducts } from '../data/ducks/actions';
 
 const SLICE_NAME = 'page_supply';

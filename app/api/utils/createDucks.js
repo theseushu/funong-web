@@ -19,7 +19,7 @@ export const createActionCreators = ({ actionConstant, action }) => ({
 
 // reducer
 // a simple default one. it just replace states with action.payload
-const restCallStateReducerCreator = (ACTION_TYPE) => (state = {}, action) => (action.type === ACTION_TYPE ? action.payload : state);
+export const restCallStateReducerCreator = (ACTION_TYPE) => (state = {}, action) => (action.type === ACTION_TYPE ? action.payload : state);
 
 export const createReducer = ({ slice, stateActionConstant }, reducerCreator) => {
   if (typeof reducerCreator === 'function') {

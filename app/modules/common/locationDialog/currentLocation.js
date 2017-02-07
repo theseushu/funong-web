@@ -3,7 +3,7 @@ import injectSheet from 'react-jss';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Button from 'react-bootstrap/lib/Button';
-import { selector, actions } from '../../api/fetchLocation/ducks';
+import { selector, actions } from 'api/fetchLocation/ducks';
 const styles = {
   catalogTypes: {
     display: 'flex',

@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 import injectSheet from 'react-jss';
-import { breakpoints } from '../../common/styles';
+import { breakpoints } from '../styles';
 
 const MainRight = ({ main, right, sheet: { classes } }) => (
   <div className={classes.content}>

@@ -3,9 +3,9 @@ import Button from 'react-mdl/lib/Button';
 import Menu from 'react-mdl-extra/lib/Menu';
 import MenuItem from 'react-mdl-extra/lib/MenuItem';
 import injectSheet from 'react-jss';
+import { userTypes } from 'appConstants';
+import { colors } from 'modules/common/styles';
 import Line from '../line';
-import { userTypes } from '../../../../constants';
-import { colors } from '../../../common/styles';
 
 class Type extends Component {
   static propTypes = {

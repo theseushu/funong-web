@@ -4,7 +4,7 @@ import { Field, Fields } from 'redux-form';
 import Button from 'react-mdl/lib/Button';
 import RadioGroup from 'react-mdl/lib/RadioGroup';
 import Radio from 'react-mdl/lib/Radio';
-import styles, { colors } from '../../../common/styles';
+import styles, { colors } from 'modules/common/styles';
 import createTextfield from '../createTextField';
 import ImagesField from '../imagesField';
 

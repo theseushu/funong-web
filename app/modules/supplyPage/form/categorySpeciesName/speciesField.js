@@ -12,11 +12,11 @@ import IconButton from 'react-mdl/lib/IconButton';
 import Button from 'react-mdl/lib/Button';
 import Spinner from 'react-mdl/lib/Spinner';
 import { toastr } from 'react-redux-toastr';
-import { selector as fetchSpeciesSelector, fetchSpecies as fetchSpeciesAction } from '../../../api/fetchSpecies';
-import { selector as createSpeciesSelector, createSpecies as createSpeciesAction } from '../../../api/createSpecies';
-import { speciesSelector } from '../../../data/ducks/selectors';
+import { selector as fetchSpeciesSelector, fetchSpecies as fetchSpeciesAction } from 'api/fetchSpecies';
+import { selector as createSpeciesSelector, createSpecies as createSpeciesAction } from 'api/createSpecies';
+import { speciesSelector } from 'modules/data/ducks/selectors';
+import styles from 'modules/common/styles';
 import FORM_NAME from '../formName';
-import styles from '../../../common/styles';
 
 const CreateButton = ({ createSpeciesState: { pending, error }, onClick }) => (
   <Button

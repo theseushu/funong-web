@@ -3,10 +3,10 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import injectSheet from 'react-jss';
 import { Grid, Cell } from 'react-mdl/lib/Grid';
-import FormButton from '../../common/formElements/button';
-import { actions } from '../../mapDialog/ducks';
-import { formatAddress } from '../../../utils/displayUtils';
-import styles from '../../common/styles';
+import FormButton from 'modules/common/formElements/button';
+import { actions } from 'modules/mapDialog/ducks';
+import { formatAddress } from 'utils/displayUtils';
+import styles from 'modules/common/styles';
 
 const LocationField = ({ input: { value, onChange }, meta: { error }, openDialog, sheet: { classes } }) => (
   <Grid className={error && styles.colorError}>

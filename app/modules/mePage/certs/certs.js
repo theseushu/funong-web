@@ -4,9 +4,9 @@ import injectSheet from 'react-jss';
 import { Card, CardTitle } from 'react-mdl/lib/Card';
 import Icon from 'react-mdl/lib/Icon';
 import { Tabs, Tab } from 'react-mdl/lib/Tabs';
+import { breakpoints } from 'modules/common/styles';
+import { certsSelector } from 'modules/data/ducks/selectors';
 import Page from '../page';
-import { breakpoints } from '../../common/styles';
-import { certsSelector } from '../../data/ducks/selectors';
 import Personal from './personal';
 import Company from './company';
 

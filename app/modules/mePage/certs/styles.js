@@ -1,4 +1,4 @@
-import { breakpoints } from '../../common/styles';
+import { breakpoints } from 'modules/common/styles';
 
 export const layout = {
   title: {

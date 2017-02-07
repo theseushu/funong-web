@@ -1,8 +1,8 @@
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
+import { actions, selectors } from 'api/profile';
 import UserTypes from './userTypes';
-import { actions, selectors } from '../../../api/profile';
 
 const updateProfile = actions.update;
 const selector = selectors.update;

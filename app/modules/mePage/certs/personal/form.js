@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import injectSheet from 'react-jss';
 import { Field } from 'redux-form';
 import Button from 'react-mdl/lib/Button';
-import styles from '../../../common/styles';
+import styles from 'modules/common/styles';
 import createTextfield from '../createTextField';
 import ImagesField from '../imagesField';
 

@@ -1,7 +1,7 @@
 const reducer = (state = {}) => state;
 
 export default {
-  productEditorPage: reducer,
+  supplyPage: reducer,
 };
 
 export const actions = {

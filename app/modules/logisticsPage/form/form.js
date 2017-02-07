@@ -10,9 +10,9 @@ import RangeField from './rangeField';
 import NameField from './nameField';
 import AvailableField from './availableField';
 import LocationField from './locationField';
-import DescField from './descField';
+import DescAndImagesFields from './descAndImagesFields';
 import LabelsField from './labelsField';
-import { colors, breakpoints } from '../../common/styles';
+import { colors, breakpoints } from 'modules/common/styles';
 
 const Form = (props, { router }) => {
   const { handleSubmit, pristine, submitting, submitSucceeded, invalid, error, sheet: { classes } } = props;
@@ -28,7 +28,7 @@ const Form = (props, { router }) => {
         <Field name="range" component={RangeField} sheet={{ classes }} />
         <Field name="name" component={NameField} />
         <Field name="location" component={LocationField} sheet={{ classes }} />
-        <Field name="desc" component={DescField} sheet={{ classes }} />
+        <Fields names={['desc', 'images']} component={DescAndImagesFields} sheet={{ classes }} />
         <Field name="available" component={AvailableField} sheet={{ classes }} />
         <Field name="labels" component={LabelsField} sheet={{ classes }} />
         {

@@ -1,7 +1,7 @@
 import { reduxForm, SubmissionError } from 'redux-form';
 import { connect } from 'react-redux';
-import { certTypes } from '../../../../constants';
-import { actions } from '../../../../api/cert';
+import { certTypes } from 'appConstants';
+import { actions } from 'api/cert';
 import personalCertForm from './form';
 import { personal } from '../selectors';
 

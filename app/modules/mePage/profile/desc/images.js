@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import Icon from 'react-mdl/lib/Icon';
 import IconButton from 'react-mdl/lib/IconButton';
 import Tooltip from 'react-mdl/lib/Tooltip';
-import FilesUpload from '../../../common/filesUpload';
+import FilesUpload from 'modules/common/filesUpload';
 
 const Images = ({ images, onChange, editing }) => (
   <div>

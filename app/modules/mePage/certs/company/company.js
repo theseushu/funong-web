@@ -1,8 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import injectSheet from 'react-jss';
+import { colors } from 'modules/common/styles';
+import FilesUpload from 'modules/common/filesUpload';
 import createForm from './createForm';
-import { colors } from '../../../common/styles';
-import FilesUpload from '../../../common/filesUpload';
 import image4 from '../assets/image4.jpg';
 import image5 from '../assets/image5.jpg';
 import image6 from '../assets/image6.jpg';

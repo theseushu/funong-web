@@ -7,8 +7,8 @@ import { toastr } from 'react-redux-toastr';
 import Icon from 'react-mdl/lib/Icon';
 import IconButton from 'react-mdl/lib/IconButton';
 import Tooltip from 'react-mdl/lib/Tooltip';
+import { actions } from 'modules/fullScreenGallery/ducks';
 import Files from './files';
-import { actions } from '../../fullScreenGallery/ducks';
 
 const debug = require('debug')('app:photosField');
 

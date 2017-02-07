@@ -1,9 +1,7 @@
 import React, { PropTypes } from 'react';
-
 import FormGroup from 'react-bootstrap/lib/FormGroup';
 import ControlLabel from 'react-bootstrap/lib/ControlLabel';
 import HelpBlock from 'react-bootstrap/lib/HelpBlock';
-
 import FaStar from 'react-icons/lib/fa/star';
 
 const Field = ({ label, required, meta: { dirty, error }, children }) => {

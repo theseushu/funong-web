@@ -4,7 +4,7 @@ import { Header, HeaderRow, HeaderTabs } from 'react-mdl/lib/Layout';
 import { Tab } from 'react-mdl/lib/Tabs';
 import _findIndex from 'lodash/findIndex';
 
-import logo from '../../../../assets/logo.png';
+import logo from 'assets/logo.png';
 import background from './assets/header-bg.jpg';
 
 import styles from '../../styles';

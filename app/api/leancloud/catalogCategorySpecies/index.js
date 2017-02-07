@@ -1,6 +1,6 @@
 const debug = require('debug')('app:api:catalogCategorySpecies');
 
-export default ({ AV, sessionToken, userId }) => {
+export default ({ AV, context: { token: { sessionToken }, profile } }) => {
   class Species extends AV.Object {}
   AV.Object.register(Species);
 
@@ -32,7 +32,7 @@ export default ({ AV, sessionToken, userId }) => {
       const species = new Species();
       species.set('category', AV.Object.createWithoutData('Category', category.objectId));
       species.set('name', name);
-      species.set('creator', AV.Object.createWithoutData('_User', userId));
+      species.set('creator', AV.Object.createWithoutData('Profile', profile.objectId));
       const savedSpecies = await species.save(null, {
         fetchWhenSave: true,
         sessionToken,

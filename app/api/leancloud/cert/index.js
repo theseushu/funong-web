@@ -1,4 +1,4 @@
-import { fileToJSON, certToJSON } from '../converters';
+import { certToJSON } from '../converters';
 const debug = require('debug')('app:api:certs');
 
 export default ({ AV, context: { token: { sessionToken }, profile } }) => {
@@ -21,7 +21,7 @@ export default ({ AV, context: { token: { sessionToken }, profile } }) => {
     }
     const requestParams = { sessionToken };
     const saved = await cert.save(attributes, requestParams);
-    return saved.toJSON();
+    return { ...saved.toJSON(), ...attrs };
   };
 
   const updateCert = async ({ objectId, ...attrs }) => {

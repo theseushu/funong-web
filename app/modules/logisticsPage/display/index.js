@@ -1,11 +1,11 @@
 import React, { PropTypes } from 'react';
 import injectSheet from 'react-jss';
 import { connect } from 'react-redux';
-import { selector } from '../../api/fetchLocation';
-import ContentMainRight from '../../common/content/mainRight';
+import { selector } from 'api/fetchLocation';
+import ContentMainRight from 'modules/common/content/mainRight';
+import { humanizeLnglat, humanizeTime, formatAddress } from 'utils/displayUtils';
+import { colors } from 'modules/common/styles';
 import Carousel from './carousel';
-import { humanizeLnglat, humanizeTime, formatAddress } from '../../../utils/displayUtils';
-import { colors } from '../../common/styles';
 
 const Display = ({ product, location, sheet: { classes } }) => ( // eslint-disable-line
   <ContentMainRight

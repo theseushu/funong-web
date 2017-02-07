@@ -7,8 +7,8 @@ import 'dialog-polyfill/dialog-polyfill.css';
 import Cropper from 'cropperjs';
 import 'cropperjs/dist/cropper.css';
 import injectSheet from 'react-jss';
-import { getRoundedScaledCanvas } from '../../../../utils/canvasUtils';
-import { breakpoints } from '../../../common/styles';
+import { getRoundedScaledCanvas } from 'utils/canvasUtils';
+import { breakpoints } from 'modules/common/styles';
 
 
 // I'm using toDataURL now, so there's no need to import this polyfill. keep it here for future references

@@ -51,8 +51,8 @@ export const supplyProductToJSON = (product) => {
 
   const lnglat = product.get('lnglat').toJSON() || null;
 
-  const avDesc = product.get('desc');
-  const desc = avDesc ? { ...avDesc, images: avDesc.images ? avDesc.images.map(fileToJSON) : [] } : null;
+  const avImages = product.get('images');
+  const images = avImages ? avImages.map(fileToJSON) : [];
 
   const specs = product.get('specs') || null;
 
@@ -70,7 +70,7 @@ export const supplyProductToJSON = (product) => {
     species,
     location: { address, lnglat },
     specs,
-    desc,
+    images,
     owner,
     thumbnail,
     labels,
@@ -84,11 +84,11 @@ export const logisticsToJSON = (logistics) => {
 
   const lnglat = logistics.get('lnglat').toJSON() || null;
 
-  const avDesc = logistics.get('desc');
-  const desc = avDesc ? { ...avDesc, images: avDesc.images ? avDesc.images.map(fileToJSON) : [] } : null;
-
   const avOwner = logistics.get('owner');
   const owner = avOwner ? avOwner.toJSON() : null;
+
+  const avImages = logistics.get('images');
+  const images = avImages ? avImages.map(fileToJSON) : [];
 
   const avThumbnail = logistics.get('thumbnail');
   const thumbnail = avThumbnail ? fileToJSON(avThumbnail) : null;
@@ -98,7 +98,7 @@ export const logisticsToJSON = (logistics) => {
   return {
     ...logistics.toJSON(),
     location: { address, lnglat },
-    desc,
+    images,
     owner,
     thumbnail,
     labels,

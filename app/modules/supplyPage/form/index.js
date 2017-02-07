@@ -1,7 +1,7 @@
 import { reduxForm } from 'redux-form';
 import _isEmpty from 'lodash/isEmpty';
 import { connect } from 'react-redux';
-import { actions, selectors } from '../../api/supplyProduct';
+import { actions, selectors } from 'api/supplyProduct';
 import FORM_NAME from './formName';
 import productForm from './form';
 
@@ -48,7 +48,8 @@ export default reduxForm({
             species,
             name,
             specs,
-            desc,
+            desc: desc.text,
+            images: desc.images,
             location,
             available,
             labels,
@@ -64,7 +65,8 @@ export default reduxForm({
             species,
             name,
             specs,
-            desc,
+            desc: desc.text,
+            images: desc.images,
             location,
             available,
             labels,

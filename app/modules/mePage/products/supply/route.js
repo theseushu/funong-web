@@ -1,5 +1,5 @@
 import _toPairs from 'lodash/toPairs';
-import { ensureProfile } from '../../../../utils/routerUtils';
+import { ensureProfile } from 'utils/routerUtils';
 
 export default ({ store, injectReducer, injectSagas, loadModule, errorLoading }) => ({
   path: 'supply',

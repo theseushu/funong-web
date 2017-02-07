@@ -10,8 +10,8 @@ import createSignupOrLoginApis from './signupOrLogin';
 import createProfileApis from './profile';
 import createAMapApi from './amap';
 import createCertApis from './cert';
-// import createCatalogCategorySpeciesApis from './catalogCategorySpecies';
-// import createProductApis from './product';
+import createProductApis from './product';
+import createCatalogCategorySpeciesApis from './catalogCategorySpecies';
 
 const debug = require('debug')('app:api'); // eslint-disable-line no-unused-vars
 
@@ -45,8 +45,7 @@ export default () => {
     ...createProfileApis({ AV, context, updateContextProfile }),
     ...createFileApi({ AV, context, updateContextProfile }),
     ...createCertApis({ AV, context }),
-    // ...createCatalogCategorySpeciesApis({ AV, context }),
-    // ...createCertsApis({ AV, context }),
-    // ...createProductApis({ AV, context }),
+    ...createProductApis({ AV, context }),
+    ...createCatalogCategorySpeciesApis({ AV, context }),
   };
 };

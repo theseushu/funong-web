@@ -1,8 +1,8 @@
 import React, { PropTypes } from 'react';
 import injectSheet from 'react-jss';
 import { Tabs, Tab } from 'react-mdl/lib/Tabs';
+import { breakpoints } from 'modules/common/styles';
 import Page from '../page';
-import { breakpoints } from '../../common/styles';
 
 const Products = ({ children, sheet: { classes } }, { router }) => (
   <Page smallContent={false}>

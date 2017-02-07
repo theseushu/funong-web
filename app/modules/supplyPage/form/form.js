@@ -3,13 +3,13 @@ import { Fields, Field } from 'redux-form';
 import Button from 'react-mdl/lib/Button';
 import { Card, CardTitle, CardActions } from 'react-mdl/lib/Card';
 import injectSheet from 'react-jss';
+import { breakpoints } from 'modules/common/styles';
 import CategorySpeciesName from './categorySpeciesName';
 import LocationField from './locationField';
-import DescField from './descField';
+import DescAndImagesFields from './descAndImagesFields';
 import SpecsField from './specsField';
 import AvailableField from './availableField';
 import LabelsField from './labelsField';
-import { breakpoints } from '../../common/styles';
 
 const Form = (props, { router }) => {
   const { handleSubmit, pristine, submitting, submitSucceeded, invalid, error, sheet: { classes } } = props;
@@ -22,7 +22,7 @@ const Form = (props, { router }) => {
         <Fields names={['category', 'species', 'name']} component={CategorySpeciesName} sheet={{ classes }} />
         <Field name="specs" component={SpecsField} sheet={{ classes }} />
         <Field name="location" component={LocationField} sheet={{ classes }} />
-        <Field name="desc" component={DescField} sheet={{ classes }} />
+        <Fields names={['desc', 'images']} component={DescAndImagesFields} sheet={{ classes }} />
         <Field name="available" component={AvailableField} sheet={{ classes }} />
         <Field name="labels" component={LabelsField} sheet={{ classes }} />
         {

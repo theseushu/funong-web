@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { currentUserSelector, userSupplyProductsSelector } from '../../../data/ducks/selectors';
+import { currentUserSelector, userSupplyProductsSelector } from 'modules/data/ducks/selectors';
 import Supply from './supply';
 
 export default connect(

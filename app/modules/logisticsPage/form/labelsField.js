@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import { Grid, Cell } from 'react-mdl/lib/Grid';
 import Checkbox from 'react-mdl/lib/Checkbox';
-import { productLabels } from '../../../constants';
+import { productLabels } from 'appConstants';
 
 const LabelsField = ({ input: { value, onChange }, sheet: { classes } }) => (
   <Grid>

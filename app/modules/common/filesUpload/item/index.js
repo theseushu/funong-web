@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { selector, actions } from '../../../../api/uploadFile/ducks';
+import { selector, actions } from 'api/uploadFile/ducks';
 import Component from './item';
 
 export default connect(
