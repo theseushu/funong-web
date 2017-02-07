@@ -1,6 +1,8 @@
 import _toPairs from 'lodash/toPairs';
-import { fetchCerts } from '../../api/fetchCerts';
+import { actions } from '../../../api/cert';
 import { ensureProfile } from '../../../utils/routerUtils';
+
+const searchMine = actions.searchMine;
 
 export default ({ store, injectReducer, injectSagas, loadModule, errorLoading }) => ({ // eslint-disable-line
   path: 'certs',
@@ -11,7 +13,7 @@ export default ({ store, injectReducer, injectSagas, loadModule, errorLoading })
       System.import('./ducks'),
       new Promise((resolve, reject) => {
         ensureProfile(store).then(() => {
-          store.dispatch(fetchCerts({
+          store.dispatch(searchMine({
             meta: {
               resolve,
               reject,

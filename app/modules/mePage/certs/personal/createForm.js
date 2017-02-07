@@ -1,10 +1,12 @@
 import { reduxForm, SubmissionError } from 'redux-form';
 import { connect } from 'react-redux';
 import { certTypes } from '../../../../constants';
-import { updateCert } from '../../../api/updateCert';
-import { createCert } from '../../../api/createCert';
+import { actions } from '../../../../api/cert';
 import personalCertForm from './form';
 import { personal } from '../selectors';
+
+const createCert = actions.create;
+const updateCert = actions.update;
 
 // export for unit testing
 export const validate = ({ name, IDCard, images }) => ({

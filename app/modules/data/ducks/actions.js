@@ -16,6 +16,7 @@ export const setCurrentUser = (user) => ({
   type: SET_CURRENT_USER,
   payload: { user },
 });
+// todo delete this one
 export const updateCurrentUserInfo = (user) => ({
   type: UPDATE_CURRENT_USER_INFO,
   payload: { user },

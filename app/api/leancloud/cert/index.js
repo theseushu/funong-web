@@ -1,27 +1,27 @@
-import { fileToJSON } from '../converters';
+import { fileToJSON, certToJSON } from '../converters';
 const debug = require('debug')('app:api:certs');
 
-export default ({ AV, sessionToken, userId }) => {
+export default ({ AV, context: { token: { sessionToken }, profile } }) => {
   class Cert extends AV.Object {}
   AV.Object.register(Cert);
 
 // TODO deal with empty catalogType
-  const fetchCerts = () => new AV.Query('Cert')
-    .equalTo('user', AV.Object.createWithoutData('_User', userId))
+  const searchMyCerts = () => new AV.Query('Cert')
+    .equalTo('owner', AV.Object.createWithoutData('Profile', profile.objectId))
     .include(['images'])
     .find({ sessionToken })
-    .then((certs) => certs.map((cert) => ({ ...cert.toJSON(), images: cert.get('images') ? cert.get('images').map(fileToJSON) : [] })));
+    .then((certs) => certs.map(certToJSON));
 
   const createCert = async (attrs) => {
-    const certs = new Cert();
-    certs.set('user', AV.Object.createWithoutData('_User', userId));
+    const cert = new Cert();
+    cert.set('owner', AV.Object.createWithoutData('Profile', profile.objectId));
     const attributes = { ...attrs };
     if (attrs.images) {
       attributes.images = attrs.images.map((image) => AV.Object.createWithoutData('_File', image.id));
     }
     const requestParams = { sessionToken };
-    const savedCerts = await certs.save(attributes, requestParams);
-    return savedCerts.toJSON();
+    const saved = await cert.save(attributes, requestParams);
+    return saved.toJSON();
   };
 
   const updateCert = async ({ objectId, ...attrs }) => {
@@ -40,7 +40,7 @@ export default ({ AV, sessionToken, userId }) => {
   };
 
   return {
-    fetchCerts,
+    searchMyCerts,
     createCert,
     updateCert,
   };

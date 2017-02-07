@@ -61,7 +61,7 @@ export const CertSchema = new Schema('certs', {
   idAttribute: 'objectId',
 });
 CertSchema.define({
-  user: UserSchema,
+  owner: UserSchema,
 });
 
 export const CatalogsSchema = arrayOf(CatalogSchema);

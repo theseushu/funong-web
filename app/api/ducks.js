@@ -6,6 +6,7 @@ import * as signupOrLoginWithMobilePhone from './signupOrLogin/ducks';
 import * as profile from './profile';
 import * as uploadFile from './uploadFile/ducks';
 import * as uploadAvatar from './uploadAvatar/ducks';
+import * as cert from './cert';
 // import * as searchDistinct from '../searchDistrict/ducks';
 // import * as fetchLocation from '../fetchLocation/ducks';
 // import * as fetchCatalogs from '../fetchCatalogs/ducks';
@@ -18,9 +19,6 @@ import * as uploadAvatar from './uploadAvatar/ducks';
 // import * as createProduct from '../createProduct/ducks';
 // import * as fetchUserProducts from '../fetchUserProducts/ducks';
 // import * as fetchProduct from '../fetchProduct/ducks';
-// import * as createCert from '../createCert/ducks';
-// import * as updateCert from '../updateCert/ducks';
-// import * as fetchCerts from '../fetchCerts/ducks';
 
 // import * as supplyProduct from '../supplyProduct';
 // import * as logisticsProduct from '../logisticsProduct';
@@ -33,6 +31,7 @@ export default {
     ...profile.default,
     ...uploadFile.default,
     ...uploadAvatar.default,
+    ...cert.default,
     // ...searchDistinct.default,
     // ...fetchLocation.default,
     // ...fetchCatalogs.default,
@@ -45,9 +44,6 @@ export default {
     // ...createProduct.default,
     // ...fetchUserProducts.default,
     // ...fetchProduct.default,
-    // ...createCert.default,
-    // ...updateCert.default,
-    // ...fetchCerts.default,
     // ...createSpecies.default,
     // ...supplyProduct.default,
     // ...logisticsProduct.default,
@@ -61,6 +57,7 @@ export const sagas = [
   ...profile.sagas,
   ...uploadAvatar.sagas,
   ...uploadFile.sagas,
+  ...cert.sagas,
   // ...searchDistinct.sagas,
   // ...fetchLocation.sagas,
   // ...fetchCatalogs.sagas,
@@ -72,9 +69,6 @@ export const sagas = [
   // ...createProduct.sagas,
   // ...fetchUserProducts.sagas,
   // ...fetchProduct.sagas,
-  // ...createCert.sagas,
-  // ...updateCert.sagas,
-  // ...fetchCerts.sagas,
   // ...createSpecies.sagas,
   // ...supplyProduct.sagas,
   // ...logisticsProduct.sagas,

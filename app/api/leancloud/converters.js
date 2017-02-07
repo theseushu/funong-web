@@ -35,6 +35,11 @@ export const userToJSON = (user) => {
   return { ...user.toJSON(), avatar, images };
 };
 
+export const certToJSON = (cert) => {
+  const images = (cert.get('images') || []).map(fileToJSON);
+  return { ...cert.toJSON(), images };
+};
+
 export const supplyProductToJSON = (product) => {
   const avCategory = product.get('category');
   const category = avCategory ? { ...avCategory.toJSON(), catalog: avCategory.get('catalog').toJSON() } : null;
