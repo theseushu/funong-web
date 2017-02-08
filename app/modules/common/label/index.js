@@ -19,7 +19,7 @@ Label.propTypes = {
 export default injectSheet({
   label: {
     display: 'inline',
-    padding: '.2em .6em .3em',
+    padding: '.3em .6em .2em',
     fontSize: '75%',
     fontWeight: '700',
     lineHeight: '1',

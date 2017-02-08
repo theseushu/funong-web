@@ -1,9 +1,9 @@
 import { reduxForm, SubmissionError } from 'redux-form';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
-import { signupOrLogin } from '../../../api/signupOrLogin';
+import { actions } from 'api/profile';
+import { signupOrLogin } from 'api/signupOrLogin';
 import SignupOrLoginForm from './signupOrLoginForm';
-import { actions } from '../../api/profile';
 
 const fetchProfile = actions.fetch;
 

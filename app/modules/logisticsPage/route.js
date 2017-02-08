@@ -9,28 +9,26 @@ export default ({ store, injectReducer, injectSagas, loadModule, errorLoading })
   name: 'newLogistics',
   getComponent(nextState, cb) {
     // TODO fetch product
-    const { params: { id } } = nextState; // eslint-disable-line no-unused-vars
+    const { params: { id }, location: { query } } = nextState;
     const importModules = Promise.all([
       System.import('./index'),
       System.import('./ducks'),
       new Promise((resolve, reject) => {
-        ensureProfile(store).then(() => {
-          if (id === 'new') {
-            resolve();
-          } else {
-            store.dispatch(fetchLogisticsProduct({
-              objectId: id,
-              meta: {
-                resolve,
-                reject: (err) => {
-                  console.log(err); // eslint-disable-line
-                  reject();
-                  // todo deal with error
-                },
+        if (id === 'new' || query.edit) {
+          ensureProfile(store).then(resolve);
+        } else {
+          store.dispatch(fetchLogisticsProduct({
+            objectId: id,
+            meta: {
+              resolve,
+              reject: (err) => {
+                console.log(err); // eslint-disable-line
+                reject();
+                // todo deal with error
               },
-            }));
-          }
-        });
+            },
+          }));
+        }
       }),
     ]);
 

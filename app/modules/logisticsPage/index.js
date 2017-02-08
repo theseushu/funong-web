@@ -34,10 +34,10 @@ const EMPTY_PRODUCT = {
 //   labels: {},
 // };
 
-const LogisticsEditPage = ({ product, location: { query } }) => (
+const LogisticsEditPage = ({ product, params: { id }, location: { query } }) => (
   <Layout
     content={
-      query.edit ?
+      (id === 'new' || query.edit) ?
         <Form initialValues={product || EMPTY_PRODUCT} /> :
         <Display product={product} />
     }
@@ -49,6 +49,7 @@ const LogisticsEditPage = ({ product, location: { query } }) => (
 LogisticsEditPage.propTypes = {
   product: PropTypes.object,
   location: PropTypes.object,
+  params: PropTypes.object,
 };
 
 export default connect(

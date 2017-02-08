@@ -66,6 +66,6 @@ export function humanizeLnglat(lat1, lng1, lat2, lng2) {
   s *= 6378.137;// EARTH_RADIUS;
   s = Math.round(s * 10000) / 10000; // 输出为公里
   s = Math.floor(s);
-  return s === 0 ? '距您小于1公里' : `距您约${s}公里`;
+  return s === 0 ? '小于1公里' : `约${s}公里`;
 }
 

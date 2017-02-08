@@ -3,12 +3,15 @@ import injectSheet from 'react-jss';
 import { connect } from 'react-redux';
 import RadioGroup from 'react-mdl/lib/RadioGroup';
 import Radio from 'react-mdl/lib/Radio';
-import { selector } from '../../../api/fetchLocation';
-import ContentMainRight from '../../common/content/mainRight';
+import Button from 'react-mdl/lib/Button';
+import { selector } from 'api/fetchLocation';
+import ContentMainRight from 'modules/common/content/mainRight';
+import { humanizeTime, formatAddress, humanizeLnglat } from 'utils/displayUtils';
+import { colors } from 'modules/common/styles';
+import Label from 'modules/common/label';
+import UserCard from 'modules/common/user/card';
 import Carousel from './carousel';
-import { humanizeTime, formatAddress, humanizeLnglat } from '../../../utils/displayUtils';
-import { colors } from '../../common/styles';
-import Label from '../../common/label';
+import ResponsiveCarouselCard from '../responsiveCarouselCard';
 
 class Specs extends Component {
   static propTypes = {
@@ -40,41 +43,53 @@ class Specs extends Component {
     );
   }
 }
-
-const Display = ({ product, location, sheet: { classes } }) => ( // eslint-disable-line
-  <ContentMainRight
-    main={
-      <div>
-        <div style={{ display: 'flex' }}>
-          <div style={{ width: 300, marginRight: 24, boxSizing: 'border-box' }}>
-            <Carousel width={300} height={400} images={product.images.map((image) => ({ original: image.thumbnail_300_300, thumbnail: image.thumbnail_50_50 }))} />
-          </div>
-          <div style={{ flex: 1 }}>
-            <h4><strong>{product.name}</strong></h4>
-            <p style={{ color: colors.colorSubTitle }}>更新时间：{humanizeTime(product.updatedAt)}</p>
-            <p style={{ color: colors.colorSubTitle }}>
-              发货地：<span style={{}}>{formatAddress(product.address)}</span>
-              <span> ({(location && location.lnglat) && humanizeLnglat(location.lnglat.latitude, location.lnglat.longitude, product.lnglat.latitude, product.lnglat.longitude)})</span>
-            </p>
-            <h6 style={{ color: colors.colorAccent }}>
-              {product.price}
-            </h6>
-            <h6>
-              品种品类：<Label style={{ background: colors.colorCategoryLabel }}>{product.category.name}</Label>{' '}
-              <Label style={{ background: colors.colorSpeciesLabel }}>{product.species.name}</Label>
-            </h6>
-            <Specs specs={product.specs} />
-          </div>
+/*
+main={
+<div>
+  <div style={{ display: 'flex' }}>
+    <div style={{ width: 300, marginRight: 24, boxSizing: 'border-box' }}>
+      <Carousel width={300} height={400} images={product.images.map((image) => ({ original: image.thumbnail_300_300, thumbnail: image.thumbnail_50_50 }))} />
+    </div>
+    <div style={{ flex: 1 }}>
+      <h4><strong>{product.name}</strong></h4>
+      <p style={{ color: colors.colorSubTitle }}>更新时间：{humanizeTime(product.updatedAt)}</p>
+      <p style={{ color: colors.colorSubTitle }}>
+        发货地：<span style={{}}>{formatAddress(product.address)}</span>
+        <span> ({(location && location.lnglat) && humanizeLnglat(location.lnglat.latitude, location.lnglat.longitude, product.lnglat.latitude, product.lnglat.longitude)})</span>
+      </p>
+      <h6 style={{ color: colors.colorAccent }}>
+        {product.price}
+      </h6>
+      <h6>
+        品种品类：<Label style={{ background: colors.colorCategoryLabel }}>{product.category.name}</Label>{' '}
+        <Label style={{ background: colors.colorSpeciesLabel }}>{product.species.name}</Label>
+      </h6>
+      <Specs specs={product.specs} />
+      <div style={{ display: 'flex', justifyContent: 'space-around' }}>
+        <Button raised accent>在线联系</Button>
+        <Button raised accent>立即购买</Button>
+        <Button raised accent>加入购物车</Button>
+      </div>
+    </div>
+  </div>
+  <div style={{ marginTop: 24 }} dangerouslySetInnerHTML={{ __html: product.desc }} />
+</div>
+}
+*/
+const Display = ({ product, location, sheet: { classes } }) => {
+  return ( // eslint-disable-line
+    <ContentMainRight
+      main={
+        <ResponsiveCarouselCard product={product} location={location} />
+      }
+      right={
+        <div>
+          <UserCard user={product.owner} />
         </div>
-        <div style={{ marginTop: 24 }} dangerouslySetInnerHTML={{ __html: product.desc }} />
-      </div>
       }
-    right={
-      <div>
-      </div>
-      }
-  />
+    />
   );
+}
 
 Display.propTypes = {
   sheet: PropTypes.object.isRequired,

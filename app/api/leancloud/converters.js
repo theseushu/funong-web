@@ -22,7 +22,8 @@ export const fileToJSON = (file) => {
       metaData: file.get('metaData'),
       thumbnail_50_50: thumbnailURL.bind(file)(50, 50, 100, false),
       thumbnail_160_160: thumbnailURL.bind(file)(160, 160, 100, false),
-      thumbnail_300_300: thumbnailURL.bind(file)(300, 300, 100, true),
+      thumbnail_300_300: thumbnailURL.bind(file)(300, 300, 100, false),
+      thumbnail_600_600: thumbnailURL.bind(file)(600, 600, 100, false),
     };
   }
   return null;
