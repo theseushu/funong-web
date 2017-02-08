@@ -10,6 +10,8 @@ import {
   SET_SUPPLY_PRODUCTS,
   SET_LOGISTICS_PRODUCTS,
   SET_CERTS,
+  SET_CART_ITEMS,
+  REMOVE_CART_ITEMS,
 } from './constants';
 
 export const setCurrentUser = (user) => ({
@@ -57,5 +59,13 @@ export const setLogisticsProducts = (logisticsProducts) => ({
 export const setCerts = (certs) => ({
   type: SET_CERTS,
   payload: { certs },
+});
+export const setCartItems = (cartItems) => ({
+  type: SET_CART_ITEMS,
+  payload: { cartItems },
+});
+export const removeCartItems = (ids) => ({
+  type: REMOVE_CART_ITEMS,
+  payload: { ids },
 });
 

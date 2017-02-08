@@ -4,6 +4,7 @@ import createMePageRoute from 'modules/mePage/route';
 import createSupplyRoute from 'modules/supplyPage/route';
 import createSuppliesRoute from 'modules/suppliesPage/route';
 import createLogisticsRoute from 'modules/logisticsPage/route';
+import createCartPageRoute from 'modules/cartPage/route';
 
 const errorLoading = (err) => {
   console.error('Dynamic page loading failed', err); // eslint-disable-line no-console
@@ -65,7 +66,9 @@ export default function createRoutes(store) {
     createMePageRoute({ store, injectReducer, injectSagas, loadModule, errorLoading }),
     createSuppliesRoute({ store, injectReducer, injectSagas, loadModule, errorLoading }),
     createSupplyRoute({ store, injectReducer, injectSagas, loadModule, errorLoading }),
-    createLogisticsRoute({ store, injectReducer, injectSagas, loadModule, errorLoading }), {
+    createLogisticsRoute({ store, injectReducer, injectSagas, loadModule, errorLoading }),
+    createCartPageRoute({ store, injectReducer, injectSagas, loadModule, errorLoading }),
+    {
       path: '*',
       name: 'notfound',
       getComponent(nextState, cb) {

@@ -1,2 +1,2 @@
-export Card from './card';
-export BriefCard from './briefCard';
+export SupplyCard from './supplyCard';
+export BriefCard from './supplybriefCard';

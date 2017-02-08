@@ -20,7 +20,7 @@ export const fileToJSON = (file) => {
     return {
       ...file.toJSON(),
       metaData: file.get('metaData'),
-      thumbnail_50_50: thumbnailURL.bind(file)(50, 50, 100, false),
+      thumbnail_80_80: thumbnailURL.bind(file)(80, 80, 100, false),
       thumbnail_160_160: thumbnailURL.bind(file)(160, 160, 100, false),
       thumbnail_300_300: thumbnailURL.bind(file)(300, 300, 100, false),
       thumbnail_600_600: thumbnailURL.bind(file)(600, 600, 100, false),
@@ -43,7 +43,7 @@ export const certToJSON = (cert) => {
 
 export const supplyProductToJSON = (product) => {
   const avCategory = product.get('category');
-  const category = avCategory ? { ...avCategory.toJSON(), catalog: avCategory.get('catalog').toJSON() } : null;
+  const category = avCategory ? { ...avCategory.toJSON(), catalog: avCategory.get('catalog') ? avCategory.get('catalog').toJSON() : undefined } : null;
 
   const avSpecies = product.get('species');
   const species = avSpecies ? { ...avSpecies.toJSON(), category } : null;
@@ -106,4 +106,17 @@ export const logisticsToJSON = (logistics) => {
     updatedAt: logistics.getUpdatedAt().getTime(),
     createdAt: logistics.getCreatedAt().getTime(),
   };
+};
+
+export const cartItemToJSON = (cartItem) => {
+  // TODO shop
+  // const avShop = cartItem.get('shop');
+  const avSupply = cartItem.get('supplyProduct');
+  const supplyProduct = avSupply ? supplyProductToJSON(avSupply) : null;
+  const avShop = cartItem.get('shopProduct');
+  const shopProduct = avShop ? supplyProductToJSON(avSupply) : null;
+  const avOwner = cartItem.get('owner');
+  const owner = avOwner ? avOwner.toJSON() : null;
+
+  return { ...avSupply.toJSON(), owner, supplyProduct, shopProduct };
 };

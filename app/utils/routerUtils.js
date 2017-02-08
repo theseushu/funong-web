@@ -1,5 +1,5 @@
-import { currentUserSelector } from '../modules/data/ducks/selectors';
-import { actions } from '../api/profile';
+import { currentUserSelector } from 'modules/data/ducks/selectors';
+import { actions } from 'api/profile';
 
 const fetchProfile = actions.fetch;
 

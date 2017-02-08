@@ -12,7 +12,7 @@ const sideRoutes = (type) => [
   { title: type === '微店店主' ? '店铺信息' : '个人信息', path: '/me' },
   { title: '实名认证', path: '/me/certs' },
   { title: '我的供应', path: '/me/products' },
-  { title: '购物车', path: '/me/cart' },
+  { title: '购物车', path: '/cart' },
   { title: '历史订单', path: '/me/orders' },
   { title: '我的收藏', path: '/me/bookmarks' },
 ];

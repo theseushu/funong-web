@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import injectSheet from 'react-jss';
 import styles, { breakpoints } from 'modules/common/styles';
-import { Card } from 'modules/common/product';
+import { SupplyCard } from 'modules/common/product';
 import Tabs from '../tabs';
 import Page from '../../page';
 
@@ -20,7 +20,7 @@ class Supply extends Component { // eslint-disable-line
             {
               products.map((product, i) => (
                 <div key={i} className={`${classes.cell} ${styles.contentCenter}`}>
-                  <Card product={product} hideActions={false} />
+                  <SupplyCard product={product} hideActions={false} />
                 </div>
               ))
             }

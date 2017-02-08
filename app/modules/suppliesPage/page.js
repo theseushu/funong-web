@@ -1,10 +1,10 @@
 import React, { PropTypes } from 'react';
 import injectSheet from 'react-jss';
-import Layout from '../common/layout';
-import ContentMainRight from '../common/content/mainRight';
-import Card from '../common/product/card';
-import { breakpoints } from '../common/styles';
-import { catalogTypes } from '../../appConstants/index';
+import Layout from 'modules/common/layout';
+import ContentMainRight from 'modules/common/content/mainRight';
+import SupplyCard from 'modules/common/product/supplyCard';
+import { breakpoints } from 'modules/common/styles';
+import { catalogTypes } from 'appConstants/index';
 import Criteria from './criteria';
 import Recommends from './recommends';
 
@@ -21,7 +21,7 @@ const SuppliesPage = ({ user, products, sheet: { classes } }) => ( // eslint-dis
               {
                 products.map((product, i) => (
                   <div key={i} className={classes.product}>
-                    <Card key={i} product={product} />
+                    <SupplyCard key={i} product={product} />
                   </div>
                 ))
               }

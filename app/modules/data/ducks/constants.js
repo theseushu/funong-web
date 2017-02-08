@@ -1,3 +1,5 @@
+export const UPDATE_DATA = 'data/update_data';
+export const REMOVE_ENTITIES = 'data/remove_entities';
 export const SET_CURRENT_USER = 'data/set_current_user';
 export const UPDATE_CURRENT_USER_INFO = 'data/update_current_user_info';
 export const SET_CATALOGS = 'data/set_catalogs';
@@ -8,5 +10,6 @@ export const SET_PRODUCT = 'data/set_product';
 export const SET_PRODUCTS = 'data/set_products';
 export const SET_SUPPLY_PRODUCTS = 'data/set_supply_products';
 export const SET_LOGISTICS_PRODUCTS = 'data/set_logistics_products';
-export const UPDATE_DATA = 'data/update_data';
 export const SET_CERTS = 'data/set_certs';
+export const SET_CART_ITEMS = 'data/set_cart_items';
+export const REMOVE_CART_ITEMS = 'data/remove_cart_items';

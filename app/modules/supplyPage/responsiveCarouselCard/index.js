@@ -11,6 +11,7 @@ import { colors } from 'modules/common/styles';
 import Label from 'modules/common/label';
 import { humanizeTime, formatAddress, humanizeLnglat } from 'utils/displayUtils';
 import Carousel from './carousel';
+import AddToCartButton from './addToCartButton';
 
 class ResponsiveCarouselCard extends Component {
   static propTypes = {
@@ -30,7 +31,7 @@ class ResponsiveCarouselCard extends Component {
         </CardMenu>
         <CardMedia className={classes.cardMedia}>
           <Carousel
-            images={images.map((image) => ({ original: image.thumbnail_600_600, thumbnail: image.thumbnail_50_50 }))}
+            images={images.map((image) => ({ original: image.thumbnail_600_600, thumbnail: image.thumbnail_80_80 }))}
           />
         </CardMedia>
         <Grid>
@@ -68,7 +69,7 @@ class ResponsiveCarouselCard extends Component {
         <CardActions className={classes.buttons}>
           <Button raised accent ripple>在线联系</Button>
           <Button raised accent ripple>立即购买</Button>
-          <Button raised accent ripple>加入购物车</Button>
+          <AddToCartButton supplyProduct={this.props.product} quantity={1}>加入购物车</AddToCartButton>
         </CardActions>
         <div className={classes.tabs}>
           <Tabs activeTab={0} onChange={(tabId) => this.setState({ tabIndex: tabId })} ripple>

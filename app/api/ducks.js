@@ -14,6 +14,7 @@ import * as fetchCategories from './fetchCategories/ducks';
 import * as createSpecies from './createSpecies/ducks';
 import * as fetchSpecies from './fetchSpecies/ducks';
 import * as logisticsProduct from './logisticsProduct';
+import * as cart from './cart';
 // import * as searchDistinct from '../searchDistrict/ducks';
 // import * as fetchLocation from '../fetchLocation/ducks';
 // import * as fetchPriceDefinitions from '../fetchPriceDefinitions/ducks';
@@ -39,6 +40,7 @@ export default {
     ...fetchSpecies.default,
     ...createSpecies.default,
     ...logisticsProduct.default,
+    ...cart.default,
     // ...searchDistinct.default,
   }),
 };
@@ -58,5 +60,6 @@ export const sagas = [
   ...fetchSpecies.sagas,
   ...createSpecies.sagas,
   ...logisticsProduct.sagas,
+  ...cart.sagas,
   // ...searchDistinct.sagas,
 ];

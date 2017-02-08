@@ -13,7 +13,7 @@ const Display = ({ product, location, sheet: { classes } }) => ( // eslint-disab
       <div>
         <div style={{ display: 'flex' }}>
           <div style={{ width: 300, marginRight: 24, boxSizing: 'border-box' }}>
-            <Carousel width={300} height={400} images={product.images.map((image) => ({ original: image.thumbnail_300_300, thumbnail: image.thumbnail_50_50 }))} />
+            <Carousel width={300} height={400} images={product.images.map((image) => ({ original: image.thumbnail_300_300, thumbnail: image.thumbnail_80_80 }))} />
           </div>
           <div style={{ flex: 1, color: colors.colorSubTitle }}>
             <h4><strong>{product.name}</strong></h4>

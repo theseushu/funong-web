@@ -28,7 +28,7 @@ export default class App extends React.PureComponent { // eslint-disable-line re
           timeOut={4000}
           newestOnTop={false}
           preventDuplicates
-          position="top-center"
+          position="bottom-center"
           transitionIn="fadeIn"
           transitionOut="fadeOut"
           progressBar

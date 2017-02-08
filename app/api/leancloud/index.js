@@ -12,6 +12,7 @@ import createAMapApi from './amap';
 import createCertApis from './cert';
 import createProductApis from './product';
 import createCatalogCategorySpeciesApis from './catalogCategorySpecies';
+import createCartApi from './cart';
 
 const debug = require('debug')('app:api'); // eslint-disable-line no-unused-vars
 
@@ -28,7 +29,6 @@ AV.init({
 export default () => {
   // { token: { sessionToken, objectId, mobilePhoneNumber }, profile: {} }
   const context = loadFromCookie();
-
   const updateContextToken = (newToken) => {
     context.token = newToken;
     saveToCookie(context);
@@ -38,7 +38,10 @@ export default () => {
     saveToCookie(context);
   };
 
+  const getCurrentUser = () => context.profile;
+
   return {
+    getCurrentUser,
     ...createAMapApi(),
     requestSmsCode: createRequestSmsCodeApi({ AV }),
     ...createSignupOrLoginApis({ AV, context, updateContextToken }),
@@ -47,5 +50,6 @@ export default () => {
     ...createCertApis({ AV, context }),
     ...createProductApis({ AV, context }),
     ...createCatalogCategorySpeciesApis({ AV, context }),
+    ...createCartApi({ AV, context }),
   };
 };

@@ -55,7 +55,19 @@ import MapDialog from './modules/mapDialog';
 // Optionally, this could be changed to leverage a created history
 // e.g. `const browserHistory = useRouterHistory(createBrowserHistory)();`
 const initialState = {};
-const store = configureStore(initialState, browserHistory, createApi());
+const api = createApi();
+const currentUser = api.getCurrentUser();
+if (currentUser) {
+  initialState.data = {
+    currentUser: currentUser.objectId,
+    entities: {
+      users: {
+        [currentUser.objectId]: currentUser,
+      },
+    },
+  };
+}
+const store = configureStore(initialState, browserHistory, api);
 
 // Sync history and store, as the react-router-redux reducer
 // is under the non-default key ("routing"), selectLocationState

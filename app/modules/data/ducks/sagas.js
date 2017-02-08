@@ -2,8 +2,15 @@ import { normalize } from 'normalizr';
 import { takeEvery } from 'redux-saga';
 import { put } from 'redux-saga/effects';
 
-import { UPDATE_DATA, SET_CURRENT_USER, UPDATE_CURRENT_USER_INFO, SET_CATALOGS, SET_CATAGORIES, SET_SPECIES, SET_SPECIFICATIONS, SET_PRODUCT, SET_PRODUCTS, SET_SUPPLY_PRODUCTS, SET_LOGISTICS_PRODUCTS, SET_CERTS } from './constants';
-import { UserSchema, CatalogsSchema, CategoriesSchema, SpeciesArraySchema, SpecificationsSchema, ProductSchema, ProductsSchema, LogisticsProductsSchema, SupplyProductsSchema, CertsSchema } from './schemas';
+import { UPDATE_DATA, REMOVE_ENTITIES, SET_CURRENT_USER,
+  UPDATE_CURRENT_USER_INFO, SET_CATALOGS, SET_CATAGORIES, SET_SPECIES,
+  SET_SPECIFICATIONS, SET_PRODUCT, SET_PRODUCTS,
+  SET_SUPPLY_PRODUCTS, SET_LOGISTICS_PRODUCTS, SET_CERTS,
+  SET_CART_ITEMS, REMOVE_CART_ITEMS } from './constants';
+import { UserSchema, CatalogsSchema,
+  CategoriesSchema, SpeciesArraySchema, SpecificationsSchema,
+  ProductSchema, ProductsSchema, LogisticsProductsSchema,
+  SupplyProductsSchema, CertsSchema, CartItemsSchema } from './schemas';
 
 function* updateCurrentUserInfoSaga(action) {
   const { user } = action.payload;
@@ -82,6 +89,18 @@ function* setCertsSaga(action) {
   yield put({ type: UPDATE_DATA, payload });
 }
 
+function* setCartItemsSaga(action) {
+  const { cartItems } = action.payload;
+  const data = normalize(cartItems, CartItemsSchema);
+  const payload = Object.assign({}, data);
+  yield put({ type: UPDATE_DATA, payload });
+}
+
+function* removeCartItemsSaga(action) {
+  const { ids } = action.payload;
+  yield put({ type: REMOVE_ENTITIES, payload: { type: CartItemsSchema.getItemSchema().getKey(), ids } });
+}
+
 // watcher Saga:
 function* rootSaga(api) {
   yield takeEvery(SET_CURRENT_USER, function* saga(action) {
@@ -97,6 +116,8 @@ function* rootSaga(api) {
   yield takeEvery(SET_SUPPLY_PRODUCTS, setSupplyProductsSaga);
   yield takeEvery(SET_LOGISTICS_PRODUCTS, setLodisticsProductsSaga);
   yield takeEvery(SET_CERTS, setCertsSaga);
+  yield takeEvery(SET_CART_ITEMS, setCartItemsSaga);
+  yield takeEvery(REMOVE_CART_ITEMS, removeCartItemsSaga);
 }
 
 export default [rootSaga];

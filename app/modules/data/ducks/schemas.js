@@ -7,6 +7,7 @@ export const UserSchema = new Schema('users', {
 export const CatalogSchema = new Schema('catalogs', {
   idAttribute: 'objectId',
 });
+export const CatalogsSchema = arrayOf(CatalogSchema);
 
 export const CategorySchema = new Schema('categories', {
   idAttribute: 'objectId',
@@ -14,6 +15,7 @@ export const CategorySchema = new Schema('categories', {
 CategorySchema.define({
   catalog: CatalogSchema,
 });
+export const CategoriesSchema = arrayOf(CategorySchema);
 
 export const SpeciesSchema = new Schema('species', {
   idAttribute: 'objectId',
@@ -21,6 +23,7 @@ export const SpeciesSchema = new Schema('species', {
 SpeciesSchema.define({
   category: CategorySchema,
 });
+export const SpeciesArraySchema = arrayOf(SpeciesSchema);
 
 export const SpecificationSchema = new Schema('specifications', {
   idAttribute: 'objectId',
@@ -28,6 +31,7 @@ export const SpecificationSchema = new Schema('specifications', {
 SpecificationSchema.define({
   species: SpeciesSchema,
 });
+export const SpecificationsSchema = arrayOf(SpecificationSchema);
 
 export const ProductSchema = new Schema('products', {
   idAttribute: 'objectId',
@@ -37,6 +41,7 @@ ProductSchema.define({
   species: SpeciesSchema,
   specifications: SpecificationsSchema,
 });
+export const ProductsSchema = arrayOf(ProductSchema);
 
 export const SupplyProductSchema = new Schema('supplyProducts', {
   idAttribute: 'objectId',
@@ -47,6 +52,16 @@ SupplyProductSchema.define({
   category: CategorySchema,
 });
 export const SupplyProductsSchema = arrayOf(SupplyProductSchema);
+
+export const ShopProductSchema = new Schema('shopProducts', {
+  idAttribute: 'objectId',
+});
+ShopProductSchema.define({
+  owner: UserSchema,
+  species: SpeciesSchema,
+  category: CategorySchema,
+});
+export const ShopProductsSchema = arrayOf(ShopProductSchema);
 
 export const LogisticsProductSchema = new Schema('logisticsProducts', {
   idAttribute: 'objectId',
@@ -63,15 +78,15 @@ export const CertSchema = new Schema('certs', {
 CertSchema.define({
   owner: UserSchema,
 });
-
-export const CatalogsSchema = arrayOf(CatalogSchema);
-
-export const CategoriesSchema = arrayOf(CategorySchema);
-
-export const SpeciesArraySchema = arrayOf(SpeciesSchema);
-
-export const SpecificationsSchema = arrayOf(SpecificationSchema);
-
-export const ProductsSchema = arrayOf(ProductSchema);
-
 export const CertsSchema = arrayOf(CertSchema);
+
+
+export const CartItemSchema = new Schema('cartItems', {
+  idAttribute: 'objectId',
+});
+CartItemSchema.define({
+  shopProduct: ShopProductSchema,
+  supplyProduct: SupplyProductSchema,
+  owner: UserSchema,
+});
+export const CartItemsSchema = arrayOf(CartItemSchema);
