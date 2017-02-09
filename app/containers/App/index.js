@@ -13,8 +13,9 @@
 
 import React from 'react';
 import ReduxToastr from 'react-redux-toastr/lib/ReduxToastr';
+import withProgressBar from './ProgressBar';
 
-export default class App extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
+class App extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
 
   static propTypes = {
     children: React.PropTypes.node,
@@ -37,3 +38,6 @@ export default class App extends React.PureComponent { // eslint-disable-line re
     );
   }
 }
+
+export default withProgressBar(App);
+
