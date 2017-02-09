@@ -8,6 +8,8 @@ import {
   DEFAULT_ACTION,
 } from './constants';
 
-export const defaultAction = () => ({
-  type: DEFAULT_ACTION,
-});
+export function defaultAction() {
+  return {
+    type: DEFAULT_ACTION,
+  };
+}

@@ -29,7 +29,7 @@ module.exports = require('./webpack.base.babel')({
   // Add hot reloading in development
   entry: [
     'eventsource-polyfill', // Necessary for hot reloading with IE
-    'webpack-hot-middleware/client',
+    'webpack-hot-middleware/client?reload=true',
     path.join(process.cwd(), 'app/app.js'), // Start with js/app.js
   ],
 
@@ -53,6 +53,10 @@ module.exports = require('./webpack.base.babel')({
 
   // Emit a source map for easier debugging
   devtool: 'cheap-module-eval-source-map',
+
+  performance: {
+    hints: false,
+  },
 });
 
 /**

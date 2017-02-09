@@ -8,7 +8,7 @@ import styles, { breakpoints } from '../styles';
 import SideMenu from './sideMenu';
 import { AppHeader, AppDrawer } from './appHeader';
 
-class Sample extends Component {
+class LayoutComponent extends Component {
   static propTypes = {
     sheet: PropTypes.object,
     sideMenu: PropTypes.array,
@@ -70,4 +70,4 @@ export default injectSheet({
       marginLeft: 0,
     },
   },
-})(Sample);
+})(LayoutComponent);

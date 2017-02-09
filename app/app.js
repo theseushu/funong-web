@@ -14,22 +14,24 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { applyRouterMiddleware, Router, browserHistory } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
+import FontFaceObserver from 'fontfaceobserver';
 import { useScroll } from 'react-router-scroll';
+import 'sanitize.css/sanitize.css';
+
+// Import root app
+import App from 'containers/App';
+
+// Import selector for `syncHistoryWithStore`
+import { makeSelectLocationState } from 'containers/App/selectors';
+
+// Import Language Provider
+import LanguageProvider from 'containers/LanguageProvider';
 
 // Load the favicon, the manifest.json file and the .htaccess file
 /* eslint-disable import/no-unresolved, import/extensions */
-import '!file?name=[name].[ext]!./favicon.ico';
-import '!file?name=[name].[ext]!./manifest.json';
-import 'file?name=[name].[ext]!./.htaccess';
-
-// Import root app
-import App from './containers/App';
-
-// Import selector for `syncHistoryWithStore`
-import { makeSelectLocationState } from './containers/App/selectors';
-
-// Import Language Provider
-import LanguageProvider from './containers/LanguageProvider';
+import '!file-loader?name=[name].[ext]!./favicon.ico';
+import '!file-loader?name=[name].[ext]!./manifest.json';
+import 'file-loader?name=[name].[ext]!./.htaccess'; // eslint-disable-line import/extensions
 
 /* eslint-enable import/no-unresolved, import/extensions */
 
@@ -46,9 +48,17 @@ import createRoutes from './routes';
 
 // create an api instance with sessionToken attached
 import createApi from './createApi';
-
 import FullScreenGallery from './modules/fullScreenGallery';
 import MapDialog from './modules/mapDialog';
+
+const openSansObserver = new FontFaceObserver('Open Sans', {});
+
+// When Open Sans is loaded, add a font-family using Open Sans to the body
+openSansObserver.load().then(() => {
+  document.body.classList.add('fontLoaded');
+}, () => {
+  document.body.classList.remove('fontLoaded');
+});
 
 // Create redux store with history
 // this uses the singleton browserHistory provided by react-router
@@ -141,6 +151,7 @@ if (!window.Intl) {
   }))
     .then(() => Promise.all([
       System.import('intl/locale-data/jsonp/en.js'),
+      System.import('intl/locale-data/jsonp/de.js'),
     ]))
     .then(() => render(translationMessages))
     .catch((err) => {

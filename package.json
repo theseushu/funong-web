@@ -1,10 +1,10 @@
 {
   "name": "react-boilerplate",
-  "version": "3.3.0",
+  "version": "3.4.0",
   "description": "A highly scalable, offline-first foundation with the best DX and a focus on performance and best practices",
   "repository": {
     "type": "git",
-    "url": "git://github.com/mxstbr/react-boilerplate.git"
+    "url": "git://github.com/react-boilerplate/react-boilerplate.git"
   },
   "engines": {
     "npm": ">=3",
@@ -21,14 +21,15 @@
     "preinstall": "npm run npmcheckversion",
     "postinstall": "npm run build:dll",
     "prebuild": "npm run build:clean && npm run test",
+    "prebuild_bak": "npm run build:clean && npm run test",
     "build": "cross-env NODE_ENV=production webpack --config internals/webpack/webpack.prod.babel.js --color -p --progress",
     "build:clean": "npm run test:clean && rimraf ./build",
     "build:dll": "node ./internals/scripts/dependencies.js",
     "start": "cross-env NODE_ENV=development node server --host=0.0.0.0",
     "start:tunnel": "cross-env NODE_ENV=development ENABLE_TUNNEL=true node server",
     "start:production": "npm run build && npm run start:prod",
+    "start:production_bak": "npm run test && npm run build && npm run start:prod",
     "start:prod": "cross-env NODE_ENV=production node server",
-    "pagespeed": "node ./internals/scripts/pagespeed.js",
     "presetup": "npm i chalk shelljs",
     "setup": "node ./internals/scripts/setup.js",
     "postsetup": "npm run build:dll",
@@ -75,7 +76,8 @@
       },
       "test": {
         "plugins": [
-          "transform-es2015-modules-commonjs"
+          "transform-es2015-modules-commonjs",
+          "dynamic-import-node"
         ]
       }
     }
@@ -174,7 +176,13 @@
       "ip",
       "minimist",
       "sanitize.css",
-      "bootstrap"
+      "react-redux-toastr",
+      "react-icons",
+      "react-jss",
+      "react-photoswipe",
+      "disposables",
+      "react-mdl",
+      "react-mdl-extra"
     ],
     "include": [
       "core-js",
@@ -203,14 +211,14 @@
       "app"
     ],
     "moduleNameMapper": {
-      ".*\\.(css|less|styl|scss|sass)$": "<rootDir>/mocks/cssModule.js",
-      ".*\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/mocks/image.js"
+      ".*\\.(css|less|styl|scss|sass)$": "<rootDir>/internals/mocks/cssModule.js",
+      ".*\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/internals/mocks/image.js"
     },
     "setupTestFrameworkScriptFile": "<rootDir>/internals/testing/test-bundler.js",
     "testRegex": "tests/createReducer\\.test\\.js$"
   },
   "dependencies": {
-    "babel-polyfill": "6.16.0",
+    "babel-polyfill": "6.20.0",
     "blueimp-load-image": "^2.10.0",
     "bootstrap": "^3.3.7",
     "bootstrap-sass": "^3.3.7",
@@ -254,11 +262,9 @@
     "react-router-redux": "4.0.6",
     "react-router-scroll": "0.4.1",
     "react-rte": "^0.11.0",
-    "react-slick": "^0.14.6",
-    "react-waypoint": "^4.1.0",
     "redux": "3.6.0",
     "redux-form": "^6.3.2",
-    "redux-saga": "0.13.0",
+    "redux-saga": "0.14.0",
     "reselect": "2.5.4",
     "sanitize.css": "4.1.0",
     "slick-carousel": "^1.6.0",
@@ -267,10 +273,10 @@
   },
   "devDependencies": {
     "babel-cli": "6.18.0",
-    "babel-core": "6.18.2",
+    "babel-core": "6.21.0",
     "babel-eslint": "7.1.1",
-    "babel-jest": "17.0.2",
-    "babel-loader": "6.2.8",
+    "babel-loader": "6.2.10",
+    "babel-plugin-dynamic-import-node": "1.0.0",
     "babel-plugin-react-intl": "2.2.0",
     "babel-plugin-react-transform": "2.0.2",
     "babel-plugin-transform-es2015-modules-commonjs": "6.18.0",
@@ -281,8 +287,6 @@
     "babel-preset-react": "6.16.0",
     "babel-preset-react-hmre": "1.1.1",
     "babel-preset-stage-0": "6.16.0",
-    "chai": "3.5.0",
-    "chai-enzyme": "0.6.1",
     "cheerio": "0.22.0",
     "circular-dependency-plugin": "2.0.0",
     "coveralls": "2.11.15",
@@ -291,7 +295,7 @@
     "eslint": "3.11.1",
     "eslint-config-airbnb": "13.0.0",
     "eslint-config-airbnb-base": "10.0.1",
-    "eslint-import-resolver-webpack": "0.7.0",
+    "eslint-import-resolver-webpack": "0.8.0",
     "eslint-plugin-import": "2.2.0",
     "eslint-plugin-jsx-a11y": "2.2.3",
     "eslint-plugin-react": "6.7.1",
@@ -303,15 +307,14 @@
     "html-webpack-plugin": "2.24.1",
     "img-loader": "^1.3.1",
     "imports-loader": "0.6.5",
-    "jest-cli": "17.0.3",
+    "jest-cli": "18.0.0",
     "json-loader": "0.5.4",
     "lint-staged": "3.2.1",
-    "ngrok": "2.2.4",
     "node-plop": "0.5.4",
     "node-sass": "^4.1.1",
     "null-loader": "0.1.1",
     "offline-plugin": "4.5.2",
-    "plop": "1.7.2",
+    "plop": "1.7.3",
     "pre-commit": "1.1.3",
     "psi": "2.0.4",
     "react-addons-test-utils": "15.4.1",
@@ -324,8 +327,8 @@
     "sinon": "2.0.0-pre",
     "style-loader": "0.13.1",
     "url-loader": "0.5.7",
-    "webpack": "2.1.0-beta.25",
-    "webpack-dev-middleware": "1.8.4",
-    "webpack-hot-middleware": "2.13.2"
+    "webpack": "2.2.0-rc.3",
+    "webpack-dev-middleware": "1.9.0",
+    "webpack-hot-middleware": "2.15.0"
   }
 }

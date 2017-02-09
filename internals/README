@@ -1,0 +1,16 @@
+see config.js
+
+        'react-redux-toastr',
+        'react-icons',
+        'react-jss',
+        'react-photoswipe',
+        'disposables',
+        'react-mdl',
+        'react-mdl-extra',
+
+those libs are supposed to be used in es6
+
+I haven't figured out how to configure them yet
+So they are excluded for now until I get some time to deal with it
+
+Codes in app/ are importing them like {import from 'react-redux-toastr/lib/xxx'}. es5 code.

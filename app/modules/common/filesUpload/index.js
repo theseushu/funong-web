@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import _without from 'lodash/without';
 import injectSheet from 'react-jss';
-import { toastr } from 'react-redux-toastr';
+import toastr from 'react-redux-toastr/lib/toastrEmitter';
 import Icon from 'react-mdl/lib/Icon';
 import IconButton from 'react-mdl/lib/IconButton';
 import Tooltip from 'react-mdl/lib/Tooltip';

@@ -1,4 +1,4 @@
-import { toastr } from 'react-redux-toastr';
+import toastr from 'react-redux-toastr/lib/toastrEmitter';
 import options from './options';
 
 export default ({ icon, title, message, extra }) => {
