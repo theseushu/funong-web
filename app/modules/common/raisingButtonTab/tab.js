@@ -1,10 +1,9 @@
-import React, { PropTypes } from 'react';
+import { Children, PropTypes } from 'react';
 
-const Tab = ({ children }) => (
-  <div>{children}</div>
-);
+const Tab = ({ children }) => Children.only(children);
 
 Tab.propTypes = {
+  label: PropTypes.string.isRequired, // eslint-disable-line react/no-unused-prop-types
   children: PropTypes.object,
 };
 

@@ -3,12 +3,12 @@ import _without from 'lodash/without';
 import IconButton from 'react-mdl/lib/IconButton';
 import { Grid, Cell } from 'react-mdl/lib/Grid';
 import { List, ListItem, ListItemContent, ListItemAction } from 'react-mdl/lib/List';
-import { formatPrices } from 'utils/displayUtils';
 import FormIconButton from 'modules/common/formElements/iconButton';
-import SpecificationDialog from 'modules/common/specificationDialog';
+import SpecDialog from 'modules/common/specDialog';
 import styles from 'modules/common/styles';
+import { formatPrice } from 'utils/displayUtils';
 
-class SpecificationsField extends Component {
+class SpecsField extends Component {
   static propTypes = {
     input: PropTypes.shape({
       value: PropTypes.array.isRequired,
@@ -68,9 +68,9 @@ class SpecificationsField extends Component {
           ></FormIconButton>
           {
             editingIndex !== null && (
-              <SpecificationDialog
+              <SpecDialog
                 isDefault={editingIndex === 0}
-                specification={value[editingIndex]}
+                spec={value[editingIndex]}
                 close={this.hideDialog}
                 onSubmit={this.saveSpec}
               />
@@ -85,7 +85,7 @@ class SpecificationsField extends Component {
                   <ListItem key={i} threeLine className="mdl-shadow--2dp">
                     <ListItemContent
                       subtitle={spec.params.join(', ')}
-                    ><span>{spec.name}<small>{formatPrices(spec.prices)}</small></span></ListItemContent>
+                    ><span>{spec.name}<small> {formatPrice(spec)}</small></span></ListItemContent>
                     <ListItemAction>
                       <IconButton name="edit" onClick={(e) => { e.preventDefault(); this.editSpec(i); }} />
                       <IconButton name="delete_sweep" onClick={(e) => { e.preventDefault(); this.removeSpec(spec); }} />
@@ -101,4 +101,4 @@ class SpecificationsField extends Component {
   }
 }
 
-export default SpecificationsField;
+export default SpecsField;

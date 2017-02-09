@@ -1,29 +1,37 @@
-import React from 'react';
-import { List, ListItem, ListItemContent, ListItemAction } from 'react-mdl/lib/List';
-import Icon from 'react-mdl/lib/Icon';
+import React, { PropTypes } from 'react';
+import _groupBy from 'lodash/groupBy';
+import { connect } from 'react-redux';
+import Link from 'react-router/lib/Link';
+import Button from 'react-mdl/lib/Button';
+import { cartItemsSelector } from 'modules/data/ducks/selectors';
+import Group from './group';
+import emptyCart from './assets/empty.png';
 
-const Page = () => (
-  <List>
-    <ListItem>
-      <ListItemContent avatar="person">Bryan Cranston</ListItemContent>
-      <ListItemAction>
-        <a href="#1"><Icon name="star" /></a>
-        <a href="#1"><Icon name="star" /></a>
-      </ListItemAction>
-    </ListItem>
-    <ListItem>
-      <ListItemContent avatar="person">Aaron Paul</ListItemContent>
-      <ListItemAction>
-        <a href="#1"><Icon name="star" /></a>
-      </ListItemAction>
-    </ListItem>
-    <ListItem>
-      <ListItemContent avatar="person">Bob Odenkirk</ListItemContent>
-      <ListItemAction>
-        <a href="#1"><Icon name="star" /></a>
-      </ListItemAction>
-    </ListItem>
-  </List>
-);
+const Page = ({ cartItems }) => {
+  const groups = Object.values(_groupBy(cartItems, (item) => item.owner.objectId));
+  return (
+    <div style={{ width: '100%' }}>
+      {groups.length === 0 && (
+        <div style={{ display: 'flex', justifyContent: 'center' }}>
+          <div style={{ width: 100, height: 100, background: `url(${emptyCart})` }} />
+          <div>
+            <h5 style={{ marginLeft: 16 }}>您的购物车还是空的</h5>
+            <div>
+              <Link to="/me/bookmarks"><Button colored>看看我的收藏</Button></Link>
+              <Link to="/me/orders"><Button colored>看看订单</Button></Link>
+            </div>
+          </div>
+        </div>
+      )}
+      {groups.map((group, i) => <Group key={i} owner={group[0].owner} items={group} />)}
+    </div>
+  );
+}
 
-export default Page;
+Page.propTypes = {
+  cartItems: PropTypes.array.isRequired,
+}
+
+export default connect(
+  (state) => ({ cartItems: cartItemsSelector(state) })
+)(Page);

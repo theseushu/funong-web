@@ -12,9 +12,9 @@ export default ({ AV, context: { token: { sessionToken }, profile } }) => {
       }
       const cartItem = new CartItem();
       if (shopProduct) {
-        cartItem.set('shop', AV.Object.createWithoutData('ShopProduct', shopProduct.objectId));
+        cartItem.set('shopProduct', AV.Object.createWithoutData('ShopProduct', shopProduct.objectId));
       } else if (supplyProduct) {
-        cartItem.set('supply', AV.Object.createWithoutData('SupplyProduct', supplyProduct.objectId));
+        cartItem.set('supplyProduct', AV.Object.createWithoutData('SupplyProduct', supplyProduct.objectId));
       } else {
         throw new AV.Error(AV.Error.OTHER_CAUSE, '未指定商品');
       }

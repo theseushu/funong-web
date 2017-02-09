@@ -11,7 +11,7 @@ import Tooltip from 'react-mdl/lib/Tooltip';
 import IconButton from 'react-mdl/lib/IconButton';
 import Button from 'react-mdl/lib/Button';
 import Spinner from 'react-mdl/lib/Spinner';
-import toastr from 'react-redux-toastr/lib/toastrEmitter';
+import { toastrEmitter } from 'react-redux-toastr/lib/toastrEmitter';
 import { selector as fetchSpeciesSelector, fetchSpecies as fetchSpeciesAction } from 'api/fetchSpecies';
 import { selector as createSpeciesSelector, createSpecies as createSpeciesAction } from 'api/createSpecies';
 import { speciesSelector } from 'modules/data/ducks/selectors';
@@ -85,7 +85,7 @@ class SpeciesField extends Component {
           transitionIn: 'fadeIn',
           transitionOut: 'fadeOut',
         };
-        toastr.confirm(`您输入的品类${text}尚未保存，需要保存吗？`, toastrOptions);
+        toastrEmitter.confirm(`您输入的品类${text}尚未保存，需要保存吗？`, toastrOptions);
       } else {
         this.setState({ text: '' });
       }

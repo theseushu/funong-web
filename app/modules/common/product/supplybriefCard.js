@@ -1,17 +1,16 @@
 import React, { PropTypes } from 'react';
-import _union from 'lodash/union';
 import injectSheet from 'react-jss';
 import Link from 'react-router/lib/Link';
 import { formatPrices } from 'utils/displayUtils';
 import Card from '../cards/card';
 
-const formatPrice = (specs) => formatPrices(_union(...specs.map((spec) => spec.prices)));
+const formatPrice = (specs) => formatPrices(specs);
 
 const CardComponent = ({ product, sheet: { classes } }) => {
-  const { images, name } = product;
+  const { thumbnail, name } = product;
   return (
     <Card
-      cardImage={images[0].thumbnail_300_300}
+      cardImage={thumbnail.thumbnail_300_300}
       link={`/supply/${product.objectId}`}
       titleAccent={formatPrice(product.specs)}
       title={<Link to={`/supply/${product.objectId}`} className={classes.title}>{name}</Link>}

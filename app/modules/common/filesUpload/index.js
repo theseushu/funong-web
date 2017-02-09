@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import _without from 'lodash/without';
 import injectSheet from 'react-jss';
-import toastr from 'react-redux-toastr/lib/toastrEmitter';
+import { toastrEmitter } from 'react-redux-toastr/lib/toastrEmitter';
 import Icon from 'react-mdl/lib/Icon';
 import IconButton from 'react-mdl/lib/IconButton';
 import Tooltip from 'react-mdl/lib/Tooltip';
@@ -42,7 +42,7 @@ class FilesUpload extends Component {
       this.setState({ files: newFiles });
     } else {
       file = { ...files[index], process: { rejected: true, error } };
-      toastr.warning(`${file.rawFile.name}`, '无法处理，请使用图片文件');
+      toastrEmitter.warning(`${file.rawFile.name}`, '无法处理，请使用图片文件');
       this.setState({ files: _without(this.state.files, files[index]) });
     }
   }

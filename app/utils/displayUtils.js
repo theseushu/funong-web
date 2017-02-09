@@ -3,14 +3,16 @@ import _reduce from 'lodash/reduce';
 export const formatAddress = ({ country = '', province = '', city = '', district = '' }) =>
   `${country === '中国' ? '' : country}${province}${city}${district}`;
 
-export const formatPrices = (prices) => {
-  const formattedPrice = _reduce(prices, (result, price) => ({
-    min: Math.min(result.min, price.value),
-    max: Math.max(result.max, price.value),
+export const formatPrices = (specs) => {
+  const formattedPrice = _reduce(specs, (result, spec) => ({
+    min: Math.min(result.min, spec.price),
+    max: Math.max(result.max, spec.price),
   }), { min: 999999999, max: 0 });
   const { min, max } = formattedPrice;
   return min === max ? `${min}元` : `${min} ~ ${max}元`;
 };
+
+export const formatPrice = (spec) => `${spec.price}元每${spec.unit}`;
 
 const miniSecsInHour = 3600 * 1000;
 const miniSecsInDay = miniSecsInHour * 24;

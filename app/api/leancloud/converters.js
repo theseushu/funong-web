@@ -118,5 +118,5 @@ export const cartItemToJSON = (cartItem) => {
   const avOwner = cartItem.get('owner');
   const owner = avOwner ? avOwner.toJSON() : null;
 
-  return { ...avSupply.toJSON(), owner, supplyProduct, shopProduct };
+  return { ...cartItem.toJSON(), owner, supplyProduct, shopProduct };
 };

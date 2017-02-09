@@ -1,34 +1,19 @@
 import React, { PropTypes } from 'react';
 import injectSheet from 'react-jss';
-import RaisingButton from '../raisingButton';
+import Button from 'react-mdl/lib/Button';
 
-const styles = {
-  style: {
-    display: 'flex',
-    justifyContent: 'space-around',
-    '>div': {
-      margin: '0 0.5em',
-    },
-    '@media (max-width: 768px)': {
-      width: '100%',
-    },
-  },
-};
-
-const Tabs = ({ index, switchTab, children, sheet: { classes } }) => {
+const Tabs = ({ index, switchTab, children, classes }) => {
   const activeChild = children[index];
   const buttons = children.map((child, i) => {
     const childIndex = child.props.index || i;
-    return <RaisingButton key={childIndex} label={child.props.label} icon={child.props.icon} active={childIndex === index} onClick={() => switchTab(childIndex)} />;
+    return <Button key={childIndex} colored={childIndex === index} onClick={() => switchTab(childIndex)}>{child.props.label}</Button>;
   });
   return (
-    <div>
-      <div className="row">
-        <div className={`col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-4 mt-5 ${classes.style}`}>
-          {buttons}
-        </div>
+    <div className={classes.wrapper}>
+      <div className={classes.tabs}>
+        {buttons}
       </div>
-      <div className="row mt-5">
+      <div>
         {activeChild}
       </div>
     </div>
@@ -38,8 +23,16 @@ const Tabs = ({ index, switchTab, children, sheet: { classes } }) => {
 Tabs.propTypes = {
   index: PropTypes.number.isRequired,
   switchTab: PropTypes.func,
-  sheet: PropTypes.object.isRequired,
-  children: PropTypes.any,
+  classes: PropTypes.object.isRequired,
+  children: PropTypes.array.isRequired,
 };
 
-export default injectSheet(styles)(Tabs);
+export default injectSheet({
+  wrapper: {
+    width: '100%',
+  },
+  tabs: {
+    display: 'flex',
+    justifyContent: 'space-around',
+  },
+})(Tabs);

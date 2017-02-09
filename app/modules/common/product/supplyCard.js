@@ -1,5 +1,4 @@
 import React, { PropTypes } from 'react';
-import _union from 'lodash/union';
 import injectSheet from 'react-jss';
 import Link from 'react-router/lib/Link';
 import Button from 'react-mdl/lib/Button';
@@ -7,13 +6,13 @@ import IconButton from 'react-mdl/lib/IconButton';
 import { formatPrices } from 'utils/displayUtils';
 import Card from '../cards/card';
 
-const formatPrice = (specs) => formatPrices(_union(...specs.map((spec) => spec.prices)));
+const formatPrice = (specs) => formatPrices(specs);
 
 const CardComponent = ({ product, sheet: { classes }, hideActions = true }) => {
-  const { images, name, desc, available } = product;
+  const { thumbnail, name, desc, available } = product;
   return (
     <Card
-      cardImage={images[0].thumbnail_300_300}
+      cardImage={thumbnail.thumbnail_300_300}
       link={`/supply/${product.objectId}`}
       titleAccent={formatPrice(product.specs)}
       title={<Link to={`/supply/${product.objectId}`} className={classes.title}>{name}</Link>}

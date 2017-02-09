@@ -6,11 +6,11 @@ import IconButton from 'react-mdl/lib/IconButton';
 import MediaLeftCard from '../cards/mediaLeftCard';
 
 const LogisticsCard = ({ product, className, hideActions = true }) => {
-  const { images, name, price, range, available } = product;
+  const { thumbnail, name, price, range, available } = product;
   return (
     <MediaLeftCard
       className={className}
-      thumbnail={(images && images.length > 0) ? <div style={{ backgroundImage: `url(${images[0].thumbnail_300_300})` }}></div> : <Icon name="local_shipping" />}
+      thumbnail={thumbnail ? <div style={{ backgroundImage: `url(${thumbnail.thumbnail_300_300})` }}></div> : <Icon name="local_shipping" />}
       title={name}
       subtitle="认证信息, 评价..."
       content={price}

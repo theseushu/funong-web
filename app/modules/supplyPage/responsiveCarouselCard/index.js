@@ -56,7 +56,7 @@ class ResponsiveCarouselCard extends Component {
             {specs[specIndex].params.map((param, i) => <span key={i} style={{ padding: '0 8' }}>{param}</span>)}
           </Cell>
           <Cell col={12} className={classes.priceLine}>
-            {specs[specIndex].prices.map((price, i) => <span key={i} style={{ padding: '0 8' }}>{`${price.minCount}${price.unit}以上 每${price.unit}${price.value}元`}</span>)}
+            <span style={{ padding: '0 8' }}>{`${specs[specIndex].minimum}${specs[specIndex].unit}以上 每${specs[specIndex].unit}${specs[specIndex].price}元`}</span>
           </Cell>
           <Cell col={6} tablet={4} phone={4} className={classes.small}>
             更新时间：{humanizeTime(131342432423)}
