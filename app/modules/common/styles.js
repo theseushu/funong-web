@@ -39,6 +39,16 @@ const staticClasses = {
   },
 };
 
+export const shadows = {
+  shadow2: 'mdl-shadow--2dp',
+  shadow3: 'mdl-shadow--3dp',
+  shadow4: 'mdl-shadow--4dp',
+  shadow5: 'mdl-shadow--5dp',
+  shadow6: 'mdl-shadow--6dp',
+  shadow7: 'mdl-shadow--7dp',
+  shadow8: 'mdl-shadow--8dp',
+};
+
 const styles = {
   contentCenter: {
     display: 'flex',

@@ -12,7 +12,13 @@ export const formatPrices = (specs) => {
   return min === max ? `${min}元` : `${min} ~ ${max}元`;
 };
 
-export const formatPrice = (spec) => `${spec.price}元每${spec.unit}`;
+export const formatPrice = (spec) => {
+  const result = `${spec.price}元每${spec.unit}`;
+  if (spec.minimum > 1) {
+    return `${result}，${spec.minimum}${spec.unit}起售`;
+  }
+  return result;
+}
 
 const miniSecsInHour = 3600 * 1000;
 const miniSecsInDay = miniSecsInHour * 24;

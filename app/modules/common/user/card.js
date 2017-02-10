@@ -3,7 +3,7 @@ import injectSheet from 'react-jss';
 import Link from 'react-router/lib/Link';
 import { Card, CardTitle, CardText, CardActions } from 'react-mdl/lib/Card';
 import Button from 'react-mdl/lib/Button';
-import Label from '../label';
+import LabelWithBorder from '../label/labelWithBorder';
 import { colors } from '../styles';
 
 const CardComponent = ({ user, sheet: { classes }, className }) => (
@@ -16,7 +16,7 @@ const CardComponent = ({ user, sheet: { classes }, className }) => (
         {user.name}
       </h6>
       <div>
-        <Label style={{ border: `solid 1px ${colors.colorLightGrey}`, color: 'inherit', background: 'transparent' }}>{user.type}</Label>
+        <LabelWithBorder>{user.type}</LabelWithBorder>
       </div>
     </CardTitle>
     <CardText>

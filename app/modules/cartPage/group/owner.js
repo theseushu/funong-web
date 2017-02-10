@@ -1,9 +1,13 @@
 import React, { PropTypes } from 'react';
 import injectSheet from 'react-jss';
+import Checkbox from 'react-mdl/lib/Checkbox';
 import Avatar from 'modules/common/avatar/avatar';
 
-const Owner = ({ user, classes }) => (
+const Owner = ({ user, classes, checked, onChange }) => (
   <div className={classes.owner}>
+    <div>
+      <Checkbox ripple checked={checked} onChange={onChange} />
+    </div>
     <div className={classes.avatar}>
       <Avatar user={user} />
     </div>
@@ -14,6 +18,8 @@ const Owner = ({ user, classes }) => (
 Owner.propTypes = {
   user: PropTypes.object.isRequired,
   classes: PropTypes.object.isRequired,
+  checked: PropTypes.bool.isRequired,
+  onChange: PropTypes.func.isRequired,
 };
 
 export default injectSheet({

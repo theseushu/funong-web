@@ -50,12 +50,11 @@ export default ({ AV, context: { token: { sessionToken }, profile } }) => {
     await AV.Object.destroyAll(cartItemIds.map((cartItemId) => AV.Object.createWithoutData('CartItem', cartItemId)));
     return cartItemIds;
   };
-
   const fetchCartItems = async () => {
     const query = new AV.Query('CartItem')
       .include([
-        'shop', 'shopProduct.thumbnail', 'shopProduct.owner', 'shopProduct.owner.avatar',
-        'supplyProduct', 'supplyProduct.thumbnail', 'supplyProduct.owner', 'supplyProduct.owner.avatar',
+        'shopProduct', 'shopProduct.images', 'shopProduct.category', 'shopProduct.catalog', 'shopProduct.species', 'shopProduct.thumbnail', 'shopProduct.owner', 'shopProduct.owner.avatar',
+        'supplyProduct', 'supplyProduct.images', 'supplyProduct.category', 'supplyProduct.category.catalog', 'supplyProduct.species', 'supplyProduct.thumbnail', 'supplyProduct.owner', 'supplyProduct.owner.avatar',
       ]);
     query.equalTo('owner', AV.Object.createWithoutData('Profile', profile.objectId));
     query

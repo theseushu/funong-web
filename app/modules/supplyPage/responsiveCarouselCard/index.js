@@ -9,6 +9,7 @@ import Radio from 'react-mdl/lib/Radio';
 import { Grid, Cell } from 'react-mdl/lib/Grid';
 import { colors } from 'modules/common/styles';
 import Label from 'modules/common/label';
+import LabelWithBorder from 'modules/common/label/labelWithBorder';
 import { humanizeTime, formatAddress, humanizeLnglat } from 'utils/displayUtils';
 import Carousel from './carousel';
 import AddToCartButton from './addToCartButton';
@@ -52,8 +53,8 @@ class ResponsiveCarouselCard extends Component {
               </RadioGroup>
             )}
           </Cell>
-          <Cell col={12}>
-            {specs[specIndex].params.map((param, i) => <span key={i} style={{ padding: '0 8' }}>{param}</span>)}
+          <Cell col={12} className={classes.specParams}>
+            {specs[specIndex].params.map((param, i) => <LabelWithBorder key={i}>{param}</LabelWithBorder>)}
           </Cell>
           <Cell col={12} className={classes.priceLine}>
             <span style={{ padding: '0 8' }}>{`${specs[specIndex].minimum}${specs[specIndex].unit}以上 每${specs[specIndex].unit}${specs[specIndex].price}元`}</span>
@@ -69,7 +70,7 @@ class ResponsiveCarouselCard extends Component {
         <CardActions className={classes.buttons}>
           <Button raised accent ripple>在线联系</Button>
           <Button raised accent ripple>立即购买</Button>
-          <AddToCartButton supplyProduct={this.props.product} quantity={1}>加入购物车</AddToCartButton>
+          <AddToCartButton supplyProduct={this.props.product} specIndex={specIndex} quantity={specs[specIndex].minimum}>加入购物车</AddToCartButton>
         </CardActions>
         <div className={classes.tabs}>
           <Tabs activeTab={0} onChange={(tabId) => this.setState({ tabIndex: tabId })} ripple>
@@ -116,6 +117,11 @@ export default injectSheet({
     display: 'flex',
     '& > div': {
       width: 'auto',
+    },
+  },
+  specParams: {
+    '& > span': {
+      margin: '0 8px',
     },
   },
   cardMedia: {

@@ -12,7 +12,7 @@ const addCartItemStateSelector = selectors.addItem;
 
 const ToastrLink = () => <Link to="/cart">去购物车</Link>;
 
-const AddToCartButton = ({ currentUser, pending, addCartItem, shopProduct, supplyProduct, quantity }) => (
+const AddToCartButton = ({ currentUser, pending, addCartItem, shopProduct, supplyProduct, specIndex, quantity }) => (
   <Button
     raised accent ripple disabled={pending}
     onClick={(e) => {
@@ -22,6 +22,7 @@ const AddToCartButton = ({ currentUser, pending, addCartItem, shopProduct, suppl
           shopProduct,
           supplyProduct,
           quantity,
+          specIndex,
           meta: {
             resolve: () => {
               const image = (shopProduct && shopProduct.thumbnail.thumbnail_80_80) || (supplyProduct && supplyProduct.thumbnail.thumbnail_80_80);
@@ -47,6 +48,7 @@ AddToCartButton.propTypes = {
   shopProduct: PropTypes.object,
   supplyProduct: PropTypes.object,
   quantity: PropTypes.number,
+  specIndex: PropTypes.number.isRequired,
 };
 
 export default connect(

@@ -6,6 +6,7 @@ import Textfield from 'react-mdl/lib/Textfield';
 import Button from 'react-mdl/lib/Button';
 import { Chip } from 'react-mdl/lib/Chip';
 import { units } from 'appConstants';
+import { isQuantityInvalid, isPriceInvalid } from 'utils/validationUtils';
 import Dialog from '../dialog';
 import styles from '../styles';
 
@@ -51,7 +52,7 @@ class SpecsDialog extends Component {
   onSubmit = () => {
     const { onSubmit } = this.props;
     const { name, params, price, unit, minimum } = this.state;
-    onSubmit({ name, params, price, unit, minimum });
+    onSubmit({ name, params, price: Number(price), unit, minimum: Number(minimum) });
   }
   addSpecParam = (e) => {
     e.preventDefault();
@@ -69,9 +70,9 @@ class SpecsDialog extends Component {
     const error = {
       name: name.trim() === '' && '必填',
       params: params.length === 0 && '必填',
-      price: !valueRegex.test(price) && '请使用正数，小数位两位。示例：100, 7.13, 0.99',
+      price: isPriceInvalid(price) || null,
       unit: unit.trim() === '' && '必填',
-      minimum: !minimumRegex.test(minimum) && '请使用正整数',
+      minimum: isQuantityInvalid(minimum) || null,
     };
     return (
       <Dialog
