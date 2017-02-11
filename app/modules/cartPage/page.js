@@ -4,16 +4,10 @@ import _union from 'lodash/union';
 import _without from 'lodash/without';
 import _find from 'lodash/find';
 import { connect } from 'react-redux';
-import Link from 'react-router/lib/Link';
-import Button from 'react-mdl/lib/Button';
-import Checkbox from 'react-mdl/lib/Checkbox';
 import { cartItemsSelector } from 'modules/data/ducks/selectors';
 import { isQuantityInvalid } from 'utils/validationUtils';
-import { colors } from 'modules/common/styles';
 import Header from './header';
 import Group from './group';
-import emptyCart from './assets/empty.png';
-import layout from './layout';
 
 class Page extends Component {
   static propTypes = {

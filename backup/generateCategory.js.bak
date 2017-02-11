@@ -1,0 +1,66 @@
+const rawCatalogs = require('./catalogs.json');
+const fs = require('fs');
+const find = require('lodash/find');
+
+const catalogs = {
+  整车: '589ef181128fe1002dab00a4',
+  生鲜: '589ef181128fe1002dab00a3',
+  '彩票、旅行、充值、票务': '589ef181128fe1002dab00a2',
+  玩具乐器: '589ef181128fe1002dab00a1',
+  运动健康: '589ef181128fe1002dab00a0',
+  汽车用品: '589ef181128fe1002dab009f',
+  珠宝: '589ef181128fe1002dab009e',
+  '食品饮料、保健食品': '589ef181128fe1002dab009d',
+  礼品箱包: '589ef181128fe1002dab009c',
+  母婴: '589ef181128fe1002dab009b',
+  鞋靴: '589ef181128fe1002dab009a',
+  钟表: '589ef181128fe1002dab0099',
+  服饰内衣: '589ef181128fe1002dab0098',
+  个护化妆: '589ef181128fe1002dab0097',
+  厨具: '589ef181128fe1002dab0096',
+  电脑办公: '589ef181128fe1002dab0095',
+  家居家装: '589ef181128fe1002dab0094',
+  数码: '589ef181128fe1002dab0093',
+  家用电器: '589ef181128fe1002dab0092',
+  手机: '589ef181128fe1002dab0091',
+  '图书、音像、电子书刊': '589ef181128fe1002dab0090',
+};
+const categories = [];
+
+rawCatalogs.forEach((rawCatalog) => {
+  const objectId = catalogs[rawCatalog.name];
+  rawCatalog.groups.forEach((group) => {
+    group.categories.forEach((category, i) => {
+      if (find(categories, (c) => c.name === 'category')) {
+        console.log(`${group} ${category}`);
+      }
+      categories.push({
+        group: group.name,
+        catalog: {
+          __type: 'Pointer',
+          className: 'Catalog',
+          objectId,
+        },
+        name: category,
+        ordinal: i + 1,
+      });
+    });
+  });
+});
+
+const set = new Set();
+categories.forEach((category) => {
+  const key = JSON.stringify({ name: category.name, group: category.group, objectId: category.catalog.objectId });
+  if (set.has(key)) {
+    console.log(name);
+  } else {
+    set.add(key);
+  }
+})
+fs.appendFile('./Catalog.json', JSON.stringify(categories), (err) => {
+  if (err) {
+    console.log(`fail ${err}`);
+  } else {
+    console.log('写入文件ok');
+  }
+});

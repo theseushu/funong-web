@@ -1,0 +1,1359 @@
+const parse5 = require('parse5');
+const find = require('lodash/find');
+const fs = require('fs');
+
+const document = parse5.parseFragment(`<div class="col">           
+
+<!--  /widget/cat-item/cat-item.vm -->
+<div class="category-item m" data-idx="11">
+    <div class="mt">
+        <h2 class="item-title">
+            <b></b>
+            <i></i><span>母婴</span>
+        </h2>
+    </div>
+
+    <div class="mc">
+        <div class="item-hot clearfix" clstag="secondtype|keycount|allfenlei|spfl_12">
+                        <a title="【京东超市】好奇 Huggies 铂金装 婴儿纸尿裤 电商箱装加大号尿不湿XL64片【12-16kg】" href="//item.jd.com/1103180.html" target="_blank"><img src="//img14.360buyimg.com/n3/jfs/t4051/121/1141536662/123654/2f438d61/586b00ffN956aa7e1.jpg" width="130" height="130" alt="【京东超市】好奇 Huggies 铂金装 婴儿纸尿裤 电商箱装加大号尿不湿XL64片【12-16kg】"></a>
+                        <a title="【京东超市】花王（Merries）婴儿纸尿裤/尿不湿 新生儿NB90片（0-5kg）（日本原装进口）" href="//item.jd.com/526825.html" target="_blank"><img src="//img14.360buyimg.com/n3/jfs/t3283/148/5167124364/141245/937371c3/5864b1ffN827882a9.jpg" width="130" height="130" alt="【京东超市】花王（Merries）婴儿纸尿裤/尿不湿 新生儿NB90片（0-5kg）（日本原装进口）"></a>
+                        <a title="日本花王(Merries)妙而舒纸尿裤 小号S82片(4-8kg) 原装进口 新老包装随机发货" href="//item.jd.com/1938008.html" target="_blank"><img src="//img14.360buyimg.com/n3/jfs/t3262/63/1105095702/423782/37c67cd5/57c64c18N2ed74d6e.jpg" width="130" height="130" alt="日本花王(Merries)妙而舒纸尿裤 小号S82片(4-8kg) 原装进口 新老包装随机发货"></a>
+                    </div>
+        <div class="item-info">热卖爆品</div>
+        <div class="items" clstag="secondtype|keycount|allfenlei|flmc_12">
+                                                <dl class="clearfix">
+                <dt><a href="//channel.jd.com/1319-1523.html" target="_blank">奶粉</a></dt>
+                <dd>
+                                    <a href="//list.jd.com/list.html?cat=1319,1523,7052" target="_blank">婴幼奶粉</a>
+                                    <a href="//list.jd.com/list.html?cat=1319,1523,7054" target="_blank">孕妈奶粉</a>
+                    
+                </dd>
+            </dl>
+                                                            <dl class="clearfix">
+                <dt><a href="//channel.jd.com/1319-1524.html" target="_blank">营养辅食</a></dt>
+                <dd>
+                                    <a href="//list.jd.com/list.html?cat=1319,1524,1537" target="_blank">益生菌/初乳</a>
+                                    <a href="//list.jd.com/list.html?cat=1319,1524,1533" target="_blank">米粉/菜粉</a>
+                                    <a href="//list.jd.com/list.html?cat=1319,1524,1534" target="_blank">果泥/果汁</a>
+                                    <a href="//list.jd.com/list.html?cat=1319,1524,7055" target="_blank">DHA</a>
+                                    <a href="//list.jd.com/list.html?cat=1319,1524,12191" target="_blank">宝宝零食</a>
+                                    <a href="//list.jd.com/list.html?cat=1319,1524,1538" target="_blank">钙铁锌/维生素</a>
+                                    <a href="//list.jd.com/list.html?cat=1319,1524,1539" target="_blank">清火/开胃</a>
+                                    <a href="//list.jd.com/list.html?cat=1319,1524,9399" target="_blank">面条/粥</a>
+                    
+                </dd>
+            </dl>
+                                                            <dl class="clearfix">
+                <dt><a href="//channel.jd.com/1319-1525.html" target="_blank">尿裤湿巾</a></dt>
+                <dd>
+                                    <a href="//list.jd.com/list.html?cat=1319,1525,7057" target="_blank">婴儿尿裤</a>
+                                    <a href="//list.jd.com/list.html?cat=1319,1525,1546" target="_blank">拉拉裤</a>
+                                    <a href="//list.jd.com/list.html?cat=1319,1525,1548" target="_blank">婴儿湿巾</a>
+                                    <a href="//list.jd.com/list.html?cat=1319,1525,7058" target="_blank">成人尿裤</a>
+                    
+                </dd>
+            </dl>
+                                                            <dl class="clearfix">
+                <dt><a href="//channel.jd.com/1319-1526.html" target="_blank">喂养用品</a></dt>
+                <dd>
+                                    <a href="//list.jd.com/list.html?cat=1319,1526,7060" target="_blank">奶瓶奶嘴</a>
+                                    <a href="//list.jd.com/list.html?cat=1319,1526,1550" target="_blank">吸奶器</a>
+                                    <a href="//list.jd.com/list.html?cat=1319,1526,1551" target="_blank">暖奶消毒</a>
+                                    <a href="//list.jd.com/list.html?cat=1319,1526,1552" target="_blank">儿童餐具</a>
+                                    <a href="//list.jd.com/list.html?cat=1319,1526,7061" target="_blank">水壶/水杯</a>
+                                    <a href="//list.jd.com/list.html?cat=1319,1526,1553" target="_blank">牙胶安抚</a>
+                                    <a href="//list.jd.com/list.html?cat=1319,1526,13286" target="_blank">围兜/防溅衣</a>
+                                    <a href="//list.jd.com/list.html?cat=1319,1526,12197" target="_blank">辅食料理机</a>
+                                    <a href="//list.jd.com/list.html?cat=1319,1526,13287" target="_blank">食物存储</a>
+                    
+                </dd>
+            </dl>
+                                                            <dl class="clearfix">
+                <dt><a href="//channel.jd.com/1319-1527.html" target="_blank">洗护用品</a></dt>
+                <dd>
+                                    <a href="//list.jd.com/list.html?cat=1319,1527,1556" target="_blank">宝宝护肤</a>
+                                    <a href="//list.jd.com/list.html?cat=1319,1527,1555" target="_blank">洗发沐浴</a>
+                                    <a href="//list.jd.com/list.html?cat=1319,1527,1558" target="_blank">奶瓶清洗</a>
+                                    <a href="//list.jd.com/list.html?cat=1319,1527,1560" target="_blank">驱蚊防晒</a>
+                                    <a href="//list.jd.com/list.html?cat=1319,1527,12341" target="_blank">理发器</a>
+                                    <a href="//list.jd.com/list.html?cat=1319,1527,13288" target="_blank">洗澡用具</a>
+                                    <a href="//list.jd.com/list.html?cat=1319,1527,13289" target="_blank">婴儿口腔清洁</a>
+                                    <a href="//list.jd.com/list.html?cat=1319,1527,1557" target="_blank">洗衣液/皂</a>
+                                    <a href="//list.jd.com/list.html?cat=1319,1527,1559" target="_blank">日常护理</a>
+                                    <a href="//list.jd.com/list.html?cat=1319,1527,1562" target="_blank">座便器</a>
+                    
+                </dd>
+            </dl>
+                                                            <dl class="clearfix">
+                <dt><a href="//channel.jd.com/1319-1528.html" target="_blank">童车童床</a></dt>
+                <dd>
+                                    <a href="//list.jd.com/list.html?cat=1319,1528,1563" target="_blank">婴儿推车</a>
+                                    <a href="//list.jd.com/list.html?cat=1319,1528,1565" target="_blank">餐椅摇椅</a>
+                                    <a href="//list.jd.com/list.html?cat=1319,1528,1564" target="_blank">婴儿床</a>
+                                    <a href="//list.jd.com/list.html?cat=1319,1528,1568" target="_blank">学步车</a>
+                                    <a href="//list.jd.com/list.html?cat=1319,1528,1569" target="_blank">三轮车</a>
+                                    <a href="//list.jd.com/list.html?cat=1319,1528,1566" target="_blank">自行车</a>
+                                    <a href="//list.jd.com/list.html?cat=1319,1528,1567" target="_blank">电动车</a>
+                                    <a href="//list.jd.com/list.html?cat=1319,1528,4702" target="_blank">扭扭车</a>
+                                    <a href="//list.jd.com/list.html?cat=1319,1528,12192" target="_blank">滑板车</a>
+                                    <a href="//list.jd.com/list.html?cat=1319,1528,13293" target="_blank">婴儿床垫</a>
+                    
+                </dd>
+            </dl>
+                                                            <dl class="clearfix">
+                <dt><a href="//channel.jd.com/1319-6313.html" target="_blank">寝居服饰</a></dt>
+                <dd>
+                                    <a href="//list.jd.com/list.html?cat=1319,6313,6314" target="_blank">婴儿外出服</a>
+                                    <a href="//list.jd.com/list.html?cat=1319,6313,11234" target="_blank">婴儿内衣</a>
+                                    <a href="//list.jd.com/list.html?cat=1319,6313,11235" target="_blank">婴儿礼盒</a>
+                                    <a href="//list.jd.com/list.html?cat=1319,6313,6315" target="_blank">婴儿鞋帽袜</a>
+                                    <a href="//list.jd.com/list.html?cat=1319,6313,6317" target="_blank">安全防护</a>
+                                    <a href="//list.jd.com/list.html?cat=1319,6313,6316" target="_blank">家居床品</a>
+                                    <a href="//list.jd.com/list.html?cat=1319,6313,13290" target="_blank">睡袋/抱被</a>
+                                    <a href="//list.jd.com/list.html?cat=1319,6313,13291" target="_blank">爬行垫</a>
+                    
+                </dd>
+            </dl>
+                                                            <dl class="clearfix">
+                <dt><a href="//channel.jd.com/1319-4997.html" target="_blank">妈妈专区</a></dt>
+                <dd>
+                                    <a href="//list.jd.com/list.html?cat=1319,4997,5002" target="_blank">妈咪包/背婴带</a>
+                                    <a href="//list.jd.com/list.html?cat=1319,4997,5001" target="_blank">产后塑身</a>
+                                    <a href="//list.jd.com/list.html?cat=1319,4997,7062" target="_blank">文胸/内裤</a>
+                                    <a href="//list.jd.com/list.html?cat=1319,4997,4999" target="_blank">防辐射服</a>
+                                    <a href="//list.jd.com/list.html?cat=1319,4997,4998" target="_blank">孕妈装</a>
+                                    <a href="//list.jd.com/list.html?cat=1319,4997,6319" target="_blank">孕期营养</a>
+                                    <a href="//list.jd.com/list.html?cat=1319,4997,5000" target="_blank">孕妇护肤</a>
+                                    <a href="//list.jd.com/list.html?cat=1319,4997,12198" target="_blank">待产护理</a>
+                                    <a href="//list.jd.com/list.html?cat=1319,4997,12199" target="_blank">月子装</a>
+                                    <a href="//list.jd.com/list.html?cat=1319,4997,13292" target="_blank">防溢乳垫</a>
+                    
+                </dd>
+            </dl>
+                                                            <dl class="clearfix">
+                <dt><a href="//channel.jd.com/1319-11842.html" target="_blank">童装童鞋</a></dt>
+                <dd>
+                                    <a href="//list.jd.com/list.html?cat=1319,11842,11222" target="_blank">套装</a>
+                                    <a href="//list.jd.com/list.html?cat=1319,11842,11223" target="_blank">上衣</a>
+                                    <a href="//list.jd.com/list.html?cat=1319,11842,11224" target="_blank">裤子</a>
+                                    <a href="//list.jd.com/list.html?cat=1319,11842,11225" target="_blank">裙子</a>
+                                    <a href="//list.jd.com/list.html?cat=1319,11842,11227" target="_blank">内衣/家居服</a>
+                                    <a href="//list.jd.com/list.html?cat=1319,11842,11226" target="_blank">羽绒服/棉服</a>
+                                    <a href="//list.jd.com/list.html?cat=1319,11842,4937" target="_blank">亲子装</a>
+                                    <a href="//list.jd.com/list.html?cat=1319,11842,3977" target="_blank">儿童配饰</a>
+                                    <a href="//list.jd.com/list.html?cat=1319,11842,11228" target="_blank">礼服/演出服</a>
+                                    <a href="//list.jd.com/list.html?cat=1319,11842,11229" target="_blank">运动鞋</a>
+                                    <a href="//list.jd.com/list.html?cat=1319,11842,11230" target="_blank">皮鞋/帆布鞋</a>
+                                    <a href="//list.jd.com/list.html?cat=1319,11842,11231" target="_blank">靴子</a>
+                                    <a href="//list.jd.com/list.html?cat=1319,11842,11232" target="_blank">凉鞋</a>
+                                    <a href="//list.jd.com/list.html?cat=1319,11842,11233" target="_blank">功能鞋</a>
+                                    <a href="//list.jd.com/list.html?cat=1319,11842,11843" target="_blank">户外/运动服</a>
+                    
+                </dd>
+            </dl>
+                                                            <dl class="clearfix">
+                <dt><a href="//channel.jd.com/1319-12193.html" target="_blank">安全座椅</a></dt>
+                <dd>
+                                    <a href="//list.jd.com/list.html?cat=1319,12193,12194" target="_blank">提篮式</a>
+                                    <a href="//list.jd.com/list.html?cat=1319,12193,12195" target="_blank">安全座椅</a>
+                                    <a href="//list.jd.com/list.html?cat=1319,12193,12196" target="_blank">增高垫</a>
+                    
+                </dd>
+            </dl>
+                                                                        
+        </div>
+    </div>
+</div>
+<!--/ /widget/cat-item/cat-item.vm -->
+
+<!--  /widget/cat-item/cat-item.vm -->
+<div class="category-item m" data-idx="12">
+    <div class="mt">
+        <h2 class="item-title">
+            <b></b>
+            <i></i><span>礼品箱包</span>
+        </h2>
+    </div>
+
+    <div class="mc">
+        <div class="item-hot clearfix" clstag="secondtype|keycount|allfenlei|spfl_13">
+                        <a title="京东E卡经典卡1000面值（电子卡）" href="//item.jd.com/1107842.html" target="_blank"><img src="//img12.360buyimg.com/n3/jfs/t3748/40/242378632/77060/b0fe948c/58047e46N7f2e9366.jpg" width="130" height="130" alt="京东E卡经典卡1000面值（电子卡）"></a>
+                        <a title="京东E卡鸡年贺岁卡5000面值（实体卡）" href="//item.jd.com/3675735.html" target="_blank"><img src="//img10.360buyimg.com/n3/jfs/t3238/110/4223264411/154088/dc2942ce/583bca8fN13e5771f.jpg" width="130" height="130" alt="京东E卡鸡年贺岁卡5000面值（实体卡）"></a>
+                        <a title="京东E卡经典卡1000面值（实体卡）" href="//item.jd.com/1107849.html" target="_blank"><img src="//img14.360buyimg.com/n3/jfs/t2263/258/1988003655/111809/82c7ed82/568b3113Nb135bade.jpg" width="130" height="130" alt="京东E卡经典卡1000面值（实体卡）"></a>
+                    </div>
+        <div class="item-info">热卖爆品</div>
+        <div class="items" clstag="secondtype|keycount|allfenlei|flmc_13">
+                                    <dl class="clearfix">
+                <dt><a href="//channel.jd.com/1672-2575.html" target="_blank">潮流女包</a></dt>
+                <dd>
+                                        <a href="//list.jd.com/list.html?cat=1672,2575,2580" target="_blank">钱包</a>
+                                        <a href="//list.jd.com/list.html?cat=1672,2575,5256" target="_blank">手拿包</a>
+                                        <a href="//list.jd.com/list.html?cat=1672,2575,5257" target="_blank">单肩包</a>
+                                        <a href="//list.jd.com/list.html?cat=1672,2575,5258" target="_blank">双肩包</a>
+                                        <a href="//list.jd.com/list.html?cat=1672,2575,5259" target="_blank">手提包</a>
+                                        <a href="//list.jd.com/list.html?cat=1672,2575,5260" target="_blank">斜挎包</a>
+                                        <a href="//list.jd.com/list.html?cat=1672,2575,12069" target="_blank">钥匙包</a>
+                                        <a href="//list.jd.com/list.html?cat=1672,2575,12070" target="_blank">卡包/零钱包</a>
+                                    </dd>
+            </dl>
+                                    <dl class="clearfix">
+                <dt><a href="//channel.jd.com/1672-2576.html" target="_blank">精品男包</a></dt>
+                <dd>
+                                        <a href="//list.jd.com/list.html?cat=1672,2576,2584" target="_blank">男士钱包</a>
+                                        <a href="//list.jd.com/list.html?cat=1672,2576,5262" target="_blank">男士手包</a>
+                                        <a href="//list.jd.com/list.html?cat=1672,2576,13542" target="_blank">卡包名片夹</a>
+                                        <a href="//list.jd.com/list.html?cat=1672,2576,1455" target="_blank">商务公文包</a>
+                                        <a href="//list.jd.com/list.html?cat=1672,2576,12071" target="_blank">双肩包</a>
+                                        <a href="//list.jd.com/list.html?cat=1672,2576,12072" target="_blank">单肩/斜挎包</a>
+                                        <a href="//list.jd.com/list.html?cat=1672,2576,12073" target="_blank">钥匙包</a>
+                                    </dd>
+            </dl>
+                                    <dl class="clearfix">
+                <dt><a href="//channel.jd.com/1672-2577.html" target="_blank">功能箱包</a></dt>
+                <dd>
+                                        <a href="//list.jd.com/list.html?cat=1672,2577,3997" target="_blank">电脑包</a>
+                                        <a href="//list.jd.com/list.html?cat=1672,2577,2589" target="_blank">拉杆箱</a>
+                                        <a href="//list.jd.com/list.html?cat=1672,2577,2588" target="_blank">旅行包</a>
+                                        <a href="//list.jd.com/list.html?cat=1672,2577,4000" target="_blank">旅行配件</a>
+                                        <a href="//list.jd.com/list.html?cat=1672,2577,3998" target="_blank">休闲运动包</a>
+                                        <a href="//list.jd.com/list.html?cat=1672,2577,13543" target="_blank">拉杆包</a>
+                                        <a href="//list.jd.com/list.html?cat=1672,2577,2587" target="_blank">登山包</a>
+                                        <a href="//list.jd.com/list.html?cat=1672,2577,5271" target="_blank">妈咪包</a>
+                                        <a href="//list.jd.com/list.html?cat=1672,2577,5265" target="_blank">书包</a>
+                                        <a href="//list.jd.com/list.html?cat=1672,2577,12074" target="_blank">相机包</a>
+                                        <a href="//list.jd.com/list.html?cat=1672,2577,12076" target="_blank">腰包/胸包</a>
+                                    </dd>
+            </dl>
+                                    <dl class="clearfix">
+                <dt><a href="//channel.jd.com/1672-2599.html" target="_blank">礼品</a></dt>
+                <dd>
+                                        <a href="//list.jd.com/list.html?cat=1672,2599,1440" target="_blank">火机烟具</a>
+                                        <a href="//list.jd.com/list.html?cat=1672,2599,1442" target="_blank">礼品文具</a>
+                                        <a href="//list.jd.com/list.html?cat=1672,2599,1443" target="_blank">军刀军具</a>
+                                        <a href="//list.jd.com/list.html?cat=1672,2599,1444" target="_blank">收藏品</a>
+                                        <a href="//list.jd.com/list.html?cat=1672,2599,1445" target="_blank">工艺礼品</a>
+                                        <a href="//list.jd.com/list.html?cat=1672,2599,5266" target="_blank">创意礼品</a>
+                                        <a href="//list.jd.com/list.html?cat=1672,2599,1446" target="_blank">礼盒礼券</a>
+                                        <a href="//list.jd.com/list.html?cat=1672,2599,4698" target="_blank">鲜花绿植</a>
+                                        <a href="//list.jd.com/list.html?cat=1672,2599,4942" target="_blank">婚庆节庆</a>
+                                        <a href="//list.jd.com/list.html?cat=1672,2599,6980" target="_blank">京东卡</a>
+                                        <a href="//list.jd.com/list.html?cat=1672,2599,12078" target="_blank">美妆礼品</a>
+                                        <a href="//list.jd.com/list.html?cat=1672,2599,12079" target="_blank">礼品定制</a>
+                                        <a href="//list.jd.com/list.html?cat=1672,2599,13104" target="_blank">京东福卡</a>
+                                        <a href="//list.jd.com/list.html?cat=1672,2599,12080" target="_blank">古董文玩</a>
+                                    </dd>
+            </dl>
+                                    <dl class="clearfix">
+                <dt><a href="//channel.jd.com/1672-2615.html" target="_blank">奢侈品</a></dt>
+                <dd>
+                                        <a href="//list.jd.com/list.html?cat=1672,2615,9186" target="_blank">箱包</a>
+                                        <a href="//list.jd.com/list.html?cat=1672,2615,9187" target="_blank">钱包</a>
+                                        <a href="//list.jd.com/list.html?cat=1672,2615,9188" target="_blank">服饰</a>
+                                        <a href="//list.jd.com/list.html?cat=1672,2615,9189" target="_blank">腰带</a>
+                                        <a href="//list.jd.com/list.html?cat=1672,2615,9190" target="_blank">太阳镜/眼镜框</a>
+                                        <a href="//list.jd.com/list.html?cat=1672,2615,9191" target="_blank">配件</a>
+                                        <a href="//list.jd.com/list.html?cat=1672,2615,11934" target="_blank">鞋靴</a>
+                                        <a href="//list.jd.com/list.html?cat=1672,2615,11935" target="_blank">饰品</a>
+                                        <a href="//list.jd.com/list.html?cat=1672,2615,11936" target="_blank">名品腕表</a>
+                                        <a href="//list.jd.com/list.html?cat=1672,2615,11937" target="_blank">高档化妆品</a>
+                                    </dd>
+            </dl>
+                                    <dl class="clearfix">
+                <dt><a href="//channel.jd.com/1672-12059.html" target="_blank">婚庆</a></dt>
+                <dd>
+                                        <a href="//list.jd.com/list.html?cat=1672,12059,7066" target="_blank">婚嫁首饰</a>
+                                        <a href="//list.jd.com/list.html?cat=1672,12059,7067" target="_blank">婚纱摄影</a>
+                                        <a href="//list.jd.com/list.html?cat=1672,12059,7068" target="_blank">婚纱礼服</a>
+                                        <a href="//list.jd.com/list.html?cat=1672,12059,7069" target="_blank">婚庆服务</a>
+                                        <a href="//list.jd.com/list.html?cat=1672,12059,7070" target="_blank">婚庆礼品/用品</a>
+                                        <a href="//list.jd.com/list.html?cat=1672,12059,7071" target="_blank">婚宴</a>
+                                    </dd>
+            </dl>
+                    </div>
+    </div>
+</div>
+<!--/ /widget/cat-item/cat-item.vm -->
+                        
+<!--  /widget/cat-item/cat-item.vm -->
+<div class="category-item m" data-idx="13">
+    <div class="mt">
+        <h2 class="item-title">
+            <b></b>
+            <i></i><span>食品饮料、保健食品</span>
+        </h2>
+    </div>
+
+    <div class="mc">
+        <div class="item-hot clearfix" clstag="secondtype|keycount|allfenlei|spfl_14">
+                        <a title="【京东超市】福临门 稻花香 五常大米 中粮出品 大米 5KG" href="//item.jd.com/418655.html" target="_blank"><img src="//img13.360buyimg.com/n3/jfs/t3277/104/6141437707/90356/48988226/589d4784N5a2d5166.jpg" width="130" height="130" alt="【京东超市】福临门 稻花香 五常大米 中粮出品 大米 5KG"></a>
+                        <a title="【京东超市】农夫山泉 饮用天然水380ml 1*24瓶 整箱" href="//item.jd.com/848849.html" target="_blank"><img src="//img13.360buyimg.com/n3/jfs/t2719/112/457778468/278519/13108de/5715863cNd84afe54.jpg" width="130" height="130" alt="【京东超市】农夫山泉 饮用天然水380ml 1*24瓶 整箱"></a>
+                        <a title="【京东超市】三只松鼠 坚果特产 休闲零食 琥珀核桃仁165g/袋" href="//item.jd.com/2517918.html" target="_blank"><img src="//img12.360buyimg.com/n3/jfs/t2188/273/2802576207/402803/3c932b2a/56ed0834N78a8eabb.jpg" width="130" height="130" alt="【京东超市】三只松鼠 坚果特产 休闲零食 琥珀核桃仁165g/袋"></a>
+                    </div>
+        <div class="item-info">热卖爆品</div>
+        <div class="items" clstag="secondtype|keycount|allfenlei|flmc_14">
+                                    <dl class="clearfix">
+                <dt><a href="//channel.jd.com/1320-5019.html" target="_blank">进口食品</a></dt>
+                <dd>
+                                    <a href="//list.jd.com/list.html?cat=1320,5019,5020" target="_blank">饼干蛋糕</a>
+                                    <a href="//list.jd.com/list.html?cat=1320,5019,5021" target="_blank">糖果/巧克力</a>
+                                    <a href="//list.jd.com/list.html?cat=1320,5019,5022" target="_blank">休闲零食</a>
+                                    <a href="//list.jd.com/list.html?cat=1320,5019,5023" target="_blank">冲调饮品</a>
+                                    <a href="//list.jd.com/list.html?cat=1320,5019,5024" target="_blank">粮油调味</a>
+                                    <a href="//list.jd.com/list.html?cat=1320,5019,12215" target="_blank">牛奶</a>
+                    
+                </dd>
+            </dl>
+                                    <dl class="clearfix">
+                <dt><a href="//channel.jd.com/1320-1581.html" target="_blank">地方特产</a></dt>
+                <dd>
+                                    <a href="//list.jd.com/list.html?cat=1320,1581,12217" target="_blank">其他特产</a>
+                                    <a href="//list.jd.com/list.html?cat=1320,1581,1589" target="_blank">新疆</a>
+                                    <a href="//list.jd.com/list.html?cat=1320,1581,2644" target="_blank">北京</a>
+                                    <a href="//list.jd.com/list.html?cat=1320,1581,2647" target="_blank">山西</a>
+                                    <a href="//list.jd.com/list.html?cat=1320,1581,2648" target="_blank">内蒙古</a>
+                                    <a href="//list.jd.com/list.html?cat=1320,1581,2653" target="_blank">福建</a>
+                                    <a href="//list.jd.com/list.html?cat=1320,1581,2656" target="_blank">湖南</a>
+                                    <a href="//list.jd.com/list.html?cat=1320,1581,2669" target="_blank">四川</a>
+                                    <a href="//list.jd.com/list.html?cat=1320,1581,2670" target="_blank">云南</a>
+                                    <a href="//list.jd.com/list.html?cat=1320,1581,4693" target="_blank">东北</a>
+                    
+                </dd>
+            </dl>
+                                    <dl class="clearfix">
+                <dt><a href="//channel.jd.com/1320-1583.html" target="_blank">休闲食品</a></dt>
+                <dd>
+                                    <a href="//list.jd.com/list.html?cat=1320,1583,1590" target="_blank">休闲零食</a>
+                                    <a href="//list.jd.com/list.html?cat=1320,1583,1591" target="_blank">坚果炒货</a>
+                                    <a href="//list.jd.com/list.html?cat=1320,1583,1592" target="_blank">肉干肉脯</a>
+                                    <a href="//list.jd.com/list.html?cat=1320,1583,1593" target="_blank">蜜饯果干</a>
+                                    <a href="//list.jd.com/list.html?cat=1320,1583,1594" target="_blank">糖果/巧克力</a>
+                                    <a href="//list.jd.com/list.html?cat=1320,1583,1595" target="_blank">饼干蛋糕</a>
+                                    <a href="//list.jd.com/list.html?cat=1320,1583,7121" target="_blank">无糖食品</a>
+                    
+                </dd>
+            </dl>
+                                    <dl class="clearfix">
+                <dt><a href="//channel.jd.com/1320-1584.html" target="_blank">粮油调味</a></dt>
+                <dd>
+                                    <a href="//list.jd.com/list.html?cat=1320,1584,2675" target="_blank">米面杂粮</a>
+                                    <a href="//list.jd.com/list.html?cat=1320,1584,2676" target="_blank">食用油</a>
+                                    <a href="//list.jd.com/list.html?cat=1320,1584,2677" target="_blank">调味品</a>
+                                    <a href="//list.jd.com/list.html?cat=1320,1584,2678" target="_blank">南北干货</a>
+                                    <a href="//list.jd.com/list.html?cat=1320,1584,2679" target="_blank">方便食品</a>
+                                    <a href="//list.jd.com/list.html?cat=1320,1584,2680" target="_blank">有机食品</a>
+                    
+                </dd>
+            </dl>
+                                    <dl class="clearfix">
+                <dt><a href="//channel.jd.com/1320-1585.html" target="_blank">饮料冲调</a></dt>
+                <dd>
+                                    <a href="//list.jd.com/list.html?cat=1320,1585,10975" target="_blank">饮用水</a>
+                                    <a href="//list.jd.com/list.html?cat=1320,1585,1602" target="_blank">饮料</a>
+                                    <a href="//list.jd.com/list.html?cat=1320,1585,9434" target="_blank">牛奶乳品</a>
+                                    <a href="//list.jd.com/list.html?cat=1320,1585,3986" target="_blank">咖啡/奶茶</a>
+                                    <a href="//list.jd.com/list.html?cat=1320,1585,1601" target="_blank">冲饮谷物</a>
+                                    <a href="//list.jd.com/list.html?cat=1320,1585,12200" target="_blank">蜂蜜/柚子茶</a>
+                                    <a href="//list.jd.com/list.html?cat=1320,1585,12201" target="_blank">成人奶粉</a>
+                    
+                </dd>
+            </dl>
+                                    <dl class="clearfix">
+                <dt><a href="//channel.jd.com/1320-2641.html" target="_blank">食品礼券</a></dt>
+                <dd>
+                                    <a href="//list.jd.com/list.html?cat=1320,2641,2642" target="_blank">月饼</a>
+                                    <a href="//list.jd.com/list.html?cat=1320,2641,2643" target="_blank">大闸蟹</a>
+                                    <a href="//list.jd.com/list.html?cat=1320,2641,4935" target="_blank">粽子</a>
+                                    <a href="//list.jd.com/list.html?cat=1320,2641,12216" target="_blank">卡券</a>
+                    
+                </dd>
+            </dl>
+                                    <dl class="clearfix">
+                <dt><a href="//channel.jd.com/1320-12202.html" target="_blank">茗茶</a></dt>
+                <dd>
+                                    <a href="//list.jd.com/list.html?cat=1320,12202,12203" target="_blank">铁观音</a>
+                                    <a href="//list.jd.com/list.html?cat=1320,12202,12204" target="_blank">普洱</a>
+                                    <a href="//list.jd.com/list.html?cat=1320,12202,12205" target="_blank">龙井</a>
+                                    <a href="//list.jd.com/list.html?cat=1320,12202,12206" target="_blank">绿茶</a>
+                                    <a href="//list.jd.com/list.html?cat=1320,12202,12207" target="_blank">红茶</a>
+                                    <a href="//list.jd.com/list.html?cat=1320,12202,12208" target="_blank">乌龙茶</a>
+                                    <a href="//list.jd.com/list.html?cat=1320,12202,12209" target="_blank">花草茶</a>
+                                    <a href="//list.jd.com/list.html?cat=1320,12202,12210" target="_blank">花果茶</a>
+                                    <a href="//list.jd.com/list.html?cat=1320,12202,12211" target="_blank">养生茶</a>
+                                    <a href="//list.jd.com/list.html?cat=1320,12202,12212" target="_blank">黑茶</a>
+                                    <a href="//list.jd.com/list.html?cat=1320,12202,12213" target="_blank">白茶</a>
+                                    <a href="//list.jd.com/list.html?cat=1320,12202,12214" target="_blank">其它茶</a>
+                    
+                </dd>
+            </dl>
+                        
+        </div>
+    </div>
+</div>
+<!--/ /widget/cat-item/cat-item.vm -->
+                     
+<!--  /widget/cat-item/cat-item.vm -->
+  
+<div class="category-item m" data-idx="14">
+    <div class="mt">
+        <h2 class="item-title">
+            <b></b>
+            <i></i><span>珠宝</span>
+        </h2>
+    </div>
+    <div class="mc">
+        <div class="item-hot clearfix" clstag="secondtype|keycount|allfenlei|spfl_15">
+                        <a title="FateLove时尚饰品 中国风本命年红绳编织手链 小孩平安年轻情侣手链 简约爱心礼物 红绳" href="//item.jd.com/1638829373.html" target="_blank"><img src="//img13.360buyimg.com/n3/jfs/t1690/63/559619888/131383/b6aa7977/55a865d6N5ee7ef09.jpg" width="130" height="130" alt="FateLove时尚饰品 中国风本命年红绳编织手链 小孩平安年轻情侣手链 简约爱心礼物 红绳"></a>
+                        <a title="FateLove时尚饰品 神奇魔豆创意盆栽 相思豆种出来的浪漫 单独买10个装包 一颗魔豆" href="//item.jd.com/1638835313.html" target="_blank"><img src="//img13.360buyimg.com/n3/jfs/t3220/94/5622144497/75420/fed0b348/58805b96N83a60d1d.jpg" width="130" height="130" alt="FateLove时尚饰品 神奇魔豆创意盆栽 相思豆种出来的浪漫 单独买10个装包 一颗魔豆"></a>
+                        <a title="【京东配送 送证书】卡蒂罗925银项链女镶施华洛世奇锆银饰品四叶草吊坠情侣锁骨链情人节礼物" href="//item.jd.com/1647350525.html" target="_blank"><img src="//img13.360buyimg.com/n3/jfs/t3202/1/1620327416/470928/84ab7ea2/57d0ddecNa365a4c0.jpg" width="130" height="130" alt="【京东配送 送证书】卡蒂罗925银项链女镶施华洛世奇锆银饰品四叶草吊坠情侣锁骨链情人节礼物"></a>
+                    </div>
+        <div class="item-info">热卖爆品</div>
+        <div class="items" clstag="secondtype|keycount|allfenlei|flmc_15">
+                                    <dl class="clearfix">
+                <dt><a href="//channel.jd.com/6144-6182.html" target="_blank">时尚饰品</a></dt>
+                <dd>
+                                        <a href="//list.jd.com/list.html?cat=6144,6182,6188" target="_blank">项链</a>
+                                        <a href="//list.jd.com/list.html?cat=6144,6182,6189" target="_blank">手链/脚链</a>
+                                        <a href="//list.jd.com/list.html?cat=6144,6182,6190" target="_blank">戒指</a>
+                                        <a href="//list.jd.com/list.html?cat=6144,6182,6191" target="_blank">耳饰</a>
+                                        <a href="//list.jd.com/list.html?cat=6144,6182,13069" target="_blank">毛衣链</a>
+                                        <a href="//list.jd.com/list.html?cat=6144,6182,6192" target="_blank">发饰/发卡</a>
+                                        <a href="//list.jd.com/list.html?cat=6144,6182,6193" target="_blank">胸针</a>
+                                        <a href="//list.jd.com/list.html?cat=6144,6182,6195" target="_blank">饰品配件</a>
+                                        <a href="//list.jd.com/list.html?cat=6144,6182,6194" target="_blank">婚庆饰品</a>
+                                    </dd>
+            </dl>
+                                    <dl class="clearfix">
+                <dt><a href="//channel.jd.com/6144-6145.html" target="_blank">黄金</a></dt>
+                <dd>
+                                        <a href="//list.jd.com/list.html?cat=6144,6145,6147" target="_blank">黄金吊坠</a>
+                                        <a href="//list.jd.com/list.html?cat=6144,6145,13101" target="_blank">黄金项链</a>
+                                        <a href="//list.jd.com/list.html?cat=6144,6145,13065" target="_blank">黄金转运珠</a>
+                                        <a href="//list.jd.com/list.html?cat=6144,6145,6148" target="_blank">黄金手镯/手链/脚链</a>
+                                        <a href="//list.jd.com/list.html?cat=6144,6145,6150" target="_blank">黄金耳饰</a>
+                                        <a href="//list.jd.com/list.html?cat=6144,6145,6149" target="_blank">黄金戒指</a>
+                                    </dd>
+            </dl>
+                                    <dl class="clearfix">
+                <dt><a href="//channel.jd.com/6144-13062.html" target="_blank">K金饰品</a></dt>
+                <dd>
+                                        <a href="//list.jd.com/list.html?cat=6144,13062,13063" target="_blank">K金吊坠</a>
+                                        <a href="//list.jd.com/list.html?cat=6144,13062,13064" target="_blank">K金项链</a>
+                                        <a href="//list.jd.com/list.html?cat=6144,13062,13066" target="_blank">K金手镯/手链/脚链</a>
+                                        <a href="//list.jd.com/list.html?cat=6144,13062,13067" target="_blank">K金戒指</a>
+                                        <a href="//list.jd.com/list.html?cat=6144,13062,13068" target="_blank">K金耳饰</a>
+                                    </dd>
+            </dl>
+                                    <dl class="clearfix">
+                <dt><a href="//channel.jd.com/6144-6146.html" target="_blank">金银投资</a></dt>
+                <dd>
+                                        <a href="//list.jd.com/list.html?cat=6144,6146,6151" target="_blank">投资金</a>
+                                        <a href="//list.jd.com/list.html?cat=6144,6146,6152" target="_blank">投资银</a>
+                                        <a href="//list.jd.com/list.html?cat=6144,6146,13531" target="_blank">投资收藏</a>
+                                    </dd>
+            </dl>
+                                    <dl class="clearfix">
+                <dt><a href="//channel.jd.com/6144-6155.html" target="_blank">银饰</a></dt>
+                <dd>
+                                        <a href="//list.jd.com/list.html?cat=6144,6155,6156" target="_blank">银吊坠/项链</a>
+                                        <a href="//list.jd.com/list.html?cat=6144,6155,6157" target="_blank">银手镯/手链/脚链</a>
+                                        <a href="//list.jd.com/list.html?cat=6144,6155,6158" target="_blank">银戒指</a>
+                                        <a href="//list.jd.com/list.html?cat=6144,6155,13070" target="_blank">银耳饰</a>
+                                        <a href="//list.jd.com/list.html?cat=6144,6155,11238" target="_blank">足银手镯</a>
+                                        <a href="//list.jd.com/list.html?cat=6144,6155,6159" target="_blank">宝宝银饰</a>
+                                    </dd>
+            </dl>
+                                    <dl class="clearfix">
+                <dt><a href="//channel.jd.com/6144-6160.html" target="_blank">钻石</a></dt>
+                <dd>
+                                        <a href="//list.jd.com/list.html?cat=6144,6160,6161" target="_blank">裸钻</a>
+                                        <a href="//list.jd.com/list.html?cat=6144,6160,6162" target="_blank">钻戒</a>
+                                        <a href="//list.jd.com/list.html?cat=6144,6160,6163" target="_blank">钻石项链/吊坠</a>
+                                        <a href="//list.jd.com/list.html?cat=6144,6160,6164" target="_blank">钻石耳饰</a>
+                                        <a href="//list.jd.com/list.html?cat=6144,6160,6165" target="_blank">钻石手镯/手链</a>
+                                    </dd>
+            </dl>
+                                    <dl class="clearfix">
+                <dt><a href="//channel.jd.com/6144-6167.html" target="_blank">翡翠玉石</a></dt>
+                <dd>
+                                        <a href="//list.jd.com/list.html?cat=6144,6167,6168" target="_blank">项链/吊坠</a>
+                                        <a href="//list.jd.com/list.html?cat=6144,6167,6169" target="_blank">手镯/手串</a>
+                                        <a href="//list.jd.com/list.html?cat=6144,6167,6170" target="_blank">戒指</a>
+                                        <a href="//list.jd.com/list.html?cat=6144,6167,6173" target="_blank">耳饰</a>
+                                        <a href="//list.jd.com/list.html?cat=6144,6167,6175" target="_blank">挂件/摆件/把件</a>
+                                        <a href="//list.jd.com/list.html?cat=6144,6167,6177" target="_blank">玉石孤品</a>
+                                    </dd>
+            </dl>
+                                    <dl class="clearfix">
+                <dt><a href="//channel.jd.com/6144-6172.html" target="_blank">水晶玛瑙</a></dt>
+                <dd>
+                                        <a href="//list.jd.com/list.html?cat=6144,6172,6176" target="_blank">项链/吊坠</a>
+                                        <a href="//list.jd.com/list.html?cat=6144,6172,6178" target="_blank">耳饰</a>
+                                        <a href="//list.jd.com/list.html?cat=6144,6172,6180" target="_blank">手镯/手链/脚链</a>
+                                        <a href="//list.jd.com/list.html?cat=6144,6172,6183" target="_blank">戒指</a>
+                                        <a href="//list.jd.com/list.html?cat=6144,6172,6185" target="_blank">头饰/胸针</a>
+                                        <a href="//list.jd.com/list.html?cat=6144,6172,6187" target="_blank">摆件/挂件</a>
+                                    </dd>
+            </dl>
+                                    <dl class="clearfix">
+                <dt><a href="//channel.jd.com/6144-6174.html" target="_blank">彩宝</a></dt>
+                <dd>
+                                        <a href="//list.jd.com/list.html?cat=6144,6174,13071" target="_blank">琥珀/蜜蜡</a>
+                                        <a href="//list.jd.com/list.html?cat=6144,6174,13072" target="_blank">碧玺</a>
+                                        <a href="//list.jd.com/list.html?cat=6144,6174,13073" target="_blank">红宝石/蓝宝石</a>
+                                        <a href="//list.jd.com/list.html?cat=6144,6174,13074" target="_blank">坦桑石</a>
+                                        <a href="//list.jd.com/list.html?cat=6144,6174,13075" target="_blank">珊瑚</a>
+                                        <a href="//list.jd.com/list.html?cat=6144,6174,13076" target="_blank">祖母绿</a>
+                                        <a href="//list.jd.com/list.html?cat=6144,6174,13078" target="_blank">葡萄石</a>
+                                        <a href="//list.jd.com/list.html?cat=6144,6174,13077" target="_blank">其他天然宝石</a>
+                                        <a href="//list.jd.com/list.html?cat=6144,6174,6179" target="_blank">项链/吊坠</a>
+                                        <a href="//list.jd.com/list.html?cat=6144,6174,6181" target="_blank">耳饰</a>
+                                        <a href="//list.jd.com/list.html?cat=6144,6174,6184" target="_blank">手镯/手链</a>
+                                        <a href="//list.jd.com/list.html?cat=6144,6174,6186" target="_blank">戒指</a>
+                                    </dd>
+            </dl>
+                                    <dl class="clearfix">
+                <dt><a href="//channel.jd.com/6144-12040.html" target="_blank">铂金</a></dt>
+                <dd>
+                                        <a href="//list.jd.com/list.html?cat=6144,12040,12043" target="_blank">铂金项链/吊坠</a>
+                                        <a href="//list.jd.com/list.html?cat=6144,12040,12044" target="_blank">铂金手镯/手链/脚链</a>
+                                        <a href="//list.jd.com/list.html?cat=6144,12040,12045" target="_blank">铂金戒指</a>
+                                        <a href="//list.jd.com/list.html?cat=6144,12040,12046" target="_blank">铂金耳饰</a>
+                                    </dd>
+            </dl>
+                                    <dl class="clearfix">
+                <dt><a href="//channel.jd.com/6144-12041.html" target="_blank">木手串/把件</a></dt>
+                <dd>
+                                        <a href="//list.jd.com/list.html?cat=6144,12041,12047" target="_blank">小叶紫檀</a>
+                                        <a href="//list.jd.com/list.html?cat=6144,12041,12048" target="_blank">黄花梨</a>
+                                        <a href="//list.jd.com/list.html?cat=6144,12041,12049" target="_blank">沉香木</a>
+                                        <a href="//list.jd.com/list.html?cat=6144,12041,12050" target="_blank">金丝楠</a>
+                                        <a href="//list.jd.com/list.html?cat=6144,12041,12051" target="_blank">菩提</a>
+                                        <a href="//list.jd.com/list.html?cat=6144,12041,12052" target="_blank">其他</a>
+                                        <a href="//list.jd.com/list.html?cat=6144,12041,13080" target="_blank">橄榄核/核桃</a>
+                                        <a href="//list.jd.com/list.html?cat=6144,12041,13081" target="_blank">檀香</a>
+                                    </dd>
+            </dl>
+                                    <dl class="clearfix">
+                <dt><a href="//channel.jd.com/6144-12042.html" target="_blank">珍珠</a></dt>
+                <dd>
+                                        <a href="//list.jd.com/list.html?cat=6144,12042,12053" target="_blank">珍珠项链</a>
+                                        <a href="//list.jd.com/list.html?cat=6144,12042,12054" target="_blank">珍珠吊坠</a>
+                                        <a href="//list.jd.com/list.html?cat=6144,12042,12055" target="_blank">珍珠耳饰</a>
+                                        <a href="//list.jd.com/list.html?cat=6144,12042,12056" target="_blank">珍珠手链</a>
+                                        <a href="//list.jd.com/list.html?cat=6144,12042,12057" target="_blank">珍珠戒指</a>
+                                        <a href="//list.jd.com/list.html?cat=6144,12042,12058" target="_blank">珍珠胸针</a>
+                                    </dd>
+            </dl>
+                    </div>
+    </div>
+</div>
+<!--/ /widget/cat-item/cat-item.vm -->
+
+<!--  /widget/cat-item/cat-item.vm -->
+<div class="category-item m" data-idx="15">
+    <div class="mt">
+        <h2 class="item-title">
+            <b></b>
+            <i></i><span>汽车用品</span>
+        </h2>
+    </div>
+
+    <div class="mc">
+        <div class="item-hot clearfix" clstag="secondtype|keycount|allfenlei|spfl_16">
+                        <a title="壳牌（Shell）合成机油 蓝喜力Helix HX7 5W-40 蓝壳A3/B4 SN 4L 德国原装进口" href="//item.jd.com/2122604.html" target="_blank"><img src="//img12.360buyimg.com/n3/jfs/t3070/107/6077622121/241371/b12101e0/589bce26Nf61e0e9d.jpg" width="130" height="130" alt="壳牌（Shell）合成机油 蓝喜力Helix HX7 5W-40 蓝壳A3/B4 SN 4L 德国原装进口"></a>
+                        <a title="美孚（Mobil）美孚1号 全合成机油 5W-30 SN级 4L" href="//item.jd.com/140440.html" target="_blank"><img src="//img13.360buyimg.com/n3/jfs/t2884/315/2728442555/387028/19b65bc1/5770b9c0N210b8e12.jpg" width="130" height="130" alt="美孚（Mobil）美孚1号 全合成机油 5W-30 SN级 4L"></a>
+                        <a title="嘉实多(Castrol) 全合成机油 极护钛流体 5W-30 A1/B1 SN 1Qt 美国原装进口 新包装" href="//item.jd.com/2170954.html" target="_blank"><img src="//img12.360buyimg.com/n3/jfs/t2878/20/4278650624/252756/1b3cb0a9/57b41625N269b376d.jpg" width="130" height="130" alt="嘉实多(Castrol) 全合成机油 极护钛流体 5W-30 A1/B1 SN 1Qt 美国原装进口 新包装"></a>
+                    </div>
+        <div class="item-info">热卖爆品</div>
+        <div class="items" clstag="secondtype|keycount|allfenlei|flmc_16">
+                                    <dl class="clearfix">
+                <dt><a href="//channel.jd.com/6728-6742.html" target="_blank">维修保养</a></dt>
+                <dd>
+                                    <a href="//list.jd.com/list.html?cat=6728,6742,11849" target="_blank">机油</a>
+                                    <a href="//list.jd.com/list.html?cat=6728,6742,13244" target="_blank">正时皮带</a>
+                                    <a href="//list.jd.com/list.html?cat=6728,6742,11850" target="_blank">添加剂</a>
+                                    <a href="//list.jd.com/list.html?cat=6728,6742,13245" target="_blank">汽车喇叭</a>
+                                    <a href="//list.jd.com/list.html?cat=6728,6742,6756" target="_blank">防冻液</a>
+                                    <a href="//list.jd.com/list.html?cat=6728,6742,13246" target="_blank">汽车玻璃</a>
+                                    <a href="//list.jd.com/list.html?cat=6728,6742,11852" target="_blank">滤清器</a>
+                                    <a href="//list.jd.com/list.html?cat=6728,6742,6767" target="_blank">火花塞</a>
+                                    <a href="//list.jd.com/list.html?cat=6728,6742,13243" target="_blank">减震器</a>
+                                    <a href="//list.jd.com/list.html?cat=6728,6742,13295" target="_blank">柴机油/辅助油</a>
+                                    <a href="//list.jd.com/list.html?cat=6728,6742,6766" target="_blank">雨刷</a>
+                                    <a href="//list.jd.com/list.html?cat=6728,6742,6768" target="_blank">车灯</a>
+                                    <a href="//list.jd.com/list.html?cat=6728,6742,9988" target="_blank">后视镜</a>
+                                    <a href="//list.jd.com/list.html?cat=6728,6742,9248" target="_blank">轮胎</a>
+                                    <a href="//list.jd.com/list.html?cat=6728,6742,11951" target="_blank">轮毂</a>
+                                    <a href="//list.jd.com/list.html?cat=6728,6742,11859" target="_blank">刹车片/盘</a>
+                                    <a href="//list.jd.com/list.html?cat=6728,6742,6769" target="_blank">维修配件</a>
+                                    <a href="//list.jd.com/list.html?cat=6728,6742,9971" target="_blank">蓄电池</a>
+                                    <a href="//list.jd.com/list.html?cat=6728,6742,9964" target="_blank">底盘装甲/护板</a>
+                                    <a href="//list.jd.com/list.html?cat=6728,6742,6770" target="_blank">贴膜</a>
+                                    <a href="//list.jd.com/list.html?cat=6728,6742,6795" target="_blank">汽修工具</a>
+                                    <a href="//list.jd.com/list.html?cat=6728,6742,12406" target="_blank">改装配件</a>
+                    
+                </dd>
+            </dl>
+                                    <dl class="clearfix">
+                <dt><a href="//channel.jd.com/6728-6740.html" target="_blank">车载电器</a></dt>
+                <dd>
+                                    <a href="//list.jd.com/list.html?cat=6728,6740,11867" target="_blank">导航仪</a>
+                                    <a href="//list.jd.com/list.html?cat=6728,6740,9959" target="_blank">安全预警仪</a>
+                                    <a href="//list.jd.com/list.html?cat=6728,6740,6964" target="_blank">行车记录仪</a>
+                                    <a href="//list.jd.com/list.html?cat=6728,6740,9961" target="_blank">倒车雷达</a>
+                                    <a href="//list.jd.com/list.html?cat=6728,6740,9962" target="_blank">蓝牙设备</a>
+                                    <a href="//list.jd.com/list.html?cat=6728,6740,6965" target="_blank">车载影音</a>
+                                    <a href="//list.jd.com/list.html?cat=6728,6740,6807" target="_blank">净化器</a>
+                                    <a href="//list.jd.com/list.html?cat=6728,6740,6749" target="_blank">电源</a>
+                                    <a href="//list.jd.com/list.html?cat=6728,6740,12408" target="_blank">智能驾驶</a>
+                                    <a href="//list.jd.com/list.html?cat=6728,6740,12409" target="_blank">车载电台</a>
+                                    <a href="//list.jd.com/list.html?cat=6728,6740,13247" target="_blank">车载电器配件</a>
+                                    <a href="//list.jd.com/list.html?cat=6728,6740,6752" target="_blank">吸尘器</a>
+                                    <a href="//list.jd.com/list.html?cat=6728,6740,13248" target="_blank">智能车机</a>
+                                    <a href="//list.jd.com/list.html?cat=6728,6740,6753" target="_blank">冰箱</a>
+                                    <a href="//list.jd.com/list.html?cat=6728,6740,13249" target="_blank">汽车音响</a>
+                                    <a href="//list.jd.com/list.html?cat=6728,6740,13250" target="_blank">车载生活电器</a>
+                    
+                </dd>
+            </dl>
+                                    <dl class="clearfix">
+                <dt><a href="//channel.jd.com/6728-6743.html" target="_blank">美容清洗</a></dt>
+                <dd>
+                                    <a href="//list.jd.com/list.html?cat=6728,6743,11875" target="_blank">车蜡</a>
+                                    <a href="//list.jd.com/list.html?cat=6728,6743,9974" target="_blank">补漆笔</a>
+                                    <a href="//list.jd.com/list.html?cat=6728,6743,6757" target="_blank">玻璃水</a>
+                                    <a href="//list.jd.com/list.html?cat=6728,6743,11878" target="_blank">清洁剂</a>
+                                    <a href="//list.jd.com/list.html?cat=6728,6743,11879" target="_blank">洗车工具</a>
+                                    <a href="//list.jd.com/list.html?cat=6728,6743,13251" target="_blank">镀晶镀膜</a>
+                                    <a href="//list.jd.com/list.html?cat=6728,6743,13296" target="_blank">打蜡机</a>
+                                    <a href="//list.jd.com/list.html?cat=6728,6743,11880" target="_blank">洗车配件</a>
+                                    <a href="//list.jd.com/list.html?cat=6728,6743,13252" target="_blank">洗车机</a>
+                                    <a href="//list.jd.com/list.html?cat=6728,6743,13253" target="_blank">洗车水枪</a>
+                                    <a href="//list.jd.com/list.html?cat=6728,6743,13254" target="_blank">毛巾掸子</a>
+                    
+                </dd>
+            </dl>
+                                    <dl class="clearfix">
+                <dt><a href="//channel.jd.com/6728-6745.html" target="_blank">汽车装饰</a></dt>
+                <dd>
+                                    <a href="//list.jd.com/list.html?cat=6728,6745,11883" target="_blank">脚垫</a>
+                                    <a href="//list.jd.com/list.html?cat=6728,6745,11881" target="_blank">座垫</a>
+                                    <a href="//list.jd.com/list.html?cat=6728,6745,11882" target="_blank">座套</a>
+                                    <a href="//list.jd.com/list.html?cat=6728,6745,6972" target="_blank">后备箱垫</a>
+                                    <a href="//list.jd.com/list.html?cat=6728,6745,11887" target="_blank">头枕腰靠</a>
+                                    <a href="//list.jd.com/list.html?cat=6728,6745,13255" target="_blank">方向盘套</a>
+                                    <a href="//list.jd.com/list.html?cat=6728,6745,6785" target="_blank">香水</a>
+                                    <a href="//list.jd.com/list.html?cat=6728,6745,11886" target="_blank">空气净化</a>
+                                    <a href="//list.jd.com/list.html?cat=6728,6745,11888" target="_blank">挂件摆件</a>
+                                    <a href="//list.jd.com/list.html?cat=6728,6745,11889" target="_blank">功能小件</a>
+                                    <a href="//list.jd.com/list.html?cat=6728,6745,11953" target="_blank">车身装饰件</a>
+                                    <a href="//list.jd.com/list.html?cat=6728,6745,6798" target="_blank">车衣</a>
+                    
+                </dd>
+            </dl>
+                                    <dl class="clearfix">
+                <dt><a href="//channel.jd.com/6728-6747.html" target="_blank">安全自驾</a></dt>
+                <dd>
+                                    <a href="//list.jd.com/list.html?cat=6728,6747,6792" target="_blank">安全座椅</a>
+                                    <a href="//list.jd.com/list.html?cat=6728,6747,11954" target="_blank">胎压监测</a>
+                                    <a href="//list.jd.com/list.html?cat=6728,6747,11955" target="_blank">防盗设备</a>
+                                    <a href="//list.jd.com/list.html?cat=6728,6747,6796" target="_blank">应急救援</a>
+                                    <a href="//list.jd.com/list.html?cat=6728,6747,6804" target="_blank">保温箱</a>
+                                    <a href="//list.jd.com/list.html?cat=6728,6747,13269" target="_blank">地锁</a>
+                                    <a href="//list.jd.com/list.html?cat=6728,6747,13270" target="_blank">摩托车</a>
+                                    <a href="//list.jd.com/list.html?cat=6728,6747,12407" target="_blank">充气泵</a>
+                                    <a href="//list.jd.com/list.html?cat=6728,6747,6801" target="_blank">储物箱</a>
+                                    <a href="//list.jd.com/list.html?cat=6728,6747,11898" target="_blank">自驾野营</a>
+                                    <a href="//list.jd.com/list.html?cat=6728,6747,9985" target="_blank">摩托车装备</a>
+                    
+                </dd>
+            </dl>
+                                    <dl class="clearfix">
+                <dt><a href="//channel.jd.com/6728-12402.html" target="_blank">汽车服务</a></dt>
+                <dd>
+                                    <a href="//list.jd.com/list.html?cat=6728,12402,12403" target="_blank">清洗美容</a>
+                                    <a href="//list.jd.com/list.html?cat=6728,12402,12404" target="_blank">功能升级</a>
+                                    <a href="//list.jd.com/list.html?cat=6728,12402,12405" target="_blank">保养维修</a>
+                                    <a href="//list.jd.com/list.html?cat=6728,12402,13121" target="_blank">油卡充值</a>
+                                    <a href="//list.jd.com/list.html?cat=6728,12402,13664" target="_blank">车险</a>
+                                    <a href="//list.jd.com/list.html?cat=6728,12402,13242" target="_blank">加油卡</a>
+                                    <a href="//list.jd.com/list.html?cat=6728,12402,13266" target="_blank">ETC</a>
+                                    <a href="//list.jd.com/list.html?cat=6728,12402,13267" target="_blank">驾驶培训</a>
+                    
+                </dd>
+            </dl>
+                                    <dl class="clearfix">
+                <dt><a href="//channel.jd.com/6728-13256.html" target="_blank">赛事改装</a></dt>
+                <dd>
+                                    <a href="//list.jd.com/list.html?cat=6728,13256,13257" target="_blank">赛事服装</a>
+                                    <a href="//list.jd.com/list.html?cat=6728,13256,13258" target="_blank">赛事用品</a>
+                                    <a href="//list.jd.com/list.html?cat=6728,13256,13259" target="_blank">制动系统</a>
+                                    <a href="//list.jd.com/list.html?cat=6728,13256,13260" target="_blank">悬挂系统</a>
+                                    <a href="//list.jd.com/list.html?cat=6728,13256,13261" target="_blank">进气系统</a>
+                                    <a href="//list.jd.com/list.html?cat=6728,13256,13262" target="_blank">排气系统</a>
+                                    <a href="//list.jd.com/list.html?cat=6728,13256,13263" target="_blank">电子管理</a>
+                                    <a href="//list.jd.com/list.html?cat=6728,13256,13264" target="_blank">车身强化</a>
+                                    <a href="//list.jd.com/list.html?cat=6728,13256,13265" target="_blank">赛事座椅</a>
+                    
+                </dd>
+            </dl>
+                        
+        </div>
+    </div>
+</div>
+<!--/ /widget/cat-item/cat-item.vm -->
+
+<!--  /widget/cat-item/cat-item.vm -->
+<div class="category-item m" data-idx="16">
+    <div class="mt">
+        <h2 class="item-title">
+            <b></b>
+            <i></i><span>运动健康</span>
+        </h2>
+    </div>
+
+    <div class="mc">
+        <div class="item-hot clearfix" clstag="secondtype|keycount|allfenlei|spfl_17">
+                        <a title="多德士（DDS） XF002 专业级多功能哑铃凳 仰卧起坐健腹肌板 家用运动健身器材 小飞鸟系列" href="//item.jd.com/1147982.html" target="_blank"><img src="//img14.360buyimg.com/n3/jfs/t151/348/550438252/73524/c50bb0f6/53904586N7273aa64.jpg" width="130" height="130" alt="多德士（DDS） XF002 专业级多功能哑铃凳 仰卧起坐健腹肌板 家用运动健身器材 小飞鸟系列"></a>
+                        <a title="KAWASAKI川崎羽毛球 比赛级team3" href="//item.jd.com/389923.html" target="_blank"><img src="//img13.360buyimg.com/n3/jfs/t4006/320/1936590038/62940/67211100/589c1a29Nd2c57603.jpg" width="130" height="130" alt="KAWASAKI川崎羽毛球 比赛级team3"></a>
+                        <a title="Freego纯棉男女一次性内裤 全棉灭菌免洗5条独立装 孕妇产妇生理期旅行出差度假 男女款尺码可选" href="//item.jd.com/2831091.html" target="_blank"><img src="//img13.360buyimg.com/n3/jfs/t3826/185/3277282028/320781/8fbf1015/587c2fcaNc3741a59.jpg" width="130" height="130" alt="Freego纯棉男女一次性内裤 全棉灭菌免洗5条独立装 孕妇产妇生理期旅行出差度假 男女款尺码可选"></a>
+                    </div>
+        <div class="item-info">热卖爆品</div>
+        <div class="items">
+                                                <dl class="clearfix" clstag="secondtype|keycount|allfenlei|flmc_17">
+                <dt><a href="//channel.jd.com/1318-12099.html" target="_blank">运动鞋包</a></dt>
+                <dd>
+                                        <a href="//list.jd.com/list.html?cat=1318,12099,9756" target="_blank">跑步鞋</a>
+                                        <a href="//list.jd.com/list.html?cat=1318,12099,9754" target="_blank">休闲鞋</a>
+                                        <a href="//list.jd.com/list.html?cat=1318,12099,9757" target="_blank">篮球鞋</a>
+                                        <a href="//list.jd.com/list.html?cat=1318,12099,12100" target="_blank">板鞋</a>
+                                        <a href="//list.jd.com/list.html?cat=1318,12099,9755" target="_blank">帆布鞋</a>
+                                        <a href="//list.jd.com/list.html?cat=1318,12099,9758" target="_blank">足球鞋</a>
+                                        <a href="//list.jd.com/list.html?cat=1318,12099,9760" target="_blank">乒羽网鞋</a>
+                                        <a href="//list.jd.com/list.html?cat=1318,12099,12101" target="_blank">专项运动鞋</a>
+                                        <a href="//list.jd.com/list.html?cat=1318,12099,9759" target="_blank">训练鞋</a>
+                                        <a href="//list.jd.com/list.html?cat=1318,12099,9761" target="_blank">拖鞋</a>
+                                        <a href="//list.jd.com/list.html?cat=1318,12099,9768" target="_blank">运动包</a>
+                                    </dd>
+            </dl>
+                                                            <dl class="clearfix" clstag="secondtype|keycount|allfenlei|flmc_17">
+                <dt><a href="//channel.jd.com/1318-12102.html" target="_blank">运动服饰</a></dt>
+                <dd>
+                                        <a href="//list.jd.com/list.html?cat=1318,12102,12104" target="_blank">羽绒服</a>
+                                        <a href="//list.jd.com/list.html?cat=1318,12102,9762" target="_blank">棉服</a>
+                                        <a href="//list.jd.com/list.html?cat=1318,12102,9766" target="_blank">运动裤</a>
+                                        <a href="//list.jd.com/list.html?cat=1318,12102,9763" target="_blank">夹克/风衣</a>
+                                        <a href="//list.jd.com/list.html?cat=1318,12102,9764" target="_blank">卫衣/套头衫</a>
+                                        <a href="//list.jd.com/list.html?cat=1318,12102,9765" target="_blank">T恤</a>
+                                        <a href="//list.jd.com/list.html?cat=1318,12102,9767" target="_blank">套装</a>
+                                        <a href="//list.jd.com/list.html?cat=1318,12102,12106" target="_blank">乒羽网服</a>
+                                        <a href="//list.jd.com/list.html?cat=1318,12102,12107" target="_blank">健身服</a>
+                                        <a href="//list.jd.com/list.html?cat=1318,12102,12108" target="_blank">运动背心</a>
+                                        <a href="//list.jd.com/list.html?cat=1318,12102,12105" target="_blank">毛衫/线衫</a>
+                                        <a href="//list.jd.com/list.html?cat=1318,12102,12103" target="_blank">运动配饰</a>
+                                    </dd>
+            </dl>
+                                                            <dl class="clearfix" clstag="secondtype|keycount|allfenlei|flmc_17">
+                <dt><a href="//channel.jd.com/1318-12115.html" target="_blank">骑行运动</a></dt>
+                <dd>
+                                        <a href="//list.jd.com/list.html?cat=1318,12115,12116" target="_blank">折叠车</a>
+                                        <a href="//list.jd.com/list.html?cat=1318,12115,12117" target="_blank">山地车/公路车</a>
+                                        <a href="//list.jd.com/list.html?cat=1318,12115,12118" target="_blank">电动车</a>
+                                        <a href="//list.jd.com/list.html?cat=1318,12115,12119" target="_blank">其他整车</a>
+                                        <a href="//list.jd.com/list.html?cat=1318,12115,12120" target="_blank">骑行服</a>
+                                        <a href="//list.jd.com/list.html?cat=1318,12115,12121" target="_blank">骑行装备</a>
+                                        <a href="//list.jd.com/list.html?cat=1318,12115,12861" target="_blank">平衡车</a>
+                                    </dd>
+            </dl>
+                                                            <dl class="clearfix" clstag="secondtype|keycount|allfenlei|flmc_17">
+                <dt><a href="//channel.jd.com/1318-12147.html" target="_blank">垂钓用品</a></dt>
+                <dd>
+                                        <a href="//list.jd.com/list.html?cat=1318,12147,12148" target="_blank">鱼竿鱼线</a>
+                                        <a href="//list.jd.com/list.html?cat=1318,12147,12149" target="_blank">浮漂鱼饵</a>
+                                        <a href="//list.jd.com/list.html?cat=1318,12147,12150" target="_blank">钓鱼桌椅</a>
+                                        <a href="//list.jd.com/list.html?cat=1318,12147,12151" target="_blank">钓鱼配件</a>
+                                        <a href="//list.jd.com/list.html?cat=1318,12147,12152" target="_blank">钓箱鱼包</a>
+                                        <a href="//list.jd.com/list.html?cat=1318,12147,12153" target="_blank">其它</a>
+                                    </dd>
+            </dl>
+                                                            <dl class="clearfix" clstag="secondtype|keycount|allfenlei|flmc_17">
+                <dt><a href="//channel.jd.com/1318-12154.html" target="_blank">游泳用品</a></dt>
+                <dd>
+                                        <a href="//list.jd.com/list.html?cat=1318,12154,12155" target="_blank">泳镜</a>
+                                        <a href="//list.jd.com/list.html?cat=1318,12154,12156" target="_blank">泳帽</a>
+                                        <a href="//list.jd.com/list.html?cat=1318,12154,12157" target="_blank">游泳包防水包</a>
+                                        <a href="//list.jd.com/list.html?cat=1318,12154,12158" target="_blank">女士泳衣</a>
+                                        <a href="//list.jd.com/list.html?cat=1318,12154,12159" target="_blank">男士泳衣</a>
+                                        <a href="//list.jd.com/list.html?cat=1318,12154,12160" target="_blank">比基尼</a>
+                                        <a href="//list.jd.com/list.html?cat=1318,12154,12161" target="_blank">其它</a>
+                                    </dd>
+            </dl>
+                                                            <dl class="clearfix" clstag="secondtype|keycount|allfenlei|flmc_17">
+                <dt><a href="//channel.jd.com/1318-2628.html" target="_blank">户外鞋服</a></dt>
+                <dd>
+                                        <a href="//list.jd.com/list.html?cat=1318,2628,12123" target="_blank">冲锋衣裤</a>
+                                        <a href="//list.jd.com/list.html?cat=1318,2628,12124" target="_blank">速干衣裤</a>
+                                        <a href="//list.jd.com/list.html?cat=1318,2628,12125" target="_blank">滑雪服</a>
+                                        <a href="//list.jd.com/list.html?cat=1318,2628,12126" target="_blank">羽绒服/棉服</a>
+                                        <a href="//list.jd.com/list.html?cat=1318,2628,12127" target="_blank">休闲衣裤</a>
+                                        <a href="//list.jd.com/list.html?cat=1318,2628,12128" target="_blank">抓绒衣裤</a>
+                                        <a href="//list.jd.com/list.html?cat=1318,2628,12129" target="_blank">软壳衣裤</a>
+                                        <a href="//list.jd.com/list.html?cat=1318,2628,12130" target="_blank">T恤</a>
+                                        <a href="//list.jd.com/list.html?cat=1318,2628,12131" target="_blank">户外风衣</a>
+                                        <a href="//list.jd.com/list.html?cat=1318,2628,12132" target="_blank">功能内衣</a>
+                                        <a href="//list.jd.com/list.html?cat=1318,2628,12133" target="_blank">军迷服饰</a>
+                                        <a href="//list.jd.com/list.html?cat=1318,2628,12134" target="_blank">登山鞋</a>
+                                        <a href="//list.jd.com/list.html?cat=1318,2628,12135" target="_blank">雪地靴</a>
+                                        <a href="//list.jd.com/list.html?cat=1318,2628,12136" target="_blank">徒步鞋</a>
+                                        <a href="//list.jd.com/list.html?cat=1318,2628,12137" target="_blank">越野跑鞋</a>
+                                        <a href="//list.jd.com/list.html?cat=1318,2628,12138" target="_blank">休闲鞋</a>
+                                        <a href="//list.jd.com/list.html?cat=1318,2628,12139" target="_blank">工装鞋</a>
+                                        <a href="//list.jd.com/list.html?cat=1318,2628,12140" target="_blank">溯溪鞋</a>
+                                        <a href="//list.jd.com/list.html?cat=1318,2628,12141" target="_blank">沙滩/凉拖</a>
+                                        <a href="//list.jd.com/list.html?cat=1318,2628,12142" target="_blank">户外袜</a>
+                                    </dd>
+            </dl>
+                                                            <dl class="clearfix" clstag="secondtype|keycount|allfenlei|flmc_17">
+                <dt><a href="//channel.jd.com/1318-1462.html" target="_blank">户外装备</a></dt>
+                <dd>
+                                        <a href="//list.jd.com/list.html?cat=1318,1462,1473" target="_blank">帐篷/垫子</a>
+                                        <a href="//list.jd.com/list.html?cat=1318,1462,1474" target="_blank">睡袋/吊床</a>
+                                        <a href="//list.jd.com/list.html?cat=1318,1462,1475" target="_blank">登山攀岩</a>
+                                        <a href="//list.jd.com/list.html?cat=1318,1462,2629" target="_blank">户外配饰</a>
+                                        <a href="//list.jd.com/list.html?cat=1318,1462,1472" target="_blank">背包</a>
+                                        <a href="//list.jd.com/list.html?cat=1318,1462,1476" target="_blank">户外照明</a>
+                                        <a href="//list.jd.com/list.html?cat=1318,1462,2631" target="_blank">户外仪表</a>
+                                        <a href="//list.jd.com/list.html?cat=1318,1462,1479" target="_blank">户外工具</a>
+                                        <a href="//list.jd.com/list.html?cat=1318,1462,1480" target="_blank">望远镜</a>
+                                        <a href="//list.jd.com/list.html?cat=1318,1462,2691" target="_blank">旅游用品</a>
+                                        <a href="//list.jd.com/list.html?cat=1318,1462,1478" target="_blank">便携桌椅床</a>
+                                        <a href="//list.jd.com/list.html?cat=1318,1462,1477" target="_blank">野餐烧烤</a>
+                                        <a href="//list.jd.com/list.html?cat=1318,1462,5152" target="_blank">军迷用品</a>
+                                        <a href="//list.jd.com/list.html?cat=1318,1462,12143" target="_blank">救援装备</a>
+                                        <a href="//list.jd.com/list.html?cat=1318,1462,12144" target="_blank">滑雪装备</a>
+                                        <a href="//list.jd.com/list.html?cat=1318,1462,12145" target="_blank">极限户外</a>
+                                        <a href="//list.jd.com/list.html?cat=1318,1462,12146" target="_blank">冲浪潜水</a>
+                                    </dd>
+            </dl>
+                                                            <dl class="clearfix" clstag="secondtype|keycount|allfenlei|flmc_17">
+                <dt><a href="//channel.jd.com/1318-1463.html" target="_blank">健身训练</a></dt>
+                <dd>
+                                        <a href="//list.jd.com/list.html?cat=1318,1463,12109" target="_blank">综合训练器</a>
+                                        <a href="//list.jd.com/list.html?cat=1318,1463,12110" target="_blank">其他大型器械</a>
+                                        <a href="//list.jd.com/list.html?cat=1318,1463,12111" target="_blank">哑铃</a>
+                                        <a href="//list.jd.com/list.html?cat=1318,1463,12112" target="_blank">仰卧板/收腹机</a>
+                                        <a href="//list.jd.com/list.html?cat=1318,1463,12113" target="_blank">其他中小型器材</a>
+                                        <a href="//list.jd.com/list.html?cat=1318,1463,12114" target="_blank">瑜伽舞蹈</a>
+                                        <a href="//list.jd.com/list.html?cat=1318,1463,12858" target="_blank">甩脂机</a>
+                                        <a href="//list.jd.com/list.html?cat=1318,1463,12859" target="_blank">踏步机</a>
+                                        <a href="//list.jd.com/list.html?cat=1318,1463,5153" target="_blank">武术搏击</a>
+                                        <a href="//list.jd.com/list.html?cat=1318,1463,1483" target="_blank">健身车/动感单车</a>
+                                        <a href="//list.jd.com/list.html?cat=1318,1463,1484" target="_blank">跑步机</a>
+                                        <a href="//list.jd.com/list.html?cat=1318,1463,1487" target="_blank">运动护具</a>
+                                    </dd>
+            </dl>
+                                                            <dl class="clearfix" clstag="secondtype|keycount|allfenlei|flmc_17">
+                <dt><a href="//channel.jd.com/1318-1466.html" target="_blank">体育用品</a></dt>
+                <dd>
+                                        <a href="//list.jd.com/list.html?cat=1318,1466,1695" target="_blank">羽毛球</a>
+                                        <a href="//list.jd.com/list.html?cat=1318,1466,1694" target="_blank">乒乓球</a>
+                                        <a href="//list.jd.com/list.html?cat=1318,1466,1698" target="_blank">篮球</a>
+                                        <a href="//list.jd.com/list.html?cat=1318,1466,1697" target="_blank">足球</a>
+                                        <a href="//list.jd.com/list.html?cat=1318,1466,1696" target="_blank">网球</a>
+                                        <a href="//list.jd.com/list.html?cat=1318,1466,1699" target="_blank">排球</a>
+                                        <a href="//list.jd.com/list.html?cat=1318,1466,1700" target="_blank">高尔夫</a>
+                                        <a href="//list.jd.com/list.html?cat=1318,1466,1701" target="_blank">台球</a>
+                                        <a href="//list.jd.com/list.html?cat=1318,1466,5155" target="_blank">棋牌麻将</a>
+                                        <a href="//list.jd.com/list.html?cat=1318,1466,12122" target="_blank">轮滑滑板</a>
+                                        <a href="//list.jd.com/list.html?cat=1318,1466,5156" target="_blank">其他</a>
+                                    </dd>
+            </dl>
+                                                                    </div>
+    </div>
+</div>
+<!--/ /widget/cat-item/cat-item.vm -->
+                        
+<!--  /widget/cat-item/cat-item.vm -->
+<div class="category-item m" data-idx="17">
+    <div class="mt">
+        <h2 class="item-title">
+            <b></b>
+            <i></i><span>玩具乐器</span>
+        </h2>
+    </div>
+
+    <div class="mc">
+        <div class="item-hot clearfix" clstag="secondtype|keycount|allfenlei|spfl_18">
+                        <a title="【京东超市】迪士尼DISNEY 宝宝爬行垫爬爬垫 防滑地垫游戏毯 2米*1.8米 双面1cm" href="//item.jd.com/2357679.html" target="_blank"><img src="//img13.360buyimg.com/n3/jfs/t2146/160/2236738146/711513/67414d6b/56f8f156N6a449394.jpg" width="130" height="130" alt="【京东超市】迪士尼DISNEY 宝宝爬行垫爬爬垫 防滑地垫游戏毯 2米*1.8米 双面1cm"></a>
+                        <a title="【京东超市】澳贝（AUBY） 益智玩具 小象喇叭 摇铃婴幼儿童学爬早教启智玩具  463431DS" href="//item.jd.com/1099841.html" target="_blank"><img src="//img13.360buyimg.com/n3/jfs/t868/270/1320278841/102778/a2ae87bc/55a5c522N41e91e27.jpg" width="130" height="130" alt="【京东超市】澳贝（AUBY） 益智玩具 小象喇叭 摇铃婴幼儿童学爬早教启智玩具  463431DS"></a>
+                        <a title="【京东超市】铭塔（MING TA）MTW-009 200粒建筑师积木 木制实木质儿童益智玩具宝宝智力积木玩具" href="//item.jd.com/1270371.html" target="_blank"><img src="//img10.360buyimg.com/n3/jfs/t2386/325/2073681849/475896/567122fe/56ecf72aNf7c7f2f2.jpg" width="130" height="130" alt="【京东超市】铭塔（MING TA）MTW-009 200粒建筑师积木 木制实木质儿童益智玩具宝宝智力积木玩具"></a>
+                    </div>
+        <div class="item-info">热卖爆品</div>
+        <div class="items" clstag="secondtype|keycount|allfenlei|flmc_18">
+                                    <dl class="clearfix">
+                <dt><a href="//channel.jd.com/6233-6234.html" target="_blank">适用年龄</a></dt>
+                <dd>
+                                    <a href="//list.jd.com/list.html?cat=6233,6234,6239" target="_blank">0-6个月</a>
+                                    <a href="//list.jd.com/list.html?cat=6233,6234,6240" target="_blank">6-12个月</a>
+                                    <a href="//list.jd.com/list.html?cat=6233,6234,6241" target="_blank">1-3岁</a>
+                                    <a href="//list.jd.com/list.html?cat=6233,6234,6242" target="_blank">3-6岁</a>
+                                    <a href="//list.jd.com/list.html?cat=6233,6234,6243" target="_blank">6-14岁</a>
+                                    <a href="//list.jd.com/list.html?cat=6233,6234,6244" target="_blank">14岁以上</a>
+                    
+                </dd>
+            </dl>
+                                    <dl class="clearfix">
+                <dt><a href="//channel.jd.com/6233-6235.html" target="_blank">遥控/电动</a></dt>
+                <dd>
+                                    <a href="//list.jd.com/list.html?cat=6233,6235,6245" target="_blank">遥控车</a>
+                                    <a href="//list.jd.com/list.html?cat=6233,6235,6246" target="_blank">遥控飞机</a>
+                                    <a href="//list.jd.com/list.html?cat=6233,6235,6247" target="_blank">遥控船</a>
+                                    <a href="//list.jd.com/list.html?cat=6233,6235,6248" target="_blank">机器人</a>
+                                    <a href="//list.jd.com/list.html?cat=6233,6235,6249" target="_blank">轨道/助力</a>
+                    
+                </dd>
+            </dl>
+                                    <dl class="clearfix">
+                <dt><a href="//channel.jd.com/6233-6236.html" target="_blank">毛绒布艺</a></dt>
+                <dd>
+                                    <a href="//list.jd.com/list.html?cat=6233,6236,6254" target="_blank">毛绒/布艺</a>
+                                    <a href="//list.jd.com/list.html?cat=6233,6236,6255" target="_blank">靠垫/抱枕</a>
+                    
+                </dd>
+            </dl>
+                                    <dl class="clearfix">
+                <dt><a href="//channel.jd.com/6233-6237.html" target="_blank">娃娃玩具</a></dt>
+                <dd>
+                                    <a href="//list.jd.com/list.html?cat=6233,6237,6257" target="_blank">芭比娃娃</a>
+                                    <a href="//list.jd.com/list.html?cat=6233,6237,6258" target="_blank">卡通娃娃</a>
+                                    <a href="//list.jd.com/list.html?cat=6233,6237,6259" target="_blank">智能娃娃</a>
+                    
+                </dd>
+            </dl>
+                                    <dl class="clearfix">
+                <dt><a href="//channel.jd.com/6233-6253.html" target="_blank">模型玩具</a></dt>
+                <dd>
+                                    <a href="//list.jd.com/list.html?cat=6233,6253,6261" target="_blank">仿真模型</a>
+                                    <a href="//list.jd.com/list.html?cat=6233,6253,6262" target="_blank">拼插模型</a>
+                                    <a href="//list.jd.com/list.html?cat=6233,6253,6263" target="_blank">收藏爱好</a>
+                    
+                </dd>
+            </dl>
+                                    <dl class="clearfix">
+                <dt><a href="//channel.jd.com/6233-6260.html" target="_blank">健身玩具</a></dt>
+                <dd>
+                                    <a href="//list.jd.com/list.html?cat=6233,6260,6265" target="_blank">炫舞毯</a>
+                                    <a href="//list.jd.com/list.html?cat=6233,6260,6266" target="_blank">爬行垫/毯</a>
+                                    <a href="//list.jd.com/list.html?cat=6233,6260,6268" target="_blank">户外玩具</a>
+                                    <a href="//list.jd.com/list.html?cat=6233,6260,6269" target="_blank">戏水玩具</a>
+                    
+                </dd>
+            </dl>
+                                    <dl class="clearfix">
+                <dt><a href="//channel.jd.com/6233-6264.html" target="_blank">动漫玩具</a></dt>
+                <dd>
+                                    <a href="//list.jd.com/list.html?cat=6233,6264,6272" target="_blank">电影周边</a>
+                                    <a href="//list.jd.com/list.html?cat=6233,6264,6273" target="_blank">卡通周边</a>
+                                    <a href="//list.jd.com/list.html?cat=6233,6264,6274" target="_blank">网游周边</a>
+                    
+                </dd>
+            </dl>
+                                    <dl class="clearfix">
+                <dt><a href="//channel.jd.com/6233-6271.html" target="_blank">益智玩具</a></dt>
+                <dd>
+                                    <a href="//list.jd.com/list.html?cat=6233,6271,6276" target="_blank">摇铃/床铃</a>
+                                    <a href="//list.jd.com/list.html?cat=6233,6271,7063" target="_blank">健身架</a>
+                                    <a href="//list.jd.com/list.html?cat=6233,6271,6277" target="_blank">早教启智</a>
+                                    <a href="//list.jd.com/list.html?cat=6233,6271,6278" target="_blank">拖拉玩具</a>
+                    
+                </dd>
+            </dl>
+                                    <dl class="clearfix">
+                <dt><a href="//channel.jd.com/6233-6275.html" target="_blank">积木拼插</a></dt>
+                <dd>
+                                    <a href="//list.jd.com/list.html?cat=6233,6275,6280" target="_blank">积木</a>
+                                    <a href="//list.jd.com/list.html?cat=6233,6275,6282" target="_blank">拼图</a>
+                                    <a href="//list.jd.com/list.html?cat=6233,6275,6284" target="_blank">磁力棒</a>
+                                    <a href="//list.jd.com/list.html?cat=6233,6275,6286" target="_blank">立体拼插</a>
+                    
+                </dd>
+            </dl>
+                                    <dl class="clearfix">
+                <dt><a href="//channel.jd.com/6233-6279.html" target="_blank">DIY玩具</a></dt>
+                <dd>
+                                    <a href="//list.jd.com/list.html?cat=6233,6279,6281" target="_blank">手工彩泥</a>
+                                    <a href="//list.jd.com/list.html?cat=6233,6279,6283" target="_blank">绘画工具</a>
+                                    <a href="//list.jd.com/list.html?cat=6233,6279,6287" target="_blank">情景玩具</a>
+                    
+                </dd>
+            </dl>
+                                    <dl class="clearfix">
+                <dt><a href="//channel.jd.com/6233-6289.html" target="_blank">创意减压</a></dt>
+                <dd>
+                                    <a href="//list.jd.com/list.html?cat=6233,6289,6292" target="_blank">减压玩具</a>
+                                    <a href="//list.jd.com/list.html?cat=6233,6289,6293" target="_blank">创意玩具</a>
+                    
+                </dd>
+            </dl>
+                                    <dl class="clearfix">
+                <dt><a href="//channel.jd.com/6233-6291.html" target="_blank">乐器</a></dt>
+                <dd>
+                                    <a href="//list.jd.com/list.html?cat=6233,6291,6294" target="_blank">钢琴</a>
+                                    <a href="//list.jd.com/list.html?cat=6233,6291,6296" target="_blank">电子琴/电钢琴</a>
+                                    <a href="//list.jd.com/list.html?cat=6233,6291,6299" target="_blank">吉他/尤克里里</a>
+                                    <a href="//list.jd.com/list.html?cat=6233,6291,6303" target="_blank">打击乐器</a>
+                                    <a href="//list.jd.com/list.html?cat=6233,6291,6301" target="_blank">西洋管弦</a>
+                                    <a href="//list.jd.com/list.html?cat=6233,6291,6300" target="_blank">民族管弦乐器</a>
+                                    <a href="//list.jd.com/list.html?cat=6233,6291,6305" target="_blank">乐器配件</a>
+                                    <a href="//list.jd.com/list.html?cat=6233,6291,6306" target="_blank">电脑音乐</a>
+                                    <a href="//list.jd.com/list.html?cat=6233,6291,6308" target="_blank">工艺礼品乐器</a>
+                                    <a href="//list.jd.com/list.html?cat=6233,6291,6302" target="_blank">口琴/口风琴/竖笛</a>
+                                    <a href="//list.jd.com/list.html?cat=6233,6291,6298" target="_blank">手风琴</a>
+                    
+                </dd>
+            </dl>
+                        
+        </div>
+    </div>
+</div>
+<!--/ /widget/cat-item/cat-item.vm -->
+
+<!--  /widget/cat-item/cat-item.vm -->
+<div class="category-item m" data-idx="18">
+    <div class="mt">
+        <h2 class="item-title">
+            <b></b>
+            <i></i><span>彩票、旅行、充值、票务</span>
+        </h2>
+    </div>
+
+    <div class="mc">
+        <div class="item-hot clearfix" clstag="secondtype|keycount|allfenlei|spfl_18">
+                        <a title="【京东超市】迪士尼DISNEY 宝宝爬行垫爬爬垫 防滑地垫游戏毯 2米*1.8米 双面1cm" href="//item.jd.com/2357679.html" target="_blank"><img src="//img13.360buyimg.com/n3/jfs/t2146/160/2236738146/711513/67414d6b/56f8f156N6a449394.jpg" width="130" height="130" alt="【京东超市】迪士尼DISNEY 宝宝爬行垫爬爬垫 防滑地垫游戏毯 2米*1.8米 双面1cm"></a>
+                        <a title="【京东超市】澳贝（AUBY） 益智玩具 小象喇叭 摇铃婴幼儿童学爬早教启智玩具  463431DS" href="//item.jd.com/1099841.html" target="_blank"><img src="//img13.360buyimg.com/n3/jfs/t868/270/1320278841/102778/a2ae87bc/55a5c522N41e91e27.jpg" width="130" height="130" alt="【京东超市】澳贝（AUBY） 益智玩具 小象喇叭 摇铃婴幼儿童学爬早教启智玩具  463431DS"></a>
+                        <a title="【京东超市】铭塔（MING TA）MTW-009 200粒建筑师积木 木制实木质儿童益智玩具宝宝智力积木玩具" href="//item.jd.com/1270371.html" target="_blank"><img src="//img10.360buyimg.com/n3/jfs/t2386/325/2073681849/475896/567122fe/56ecf72aNf7c7f2f2.jpg" width="130" height="130" alt="【京东超市】铭塔（MING TA）MTW-009 200粒建筑师积木 木制实木质儿童益智玩具宝宝智力积木玩具"></a>
+                    </div>
+        <div class="item-info">热卖爆品</div>
+        <div class="items" clstag="secondtype|keycount|allfenlei|flmc_19">
+                        <dl class="clearfix">
+                                <dt><a href="//caipiao.jd.com/" target="_blank">彩票</a></dt>
+                <dd>
+                                        <a href="//caipiao.jd.com/lottery_ssq.html" target="_blank">双色球</a>
+                                        <a href="//caipiao.jd.com/lottery_dlt.html" target="_blank">大乐透</a>
+                                        <a href="//caipiao.jd.com/lottery_fc3d.html" target="_blank">福彩3D</a>
+                                        <a href="//caipiao.jd.com/lottery_pl3.html" target="_blank">排列三</a>
+                                        <a href="//caipiao.jd.com/lottery_plw.html" target="_blank">排列五</a>
+                                        <a href="//caipiao.jd.com/lottery_qxc.html" target="_blank">七星彩</a>
+                                        <a href="//caipiao.jd.com/lottery_qlc.html" target="_blank">七乐彩</a>
+                                        <a href="//caipiao.jd.com/lottery_spf.html" target="_blank">竞彩足球</a>
+                                        <a href="//caipiao.jd.com/lottery_rfsf.html" target="_blank">竞彩篮球</a>
+                                        <a href="//caipiao.jd.com/lottery_jxssc.html" target="_blank">新时时彩</a>
+                                    </dd>
+            </dl>
+                        <dl class="clearfix">
+                                <dt><a href="//jipiao.jd.com/" target="_blank">机票</a></dt>
+                <dd>
+                                        <a href="//jipiao.jd.com/" target="_blank">国内机票</a>
+                                    </dd>
+            </dl>
+                        <dl class="clearfix">
+                                <dt><a href="//hotel.jd.com/" target="_blank">酒店</a></dt>
+                <dd>
+                                        <a href="//hotel.jd.com/" target="_blank">国内酒店</a>
+                                        <a href="//tuan.jd.com/channel/hotel-0-0-0-0-1-0-0-0-0-0.html" target="_blank">酒店团购</a>
+                                    </dd>
+            </dl>
+                        <dl class="clearfix">
+                                <dt><a href="//trip.jd.com/" target="_blank">旅行</a></dt>
+                <dd>
+                                        <a href="//dujia.jd.com/" target="_blank">度假</a>
+                                        <a href="//menpiao.jd.com/" target="_blank">景点</a>
+                                        <a href="//zuche.jd.com/" target="_blank">租车</a>
+                                        <a href="//huoche.jd.com/" target="_blank">火车票</a>
+                                        <a href="//tuan.jd.com/channel/tour-beijing-0-0-0-1-0-0-0-0-0.html" target="_blank">旅游团购</a>
+                                    </dd>
+            </dl>
+                        <dl class="clearfix">
+                                <dt><a href="//chongzhi.jd.com/" target="_blank">充值</a></dt>
+                <dd>
+                                        <a href="//chongzhi.jd.com/" target="_blank">手机充值</a>
+                                    </dd>
+            </dl>
+                        <dl class="clearfix">
+                                <dt><a href="//game.jd.com/" target="_blank">游戏</a></dt>
+                <dd>
+                                        <a href="//list.jd.com/list.html?cat=4938,4941,4835" target="_blank">游戏点卡</a>
+                                        <a href="//list.jd.com/list.html?cat=4938,4941,4836" target="_blank">QQ充值</a>
+                                    </dd>
+            </dl>
+                        <dl class="clearfix">
+                                <dt><a href="//piao.jd.com/" target="_blank">票务</a></dt>
+                <dd>
+                                        <a href="//movie.jd.com/index.html" target="_blank">电影票</a>
+                                        <a href="//piao.jd.com/yanchanghui/" target="_blank">演唱会</a>
+                                        <a href="//piao.jd.com/huajugeju/" target="_blank">话剧歌剧</a>
+                                        <a href="//piao.jd.com/yinyuehui/" target="_blank">音乐会</a>
+                                        <a href="//piao.jd.com/tiyusaishi/" target="_blank">体育赛事</a>
+                                        <a href="//piao.jd.com/wudaobalei/" target="_blank">舞蹈芭蕾</a>
+                                        <a href="//piao.jd.com/xiquzongyi/" target="_blank">戏曲综艺</a>
+                                    </dd>
+            </dl>
+                    </div>
+    </div>
+
+</div>
+<!--/ /widget/cat-item/cat-item.vm -->
+
+
+<!--  /widget/cat-item/cat-item.vm -->
+<div class="category-item m" data-idx="19">
+    <div class="mt">
+        <h2 class="item-title">
+            <b></b>
+            <i></i><span>生鲜</span>
+        </h2>
+    </div>
+
+    <div class="mc">
+        <div class="item-hot clearfix" clstag="pageclick|keycount|201607113|1">
+                        <a title="獐子岛 冷冻大连泡椒粉丝扇贝 200g 6只 袋装" href="//item.jd.com/1328876.html" target="_blank"><img src="//img13.360buyimg.com/n3/jfs/t2014/33/2772225499/320868/1687893d/571a05bcN1dc2e863.jpg" width="130" height="130" alt="獐子岛 冷冻大连泡椒粉丝扇贝 200g 6只 袋装"></a>
+                        <a title="美仑达 赣南脐橙 3斤装 铂金果 供港鲜橙" href="//item.jd.com/3680187.html" target="_blank"><img src="//img12.360buyimg.com/n3/jfs/t3595/190/1889846078/177846/ddc1da2/583416d1N8d5b7a35.jpg" width="130" height="130" alt="美仑达 赣南脐橙 3斤装 铂金果 供港鲜橙"></a>
+                        <a title="湾仔码头 手工水饺 大白菜猪肉口味 720g （36只）" href="//item.jd.com/1279914.html" target="_blank"><img src="//img11.360buyimg.com/n3/jfs/t811/136/603668515/122140/ce0537cd/55347732N3a52528d.jpg" width="130" height="130" alt="湾仔码头 手工水饺 大白菜猪肉口味 720g （36只）"></a>
+                    </div>
+        <div class="item-info">热卖爆品</div>
+        <div class="items" clstag="pageclick|keycount|201607113|2">
+                                    <dl class="clearfix">
+                <dt>   
+                                            <a href="//channel.jd.com/12218-12219.html" target="_blank">产地直供</a>
+                                    </dt>
+                <dd>
+                                    <a href="//list.jd.com/list.html?cat=12218,12219,12225" target="_blank">东北</a>
+                                    <a href="//list.jd.com/list.html?cat=12218,12219,12226" target="_blank">华北</a>
+                                    <a href="//list.jd.com/list.html?cat=12218,12219,12227" target="_blank">西北</a>
+                                    <a href="//list.jd.com/list.html?cat=12218,12219,12228" target="_blank">华中</a>
+                                    <a href="//list.jd.com/list.html?cat=12218,12219,12229" target="_blank">华东</a>
+                                    <a href="//list.jd.com/list.html?cat=12218,12219,12230" target="_blank">华南</a>
+                                    <a href="//list.jd.com/list.html?cat=12218,12219,12231" target="_blank">西南</a>
+                    
+                </dd>
+            </dl>
+                                    <dl class="clearfix">
+                <dt>   
+                                            <a href="//channel.jd.com/12218-12221.html" target="_blank">水果</a>
+                                    </dt>
+                <dd>
+                                    <a href="//list.jd.com/list.html?cat=12218,12221,13554" target="_blank">苹果</a>
+                                    <a href="//list.jd.com/list.html?cat=12218,12221,13555" target="_blank">橙子</a>
+                                    <a href="//list.jd.com/list.html?cat=12218,12221,13556" target="_blank">奇异果/猕猴桃</a>
+                                    <a href="//list.jd.com/list.html?cat=12218,12221,13557" target="_blank">车厘子/樱桃</a>
+                                    <a href="//list.jd.com/list.html?cat=12218,12221,13558" target="_blank">芒果</a>
+                                    <a href="//list.jd.com/list.html?cat=12218,12221,13559" target="_blank">蓝莓</a>
+                                    <a href="//list.jd.com/list.html?cat=12218,12221,13560" target="_blank">火龙果</a>
+                                    <a href="//list.jd.com/list.html?cat=12218,12221,13561" target="_blank">葡萄/提子</a>
+                                    <a href="//list.jd.com/list.html?cat=12218,12221,13562" target="_blank">柚子</a>
+                                    <a href="//list.jd.com/list.html?cat=12218,12221,13563" target="_blank">香蕉</a>
+                                    <a href="//list.jd.com/list.html?cat=12218,12221,13564" target="_blank">牛油果</a>
+                                    <a href="//list.jd.com/list.html?cat=12218,12221,13565" target="_blank">梨</a>
+                                    <a href="//list.jd.com/list.html?cat=12218,12221,13566" target="_blank">菠萝/凤梨</a>
+                                    <a href="//list.jd.com/list.html?cat=12218,12221,13567" target="_blank">桔/橘</a>
+                                    <a href="//list.jd.com/list.html?cat=12218,12221,13568" target="_blank">柠檬</a>
+                                    <a href="//list.jd.com/list.html?cat=12218,12221,13569" target="_blank">草莓</a>
+                                    <a href="//list.jd.com/list.html?cat=12218,12221,13570" target="_blank">桃/李/杏</a>
+                                    <a href="//list.jd.com/list.html?cat=12218,12221,13571" target="_blank">更多水果</a>
+                                    <a href="//list.jd.com/list.html?cat=12218,12221,13572" target="_blank">水果礼盒/券</a>
+                    
+                </dd>
+            </dl>
+                                    <dl class="clearfix">
+                <dt>   
+                                            <a href="//list.jd.com/list.html?cat=12218,13581" target="_blank">猪牛羊肉</a>
+                                    </dt>
+                <dd>
+                                    <a href="//list.jd.com/list.html?cat=12218,13581,13582" target="_blank">牛肉</a>
+                                    <a href="//list.jd.com/list.html?cat=12218,13581,13583" target="_blank">羊肉</a>
+                                    <a href="//list.jd.com/list.html?cat=12218,13581,12247" target="_blank">猪肉</a>
+                                    <a href="//list.jd.com/list.html?cat=12218,13581,13585" target="_blank">内脏类</a>
+                    
+                </dd>
+            </dl>
+                                    <dl class="clearfix">
+                <dt>   
+                                            <a href="//channel.jd.com/12218-12222.html" target="_blank">海鲜水产</a>
+                                    </dt>
+                <dd>
+                                    <a href="//list.jd.com/list.html?cat=12218,12222,12241" target="_blank">鱼类</a>
+                                    <a href="//list.jd.com/list.html?cat=12218,12222,12242" target="_blank">虾类</a>
+                                    <a href="//list.jd.com/list.html?cat=12218,12222,12243" target="_blank">蟹类</a>
+                                    <a href="//list.jd.com/list.html?cat=12218,12222,12244" target="_blank">贝类</a>
+                                    <a href="//list.jd.com/list.html?cat=12218,12222,12240" target="_blank">海参</a>
+                                    <a href="//list.jd.com/list.html?cat=12218,12222,12245" target="_blank">海产干货</a>
+                                    <a href="//list.jd.com/list.html?cat=12218,12222,13579" target="_blank">其他水产</a>
+                                    <a href="//list.jd.com/list.html?cat=12218,12222,13580" target="_blank">海产礼盒</a>
+                    
+                </dd>
+            </dl>
+                                    <dl class="clearfix">
+                <dt>   
+                                            <a href="//list.jd.com/list.html?cat=12218,13586" target="_blank">禽肉蛋品</a>
+                                    </dt>
+                <dd>
+                                    <a href="//list.jd.com/list.html?cat=12218,13586,13587" target="_blank">鸡肉</a>
+                                    <a href="//list.jd.com/list.html?cat=12218,13586,13588" target="_blank">鸭肉</a>
+                                    <a href="//list.jd.com/list.html?cat=12218,13586,12250" target="_blank">蛋类</a>
+                                    <a href="//list.jd.com/list.html?cat=12218,13586,13590" target="_blank">其他禽类</a>
+                    
+                </dd>
+            </dl>
+                                    <dl class="clearfix">
+                <dt>   
+                                            <a href="//list.jd.com/list.html?cat=12218,13591" target="_blank">冷冻食品</a>  
+                                    </dt>
+                <dd>
+                                    <a href="//list.jd.com/list.html?cat=12218,13591,13592" target="_blank">水饺/馄饨</a>
+                                    <a href="//list.jd.com/list.html?cat=12218,13591,13593" target="_blank">汤圆/元宵</a>
+                                    <a href="//list.jd.com/list.html?cat=12218,13591,13594" target="_blank">面点</a>
+                                    <a href="//list.jd.com/list.html?cat=12218,13591,13595" target="_blank">火锅丸串</a>
+                                    <a href="//list.jd.com/list.html?cat=12218,13591,13596" target="_blank">速冻半成品</a>
+                                    <a href="//list.jd.com/list.html?cat=12218,13591,13597" target="_blank">奶酪黄油</a>
+                    
+                </dd>
+            </dl>
+                                    <dl class="clearfix">
+                <dt>   
+                                            <a href="//channel.jd.com/12218-12224.html" target="_blank">熟食腊味</a>
+                                    </dt>
+                <dd>
+                                    <a href="//list.jd.com/list.html?cat=12218,12224,12252" target="_blank">熟食</a>
+                                    <a href="//list.jd.com/list.html?cat=12218,12224,12253" target="_blank">腊肠/腊肉</a>
+                                    <a href="//list.jd.com/list.html?cat=12218,12224,12254" target="_blank">火腿</a>
+                                    <a href="//list.jd.com/list.html?cat=12218,12224,12257" target="_blank">糕点</a>
+                                    <a href="//list.jd.com/list.html?cat=12218,12224,12258" target="_blank">礼品卡券</a>
+                    
+                </dd>
+            </dl>
+                                    <dl class="clearfix">
+                <dt>   
+                                            <a href="//list.jd.com/list.html?cat=12218,13598" target="_blank">饮品甜品</a>
+                                    </dt>
+                <dd>
+                                    <a href="//list.jd.com/list.html?cat=12218,13598,13601" target="_blank">冷藏果蔬汁</a>
+                                    <a href="//list.jd.com/list.html?cat=12218,13598,13603" target="_blank">冰激凌</a>
+                                    <a href="//list.jd.com/list.html?cat=12218,13598,13604" target="_blank">其他</a>
+                    
+                </dd>
+            </dl>
+                                    <dl class="clearfix">
+                <dt>   
+                                            <a href="//list.jd.com/list.html?cat=12218,13553" target="_blank">蔬菜</a>    
+                                    </dt>
+                <dd>
+                                    <a href="//list.jd.com/list.html?cat=12218,13553,13573" target="_blank">叶菜类</a>
+                                    <a href="//list.jd.com/list.html?cat=12218,13553,13574" target="_blank">茄果瓜类</a>
+                                    <a href="//list.jd.com/list.html?cat=12218,13553,13575" target="_blank">根茎类</a>
+                                    <a href="//list.jd.com/list.html?cat=12218,13553,13576" target="_blank">鲜菌菇</a>
+                                    <a href="//list.jd.com/list.html?cat=12218,13553,13577" target="_blank">葱姜蒜椒</a>
+                                    <a href="//list.jd.com/list.html?cat=12218,13553,13578" target="_blank">半加工蔬菜</a>
+                    
+                </dd>
+            </dl>
+                        
+        </div>
+    </div>
+</div>
+<!--/ /widget/cat-item/cat-item.vm -->
+
+<!--  /widget/cat-item/cat-item.vm -->
+<div class="category-item m" data-idx="20">
+    <div class="mt">
+        <h2 class="item-title">
+            <b></b>
+            <i></i><span>整车</span>
+        </h2>
+    </div>
+
+    <div class="mc">
+        <div class="item-hot clearfix" clstag="pageclick|keycount|201607113|3">
+                        <a title="【惠买车】广汽本田 飞度订金499元 2016款 1.5L LX CVT 舒适版" href="//item.jd.com/10978463470.html" target="_blank"><img src="//img14.360buyimg.com/n3/jfs/t3550/268/1543103381/31556/3c8a6932/5829d1a8N18f53d19.jpg" width="130" height="130" alt="【惠买车】广汽本田 飞度订金499元 2016款 1.5L LX CVT 舒适版"></a>
+                        <a title="【惠买车】华晨宝马 3系订金499元 2017款 330Li xDrive 豪华设计套装" href="//item.jd.com/10978461541.html" target="_blank"><img src="//img11.360buyimg.com/n3/jfs/t3451/12/1497658452/33302/5cc52773/5829d0e6N9a3ebc66.jpg" width="130" height="130" alt="【惠买车】华晨宝马 3系订金499元 2017款 330Li xDrive 豪华设计套装"></a>
+                        <a title="【惠买车】上汽大众斯柯达 昕锐订金499元 2016款 1.4L 手动 前行版" href="//item.jd.com/1718635812.html" target="_blank"><img src="//img12.360buyimg.com/n3/jfs/t2626/41/2673533243/31763/69171a6b/576cfa57N901dbefa.jpg" width="130" height="130" alt="【惠买车】上汽大众斯柯达 昕锐订金499元 2016款 1.4L 手动 前行版"></a>
+                    </div>
+        <div class="item-info">热卖爆品</div>
+        <div class="items" clstag="pageclick|keycount|201607113|4">
+                                    <dl class="clearfix">
+                <dt>
+                                            <a href="//list.jd.com/list.html?cat=12379,12380" target="_blank">全新整车</a>
+                                    </dt>
+                <dd>
+                                    <a href="//list.jd.com/list.html?cat=12379,12380,12381" target="_blank">微型车</a>
+                                    <a href="//list.jd.com/list.html?cat=12379,12380,12382" target="_blank">小型车</a>
+                                    <a href="//list.jd.com/list.html?cat=12379,12380,12383" target="_blank">紧凑型车</a>
+                                    <a href="//list.jd.com/list.html?cat=12379,12380,12384" target="_blank">中型车</a>
+                                    <a href="//list.jd.com/list.html?cat=12379,12380,12385" target="_blank">中大型车</a>
+                                    <a href="//list.jd.com/list.html?cat=12379,12380,12386" target="_blank">豪华车</a>
+                                    <a href="//list.jd.com/list.html?cat=12379,12380,12388" target="_blank">MPV</a>
+                                    <a href="//list.jd.com/list.html?cat=12379,12380,12387" target="_blank">SUV</a>
+                                    <a href="//list.jd.com/list.html?cat=12379,12380,12389" target="_blank">跑车</a>
+                    
+                </dd>
+            </dl>
+                                    <dl class="clearfix">
+                <dt>
+                                            <a href="//list.jd.com/list.html?cat=12379,13302" target="_blank">二手车</a>    
+                                    </dt>
+                <dd>
+                                    <a href="//list.jd.com/list.html?cat=12379,13302,13303" target="_blank">微型车（二手）</a>
+                                    <a href="//list.jd.com/list.html?cat=12379,13302,13304" target="_blank">小型车（二手）</a>
+                                    <a href="//list.jd.com/list.html?cat=12379,13302,13305" target="_blank">紧凑型车（二手）</a>
+                                    <a href="//list.jd.com/list.html?cat=12379,13302,13306" target="_blank">中型车（二手）</a>
+                                    <a href="//list.jd.com/list.html?cat=12379,13302,13307" target="_blank">中大型车（二手）</a>
+                                    <a href="//list.jd.com/list.html?cat=12379,13302,13308" target="_blank">豪华车（二手）</a>
+                                    <a href="//list.jd.com/list.html?cat=12379,13302,13309" target="_blank">MPV（二手）</a>
+                                    <a href="//list.jd.com/list.html?cat=12379,13302,13310" target="_blank">SUV（二手）</a>
+                                    <a href="//list.jd.com/list.html?cat=12379,13302,13311" target="_blank">跑车（二手）</a>
+                                    <a href="//list.jd.com/list.html?cat=12379,13302,13312" target="_blank">皮卡（二手）</a>
+                                    <a href="//list.jd.com/list.html?cat=12379,13302,13313" target="_blank">面包车（二手）</a>
+                    
+                </dd>
+            </dl>
+                        
+        </div>
+    </div>
+</div>
+<!--/ /widget/cat-item/cat-item.vm -->
+
+</div>
+`);
+
+const catalogNodes = document.childNodes[0].childNodes.filter((node) => node.tagName === 'div');
+const results = catalogNodes.map((catalogNode) => { // class=category-item m
+  const result = { groups: [] };
+  const catalog = find(
+    find(catalogNode.childNodes.filter((n) => n.tagName === 'div')[0].childNodes, (n) => n.tagName === 'h2').childNodes,
+    (n) => n.tagName === 'span').childNodes[0].value;
+  result.name = catalog;
+  const mc = catalogNode.childNodes.filter((n) => n.tagName === 'div')[1];
+  const items = mc.childNodes.filter((n) => n.tagName === 'div')[2];
+  const list = items.childNodes.filter((node) => node.tagName === 'dl');
+  list.forEach((dl) => {
+    const dt = find(dl.childNodes, (node) => node.tagName === 'dt');
+    const group = find(dt.childNodes, (node) => node.tagName === 'a').childNodes[0].value;
+    const dd = find(dl.childNodes, (node) => node.tagName === 'dd');
+    const as = dd.childNodes.filter((node) => node.tagName === 'a');
+    result.groups.push({
+      name: group,
+      categories: as.map((a) => a.childNodes[0].value),
+    });
+  });
+  return result;
+});
+
+
+console.log(results);
+fs.appendFile('./catelog.json', JSON.stringify(results), (err) => {
+  if (err) {
+    console.log(`fail ${err}`);
+  } else {
+    console.log('写入文件ok');
+  }
+});
+

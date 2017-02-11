@@ -17,7 +17,7 @@ const routes = [
   { title: '微店', path: '/shops' },
 ];
 
-const AppHeader = ({ sheet: { classes }, header } ) => (
+const AppHeader = ({ sheet: { classes }, header }) => (
   <Header waterfall hideTop={false} className={classes.header}>
     <HeaderRow className={classes.logoRow}>
       { header || <div className={classes.logo} /> }
@@ -69,7 +69,7 @@ export default injectSheet({
     background: 'rgba(76,175,80, 0.08)',
     [breakpoints.mediaDestkopBelow]: {
       display: 'none',
-    }
+    },
   },
   links: {
     height: '45px !important',
