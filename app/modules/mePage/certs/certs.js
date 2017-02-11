@@ -6,18 +6,70 @@ import Icon from 'react-mdl/lib/Icon';
 import { Tabs, Tab } from 'react-mdl/lib/Tabs';
 import { breakpoints } from 'modules/common/styles';
 import { certsSelector } from 'modules/data/ducks/selectors';
+import { certTypes } from 'appConstants';
 import Page from '../page';
 import Personal from './personal';
 import Company from './company';
+import Expert from './expert';
 
 
 class Certs extends Component {
   static propTypes = {
     sheet: PropTypes.object,
+    location: PropTypes.object,
+  }
+  static contextTypes = {
+    router: PropTypes.object,
   }
   constructor(props) {
     super(props);
-    this.state = { activeTab: 0 };
+    const { location } = props;
+    this.state = { activeTab: this.tabIndex(location) };
+  }
+  componentWillReceiveProps({ location }) {
+    this.setState({ activeTab: this.tabIndex(location) });
+  }
+  onTabChanged = (tabId) => {
+    let type;
+    switch (tabId) {
+      case 0:
+        type = certTypes.personal;
+        break;
+      case 1:
+        type = certTypes.company;
+        break;
+      case 2:
+        type = certTypes.product;
+        break;
+      case 3:
+        type = certTypes.expert;
+        break;
+      default:
+        type = certTypes.personal;
+    }
+    const { router } = this.context;
+    router.push(`/me/certs?type=${type}`);
+  }
+  tabIndex = ({ query }) => {
+    const type = query ? query.type : certTypes.personal;
+    let activeTab;
+    switch (type) {
+      case certTypes.personal:
+        activeTab = 0;
+        break;
+      case certTypes.company:
+        activeTab = 1;
+        break;
+      case certTypes.product:
+        activeTab = 2;
+        break;
+      case certTypes.expert:
+        activeTab = 3;
+        break;
+      default:
+        activeTab = 0;
+    }
+    return activeTab;
   }
   render() {
     const { sheet: { classes } } = this.props;
@@ -29,12 +81,15 @@ class Certs extends Component {
             <CardTitle>
               实名认证
             </CardTitle>
-            <Tabs activeTab={activeTab} className={classes.tab} onChange={(tabId) => this.setState({ activeTab: tabId })} ripple>
+            <Tabs activeTab={activeTab} className={classes.tab} onChange={this.onTabChanged} ripple>
               <Tab><span>个人<Icon name="check_circle" style={{ fontSize: '1em' }} /></span></Tab>
-              <Tab>企业</Tab>
+              <Tab>商家</Tab>
+              <Tab>产品</Tab>
+              <Tab>专家</Tab>
             </Tabs>
             {activeTab === 0 && <Personal />}
             {activeTab === 1 && <Company />}
+            {activeTab === 3 && <Expert />}
           </Card>
         </div>
       </Page>

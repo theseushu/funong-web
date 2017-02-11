@@ -1,46 +1,67 @@
 import React, { PropTypes } from 'react';
-import { Tabs, Tab } from 'react-mdl/lib/Tabs';
 import injectSheet from 'react-jss';
-import _findIndex from 'lodash/findIndex';
+import Link from 'react-router/lib/Link';
+import Button from 'react-mdl/lib/Button';
+import { colors, shadows, breakpoints } from '../../styles';
+import SubMenu from './subMenu';
 
-const SideMenu = ({ routes, sheet: { classes } }, { router }) => (
+const SideMenu = ({ routes, classes }) => (
   <div>
-    <Tabs
-      activeTab={_findIndex(routes, (route) => route.active)}
-      className={[classes.sidebar, 'mdl-shadow--2dp'].join(' ')}
-      ripple
-    >
-      { routes.map((route, i) => <Tab
-        key={i}
-        onClick={() => router.push(route.path)}
-      >{route.title}</Tab>)}
-    </Tabs>
+    <div className={`${classes.sideMenu} ${shadows.shadow2}`}>
+      {routes.map((route, i) => {
+        if (!route.routes) {
+          return (<Link key={i} to={route.path} onlyActiveOnIndex activeClassName={classes.active}><Button>{route.title}</Button></Link>);
+        }
+        return (
+          <SubMenu key={i} route={route} classes={classes} />
+        );
+      })}
+    </div>
   </div>
   );
 
-SideMenu.contextTypes = {
-  router: PropTypes.object.isRequired,
-};
 SideMenu.propTypes = {
-  sheet: PropTypes.object,
+  classes: PropTypes.object,
   routes: PropTypes.array.isRequired,
 };
 
 
 export default injectSheet({
-  sidebar: {
-    '& .mdl-tabs__tab-bar': {
-      flexDirection: 'column',
-      alignItems: 'stretch',
-      height: 'auto',
-      borderBottom: 'none',
-      padding: '4px 16px 8px 16px',
+  active: {
+    '& > button': {
+      color: `${colors.colorAccent} !important`,
     },
-    '& .mdl-tabs__tab': {
+  },
+  sideMenu: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'stretch',
+    padding: 16,
+    '& button': {
+      width: '100%',
       textAlign: 'left',
+      color: colors.colorSubTitle,
     },
-    '@media (max-width: 839px)': {
+    [breakpoints.mediaDestkopBelow]: {
       display: 'none',
+    },
+  },
+  itemWithSubMenu: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'stretch',
+    '& > button.active': {
+      color: 'black',
+    },
+  },
+  subMenu: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'stretch',
+    overflow: 'hidden',
+    transition: '',
+    '& button': {
+      paddingLeft: 20,
     },
   },
 })(SideMenu);

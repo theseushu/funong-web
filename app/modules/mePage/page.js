@@ -16,7 +16,7 @@ const sideRoutes = (type) => [
       title: '实名认证',
       path: '/me/certs?type=personal',
     }, {
-      title: '企业认证',
+      title: '商家认证',
       path: '/me/certs?type=company',
     }, {
       title: '产品认证',

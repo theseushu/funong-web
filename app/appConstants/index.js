@@ -10,6 +10,8 @@ export const userTypes = [
 export const certTypes = {
   personal: 'personal',
   company: 'company',
+  product: 'product',
+  expert: 'expert',
 };
 
 export const catalogTypes = {

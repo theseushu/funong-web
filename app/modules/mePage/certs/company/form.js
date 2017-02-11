@@ -70,10 +70,11 @@ const CooperationCodeField = createTextfield('组织机构代码证号码');
 
 // export for unit testing
 const companyCertForm = (props) => {
-  const { handleSubmit, pristine, submitting, submitSucceeded, invalid, onSubmit, sheet: { classes } } = props;
+  const { handleSubmit, pristine, submitting, submitSucceeded, invalid, onSubmit, sheet: { classes }, cert } = props;
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <h5>请提交以下认证材料<small>（三证和一执照或营业执照+组织机构代码照）</small></h5>
+      {cert && <h5>已提交以下资料<small>（尚未审核，可以修改）</small></h5>}
+      {!cert && <h5>请提交以下认证材料<small>（三证和一执照或营业执照+组织机构代码照）</small></h5>}
       <div className={classes.line}>
         <div className={classes.input}>
           <Field name="name" component={NameField} />
@@ -96,6 +97,7 @@ const companyCertForm = (props) => {
 };
 
 companyCertForm.propTypes = {
+  cert: PropTypes.object,
   handleSubmit: PropTypes.func.isRequired,
   pristine: PropTypes.bool,
   submitting: PropTypes.bool,
