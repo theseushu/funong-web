@@ -10,7 +10,23 @@ import { actions as pageActions } from './ducks';
 
 const sideRoutes = (type) => [
   { title: type === '微店店主' ? '店铺信息' : '个人信息', path: '/me' },
-  { title: '实名认证', path: '/me/certs' },
+  { title: '认证',
+    path: '/me/certs',
+    routes: [{
+      title: '实名认证',
+      path: '/me/certs?type=personal',
+    }, {
+      title: '企业认证',
+      path: '/me/certs?type=company',
+    }, {
+      title: '产品认证',
+      path: '/me/certs?type=product',
+    }, {
+      title: '专家认证',
+      path: '/me/certs?type=expert',
+    },
+    ],
+  },
   { title: '我的供应', path: '/me/products' },
   { title: '购物车', path: '/cart' },
   { title: '历史订单', path: '/me/orders' },

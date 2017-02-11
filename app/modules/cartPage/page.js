@@ -6,10 +6,14 @@ import _find from 'lodash/find';
 import { connect } from 'react-redux';
 import Link from 'react-router/lib/Link';
 import Button from 'react-mdl/lib/Button';
+import Checkbox from 'react-mdl/lib/Checkbox';
 import { cartItemsSelector } from 'modules/data/ducks/selectors';
 import { isQuantityInvalid } from 'utils/validationUtils';
+import { colors } from 'modules/common/styles';
+import Header from './header';
 import Group from './group';
 import emptyCart from './assets/empty.png';
+import layout from './layout';
 
 class Page extends Component {
   static propTypes = {
@@ -52,21 +56,9 @@ class Page extends Component {
     const { cartItems, selected } = this.state;
     const groups = Object.values(_groupBy(cartItems, (item) => item.owner.objectId));
     const error = this.validate();
-    console.log(error)
     return (
       <div style={{ width: '100%' }}>
-        {groups.length === 0 && (
-          <div style={{ display: 'flex', justifyContent: 'center' }}>
-            <div style={{ width: 100, height: 100, background: `url(${emptyCart})` }} />
-            <div>
-              <h5 style={{ marginLeft: 16 }}>您的购物车还是空的</h5>
-              <div>
-                <Link to="/me/bookmarks"><Button colored>看看我的收藏</Button></Link>
-                <Link to="/me/orders"><Button colored>看看订单</Button></Link>
-              </div>
-            </div>
-          </div>
-        )}
+        <Header groups={groups} cartItems={cartItems} selected={selected} />
         {groups.map((group, i) => (
           <Group
             key={i}

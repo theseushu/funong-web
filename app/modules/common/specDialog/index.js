@@ -10,9 +10,6 @@ import { isQuantityInvalid, isPriceInvalid } from 'utils/validationUtils';
 import Dialog from '../dialog';
 import styles from '../styles';
 
-const minimumRegex = /^[1-9][0-9]{0,7}$/; // 1 - 99999999
-const valueRegex = /^[0-9]{1,7}(\.[0-9]{1,2})?$/; // 0.01 - 9999999.99
-
 const EMPTY = {
   name: '',
   params: [],

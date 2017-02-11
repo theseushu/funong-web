@@ -1,35 +1,34 @@
 import React, { PropTypes } from 'react';
 import injectSheet from 'react-jss';
-import { Header, HeaderRow, HeaderTabs } from 'react-mdl/lib/Layout';
-import { Tab } from 'react-mdl/lib/Tabs';
-import _findIndex from 'lodash/findIndex';
-
-import logo from 'assets/logo.png';
+import Link from 'react-router/lib/Link';
+import { Header, HeaderRow, Navigation } from 'react-mdl/lib/Layout';
+import logoHorizontal from 'assets/logo-horizontal.png';
+import logoBig from 'assets/logo-big.png';
+import styles, { colors, breakpoints } from '../../styles';
 import background from './assets/header-bg.jpg';
-
-import styles from '../../styles';
 
 const routes = [
   { title: '首页', path: '/' },
   { title: '供应', path: '/supplies' },
   { title: '采购', path: '/' },
-  { title: '物流', path: '/logistics' },
-  { title: '微店', path: '/shops' },
   { title: '市场行情', path: '/market' },
   { title: '我的润财', path: '/me' },
+  { title: '物流', path: '/logistics' },
+  { title: '微店', path: '/shops' },
 ];
 
-const AppHeader = ({ sheet: { classes }, header }, { router }) => (
+const AppHeader = ({ sheet: { classes }, header } ) => (
   <Header waterfall hideTop={false} className={classes.header}>
     <HeaderRow className={classes.logoRow}>
       { header || <div className={classes.logo} /> }
     </HeaderRow>
-    <HeaderTabs activeTab={_findIndex(routes, (route) => router.isActive(route.path))} ripple className={[styles.container, classes.nav].join(' ')}>
-      { routes.map((route, i) => <Tab
-        key={i}
-        onClick={() => router.push(route.path)}
-      >{route.title}</Tab>)}
-    </HeaderTabs>
+    <HeaderRow className={classes.nav}>
+      <div className={styles.container}>
+        <Navigation className={classes.links}>
+          { routes.map((route, i) => <Link key={i} activeClassName={classes.activeLink} to={route.path}>{route.title}</Link>) }
+        </Navigation>
+      </div>
+    </HeaderRow>
   </Header>
   );
 
@@ -45,9 +44,6 @@ AppHeader.propTypes = {
 export default injectSheet({
   header: {
     background: `url(${background})`,
-    '& .mdl-layout__tab-bar-container': {
-      background: 'rgba(76,175,80, 0.08)',
-    },
   },
   logoRow: {
     justifyContent: 'center',
@@ -58,16 +54,36 @@ export default injectSheet({
     },
   },
   logo: {
-    background: `url(${logo})`,
-    backgroundSize: 'cover',
-    height: 150,
-    width: 150,
+    background: `url(${logoBig})`,
+    height: 100,
+    width: 250,
     '.is-compact &': {
-      height: 50,
-      width: 50,
+      background: `url(${logoHorizontal})`,
+      height: 40,
+      width: 166,
     },
   },
   nav: {
-    background: 'transparent',
+    height: 45,
+    padding: 0,
+    background: 'rgba(76,175,80, 0.08)',
+    [breakpoints.mediaDestkopBelow]: {
+      display: 'none',
+    }
+  },
+  links: {
+    height: '45px !important',
+    display: 'flex',
+    justifyContent: 'space-between',
+    '& > .mdl-navigation__link': {
+      flex: 1,
+      textAlign: 'center',
+      padding: 0,
+      height: 42,
+      lineHeight: '42px',
+    },
+  },
+  activeLink: {
+    borderBottom: `solid 3px ${colors.colorAccent}`,
   },
 })(AppHeader);

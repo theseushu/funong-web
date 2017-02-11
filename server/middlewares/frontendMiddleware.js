@@ -11,10 +11,15 @@ const addDevMiddlewares = (app, webpackConfig) => {
   const webpackHotMiddleware = require('webpack-hot-middleware');
   const compiler = webpack(webpackConfig);
   const middleware = webpackDevMiddleware(compiler, {
-    noInfo: true,
+    noInfo: false,
     publicPath: webpackConfig.output.publicPath,
-    silent: true,
+    silent: false,
     stats: 'errors-only',
+    // lazy: true,
+    watchOptions: {
+      aggregateTimeout: 300,
+      poll: true,
+    },
   });
 
   app.use(middleware);

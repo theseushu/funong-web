@@ -2,7 +2,6 @@ import React, { Component, PropTypes } from 'react';
 import injectSheet from 'react-jss';
 import { Layout, Content } from 'react-mdl/lib/Layout';
 import { Footer, FooterLinkList, FooterSection } from 'react-mdl/lib/Footer';
-
 import styles, { breakpoints } from '../styles';
 
 import SideMenu from './sideMenu';
@@ -51,15 +50,9 @@ class LayoutComponent extends Component {
 export default injectSheet({
   layout: {
     zIndex: 100001,
-    '& .mdl-layout__tab-bar-container': {
-      display: 'none',
-    },
-    '@media (min-width: 840px)': {
+    [breakpoints.mediaDestkopAbove]: {
       '& .mdl-layout__drawer-button': {
         display: 'none',
-      },
-      '& .mdl-layout__tab-bar-container': {
-        display: 'block',
       },
     },
   },

@@ -18,7 +18,7 @@ export const formatPrice = (spec) => {
     return `${result}，${spec.minimum}${spec.unit}起售`;
   }
   return result;
-}
+};
 
 const miniSecsInHour = 3600 * 1000;
 const miniSecsInDay = miniSecsInHour * 24;

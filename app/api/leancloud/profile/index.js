@@ -15,6 +15,8 @@ export default ({ AV, context: { token: { objectId, sessionToken, mobilePhoneNum
       if (!avProfile) {
         const newProfile = new Profile();
         newProfile.set('mobilePhoneNumber', mobilePhoneNumber);
+        const phone = mobilePhoneNumber.toString();
+        newProfile.set('name', `${phone.substring(0, 3)}**${phone.substring(phone.length - 2, phone.length)}`);
         const savedProfile = await newProfile.save(null, { sessionToken });
         result = userToJSON(savedProfile);
       } else {

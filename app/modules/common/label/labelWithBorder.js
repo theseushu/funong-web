@@ -11,7 +11,7 @@ const LabelWithBorder = ({ children, className, classes, colored, accent, ...pro
     className || '',
   ];
   return <Label className={computedClassName.join(' ')} {...props}>{children}</Label>;
-}
+};
 
 LabelWithBorder.propTypes = {
   classes: PropTypes.object.isRequired,

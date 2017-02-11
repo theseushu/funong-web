@@ -8,6 +8,7 @@ import Textfield from 'react-mdl/lib/Textfield';
 import LabelWithBorder from 'modules/common/label/labelWithBorder';
 import { formatPrice } from 'utils/displayUtils';
 import { breakpoints, shadows, colors } from 'modules/common/styles';
+import layout from '../layout';
 
 const CartItem = ({ item, classes, checked, onChange, onQuantityChange, error }) => {
   const product = item.shopProduct || item.supplyProduct;
@@ -19,7 +20,7 @@ const CartItem = ({ item, classes, checked, onChange, onQuantityChange, error })
           <Checkbox ripple checked={checked} onChange={onChange} />
         </div>
         <img role="presentation" className={classes.thumbnail} src={product.thumbnail.thumbnail_80_80} />
-        <div>{product.name}</div>
+        <div className="_desc_name">{product.name}</div>
       </div>
       <div className={classes.spec}>
         <div>
@@ -100,26 +101,29 @@ export default injectSheet({
     },
   },
   desc: {
-    marginRight: 16,
+    width: layout.desc.width,
+    marginRight: layout.desc.marginRight,
     display: 'flex',
     '& > img': {
       marginRight: 16,
       width: 80,
       height: 80,
     },
-    '& > p': {
-      margin: 0,
+    '& > ._desc_name': {
+      flex: 1,
     },
     [breakpoints.mediaDestkopBelow]: {
+      width: '100%',
+      marginRight: 0,
       '& > img': {
-        marginRight: 16,
         width: 40,
         height: 40,
+        marginRight: 16,
       },
     },
   },
   spec: {
-    margin: '0 16px',
+    margin: `0 ${layout.spec.margin}px`,
     display: 'flex',
     flex: 1,
     flexDirection: 'column',
@@ -141,18 +145,19 @@ export default injectSheet({
   },
   countAndAmount: {
     display: 'flex',
-    [breakpoints.mediaSmallScreen]: {
-      flexDirection: 'column',
-      alignItems: 'center',
-    },
+    margin: `0 ${layout.countAndAmount.margin}px`,
+    width: layout.countAndAmount.width,
+    flexDirection: 'column',
+    alignItems: 'center',
     [breakpoints.mediaDestkopBelow]: {
+      width: '100%',
       flexDirection: 'row',
       alignItems: 'flex-start',
       justifyContent: 'space-around',
     },
   },
   count: {
-    margin: '-6px 24px 0',
+    margin: '-6px 0 0',
     display: 'flex',
     alignItems: 'flex-start',
     width: 140, // 76 + 32 + 32
@@ -173,16 +178,17 @@ export default injectSheet({
   amount: {
     margin: '0 24px',
     color: colors.colorPrice,
-    width: 100,
     '& > h6': {
       margin: 0,
     },
   },
   actions: {
+    width: layout.actions.width,
     margin: 0,
     display: 'flex',
     flexDirection: 'column',
     [breakpoints.mediaDestkopBelow]: {
+      width: '100%',
       flexDirection: 'row',
       justifyContent: 'space-around',
       marginBottom: 0,

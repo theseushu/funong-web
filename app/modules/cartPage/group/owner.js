@@ -26,6 +26,7 @@ export default injectSheet({
   owner: {
     display: 'flex',
     alignItems: 'center',
+    padding: '0 16px',
   },
   avatar: {
     width: 30,
