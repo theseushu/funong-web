@@ -83,19 +83,17 @@ PasswordField.propTypes = {
   disabled: PropTypes.bool,
 };
 
-const SmsCodeAndPasswordFields = ({ login, password, smsCode }) => {
-  return (
-    <div>
-      <SmsField {...smsCode} disabled={login && (!!password.input.value && !smsCode.input.value)} />
-      <PasswordField {...password} disabled={login && !!smsCode.input.value} />
-    </div>
+const SmsCodeAndPasswordFields = ({ login, password, smsCode }) => (
+  <div>
+    <SmsField {...smsCode} disabled={login && (!!password.input.value && !smsCode.input.value)} />
+    <PasswordField {...password} disabled={login && !!smsCode.input.value} />
+  </div>
   );
-};
 SmsCodeAndPasswordFields.propTypes = {
   login: PropTypes.bool.isRequired,
   password: PropTypes.object.isRequired,
   smsCode: PropTypes.object.isRequired,
-}
+};
 
 // export for unit testing
 const SignupOrLoginForm = (props) => {
@@ -126,7 +124,7 @@ const SignupOrLoginForm = (props) => {
       </div>
     </form>
   );
-}
+};
 
 SignupOrLoginForm.propTypes = {
   login: PropTypes.bool.isRequired,
