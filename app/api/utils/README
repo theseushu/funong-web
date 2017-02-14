@@ -1,0 +1,16 @@
+createCompositeDucks requires actions to have meta.storeKey
+the state shape could be:
+
+rootSelector: {
+  apiName(key): {
+    storeKey1: {
+      ...
+    },
+    storeKey2: {
+      ...
+    },
+    ...
+  }
+}
+
+each storeKey entry saves the state of your api call according to meta.storeKey
