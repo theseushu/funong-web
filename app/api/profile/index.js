@@ -1,31 +1,15 @@
-import combineReducers from 'redux/lib/combineReducers';
+import combineModules from '../utils/combineModules';
 import * as create from './create';
 import * as update from './update';
 import * as fetch from './fetch';
 import { SLICE_NAME } from './constants';
 
-export const actions = {
-  ...create.actions, // create
-  ...update.actions, // update
-  ...fetch.actions, // fetch
-};
+let modules = { create, update, fetch };
+if (process.env.ADMIN) {
+  const countAll = require('./admin/countAll'); // eslint-disable-line global-require
+  const fetchUsers = require('./admin/fetchUsers'); // eslint-disable-line global-require
+  const fetchAdmins = require('./admin/fetchAdmins'); // eslint-disable-line global-require
+  modules = { ...modules, countAll, fetchAdmins, fetchUsers };
+}
 
-export const selectors = {
-  create: create.selector,
-  update: update.selector,
-  fetch: fetch.selector,
-};
-
-export const sagas = [
-  ...create.sagas,
-  ...update.sagas,
-  ...fetch.sagas,
-];
-
-export default {
-  [SLICE_NAME]: combineReducers({
-    ...create.default,
-    ...update.default,
-    ...fetch.default,
-  }),
-};
+module.exports = combineModules(modules, SLICE_NAME);

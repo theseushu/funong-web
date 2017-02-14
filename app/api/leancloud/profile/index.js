@@ -58,8 +58,49 @@ export default ({ AV, context, updateContextProfile }) => {
     }
   };
 
+  const fetchAdmins = async () => {
+    const { token: { sessionToken } } = context;
+    try {
+      const adminUsers = await new AV.Query('Profile').containedIn('roles', ['admin', 'super']).find({ sessionToken });
+      return adminUsers.map(userToJSON);
+    } catch (err) {
+      debug(err);
+      throw err;
+    }
+  };
+
+  const fetchUsers = async ({ mobilePhoneNumber, skip, limit }) => {
+    const { token: { sessionToken } } = context;
+    try {
+      const query = new AV.Query('Profile');
+      if (mobilePhoneNumber) {
+        query.contains('mobilePhoneNumber', mobilePhoneNumber);
+      }
+      query.skip(skip).limit(limit);
+      const users = await query.find({ sessionToken });
+      return users.map(userToJSON);
+    } catch (err) {
+      debug(err);
+      throw err;
+    }
+  };
+
+  const countAllUsers = async () => {
+    const { token: { sessionToken } } = context;
+    try {
+      const count = await new AV.Query('Profile').count({ sessionToken });
+      return count;
+    } catch (err) {
+      debug(err);
+      throw err;
+    }
+  };
+
   return {
     fetchProfile,
     updateProfile,
+    fetchAdmins,
+    countAllUsers,
+    fetchUsers,
   };
 };

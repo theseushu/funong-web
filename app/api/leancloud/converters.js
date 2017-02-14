@@ -29,12 +29,15 @@ export const fileToJSON = (file) => {
   return null;
 };
 
+export const roleToJSON = (role) => ({ objectId: role.id, name: role.getName() });
+
 export const userToJSON = (user) => {
   const avAvatar = user.get('avatar');
   const avatar = avAvatar ? fileToJSON(avAvatar) : undefined;
   const images = (user.get('images') || []).map(fileToJSON);
   const roles = user.get('roles') || [];
-  return { ...user.toJSON(), avatar, images, roles };
+  const createdAt = user.get('createdAt').getTime();
+  return { ...user.toJSON(), avatar, images, roles, createdAt };
 };
 
 export const certToJSON = (cert) => {

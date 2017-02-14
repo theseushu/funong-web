@@ -8,6 +8,7 @@ import createRequestSmsCodeApi from './requestSmsCode';
 import createFileApi from './file';
 import createSignupOrLoginApis from './signupOrLogin';
 import createProfileApis from './profile';
+import createRoleApis from './role';
 import createAMapApi from './amap';
 import createCertApis from './cert';
 import createProductApis from './product';
@@ -47,6 +48,7 @@ export default () => {
     requestSmsCode: createRequestSmsCodeApi({ AV }),
     ...createSignupOrLoginApis({ AV, context, updateContextToken }),
     ...createProfileApis({ AV, context, updateContextProfile }),
+    ...createRoleApis({ AV, context }),
     ...createFileApi({ AV, context, updateContextProfile }),
     ...createCertApis({ AV, context }),
     ...createProductApis({ AV, context }),
