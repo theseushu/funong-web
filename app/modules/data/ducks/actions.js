@@ -1,4 +1,5 @@
 import {
+  SET_USERS,
   SET_CURRENT_USER,
   UPDATE_CURRENT_USER_INFO,
   SET_CATALOGS,
@@ -22,6 +23,10 @@ export const setCurrentUser = (user) => ({
 export const updateCurrentUserInfo = (user) => ({
   type: UPDATE_CURRENT_USER_INFO,
   payload: { user },
+});
+export const setUsers = (users) => ({
+  type: SET_USERS,
+  payload: { users },
 });
 export const setCatalogs = (catalogs) => ({
   type: SET_CATALOGS,

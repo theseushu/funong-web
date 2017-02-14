@@ -1,8 +1,17 @@
+/*
+ * important! do not deconstruct context. eg:
+ * export default ({ AV, { token, profile }, updateContextProfile }) => {
+ * ...
+ * }
+ * this object is mutable, deconstruction could cause latest value untouchable
+ * wait until I figure out a better way
+ */
 import { fileToJSON } from '../converters';
 const debug = require('debug')('app:api:file');
 
-export default ({ AV, context: { token: { sessionToken }, profile }, updateContextProfile }) => {
+export default ({ AV, context, updateContextProfile }) => {
   const uploadFile = async ({ filename, file, onprogress, metaData = {} }) => {
+    const { token: { sessionToken }, profile } = context;
     try {
       if (!sessionToken || !profile) {
         throw new AV.Error(AV.Error.SESSION_MISSING, '未登录用户不能上传文件');
@@ -22,6 +31,7 @@ export default ({ AV, context: { token: { sessionToken }, profile }, updateConte
   };
 
   const uploadAvatar = async ({ filename, file, onprogress }) => {
+    const { token: { sessionToken }, profile } = context;
     try {
       const metaData = { owner: profile.objectId, isAvatar: true };
       const uploadedFile = await uploadFile({ filename, file, onprogress, metaData });

@@ -1,6 +1,14 @@
+/*
+ * important! do not deconstruct context. eg:
+ * export default ({ AV, { token, profile }, updateContextProfile }) => {
+ * ...
+ * }
+ * this object is mutable, deconstruction could cause latest value untouchable
+ * wait until I figure out a better way
+ */
 const debug = require('debug')('app:api:catalogCategorySpecies');
 
-export default ({ AV, context: { token: { sessionToken }, profile } }) => {
+export default ({ AV, context }) => {
   class Species extends AV.Object {}
   AV.Object.register(Species);
 
@@ -28,6 +36,7 @@ export default ({ AV, context: { token: { sessionToken }, profile } }) => {
     }));
 
   const createSpecies = async ({ category, name }) => {
+    const { token: { sessionToken }, profile } = context;
     try {
       const species = new Species();
       species.set('category', AV.Object.createWithoutData('Category', category.objectId));

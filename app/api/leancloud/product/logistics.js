@@ -1,11 +1,20 @@
+/*
+ * important! do not deconstruct context. eg:
+ * export default ({ AV, { token, profile }, updateContextProfile }) => {
+ * ...
+ * }
+ * this object is mutable, deconstruction could cause latest value untouchable
+ * wait until I figure out a better way
+ */
 import { logisticsToJSON } from '../converters';
 const debug = require('debug')('app:api:logistics');
 
-export default ({ AV, context: { token: { sessionToken }, profile } }) => {
+export default ({ AV, context }) => {
   class LogisticsProduct extends AV.Object {}
   AV.Object.register(LogisticsProduct);
 
   const createLogisticsProduct = async ({ capacity, maxNumber, price, range, name, location, available, desc, images, labels }) => {
+    const { token: { sessionToken }, profile } = context;
     try {
       const logistics = new LogisticsProduct();
       logistics.set('capacity', capacity);
@@ -33,6 +42,7 @@ export default ({ AV, context: { token: { sessionToken }, profile } }) => {
   };
 
   const updateLogisticsProduct = async ({ objectId, capacity, maxNumber, price, range, name, location, available, desc, images, labels }) => {
+    const { token: { sessionToken } } = context;
     if (!objectId) {
       throw new Error('objectId is empty');
     }
@@ -64,7 +74,14 @@ export default ({ AV, context: { token: { sessionToken }, profile } }) => {
       }
       if (desc) {
         logistics.set('desc', desc);
-      }
+      }/*
+ * important! do not deconstruct context. eg:
+ * export default ({ AV, { token, profile }, updateContextProfile }) => {
+ * ...
+ * }
+ * this object is mutable, deconstruction could cause latest value untouchable
+ * wait until I figure out a better way
+ */
       if (images) {
         logistics.set('images', images.map((image) => AV.Object.createWithoutData('_File', image.id)));
         logistics.set('thumbnail', images.length > 0 ? AV.Object.createWithoutData('_File', images[0].id) : null);
@@ -84,6 +101,7 @@ export default ({ AV, context: { token: { sessionToken }, profile } }) => {
   };
 
   const fetchLogisticsProduct = async ({ objectId }) => {
+    const { token: { sessionToken } } = context;
     const logistics = await AV.Object.createWithoutData('LogisticsProduct', objectId)
       .fetch({
         include: ['images', 'thumbnail', 'owner', 'owner.avatar'],

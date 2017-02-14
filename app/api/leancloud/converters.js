@@ -33,7 +33,8 @@ export const userToJSON = (user) => {
   const avAvatar = user.get('avatar');
   const avatar = avAvatar ? fileToJSON(avAvatar) : undefined;
   const images = (user.get('images') || []).map(fileToJSON);
-  return { ...user.toJSON(), avatar, images };
+  const roles = user.get('roles') || [];
+  return { ...user.toJSON(), avatar, images, roles };
 };
 
 export const certToJSON = (cert) => {

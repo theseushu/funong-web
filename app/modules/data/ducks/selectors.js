@@ -9,9 +9,33 @@ const rootSelector = (state) => state.data;
 export const currentUserSelector = createSelector(
   rootSelector,
   (data) => {
-    const { entities: { users = [] }, currentUser = '' } = data;
+    const { entities: { users = {} }, currentUser = '' } = data;
     const user = users && users[currentUser];
     return user;
+  }
+);
+
+export const usersSelector = createSelector(
+  rootSelector,
+  (data) => {
+    const { entities: { users = {} } } = data;
+    return Object.values(users);
+  }
+);
+
+export const superUsersSelector = createSelector(
+  rootSelector,
+  (data) => {
+    const { entities: { users = {} } } = data;
+    return Object.values(users).filter((user) => user.roles.indexOf('super') >= 0);
+  }
+);
+
+export const adminUsersSelector = createSelector(
+  rootSelector,
+  (data) => {
+    const { entities: { users = {} } } = data;
+    return Object.values(users).filter((user) => user.roles.indexOf('admin') >= 0);
   }
 );
 

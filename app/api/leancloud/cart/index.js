@@ -1,11 +1,20 @@
+/*
+ * important! do not deconstruct context. eg:
+ * export default ({ AV, { token, profile }, updateContextProfile }) => {
+ * ...
+ * }
+ * this object is mutable, deconstruction could cause latest value untouchable
+ * wait until I figure out a better way
+ */
 import { cartItemToJSON } from '../converters';
 const debug = require('debug')('app:api:file');
 
-export default ({ AV, context: { token: { sessionToken }, profile } }) => {
+export default ({ AV, context }) => {
   class CartItem extends AV.Object {}
   AV.Object.register(CartItem);
 
   const addCartItem = async ({ shopProduct, supplyProduct, quantity }) => {
+    const { token: { sessionToken }, profile } = context;
     try {
       if (!sessionToken || !profile) {
         throw new AV.Error(AV.Error.SESSION_MISSING, '未登录用户不能使用购物车');
@@ -29,6 +38,7 @@ export default ({ AV, context: { token: { sessionToken }, profile } }) => {
   };
 
   const updateCartItem = async ({ objectId, quantity }) => {
+    const { token: { sessionToken } } = context;
     if (!objectId) {
       throw new Error('objectId is empty');
     }
@@ -51,6 +61,7 @@ export default ({ AV, context: { token: { sessionToken }, profile } }) => {
     return cartItemIds;
   };
   const fetchCartItems = async () => {
+    const { profile } = context;
     const query = new AV.Query('CartItem')
       .include([
         'shopProduct', 'shopProduct.images', 'shopProduct.category', 'shopProduct.catalog', 'shopProduct.species', 'shopProduct.thumbnail', 'shopProduct.owner', 'shopProduct.owner.avatar',

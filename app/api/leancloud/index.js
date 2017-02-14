@@ -2,7 +2,7 @@
  * It's important to return normal JSON objects in each api method so the app won't need to know the details of the AV library
  */
 
-import AV from 'leancloud-storage/dist/node/index';
+import AV from 'leancloud-storage';
 import { saveToCookie, loadFromCookie } from './contextStorage';
 import createRequestSmsCodeApi from './requestSmsCode';
 import createFileApi from './file';
@@ -20,10 +20,11 @@ const debug = require('debug')('app:api'); // eslint-disable-line no-unused-vars
 const APP_ID = 'ouy08OrFpGAJNxS1T69ceUH7-gzGzoHsz';
 const APP_KEY = 'JNUXol0O66lg5H24kxcmcnOt';
 
+// AV._config.APIServerURL = 'http://localhost:8080'; // eslint-disable-line
+AV._config.disableCurrentUser = true; // eslint-disable-line
 AV.init({
   appId: APP_ID,
   appKey: APP_KEY,
-  disableCurrentUser: true,
 });
 
 export default () => {

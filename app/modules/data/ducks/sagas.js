@@ -2,15 +2,22 @@ import { normalize } from 'normalizr';
 import { takeEvery } from 'redux-saga';
 import { put } from 'redux-saga/effects';
 
-import { UPDATE_DATA, REMOVE_ENTITIES, SET_CURRENT_USER,
+import { UPDATE_DATA, REMOVE_ENTITIES, SET_USERS, SET_CURRENT_USER,
   UPDATE_CURRENT_USER_INFO, SET_CATALOGS, SET_CATAGORIES, SET_SPECIES,
   SET_SPECIFICATIONS, SET_PRODUCT, SET_PRODUCTS,
   SET_SUPPLY_PRODUCTS, SET_LOGISTICS_PRODUCTS, SET_CERTS,
   SET_CART_ITEMS, REMOVE_CART_ITEMS } from './constants';
-import { UserSchema, CatalogsSchema,
+import { UserSchema, UsersSchema, CatalogsSchema,
   CategoriesSchema, SpeciesArraySchema, SpecificationsSchema,
   ProductSchema, ProductsSchema, LogisticsProductsSchema,
   SupplyProductsSchema, CertsSchema, CartItemsSchema } from './schemas';
+
+function* setUsersSaga(action) {
+  const { users } = action.payload;
+  const data = normalize(users, UsersSchema);
+  const payload = Object.assign({}, data);
+  yield put({ type: UPDATE_DATA, payload });
+}
 
 function* updateCurrentUserInfoSaga(action) {
   const { user } = action.payload;
@@ -98,7 +105,7 @@ function* setCartItemsSaga(action) {
 
 function* removeCartItemsSaga(action) {
   const { ids } = action.payload;
-  yield put({ type: REMOVE_ENTITIES, payload: { type: CartItemsSchema.getItemSchema().getKey(), ids } });
+  yield put({ type: REMOVE_ENTITIES, payload: { entities: { [CartItemsSchema.getItemSchema().getKey()]: { ...ids.map((id) => ({ [id]: null })) } } } });
 }
 
 // watcher Saga:
@@ -106,6 +113,7 @@ function* rootSaga(api) {
   yield takeEvery(SET_CURRENT_USER, function* saga(action) {
     yield* setCurrentUserSaga(action, api);
   });
+  yield takeEvery(SET_USERS, setUsersSaga);
   yield takeEvery(UPDATE_CURRENT_USER_INFO, updateCurrentUserInfoSaga);
   yield takeEvery(SET_CATALOGS, setCatalogsSaga);
   yield takeEvery(SET_CATAGORIES, setCategoriesSaga);

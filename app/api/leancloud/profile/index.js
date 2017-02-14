@@ -1,11 +1,20 @@
+/*
+ * important! do not deconstruct context. eg:
+ * export default ({ AV, { token, profile }, updateContextProfile }) => {
+ * ...
+ * }
+ * this object is mutable, deconstruction could cause latest value untouchable
+ * wait until I figure out a better way
+ */
 import { userToJSON } from '../converters';
 const debug = require('debug')('app:api:profile');
 
-export default ({ AV, context: { token: { objectId, sessionToken, mobilePhoneNumber }, profile }, updateContextProfile }) => {
+export default ({ AV, context, updateContextProfile }) => {
   class Profile extends AV.Object {}
   AV.Object.register(Profile);
 
   const fetchProfile = async () => {
+    const { token: { objectId, sessionToken, mobilePhoneNumber } } = context;
     try {
       const avProfile = await new AV.Query('Profile')
         .equalTo('user', AV.Object.createWithoutData('_User', objectId))
@@ -17,6 +26,7 @@ export default ({ AV, context: { token: { objectId, sessionToken, mobilePhoneNum
         newProfile.set('mobilePhoneNumber', mobilePhoneNumber);
         const phone = mobilePhoneNumber.toString();
         newProfile.set('name', `${phone.substring(0, 3)}**${phone.substring(phone.length - 2, phone.length)}`);
+        newProfile.set('user', AV.Object.createWithoutData('_User', objectId));
         const savedProfile = await newProfile.save(null, { sessionToken });
         result = userToJSON(savedProfile);
       } else {
@@ -31,6 +41,7 @@ export default ({ AV, context: { token: { objectId, sessionToken, mobilePhoneNum
   };
 
   const updateProfile = async ({ images, ...attrs }) => {
+    const { token: { sessionToken }, profile } = context;
     try {
       const avProfile = AV.Object.createWithoutData('Profile', profile.objectId);
       const attributes = { ...attrs };

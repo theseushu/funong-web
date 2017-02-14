@@ -1,11 +1,20 @@
+/*
+ * important! do not deconstruct context. eg:
+ * export default ({ AV, { token, profile }, updateContextProfile }) => {
+ * ...
+ * }
+ * this object is mutable, deconstruction could cause latest value untouchable
+ * wait until I figure out a better way
+ */
 import { supplyProductToJSON } from '../converters';
 const debug = require('debug')('app:api:supply');
 
-export default ({ AV, context: { token: { sessionToken }, profile } }) => {
+export default ({ AV, context }) => {
   class SupplyProduct extends AV.Object {}
   AV.Object.register(SupplyProduct);
 
   const createSupplyProduct = async ({ category, species, name, specs, location, desc, images, available, labels }) => {
+    const { token: { sessionToken }, profile } = context;
     try {
       const product = new SupplyProduct();
       product.set('category', AV.Object.createWithoutData('Category', category.objectId));
@@ -32,6 +41,7 @@ export default ({ AV, context: { token: { sessionToken }, profile } }) => {
   };
 
   const updateSupplyProduct = async ({ objectId, category, species, name, specs, location, desc, images, available, labels }) => {
+    const { token: { sessionToken } } = context;
     if (!objectId) {
       throw new Error('objectId is empty');
     }
@@ -80,6 +90,7 @@ export default ({ AV, context: { token: { sessionToken }, profile } }) => {
   };
 
   const fetchSupplyProduct = async ({ objectId }) => {
+    const { token: { sessionToken } } = context;
     const product = await AV.Object.createWithoutData('SupplyProduct', objectId)
       .fetch({
         include: ['images', 'thumbnail', 'category', 'category.catalog', 'species', 'owner', 'owner.avatar'],
