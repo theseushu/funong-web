@@ -1,12 +1,11 @@
 // saveToCookie, loadFromCookie are only importable in browser
 
-export const saveToCookie = ({ token: { sessionToken, objectId, mobilePhoneNumber }, profile }) => {
+export const saveToCookie = ({ token: { sessionToken, objectId, mobilePhoneNumber } }) => {
   if (typeof window === 'object') {
     const Cookies = require('js-cookie'); // eslint-disable-line global-require
     Cookies.set('sessionToken', sessionToken);
     Cookies.set('objectId', objectId);
     Cookies.set('mobilePhoneNumber', mobilePhoneNumber);
-    Cookies.set('profile', profile);
   }
 };
 
@@ -16,8 +15,7 @@ export const loadFromCookie = () => {
     const sessionToken = Cookies.get('sessionToken');
     const objectId = Cookies.get('objectId');
     const mobilePhoneNumber = Cookies.get('mobilePhoneNumber');
-    const profile = Cookies.getJSON('profile');
-    return { token: { sessionToken, objectId, mobilePhoneNumber }, profile };
+    return { token: { sessionToken, objectId, mobilePhoneNumber } };
   }
   return {};
 };

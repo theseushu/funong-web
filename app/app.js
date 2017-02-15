@@ -23,6 +23,8 @@ import App from 'containers/App';
 
 // Import selector for `syncHistoryWithStore`
 import { makeSelectLocationState } from 'containers/App/selectors';
+import { currentUserSelector } from 'modules/data/ducks/selectors';
+import { actions as profileActions } from 'api/profile';
 
 // Import Language Provider
 import LanguageProvider from 'containers/LanguageProvider';
@@ -66,19 +68,18 @@ openSansObserver.load().then(() => {
 // e.g. `const browserHistory = useRouterHistory(createBrowserHistory)();`
 const initialState = {};
 const api = createApi();
-const currentUser = api.getCurrentUser();
-if (currentUser) {
-  initialState.data = {
-    currentUser: currentUser.objectId,
-    entities: {
-      users: {
-        [currentUser.objectId]: currentUser,
-      },
-    },
-  };
-}
 const store = configureStore(initialState, browserHistory, api);
 
+const tokenExists = api.tokenExists();
+// token exists means there's sessionToken in cookies.
+// if currentUser is not null,(which means store state is populated from ssr) we do nothing
+// otherwise, fetch user's profile
+if (tokenExists) {
+  const currentUser = currentUserSelector(store.getState());
+  if (!currentUser) {
+    store.dispatch(profileActions.fetch());
+  }
+}
 // Sync history and store, as the react-router-redux reducer
 // is under the non-default key ("routing"), selectLocationState
 // must be provided for resolving how to retrieve the "route" in the state

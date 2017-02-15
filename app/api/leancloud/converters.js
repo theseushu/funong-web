@@ -34,15 +34,22 @@ export const roleToJSON = (role) => ({ objectId: role.id, name: role.getName() }
 export const userToJSON = (user) => {
   const avAvatar = user.get('avatar');
   const avatar = avAvatar ? fileToJSON(avAvatar) : undefined;
-  const images = (user.get('images') || []).map(fileToJSON);
-  const roles = user.get('roles') || [];
-  const createdAt = user.get('createdAt').getTime();
-  return { ...user.toJSON(), avatar, images, roles, createdAt };
+  const avImages = user.get('images');
+  const images = avImages ? avImages.map(fileToJSON) : undefined;
+  const roles = user.get('roles') || undefined;
+  const avCreatedAt = user.get('createdAt');
+  const avUpdatedAt = user.get('updatedAt');
+  const createdAt = avCreatedAt ? avCreatedAt.getTime() : undefined;
+  const updatedAt = avUpdatedAt ? avUpdatedAt.getTime() : undefined;
+  return { ...user.toJSON(), avatar, images, roles, createdAt, updatedAt };
 };
 
 export const certToJSON = (cert) => {
   const images = (cert.get('images') || []).map(fileToJSON);
-  return { ...cert.toJSON(), images };
+  const owner = cert.get('owner');
+  const createdAt = cert.get('createdAt').getTime();
+  const updatedAt = cert.get('updatedAt').getTime();
+  return { ...cert.toJSON(), images, owner: userToJSON(owner), createdAt, updatedAt };
 };
 
 export const supplyProductToJSON = (product) => {
@@ -69,6 +76,9 @@ export const supplyProductToJSON = (product) => {
 
   const labels = product.get('labels') || null;
 
+  const createdAt = product.get('createdAt').getTime();
+  const updatedAt = product.get('updatedAt').getTime();
+
   return {
     ...product.toJSON(),
     category,
@@ -79,8 +89,8 @@ export const supplyProductToJSON = (product) => {
     owner,
     thumbnail,
     labels,
-    updatedAt: product.getUpdatedAt().getTime(),
-    createdAt: product.getCreatedAt().getTime(),
+    updatedAt,
+    createdAt,
   };
 };
 
@@ -100,6 +110,9 @@ export const logisticsToJSON = (logistics) => {
 
   const labels = logistics.get('labels') || null;
 
+  const createdAt = logistics.get('createdAt').getTime();
+  const updatedAt = logistics.get('updatedAt').getTime();
+
   return {
     ...logistics.toJSON(),
     location: { address, lnglat },
@@ -107,8 +120,8 @@ export const logisticsToJSON = (logistics) => {
     owner,
     thumbnail,
     labels,
-    updatedAt: logistics.getUpdatedAt().getTime(),
-    createdAt: logistics.getCreatedAt().getTime(),
+    updatedAt,
+    createdAt,
   };
 };
 
@@ -122,5 +135,8 @@ export const cartItemToJSON = (cartItem) => {
   const avOwner = cartItem.get('owner');
   const owner = avOwner ? avOwner.toJSON() : null;
 
-  return { ...cartItem.toJSON(), owner, supplyProduct, shopProduct };
+  const createdAt = cartItem.get('createdAt').getTime();
+  const updatedAt = cartItem.get('updatedAt').getTime();
+
+  return { ...cartItem.toJSON(), owner, supplyProduct, shopProduct, createdAt, updatedAt };
 };

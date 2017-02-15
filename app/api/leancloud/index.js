@@ -21,7 +21,7 @@ const debug = require('debug')('app:api'); // eslint-disable-line no-unused-vars
 const APP_ID = 'ouy08OrFpGAJNxS1T69ceUH7-gzGzoHsz';
 const APP_KEY = 'JNUXol0O66lg5H24kxcmcnOt';
 
-// AV._config.APIServerURL = 'http://localhost:8080'; // eslint-disable-line
+AV._config.APIServerURL = 'http://localhost:8080'; // eslint-disable-line
 AV._config.disableCurrentUser = true; // eslint-disable-line
 AV.init({
   appId: APP_ID,
@@ -37,13 +37,12 @@ export default () => {
   };
   const updateContextProfile = (newProfile) => {
     context.profile = newProfile;
-    saveToCookie(context);
   };
 
-  const getCurrentUser = () => context.profile;
+  const tokenExists = () => !!context.token.sessionToken;
 
   return {
-    getCurrentUser,
+    tokenExists,
     ...createAMapApi(),
     requestSmsCode: createRequestSmsCodeApi({ AV }),
     ...createSignupOrLoginApis({ AV, context, updateContextToken }),
