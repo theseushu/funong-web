@@ -106,3 +106,15 @@ export const provinces = [
 
   { title: '新疆', value: '新疆' },
 ];
+
+export const badges = {
+  idVerified: {
+    title: '实名认证', value: 'idVerified',
+  },
+  companyVerified: {
+    title: '企业认证', value: 'idVerified',
+  },
+  expertVerified: {
+    title: '专家认证', value: 'idVerified',
+  },
+};
