@@ -14,6 +14,9 @@ export const colors = {
   colorPrice: '#FF5722', // deepOrange500
   colorCategoryLabel: '#827717', // lime900
   colorSpeciesLabel: '#558B2F', // lightGreen800
+  colorUnverified: '#AFB42B', // lime700
+  colorVerified: '#33691E', // lightGreen900
+  colorRejected: '#EF6C00', // orange800
 };
 
 export const breakpoints = {
@@ -83,6 +86,18 @@ const styles = {
   },
   colorSubTitle: {
     color: colors.colorSubTitle,
+  },
+  colorUnverified: {
+    color: colors.colorUnverified,
+  },
+  colorRejected: {
+    color: colors.colorRejected,
+  },
+  colorVerified: {
+    color: colors.colorVerified,
+  },
+  defaultTransition: {
+    transition: 'all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms !important',
   },
 };
 

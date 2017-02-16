@@ -18,23 +18,33 @@ export const validate = ({ name, corporate, isUnified = '', unifiedCode = '', re
   cooperationCode: (isUnified !== '' && cooperationCode.length === 0) ? 'Required' : undefined,
 });
 
+const DEFAULT = {
+  name: '',
+  corporate: '',
+  isUnified: '',
+  unifiedCode: '',
+  registrationCode: '',
+  cooperationCode: '',
+  images: [],
+};
+
 export default (cert = {}) => reduxForm({
   form: 'companyCert',  // a unique identifier for this form
   validate,                // <--- validation function given to redux-form
-  initialValues: {
-    name: cert.name || '',
-    corporate: cert.corporate || '',
-    isUnified: cert.isUnified ? '' : 'old',
-    unifiedCode: cert.unifiedCode || '',
-    registrationCode: cert.registrationCode || '',
-    cooperationCode: cert.cooperationCode || '',
+  initialValues: cert ? {
+    name: cert.fields.name,
+    corporate: cert.fields.corporate,
+    isUnified: cert.fields.isUnified ? '' : 'old',
+    unifiedCode: cert.fields.unifiedCode,
+    registrationCode: cert.fields.registrationCode,
+    cooperationCode: cert.fields.cooperationCode,
     images: cert.images || [],
-  },
+  } : DEFAULT,
 })(connect(
   (state) => ({ cert: company(state) }),
   (dispatch) => ({
     onSubmit: ({ name, corporate, isUnified, unifiedCode, registrationCode, cooperationCode, images }) => new Promise((resolve, reject) => {
-      const params = { type: certTypes.company, name, corporate, isUnified: isUnified === '', unifiedCode, registrationCode, cooperationCode, images, meta: { resolve, reject: (err) => reject(new SubmissionError({ _error: { code: err.code, message: err.message } })) } };
+      const params = { type: certTypes.company, fields: { name, corporate, isUnified: isUnified !== 'old', unifiedCode, registrationCode, cooperationCode }, images, meta: { resolve, reject: (err) => reject(new SubmissionError({ _error: { code: err.code, message: err.message } })) } };
       if (cert.objectId) {
         dispatch(updateCert({ objectId: cert.objectId, ...params }));
       } else {

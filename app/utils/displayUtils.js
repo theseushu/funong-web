@@ -1,4 +1,8 @@
+import React from 'react';
 import _reduce from 'lodash/reduce';
+import _find from 'lodash/find';
+import { statusValues } from 'appConstants';
+import styles from 'modules/common/styles';
 
 export const formatAddress = ({ country = '', province = '', city = '', district = '' }) =>
   `${country === '中国' ? '' : country}${province}${city}${district}`;
@@ -19,6 +23,27 @@ export const formatPrice = (spec) => {
   }
   return result;
 };
+
+export const formatStatus = (statusValue) => {
+  const status = _find(statusValues, (s) => s.value === statusValue) || {};
+  const { title, value } = status;
+  let className;
+  switch (value) {
+    case statusValues.unverified:
+      className = styles.colorUnverified;
+      break;
+    case statusValues.rejected:
+      className = styles.colorRejected;
+      break;
+    case statusValues.verified:
+      className = styles.colorVerified;
+      break;
+    default:
+      className = styles.colorAccent;
+  }
+  return (<span className={className}>{title}</span>);
+};
+
 
 const miniSecsInHour = 3600 * 1000;
 const miniSecsInDay = miniSecsInHour * 24;

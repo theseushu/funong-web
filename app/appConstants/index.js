@@ -1,3 +1,18 @@
+export const statusValues = {
+  unverified: { value: 0, title: '待审核' },
+  verified: { value: 1, title: '已通过' },
+  rejected: { value: 2, title: '已拒绝' },
+
+  unconfirmed: { value: 11, title: '待确认' },
+  unbilled: { value: 12, title: '待付款' },
+  unshipped: { value: 13, title: '待发货' },
+  shipping: { value: 14, title: '已发货' },
+  shipped: { value: 15, title: '已收货' },
+  finished: { value: 16, title: '完成' },
+  cancelling: { value: 17, title: '取消中' },
+  cancelled: { value: 18, title: '已取消' },
+};
+
 export const userTypes = [
   { icon: 'shopping_basket', title: '逛逛再说', value: '一般用户', subtitle: '您可以稍候在个人信息里重新选择' },
   { icon: 'home', title: '我要开店', value: '微店店主' },

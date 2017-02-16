@@ -15,15 +15,25 @@ export const validate = ({ name, IDCard, images }) => ({
   images: (!images || images.length === 0) ? 'Required' : undefined,
 });
 
+const DEFAULT = {
+  name: '',
+  IDCard: '',
+  images: [],
+};
+
 export default (cert) => reduxForm({
   form: 'personalCert',  // a unique identifier for this form
   validate,                // <--- validation function given to redux-form
-  initialValues: cert,
+  initialValues: cert ? {
+    name: cert.fields.name,
+    IDCard: cert.fields.IDCard,
+    images: cert.images,
+  } : DEFAULT,
 })(connect(
   (state) => ({ cert: personal(state) }),
   (dispatch) => ({
     onSubmit: ({ name, IDCard, images }) => new Promise((resolve, reject) => {
-      const params = { type: certTypes.personal, name, IDCard, images, meta: { resolve, reject: (err) => reject(new SubmissionError({ _error: { code: err.code, message: err.message } })) } };
+      const params = { type: certTypes.personal, fields: { name, IDCard }, images, meta: { resolve, reject: (err) => reject(new SubmissionError({ _error: { code: err.code, message: err.message } })) } };
       if (cert) {
         dispatch(updateCert({ objectId: cert.objectId, ...params }));
       } else {
