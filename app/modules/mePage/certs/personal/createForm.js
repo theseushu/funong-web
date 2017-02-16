@@ -33,7 +33,7 @@ export default (cert) => reduxForm({
   (state) => ({ cert: personal(state) }),
   (dispatch) => ({
     onSubmit: ({ name, IDCard, images }) => new Promise((resolve, reject) => {
-      const params = { type: certTypes.personal, fields: { name, IDCard }, images, meta: { resolve, reject: (err) => reject(new SubmissionError({ _error: { code: err.code, message: err.message } })) } };
+      const params = { type: certTypes.personal.value, fields: { name, IDCard }, images, meta: { resolve, reject: (err) => reject(new SubmissionError({ _error: { code: err.code, message: err.message } })) } };
       if (cert) {
         dispatch(updateCert({ objectId: cert.objectId, ...params }));
       } else {

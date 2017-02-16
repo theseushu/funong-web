@@ -14,11 +14,9 @@ export const validate = ({ name, idCard, images }) => ({
 
 // export for unit testing
 const expertCertForm = (props) => {
-  const { handleSubmit, pristine, submitting, submitSucceeded, invalid, onSubmit, sheet: { classes }, cert } = props;
+  const { handleSubmit, pristine, submitting, submitSucceeded, invalid, onSubmit, sheet: { classes } } = props;
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      {cert && <h5>已提交以下资料<small>（尚未审核，可以修改）</small></h5>}
-      {!cert && <h5>请提交以下认证材料<small>（手持身份证正面半身照、身份证正面照、身份证反面照）</small></h5>}
       <Fields names={['desc', 'images']} component={DescAndImagesField} />
       <div className={[styles.contentCenter, classes.marginTop16].join(' ')}>
         <Button raised colored type="submit" disabled={pristine || invalid || submitting}>{submitSucceeded && pristine ? '保存成功' : '确定'}</Button>
@@ -35,7 +33,6 @@ expertCertForm.propTypes = {
   invalid: PropTypes.bool,
   onSubmit: PropTypes.func.isRequired,
   sheet: PropTypes.object.isRequired,
-  cert: PropTypes.object,
 };
 
 export default injectSheet({

@@ -4,19 +4,22 @@ import injectSheet from 'react-jss';
 import { Card, CardTitle } from 'react-mdl/lib/Card';
 import Icon from 'react-mdl/lib/Icon';
 import { Tabs, Tab } from 'react-mdl/lib/Tabs';
-import { breakpoints } from 'modules/common/styles';
-import { certsSelector } from 'modules/data/ducks/selectors';
-import { certTypes } from 'appConstants';
+import styles, { breakpoints } from 'modules/common/styles';
+import { statusValues, certTypes } from 'appConstants';
 import Page from '../page';
 import Personal from './personal';
 import Company from './company';
 import Expert from './expert';
+import { personal as personalSelector, company as companySelector, expert as expertSelector } from './selectors';
 
 
 class Certs extends Component {
   static propTypes = {
     sheet: PropTypes.object,
     location: PropTypes.object,
+    personal: PropTypes.object,
+    company: PropTypes.object,
+    expert: PropTypes.object,
   }
   static contextTypes = {
     router: PropTypes.object,
@@ -33,37 +36,37 @@ class Certs extends Component {
     let type;
     switch (tabId) {
       case 0:
-        type = certTypes.personal;
+        type = certTypes.personal.value;
         break;
       case 1:
-        type = certTypes.company;
+        type = certTypes.company.value;
         break;
       case 2:
-        type = certTypes.product;
+        type = certTypes.product.value;
         break;
       case 3:
-        type = certTypes.expert;
+        type = certTypes.expert.value;
         break;
       default:
-        type = certTypes.personal;
+        type = certTypes.personal.value;
     }
     const { router } = this.context;
     router.push(`/me/certs?type=${type}`);
   }
   tabIndex = ({ query }) => {
-    const type = query ? query.type : certTypes.personal;
+    const type = query ? query.type : certTypes.personal.value;
     let activeTab;
     switch (type) {
-      case certTypes.personal:
+      case certTypes.personal.value:
         activeTab = 0;
         break;
-      case certTypes.company:
+      case certTypes.company.value:
         activeTab = 1;
         break;
-      case certTypes.product:
+      case certTypes.product.value:
         activeTab = 2;
         break;
-      case certTypes.expert:
+      case certTypes.expert.value:
         activeTab = 3;
         break;
       default:
@@ -71,8 +74,23 @@ class Certs extends Component {
     }
     return activeTab;
   }
+  renderCertIcon = (cert) => {
+    if (!cert) {
+      return null;
+    }
+    switch (cert.status) {
+      case statusValues.unverified.value:
+        return null;
+      case statusValues.verified.value:
+        return <Icon name="check_circle" className={styles.colorVerified} />;
+      case statusValues.rejected.value:
+        return <Icon name="remove_circle" className={styles.colorRejected} />;
+      default:
+        return null;
+    }
+  }
   render() {
-    const { sheet: { classes } } = this.props;
+    const { personal, company, expert, sheet: { classes } } = this.props;
     const { activeTab } = this.state;
     return (
       <Page>
@@ -82,14 +100,14 @@ class Certs extends Component {
               实名认证
             </CardTitle>
             <Tabs activeTab={activeTab} className={classes.tab} onChange={this.onTabChanged} ripple>
-              <Tab><span>个人<Icon name="check_circle" style={{ fontSize: '1em' }} /></span></Tab>
-              <Tab>商家</Tab>
-              <Tab>产品</Tab>
-              <Tab>专家</Tab>
+              <Tab><span className={classes.tabLink}>个人{this.renderCertIcon(personal)}</span></Tab>
+              <Tab><span className={classes.tabLink}>商家{this.renderCertIcon(company)}</span></Tab>
+              {/* <Tab>产品</Tab> */}
+              <Tab><span className={classes.tabLink}>专家{this.renderCertIcon(expert)}</span></Tab>
             </Tabs>
             {activeTab === 0 && <Personal />}
             {activeTab === 1 && <Company />}
-            {activeTab === 3 && <Expert />}
+            {activeTab === 2 && <Expert />}
           </Card>
         </div>
       </Page>
@@ -110,6 +128,13 @@ export default injectSheet({
       borderBottom: 'none',
     },
   },
+  tabLink: {
+    display: 'flex',
+    alignItems: 'center',
+    '& > i': {
+      fontSize: '1em',
+    },
+  },
   text: {
     marginTop: 0,
     fontSize: 'smaller',
@@ -117,5 +142,5 @@ export default injectSheet({
     listStyle: 'none',
   },
 })(connect(
-  (state) => ({ certs: certsSelector(state) })
+  (state) => ({ personal: personalSelector(state), company: companySelector(state), expert: expertSelector(state) })
 )(Certs));

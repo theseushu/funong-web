@@ -23,10 +23,10 @@ export const userTypes = [
 ];
 
 export const certTypes = {
-  personal: 'personal',
-  company: 'company',
-  product: 'product',
-  expert: 'expert',
+  personal: { value: 'personal', title: '实名认证' },
+  company: { value: 'company', title: '企业(工商)认证' },
+  product: { value: 'product', title: '产品认证' },
+  expert: { value: 'expert', title: '专家认证' },
 };
 
 export const catalogTypes = {

@@ -19,11 +19,9 @@ const IDCardField = createTextfield('身份证号', '_personal_id_card');
 
 // export for unit testing
 const personalCertForm = (props) => {
-  const { handleSubmit, pristine, submitting, submitSucceeded, invalid, onSubmit, sheet: { classes }, cert } = props;
+  const { handleSubmit, pristine, submitting, submitSucceeded, invalid, onSubmit, sheet: { classes } } = props;
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      {cert && <h5>已提交以下资料<small>（尚未审核，可以修改）</small></h5>}
-      {!cert && <h5>请提交以下认证材料<small>（手持身份证正面半身照、身份证正面照、身份证反面照）</small></h5>}
       <div className={classes.line}>
         <div className={classes.input}>
           <Field name="name" component={NameField} />
@@ -52,7 +50,6 @@ personalCertForm.propTypes = {
   invalid: PropTypes.bool,
   onSubmit: PropTypes.func.isRequired,
   sheet: PropTypes.object.isRequired,
-  cert: PropTypes.object,
 };
 
 export default injectSheet({

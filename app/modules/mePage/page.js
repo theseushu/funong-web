@@ -8,8 +8,8 @@ import Avatar from 'modules/common/avatar';
 import { colors } from 'modules/common/styles';
 import { actions as pageActions } from './ducks';
 
-const sideRoutes = (type) => [
-  { title: type === '微店店主' ? '店铺信息' : '个人信息', path: '/me' },
+const sideRoutes = () => [
+  { title: '个人信息', path: '/me' },
   { title: '认证',
     path: '/me/certs',
     routes: [{

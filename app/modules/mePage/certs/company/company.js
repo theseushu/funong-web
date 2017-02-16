@@ -1,14 +1,16 @@
 import React, { Component, PropTypes } from 'react';
 import injectSheet from 'react-jss';
-import { colors } from 'modules/common/styles';
+import styles, { colors } from 'modules/common/styles';
 import FilesUpload from 'modules/common/filesUpload';
+import CertDisplay from 'modules/common/cert/display';
+import { statusValues } from 'appConstants';
 import createForm from './createForm';
 import image4 from '../assets/image4.jpg';
 import image5 from '../assets/image5.jpg';
 import image6 from '../assets/image6.jpg';
 
 
-class Personal extends Component {
+class Company extends Component {
   static propTypes = {
     sheet: PropTypes.object,
     cert: PropTypes.object,
@@ -19,10 +21,21 @@ class Personal extends Component {
   }
   render() {
     const { sheet: { classes }, cert } = this.props;
-    const Form = createForm(cert);
+    let title;
+    let display;
+    if (cert && cert.status === statusValues.verified.value) {
+      title = <h5 className={styles.colorVerified}>您已通过审核！</h5>;
+      display = <CertDisplay cert={cert} />;
+    } else {
+      title = cert ? <h5>已提交以下资料<small>（可以修改）</small></h5> :
+      <h5>请提交以下认证材料<small>（三证和一执照或营业执照+组织机构代码照）</small></h5>;
+      const Form = createForm(cert);
+      display = <Form />;
+    }
     return (
       <div className={classes.wrapper}>
-        <Form />
+        {title}
+        {display}
         <div className={classes.instructions}>
           <h5>示例照片</h5>
           <FilesUpload
@@ -66,4 +79,4 @@ export default injectSheet({
     listStyle: 'none',
     textWrap: 'wrap',
   },
-})(Personal);
+})(Company);

@@ -23,13 +23,13 @@ class Profile extends Component {
     this.state = { activeTab: 0 };
   }
   render() {
-    const { user: { type, mobilePhoneNumber }, sheet: { classes } } = this.props;
+    const { user: { mobilePhoneNumber }, sheet: { classes } } = this.props;
     return (
       <Page>
         <div className={classes.content}>
           <Card shadow={2} style={{ width: '100%', margin: 'auto' }}>
             <CardTitle>
-              <h2 className="mdl-card__title-text">{type === '微店店主' ? '店铺信息' : '个人信息'}</h2>
+              <h2 className="mdl-card__title-text">个人信息</h2>
               <Tooltip label={<span>点击条目内容即可开始修改<br />您也可以点击图像更换新的头像</span>}>
                 <IconButton colored name="help_outline"></IconButton>
               </Tooltip>

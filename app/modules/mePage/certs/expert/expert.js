@@ -1,6 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import injectSheet from 'react-jss';
-import { colors } from 'modules/common/styles';
+import styles, { colors } from 'modules/common/styles';
+import CertDisplay from 'modules/common/cert/display';
+import { statusValues } from 'appConstants';
 import createForm from './createForm';
 
 class Personal extends Component {
@@ -14,10 +16,21 @@ class Personal extends Component {
   }
   render() {
     const { sheet: { classes }, cert } = this.props;
-    const Form = createForm(cert);
+    let title;
+    let display;
+    if (cert && cert.status === statusValues.verified.value) {
+      title = <h5 className={styles.colorVerified}>您已通过审核，正式成为富农认证农贸专家！</h5>;
+      display = <CertDisplay cert={cert} />;
+    } else {
+      title = cert ? <h5>已提交以下资料<small>（可以修改）</small></h5> :
+      <h5>请提交认证材料表明您的专家身份</h5>;
+      const Form = createForm(cert);
+      display = <Form />;
+    }
     return (
       <div className={classes.wrapper}>
-        <Form />
+        {title}
+        {display}
         <div className={classes.instructions}>
           <h5>审核须知</h5>
           <ul className={classes.text}>
