@@ -29,13 +29,13 @@ export const formatStatus = (statusValue) => {
   const { title, value } = status;
   let className;
   switch (value) {
-    case statusValues.unverified:
+    case statusValues.unverified.value:
       className = styles.colorUnverified;
       break;
-    case statusValues.rejected:
+    case statusValues.rejected.value:
       className = styles.colorRejected;
       break;
-    case statusValues.verified:
+    case statusValues.verified.value:
       className = styles.colorVerified;
       break;
     default:
@@ -43,7 +43,6 @@ export const formatStatus = (statusValue) => {
   }
   return (<span className={className}>{title}</span>);
 };
-
 
 const miniSecsInHour = 3600 * 1000;
 const miniSecsInDay = miniSecsInHour * 24;
