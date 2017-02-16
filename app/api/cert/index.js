@@ -1,31 +1,17 @@
-import combineReducers from 'redux/lib/combineReducers';
+import combineModules from '../utils/combineModules';
 import * as create from './create';
 import * as update from './update';
 import * as searchMine from './searchMine';
 import { SLICE_NAME } from './constants';
 
-export const actions = {
-  ...create.actions, // create
-  ...update.actions, // update
-  ...searchMine.actions, // fetch
-};
+let modules = { create, update, searchMine };
+if (process.env.ADMIN) {
+  const search = require('./admin/search'); // eslint-disable-line global-require
+  const searchUnverified = require('./admin/searchUnverified'); // eslint-disable-line global-require
+  const changeStatus = require('./admin/changeStatus'); // eslint-disable-line global-require
+  const verify = require('./admin/verify'); // eslint-disable-line global-require
+  const reject = require('./admin/reject'); // eslint-disable-line global-require
+  modules = { ...modules, search, searchUnverified, changeStatus, verify, reject };
+}
 
-export const selectors = {
-  create: create.selector,
-  update: update.selector,
-  searchMine: searchMine.selector,
-};
-
-export const sagas = [
-  ...create.sagas,
-  ...update.sagas,
-  ...searchMine.sagas,
-];
-
-export default {
-  [SLICE_NAME]: combineReducers({
-    ...create.default,
-    ...update.default,
-    ...searchMine.default,
-  }),
-};
+module.exports = combineModules(modules, SLICE_NAME);
