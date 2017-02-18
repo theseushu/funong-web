@@ -2,19 +2,17 @@ import React, { PropTypes } from 'react';
 import injectSheet from 'react-jss';
 import { Field, Fields } from 'redux-form';
 import Button from 'react-mdl/lib/Button';
-import Tooltip from 'react-mdl/lib/Tooltip';
-import IconButton from 'react-mdl/lib/IconButton';
 import styles from 'modules/common/styles';
 import createTextfield from '../../../utils/createTextField';
 import LocationField from '../../../utils/locationField';
 import DescAndImagesField from '../../../utils/descAndImagesField';
 import AreasField from './areasField';
 
-const NameField = createTextfield('店铺名称');
+const NameField = createTextfield('店铺名称', 'shop_name');
 
 // export for unit testing
 const ShopForm = (props) => {
-  const { handleSubmit, pristine, submitting, submitSucceeded, invalid, onSubmit,  sheet: { classes } } = props;
+  const { handleSubmit, pristine, submitting, submitSucceeded, invalid, onSubmit, sheet: { classes } } = props;
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className={classes.line}>
@@ -27,6 +25,9 @@ const ShopForm = (props) => {
       </div>
       <div className={classes.line}>
         <Field name="areas" component={AreasField} />
+      </div>
+      <div className={`${classes.line} ${classes.marginTop16}`}>
+        店铺介绍
       </div>
       <Fields names={['desc', 'images']} component={DescAndImagesField} />
       <div className={[styles.contentCenter, classes.marginTop16].join(' ')}>
@@ -54,6 +55,6 @@ export default injectSheet({
     display: 'flex', alignItems: 'center', flexWrap: 'wrap',
   },
   input: {
-    flex: 1, minWidth: 300,
+    flex: 1, minWidth: 200,
   },
 })(ShopForm);

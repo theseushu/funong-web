@@ -154,7 +154,5 @@ export const shopsSelector = createSelector(
 export const myShopSelector = createSelector(
   shopsSelector,
   currentUserSelector,
-  (shops, currentUser) => {
-    return _find(shops, (shop) => shop.owner.objectId === currentUser.objectId);
-  },
+  (shops, currentUser) => _find(shops, (shop) => shop.owner.objectId === currentUser.objectId),
 );

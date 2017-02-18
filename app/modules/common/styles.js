@@ -18,6 +18,9 @@ export const colors = {
   colorVerified: '#33691E', // lightGreen900
   colorRejected: '#EF6C00', // orange800
   colorWarning: '#FBC02D', // yellow700
+  colorIDVerified: '#4DB6AC', // teal300
+  colorCompanyVerified: '#DCE775', // lime300
+  colorExpertVerified: '#7986CB', // indigo300
 };
 
 export const breakpoints = {

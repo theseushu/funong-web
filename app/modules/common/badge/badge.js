@@ -1,11 +1,12 @@
 import React, { PropTypes } from 'react';
 import injectSheet from 'react-jss';
 import Tooltip from 'react-mdl/lib/Tooltip';
+import { colors } from 'modules/common/styles';
 
-const Badge = ({ classes, tooltip, children }) => (
+const Badge = ({ color, classes, tooltip, children }) => (
   tooltip ? (
-    <Tooltip label={<span>Upload <strong>file.zip</strong></span>}>
-      <span className={classes.wrapper}>
+    <Tooltip label={<span>{tooltip}</span>}>
+      <span className={classes.wrapper} style={{ color: color || undefined, borderColor: color || undefined }}>
         {children && children[0]}
       </span>
     </Tooltip>
@@ -19,6 +20,7 @@ const Badge = ({ classes, tooltip, children }) => (
 Badge.propTypes = {
   classes: PropTypes.object.isRequired,
   children: PropTypes.string.isRequired,
+  color: PropTypes.string,
   tooltip: PropTypes.any,
 };
 
@@ -26,8 +28,8 @@ export default injectSheet({
   wrapper: {
     display: 'inline-block',
     position: 'relative',
-    border: 'ridge green',
-    color: 'green',
+    border: `ridge ${colors.colorText}`,
+    color: colors.colorText,
     padding: '1px',
     lineHeight: '1em',
     fontSize: 14,

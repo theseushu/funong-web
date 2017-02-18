@@ -112,10 +112,10 @@ export const badges = {
     title: '实名认证', value: 'idVerified',
   },
   companyVerified: {
-    title: '企业认证', value: 'idVerified',
+    title: '企业认证', value: 'companyVerified',
   },
   expertVerified: {
-    title: '专家认证', value: 'idVerified',
+    title: '专家认证', value: 'expertVerified',
   },
 };
 

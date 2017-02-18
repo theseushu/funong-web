@@ -164,11 +164,13 @@ export const shopToJSON = (shop) => {
 
   const lnglat = shop.get('lnglat').toJSON() || null;
 
+  const areas = shop.get('areas') || null;
+
   const avImages = shop.get('images');
   const images = avImages ? avImages.map(fileToJSON) : [];
 
   const avOwner = shop.get('owner');
-  const owner = avOwner ? userToJSON(owner) : null;
+  const owner = avOwner ? userToJSON(avOwner) : null;
 
   const createdAt = shop.get('createdAt').getTime();
   const updatedAt = shop.get('updatedAt').getTime();
@@ -176,6 +178,7 @@ export const shopToJSON = (shop) => {
   return {
     ...shop.toJSON(),
     location: { address, lnglat },
+    areas,
     images,
     owner,
     updatedAt,

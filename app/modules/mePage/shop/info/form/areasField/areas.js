@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import injectSheet from 'react-jss';
 import IconButton from 'react-mdl/lib/IconButton';
-import styles, { colors } from 'modules/common/styles';
+import styles, { colors, shadows } from 'modules/common/styles';
 import { formatDeliveryFee, formatArea } from 'utils/displayUtils';
 import AreaEditorDialog from 'modules/common/areaEditorDialog';
 import { districtLevels } from 'appConstants';
@@ -30,7 +30,7 @@ class Areas extends Component {
     return (
       <div className={classes.areas}>
         {areas.map(({ level, minimum, distance, deliveryFee, districts }, i) => (
-          <div key={i} className={classes.item}>
+          <div key={i} className={`${classes.item} ${shadows.shadow2}`}>
             <div className={classes.districts}>
               <small>{formatArea(location.address, { level, distance, districts })}</small>
             </div>
@@ -91,7 +91,8 @@ export default injectSheet({
     width: '100%',
   },
   item: {
-    padding: 16,
+    padding: 8,
+    margin: 8,
   },
   districts: {
     color: colors.colorSubTitle,

@@ -105,7 +105,7 @@ class mapDialog extends Component {
               detailsEditable ? (
                 <Textfield
                   floatingLabel
-                  label="详细地址"
+                  label="详细地址(可编辑)"
                   name="_address_details"
                   rows={2}
                   style={{ width: '100%' }}

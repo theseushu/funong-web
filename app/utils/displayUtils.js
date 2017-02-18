@@ -1,8 +1,9 @@
 import React from 'react';
 import _reduce from 'lodash/reduce';
 import _find from 'lodash/find';
-import { statusValues, districtLevels } from 'appConstants';
-import styles from 'modules/common/styles';
+import { statusValues, districtLevels, badges } from 'appConstants';
+import styles, { colors } from 'modules/common/styles';
+import Badge from 'modules/common/badge';
 
 export const formatAddress = ({ country = '', province = '', city = '', district = '' }) =>
   `${country === '中国' ? '' : country}${province}${city}${district}`;
@@ -119,3 +120,30 @@ export function humanizeLnglat(lat1, lng1, lat2, lng2) {
   return s === 0 ? '小于1公里' : `约${s}公里`;
 }
 
+export function createBadgesForUser(user) {
+  if (!user || !user.badges) {
+    return [];
+  }
+  return user.badges.map((badge, i) => {
+    let text;
+    let color;
+    switch (badge) {
+      case badges.idVerified.value:
+        text = badges.idVerified.title;
+        color = colors.colorIDVerified;
+        break;
+      case badges.companyVerified.value:
+        text = badges.companyVerified.title;
+        color = colors.colorCompanyVerified;
+        break;
+      case badges.expertVerified.value:
+        text = badges.expertVerified.title;
+        color = colors.colorExpertVerified;
+        break;
+      default:
+        console.error(`unknown badge: ${badge}`);
+        return null;
+    }
+    return <Badge key={i} color={color} tooltip={`已通过${text}`}>{text}</Badge>;
+  });
+}

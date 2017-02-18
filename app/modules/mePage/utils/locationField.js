@@ -5,9 +5,21 @@ import injectSheet from 'react-jss';
 import { actions } from 'modules/mapDialog/ducks';
 import styles, { colors } from 'modules/common/styles';
 import ButtonWithIcon from 'modules/common/buttons/ButtonWithIcon';
+import { locationThumbnail } from 'utils/mapUtils';
+
+const generateThumbnailDiv = (lnglat, className) => {
+  const { url, thumbnail } = locationThumbnail(lnglat);
+  return (
+    <div className={className}>
+      <a href={url} target="_blank">
+        <img src={thumbnail} role="presentation" />
+      </a>
+    </div>
+  );
+}
 
 const LocationField = ({ input: { value, onChange }, meta: { error }, openDialog, sheet: { classes } }) => (
-  <div>
+  <div style={{ width: '100%' }}>
     <div className={classes.title} style={{ color: error ? colors.colorError : undefined }}>
       地址
       <ButtonWithIcon
@@ -22,6 +34,9 @@ const LocationField = ({ input: { value, onChange }, meta: { error }, openDialog
         }}
       >{value === '' ? '点此选择' : '点此修改'}</ButtonWithIcon>
     </div>
+    {
+      value.lnglat && generateThumbnailDiv(value.lnglat, classes.thumbnail)
+    }
     <p className={styles.colorSubTitle}>
       {value === '' ? '' : value.address.details}
     </p>
@@ -43,5 +58,12 @@ export default connect(
     display: 'flex',
     justifyContent: 'flex-start',
     alignItems: 'center',
+  },
+  thumbnail: {
+    width: '100%',
+    '& > img': {
+      maxWidth: 300,
+      width: '100%',
+    },
   },
 })(LocationField));

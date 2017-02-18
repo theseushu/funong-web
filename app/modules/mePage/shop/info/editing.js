@@ -1,6 +1,5 @@
 import React, { PropTypes } from 'react';
 import injectSheet from 'react-jss';
-import { colors } from 'modules/common/styles';
 import createForm from './form/createForm';
 
 
@@ -16,7 +15,7 @@ const Editing = ({ classes, shop }) => {
 Editing.propTypes = {
   classes: PropTypes.object,
   shop: PropTypes.object,
-}
+};
 
 export default injectSheet({
   wrapper: {

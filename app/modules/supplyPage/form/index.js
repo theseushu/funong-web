@@ -1,6 +1,6 @@
 import { reduxForm } from 'redux-form';
 import _isEmpty from 'lodash/isEmpty';
-import { actions, selectors } from 'api/supplyProduct';
+import { actions } from 'api/supplyProduct';
 import FORM_NAME from './formName';
 import productForm from './form';
 

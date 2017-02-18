@@ -20,13 +20,14 @@ export default ({ AV, context }) => {
     .first({ sessionToken: context.token.sessionToken })
     .then(shopToJSON);
 
-  const createShop = async ({ name, location, desc, images }) => {
+  const createShop = async ({ name, areas, location, desc, images }) => {
     const { token: { sessionToken }, profile } = context;
     try {
       const shop = new Shop();
       shop.set('name', name);
       shop.set('address', location.address);
       shop.set('lnglat', new AV.GeoPoint(location.lnglat));
+      shop.set('areas', areas);
       shop.set('desc', desc);
       shop.set('images', images.map((image) => AV.Object.createWithoutData('_File', image.id)));
       shop.set('thumbnail', AV.Object.createWithoutData('_File', images[0].id));
@@ -35,14 +36,14 @@ export default ({ AV, context }) => {
         fetchWhenSave: true,
         sessionToken,
       });
-      return { ...savedShop.toJSON(), location, desc, images, thumbnail: images[0] };
+      return { ...savedShop.toJSON(), location, areas, desc, images, thumbnail: images[0] };
     } catch (err) {
       debug(err);
       throw err;
     }
   };
 
-  const updateShop = async ({ objectId, name, location, desc, images }) => {
+  const updateShop = async ({ objectId, name, areas, location, desc, images }) => {
     const { token: { sessionToken } } = context;
     if (!objectId) {
       throw new Error('objectId is empty');
@@ -58,6 +59,9 @@ export default ({ AV, context }) => {
       if (location && location.lnglat) {
         shop.set('lnglat', new AV.GeoPoint(location.lnglat));
       }
+      if (areas) {
+        shop.set('areas', areas);
+      }
       if (desc) {
         shop.set('desc', desc);
       }
@@ -69,7 +73,7 @@ export default ({ AV, context }) => {
         fetchWhenSave: true,
         sessionToken,
       });
-      return { ...savedShop.toJSON(), location, desc, images, thumbnail: images[0] };
+      return { ...savedShop.toJSON(), location, areas, desc, images, thumbnail: images[0] };
     } catch (err) {
       debug(err);
       throw err;

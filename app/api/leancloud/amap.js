@@ -1,3 +1,5 @@
+const WEB_KEY = '47126811591e35236dbde1130d579dde';
+
 export default () => {
   if (window) {
     let globalInstance;
@@ -125,7 +127,7 @@ export default () => {
         const script = document.createElement('script');
         script.id = '_amap_script';
         script.type = 'text/javascript';
-        script.src = 'https://webapi.amap.com/maps?v=1.3&key=47126811591e35236dbde1130d579dde&callback=initAMap';
+        script.src = `https://webapi.amap.com/maps?v=1.3&key=${WEB_KEY}&callback=initAMap`;
         document.head.appendChild(script);
       });
       await Promise.all([loadGeocoder(globalInstance), loadGeolocation(globalInstance, map), loadDistrictSearch(globalInstance)]);

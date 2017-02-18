@@ -20,14 +20,6 @@ export const validate = ({ name, location, areas, desc, images }) => {
   if (_isEmpty(areas)) {
     errors.areas = '必填';
   }
-  if (_isEmpty(desc)) {
-    errors.desc = '必填';
-  } else if (desc.length < 20) {
-    errors.desc = '请至少输入20字描述';
-  }
-  if (_isEmpty(images)) {
-    errors.images = '必填';
-  }
   return errors;
 };
 
@@ -46,9 +38,9 @@ export default (shop) => reduxForm({
   onSubmit: ({ name, location, desc, areas, images }, dispatch) => new Promise((resolve, reject) => {
     const params = {
       name,
-      address: location.address,
-      lnglat: location.lnglat,
+      location,
       areas,
+      desc,
       images,
       meta: { resolve, reject: (err) => reject(new SubmissionError({ _error: { code: err.code, message: err.message } })) },
     };

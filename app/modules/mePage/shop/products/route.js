@@ -1,5 +1,4 @@
 import _toPairs from 'lodash/toPairs';
-import { ensureProfile } from 'utils/routerUtils';
 
 export default ({ injectReducer, loadModule, errorLoading }) => ({
   path: 'products',

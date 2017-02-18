@@ -8,7 +8,7 @@ import IconButton from 'react-mdl/lib/IconButton';
 import Tooltip from 'react-mdl/lib/Tooltip';
 import styles, { breakpoints } from 'modules/common/styles';
 import { createShopAuthorized } from 'utils/authUtils';
-import createForm from './form/createForm';
+import { createBadgesForUser } from 'utils/displayUtils';
 import Page from '../../page';
 import Editing from './editing';
 
@@ -22,13 +22,13 @@ const style = {
       fontSize: '50px',
     },
   },
-}
+};
 
 const UnauthorizedComponent = ({ classes }) => (
   <Card shadow={2} style={{ width: '100%', margin: 'auto' }}>
     <CardTitle>
       <h2 className={`${styles.colorWarning} mdl-card__title-text`}>未认证</h2>
-      <h2 className="mdl-card__title-text"><small>您需要先通过商家认证，才能创建微店 <Link to="/me/certs?type=company">立即去验证</Link></small></h2>
+      <h2 className="mdl-card__title-text"><small>您需要先通过个人或商家认证，才能创建微店 <Link to="/me/certs?type=company">立即去验证</Link></small></h2>
     </CardTitle>
     <CardMedia className={styles.contentCenter} style={{ background: 'none' }}>
       <div className={classes.media}>
@@ -39,14 +39,15 @@ const UnauthorizedComponent = ({ classes }) => (
 );
 UnauthorizedComponent.propTypes = {
   classes: PropTypes.object.isRequired,
-}
+};
 const Unauthorized = injectSheet(style)(UnauthorizedComponent);
 
-const CreateButtonComponent = injectSheet(style)(({ classes, onClick }) => (
+const CreateButtonComponent = injectSheet(style)(({ user, classes, onClick }) => (
   <Card shadow={2} style={{ width: '100%', margin: 'auto' }}>
     <CardTitle>
       <h2 className="mdl-card__title-text">微店</h2>
-      <h2 className="mdl-card__title-text"><small>您是富农认证商家，欢迎创建微店</small></h2>
+      <h2 className="mdl-card__title-text"><small>您已通过富农认证，欢迎创建微店</small></h2>
+      {createBadgesForUser(user)}
     </CardTitle>
     <CardMedia className={styles.contentCenter} style={{ background: 'none' }}>
       <div className={classes.media}>
@@ -56,9 +57,10 @@ const CreateButtonComponent = injectSheet(style)(({ classes, onClick }) => (
   </Card>
 ));
 CreateButtonComponent.propTypes = {
+  user: PropTypes.object.isRequired,
   classes: PropTypes.object.isRequired,
   onClick: PropTypes.func.isRequired,
-}
+};
 const CreateButton = injectSheet(style)(CreateButtonComponent);
 
 class Profile extends Component {
@@ -81,11 +83,23 @@ class Profile extends Component {
     let content;
     if (!editing) {
       if (!createShopAuthorized(user, shop)) {
-        content = <Unauthorized />;
-      } else if (shop) {
-        content = <div>edit</div>;
+        if (!shop) {
+          content = <Unauthorized />;
+        } else {
+          content = (
+            <Card shadow={2} style={{ width: '100%', margin: 'auto' }}>
+              <CardTitle>
+                <h2 className="mdl-card__title-text">店铺信息</h2>
+                <Tooltip label={<span>点击条目内容即可开始修改<br />您上传的第一张介绍图片将被用作店铺的背景</span>}>
+                  <IconButton colored name="help_outline"></IconButton>
+                </Tooltip>
+              </CardTitle>
+              <Editing shop={shop} />
+            </Card>
+          );
+        }
       } else {
-        content = <CreateButton onClick={this.startEditing} />;
+        content = <CreateButton user={user} onClick={this.startEditing} />;
       }
     } else {
       content = (
@@ -100,6 +114,7 @@ class Profile extends Component {
         </Card>
       );
     }
+    console.log(content)
     return (
       <Page>
         <div className={classes.content}>

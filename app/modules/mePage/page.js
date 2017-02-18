@@ -4,7 +4,6 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { currentUserSelector } from 'modules/data/ducks/selectors';
 import Layout from 'modules/common/layout';
-import Avatar from 'modules/common/avatar';
 import { colors } from 'modules/common/styles';
 import { actions as pageActions } from './ducks';
 
