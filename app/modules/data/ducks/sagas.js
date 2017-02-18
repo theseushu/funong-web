@@ -6,11 +6,11 @@ import { UPDATE_DATA, REMOVE_ENTITIES, SET_USERS, SET_CURRENT_USER,
   UPDATE_CURRENT_USER_INFO, SET_CATALOGS, SET_CATAGORIES, SET_SPECIES,
   SET_SPECIFICATIONS, SET_PRODUCT, SET_PRODUCTS,
   SET_SUPPLY_PRODUCTS, SET_LOGISTICS_PRODUCTS, SET_CERTS,
-  SET_CART_ITEMS, REMOVE_CART_ITEMS } from './constants';
+  SET_CART_ITEMS, REMOVE_CART_ITEMS, SET_SHOPS } from './constants';
 import { UserSchema, UsersSchema, CatalogsSchema,
   CategoriesSchema, SpeciesArraySchema, SpecificationsSchema,
   ProductSchema, ProductsSchema, LogisticsProductsSchema,
-  SupplyProductsSchema, CertsSchema, CartItemsSchema } from './schemas';
+  SupplyProductsSchema, CertsSchema, CartItemsSchema, ShopsSchema } from './schemas';
 
 function* setUsersSaga(action) {
   const { users } = action.payload;
@@ -108,6 +108,12 @@ function* removeCartItemsSaga(action) {
   yield put({ type: REMOVE_ENTITIES, payload: { entities: { [CartItemsSchema.getItemSchema().getKey()]: { ...ids.map((id) => ({ [id]: null })) } } } });
 }
 
+function* setShopsSaga(action) {
+  const { shops } = action.payload;
+  const data = normalize(shops, ShopsSchema);
+  const payload = Object.assign({}, data);
+  yield put({ type: UPDATE_DATA, payload });
+}
 // watcher Saga:
 function* rootSaga(api) {
   yield takeEvery(SET_CURRENT_USER, function* saga(action) {
@@ -126,6 +132,7 @@ function* rootSaga(api) {
   yield takeEvery(SET_CERTS, setCertsSaga);
   yield takeEvery(SET_CART_ITEMS, setCartItemsSaga);
   yield takeEvery(REMOVE_CART_ITEMS, removeCartItemsSaga);
+  yield takeEvery(SET_SHOPS, setShopsSaga);
 }
 
 export default [rootSaga];

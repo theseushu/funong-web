@@ -5,8 +5,8 @@ import Button from 'react-mdl/lib/Button';
 import RadioGroup from 'react-mdl/lib/RadioGroup';
 import Radio from 'react-mdl/lib/Radio';
 import styles, { colors } from 'modules/common/styles';
-import createTextfield from '../createTextField';
-import ImagesField from '../imagesField';
+import createTextfield from '../../utils/createTextField';
+import ImagesField from '../../utils/imagesField';
 
 const IsUnifiedField = ({ input: { value, onChange } }) => (
   <RadioGroup name="isNew" value={value} onChange={onChange}>

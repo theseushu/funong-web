@@ -16,14 +16,8 @@ import * as createSpecies from './createSpecies/ducks';
 import * as fetchSpecies from './fetchSpecies/ducks';
 import * as logisticsProduct from './logisticsProduct';
 import * as cart from './cart';
-// import * as searchDistinct from '../searchDistrict/ducks';
-// import * as fetchLocation from '../fetchLocation/ducks';
-// import * as fetchPriceDefinitions from '../fetchPriceDefinitions/ducks';
-// import * as createSpecification from '../createSpecification/ducks';
-// import * as fetchSpecifications from '../fetchSpecifications/ducks';
-// import * as createProduct from '../createProduct/ducks';
-// import * as fetchUserProducts from '../fetchUserProducts/ducks';
-// import * as fetchProduct from '../fetchProduct/ducks';
+import * as shop from './shop';
+import * as searchDistinct from './searchDistrict/ducks';
 
 export default {
   [namespace]: combineReducers({
@@ -43,7 +37,8 @@ export default {
     ...createSpecies.default,
     ...logisticsProduct.default,
     ...cart.default,
-    // ...searchDistinct.default,
+    ...shop.default,
+    ...searchDistinct.default,
   }),
 };
 
@@ -64,5 +59,6 @@ export const sagas = [
   ...createSpecies.sagas,
   ...logisticsProduct.sagas,
   ...cart.sagas,
-  // ...searchDistinct.sagas,
+  ...shop.sagas,
+  ...searchDistinct.sagas,
 ];

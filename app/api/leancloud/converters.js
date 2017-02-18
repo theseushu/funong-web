@@ -32,6 +32,9 @@ export const fileToJSON = (file) => {
 export const roleToJSON = (role) => ({ objectId: role.id, name: role.getName() });
 
 export const userToJSON = (user) => {
+  if (!user) {
+    return null;
+  }
   const avAvatar = user.get('avatar');
   const avatar = avAvatar ? fileToJSON(avAvatar) : undefined;
   const avImages = user.get('images');
@@ -45,6 +48,9 @@ export const userToJSON = (user) => {
 };
 
 export const certToJSON = (cert) => {
+  if (!cert) {
+    return null;
+  }
   const images = (cert.get('images') || []).map(fileToJSON);
   const owner = cert.get('owner');
   const createdAt = cert.get('createdAt').getTime();
@@ -53,6 +59,9 @@ export const certToJSON = (cert) => {
 };
 
 export const supplyProductToJSON = (product) => {
+  if (!product) {
+    return null;
+  }
   const avCategory = product.get('category');
   const category = avCategory ? { ...avCategory.toJSON(), catalog: avCategory.get('catalog') ? avCategory.get('catalog').toJSON() : undefined } : null;
 
@@ -95,6 +104,9 @@ export const supplyProductToJSON = (product) => {
 };
 
 export const logisticsToJSON = (logistics) => {
+  if (!logistics) {
+    return null;
+  }
   const address = logistics.get('address') || null;
 
   const lnglat = logistics.get('lnglat').toJSON() || null;
@@ -126,6 +138,9 @@ export const logisticsToJSON = (logistics) => {
 };
 
 export const cartItemToJSON = (cartItem) => {
+  if (!cartItem) {
+    return null;
+  }
   // TODO shop
   // const avShop = cartItem.get('shop');
   const avSupply = cartItem.get('supplyProduct');
@@ -139,4 +154,31 @@ export const cartItemToJSON = (cartItem) => {
   const updatedAt = cartItem.get('updatedAt').getTime();
 
   return { ...cartItem.toJSON(), owner, supplyProduct, shopProduct, createdAt, updatedAt };
+};
+
+export const shopToJSON = (shop) => {
+  if (!shop) {
+    return null;
+  }
+  const address = shop.get('address') || null;
+
+  const lnglat = shop.get('lnglat').toJSON() || null;
+
+  const avImages = shop.get('images');
+  const images = avImages ? avImages.map(fileToJSON) : [];
+
+  const avOwner = shop.get('owner');
+  const owner = avOwner ? userToJSON(owner) : null;
+
+  const createdAt = shop.get('createdAt').getTime();
+  const updatedAt = shop.get('updatedAt').getTime();
+
+  return {
+    ...shop.toJSON(),
+    location: { address, lnglat },
+    images,
+    owner,
+    updatedAt,
+    createdAt,
+  };
 };

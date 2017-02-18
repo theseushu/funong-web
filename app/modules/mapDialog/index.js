@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import injectSheet from 'react-jss';
+import Textfield from 'react-mdl/lib/Textfield';
 import Dialog from 'modules/common/dialog';
 import { initAMap } from 'api/initAMap';
 import { selector as fetchLocationSelector, actions as fetchLocationActions } from 'api/fetchLocation/ducks';
@@ -13,6 +14,7 @@ const INITIAL_LOCATION = { address: { country: '', province: '', city: '', distr
 class mapDialog extends Component {
   static propTypes = {
     open: PropTypes.bool.isRequired,
+    detailsEditable: PropTypes.bool,
     closeDialog: PropTypes.func.isRequired,
     location: PropTypes.shape({
       lnglat: PropTypes.shape({
@@ -81,7 +83,7 @@ class mapDialog extends Component {
     this.props.closeDialog();
   }
   render() {
-    const { open, closeDialog, onSubmit } = this.props;
+    const { open, closeDialog, onSubmit, detailsEditable } = this.props;
     // const { fetchLocationState: { pending, fulfilled }, open, closeDialog } = this.props;
     // const fetchLocationText = pending ? '正在读取当前地址' : (fulfilled ? location.formattedAddress : null); // eslint-disable-line no-nested-ternary
     const { location } = this.state;
@@ -96,12 +98,28 @@ class mapDialog extends Component {
         }
         scrollableContent={
           <div>
-            <h5>
+            <h5 style={{ marginBottom: 0 }}>
               {formatAddress(location.address)}
             </h5>
-            <p>
-              {location.address.details}
-            </p>
+            {
+              detailsEditable ? (
+                <Textfield
+                  floatingLabel
+                  label="详细地址"
+                  name="_address_details"
+                  rows={2}
+                  style={{ width: '100%' }}
+                  value={location.address.details}
+                  onChange={(e) => {
+                    this.setState({ location: { address: { ...location.address, details: e.target.value }, lnglat: location.lnglat } });
+                  }}
+                />
+              ) : (
+                <p style={{ marginTop: 16 }}>
+                  {location.address.details}
+                </p>
+              )
+            }
           </div>
         }
         submit={{

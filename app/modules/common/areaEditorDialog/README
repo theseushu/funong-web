@@ -1,0 +1,18 @@
+服务区域及起送金额，运费设置
+
+服务区域可以选择省/市/区县/街道，也可以自定义（店铺周边x公里）
+
+
+注意，为简化选择，每一级只能选择店铺所在该级行政区的下级
+如武汉市的店铺只能选择湖北省其它市。如需选择河南省，只能对整个河南省设置
+
+选择完服务区域后继续设置起送金额和运费
+
+输入和返回的对象：
+{
+  level: appConstants/districtLevels  (country, province, city, district, custom)
+  districts: []  选择的行政区  level为非custom时出现
+  distance: X    距店铺距离。level为custom时出现
+  minimum: X     起送金额
+  deliveryFee: X    运费
+}

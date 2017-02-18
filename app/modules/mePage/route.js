@@ -1,17 +1,28 @@
 import _toPairs from 'lodash/toPairs';
-import { ensureProfile } from 'utils/routerUtils';
+import { requireAuth } from 'utils/routerUtils';
 import createCertsRoute from './certs/route';
 import createProductsRoute from './products/route';
+import createShopRoute from './shop/route';
 
 export default ({ store, injectReducer, injectSagas, loadModule, errorLoading }) => ({ // eslint-disable-line no-unused-vars
   path: '/me',
   name: 'me',
+  onEnter: async ({ location }, replace, callback) => {
+    const { login } = await requireAuth(store);
+    if (login) {
+      callback();
+    } else {
+      const redirect = `${location.pathname}${location.search}`;
+      const message = '请登录';
+      replace(`/login?message=${message}&redirect=${redirect}`);
+      callback();
+    }
+  },
   indexRoute: { // see /me route's getComponent method. currentUser.profile is guaranteed to be existing
     getComponent(nextState, cb) {
       const importModules = Promise.all([
         System.import('modules/mePage/profile'),
         System.import('modules/mePage/profile/ducks'),
-        ensureProfile(store),
       ]);
 
       const renderRoute = loadModule(cb);
@@ -28,5 +39,6 @@ export default ({ store, injectReducer, injectSagas, loadModule, errorLoading })
   childRoutes: [
     createCertsRoute({ store, injectReducer, injectSagas, loadModule, errorLoading }),
     createProductsRoute({ store, injectReducer, injectSagas, loadModule, errorLoading }),
+    createShopRoute({ store, injectReducer, injectSagas, loadModule, errorLoading }),
   ],
 });

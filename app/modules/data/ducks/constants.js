@@ -15,3 +15,4 @@ export const SET_LOGISTICS_PRODUCTS = 'data/set_logistics_products';
 export const SET_CERTS = 'data/set_certs';
 export const SET_CART_ITEMS = 'data/set_cart_items';
 export const REMOVE_CART_ITEMS = 'data/remove_cart_items';
+export const SET_SHOPS = 'data/set_shops';

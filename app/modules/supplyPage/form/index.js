@@ -1,12 +1,10 @@
 import { reduxForm } from 'redux-form';
 import _isEmpty from 'lodash/isEmpty';
-import { connect } from 'react-redux';
 import { actions, selectors } from 'api/supplyProduct';
 import FORM_NAME from './formName';
 import productForm from './form';
 
 const createSupplyProduct = actions.create;
-const createSupplyProductStateSelector = selectors.create;
 const updateSupplyProduct = actions.update;
 
 // export for unit testing
@@ -77,6 +75,4 @@ export default reduxForm({
           }));
         })
     ),
-})(connect(
-  (state) => ({ createSupplyProductState: createSupplyProductStateSelector(state) }),
-)(productForm));
+})(productForm);

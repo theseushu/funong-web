@@ -1,7 +1,7 @@
 import React from 'react';
 import _reduce from 'lodash/reduce';
 import _find from 'lodash/find';
-import { statusValues } from 'appConstants';
+import { statusValues, districtLevels } from 'appConstants';
 import styles from 'modules/common/styles';
 
 export const formatAddress = ({ country = '', province = '', city = '', district = '' }) =>
@@ -22,6 +22,24 @@ export const formatPrice = (spec) => {
     return `${result}，${spec.minimum}${spec.unit}起售`;
   }
   return result;
+};
+
+export const formatArea = (address, { level, districts, distance }) => {
+  if (level === districtLevels.custom.value) {
+    return `店铺周边${distance}公里`;
+  }
+  return districts.join(' ');
+};
+
+export const formatDeliveryFee = (minimum, deliveryFee) => {
+  if (minimum === 0 && deliveryFee === 0) {
+    return '免运费';
+  } else if (deliveryFee === 0) {
+    return `${minimum}元起送，免运费`;
+  } else if (minimum === 0) {
+    return `运费${deliveryFee}元`;
+  }
+  return `${minimum}元起送，运费${deliveryFee}`;
 };
 
 export const formatStatus = (statusValue) => {

@@ -22,6 +22,27 @@ export const ensureProfile = async (store) => {
   return currentUserSelector(store.getState());
 };
 
+export const requireAuth = async (store) => {
+  const result = { login: false };
+  try {
+    let currentUser = currentUserSelector(store.getState());
+    // if currentUser's not been fetched, fetch it before continue
+    // if it's fetched already, don't wait for the result
+    if (!currentUser) {
+      await new Promise((resolve, reject) => {
+        store.dispatch(fetchProfile({ meta: { resolve, reject } }));
+      });
+    }
+    currentUser = currentUserSelector(store.getState());
+    if (currentUser) {
+      result.login = true;
+    }
+    return result;
+  } catch (err) {
+    return result;
+  }
+};
+
 // export const requireAdmin = async (store) => {
 //   const result = { login: false, isAdmin: false };
 //   try {

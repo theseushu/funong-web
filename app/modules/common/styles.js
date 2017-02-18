@@ -17,6 +17,7 @@ export const colors = {
   colorUnverified: '#AFB42B', // lime700
   colorVerified: '#33691E', // lightGreen900
   colorRejected: '#EF6C00', // orange800
+  colorWarning: '#FBC02D', // yellow700
 };
 
 export const breakpoints = {
@@ -95,6 +96,12 @@ const styles = {
   },
   colorVerified: {
     color: colors.colorVerified,
+  },
+  colorWarning: {
+    color: colors.colorWarning,
+  },
+  colorPrice: {
+    color: colors.colorPrice,
   },
   defaultTransition: {
     transition: 'all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms !important',

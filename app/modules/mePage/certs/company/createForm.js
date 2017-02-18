@@ -45,7 +45,7 @@ export default (cert) => reduxForm({
   (dispatch) => ({
     onSubmit: ({ name, corporate, isUnified, unifiedCode, registrationCode, cooperationCode, images }) => new Promise((resolve, reject) => {
       const params = { type: certTypes.company.value, fields: { name, corporate, isUnified: isUnified !== 'old', unifiedCode, registrationCode, cooperationCode }, images, meta: { resolve, reject: (err) => reject(new SubmissionError({ _error: { code: err.code, message: err.message } })) } };
-      if (cert.objectId) {
+      if (cert && cert.objectId) {
         dispatch(updateCert({ objectId: cert.objectId, ...params }));
       } else {
         dispatch(createCert(params));

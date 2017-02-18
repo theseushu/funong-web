@@ -3,7 +3,7 @@ import injectSheet from 'react-jss';
 import { Fields } from 'redux-form';
 import Button from 'react-mdl/lib/Button';
 import styles from 'modules/common/styles';
-import DescAndImagesField from '../descAndImagesField';
+import DescAndImagesField from '../../utils/descAndImagesField';
 
 // export for unit testing
 export const validate = ({ name, idCard, images }) => ({

@@ -28,6 +28,16 @@ const sideRoutes = () => [
     ],
   },
   { title: '我的供应', path: '/me/products' },
+  { title: '我的微店',
+    path: '/me/shop',
+    routes: [{
+      title: '店铺信息',
+      path: '/me/shop',
+    }, {
+      title: '商品',
+      path: '/me/shop/products',
+    }],
+  },
   { title: '购物车', path: '/cart' },
   { title: '历史订单', path: '/me/orders' },
   { title: '我的收藏', path: '/me/bookmarks' },
@@ -44,7 +54,6 @@ const MePage = ({ user: { avatar, type }, sheet: { classes }, children, smallCon
   });
   return (
     <Layout
-      header={avatar ? <div className={classes.headerAvatar}><Avatar /></div> : null}
       sideMenu={routes}
       content={children}
       smallContent={smallContent}
