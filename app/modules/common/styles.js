@@ -109,6 +109,11 @@ const styles = {
   defaultTransition: {
     transition: 'all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms !important',
   },
+  textNowrap: {
+    'white-space': 'nowrap',
+    overflow: 'hidden',
+    'text-overflow': 'ellipsis',
+  },
 };
 
 const { classes } = jss.createStyleSheet(styles).attach();

@@ -16,7 +16,7 @@ const generateThumbnailDiv = (lnglat, className) => {
       </a>
     </div>
   );
-}
+};
 
 const LocationField = ({ input: { value, onChange }, meta: { error }, openDialog, sheet: { classes } }) => (
   <div style={{ width: '100%' }}>

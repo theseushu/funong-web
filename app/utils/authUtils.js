@@ -5,21 +5,21 @@ export const isUserIDVerified = (user) => {
   if (!user) {
     return false;
   }
-  return !!_find(user.badges, badge === badges.idVerified.value);
+  return !!_find(user.badges, (badge) => badge === badges.idVerified.value);
 };
 
 export const isUserCompanyVerified = (user) => {
   if (!user) {
     return false;
   }
-  return !!_find(user.badges, badge === badges.companyVerified.value);
+  return !!_find(user.badges, (badge) => badge === badges.companyVerified.value);
 };
 
 export const isUserExpertVerified = (user) => {
   if (!user) {
     return false;
   }
-  return !!_find(user.badges, badge === badges.expertVerified.value);
+  return !!_find(user.badges, (badge) => badge === badges.expertVerified.value);
 };
 
 export const createShopAuthorized = (user, shop) => {

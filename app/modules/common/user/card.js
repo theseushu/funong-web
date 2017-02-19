@@ -8,7 +8,7 @@ import { colors } from '../styles';
 
 const CardComponent = ({ user, sheet: { classes }, className }) => (
   <Card shadow={0} className={className ? `${classes.card} ${className}` : classes.card} >
-    <CardTitle className={classes.cardTitle}>
+    <CardTitle className={classes.priceAndName}>
       <Link to={`/user/${user.objectId}`}>
         <img role="presentation" src={user.avatar.url} />
       </Link>
@@ -40,7 +40,7 @@ export default injectSheet({
     width: '100%',
     minHeight: 0,
   },
-  cardTitle: {
+  priceAndName: {
     textAlign: 'center',
     flexDirection: 'column',
     color: colors.colorSubTitle,

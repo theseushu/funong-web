@@ -18,7 +18,7 @@ export const formatPrices = (specs) => {
 };
 
 export const formatPrice = (spec) => {
-  const result = `${spec.price}元每${spec.unit}`;
+  const result = `￥${spec.price}每${spec.unit}`;
   if (spec.minimum > 1) {
     return `${result}，${spec.minimum}${spec.unit}起售`;
   }

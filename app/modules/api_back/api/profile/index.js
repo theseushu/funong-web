@@ -24,7 +24,7 @@ export default ({ AV, userId, sessionToken }) => {
     profile.set('type', type);
     const requestParams = { sessionToken };
     const savedProfile = await profile.save(null, requestParams);
-    await AV.Query.doCloudQuery('update _User set profile=pointer("Profile", ?) where objectId=?', [savedProfile.id, userId], {
+    await AV.Query.doCloudQuery('update _User set profile=pointer("Info", ?) where objectId=?', [savedProfile.id, userId], {
       fetchWhenSave: true,
       sessionToken,
     });

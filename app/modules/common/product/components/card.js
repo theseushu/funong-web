@@ -12,7 +12,7 @@ const CardComponent = ({ cardImage, link, titleAccent, title, content, actions, 
         </div>
       </Link>
     </CardTitle>
-    <CardText className={classes.cardTitle}>
+    <CardText className={classes.priceAndName}>
       <h6 className={classes.titleAccent}>{titleAccent}</h6>
       <h6 className={classes.title}>
         {title}
@@ -58,7 +58,7 @@ export default injectSheet({
       height: '100%',
     },
   },
-  cardTitle: {
+  priceAndName: {
     padding: 8,
     '& > h6': {
       marginTop: 0,

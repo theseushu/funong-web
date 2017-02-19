@@ -58,6 +58,51 @@ export const certToJSON = (cert) => {
   return { ...cert.toJSON(), images, owner: userToJSON(owner), createdAt, updatedAt };
 };
 
+export const shopProductToJSON = (product) => {
+  if (!product) {
+    return null;
+  }
+  const avCategory = product.get('category');
+  const category = avCategory ? { ...avCategory.toJSON(), catalog: avCategory.get('catalog') ? avCategory.get('catalog').toJSON() : undefined } : null;
+
+  const avSpecies = product.get('species');
+  const species = avSpecies ? { ...avSpecies.toJSON(), category } : null;
+
+  const address = product.get('address') || null;
+
+  const lnglat = product.get('lnglat').toJSON() || null;
+
+  const avImages = product.get('images');
+  const images = avImages ? avImages.map(fileToJSON) : [];
+
+  const specs = product.get('specs') || null;
+
+  const avShop = product.get('shop');
+  const shop = avShop ? shopToJSON(avShop) : null;
+
+  const avThumbnail = product.get('thumbnail');
+  const thumbnail = avThumbnail ? fileToJSON(avThumbnail) : null;
+
+  const labels = product.get('labels') || null;
+
+  const createdAt = product.get('createdAt').getTime();
+  const updatedAt = product.get('updatedAt').getTime();
+
+  return {
+    ...product.toJSON(),
+    category,
+    species,
+    location: { address, lnglat },
+    specs,
+    images,
+    shop,
+    thumbnail,
+    labels,
+    updatedAt,
+    createdAt,
+  };
+};
+
 export const supplyProductToJSON = (product) => {
   if (!product) {
     return null;
@@ -146,7 +191,7 @@ export const cartItemToJSON = (cartItem) => {
   const avSupply = cartItem.get('supplyProduct');
   const supplyProduct = avSupply ? supplyProductToJSON(avSupply) : null;
   const avShop = cartItem.get('shopProduct');
-  const shopProduct = avShop ? supplyProductToJSON(avSupply) : null;
+  const shopProduct = avShop ? shopProductToJSON(avShop) : null;
   const avOwner = cartItem.get('owner');
   const owner = avOwner ? avOwner.toJSON() : null;
 

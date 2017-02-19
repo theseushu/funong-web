@@ -10,6 +10,7 @@ class categorySelectorDialog extends Component {
     close: PropTypes.func.isRequired,
     show: PropTypes.bool.isRequired,
     onSubmit: PropTypes.func.isRequired,
+    type: PropTypes.oneOf(Object.keys(catalogTypes)),
     actions: PropTypes.shape({
       fetchCatalogs: PropTypes.func.isRequired,
       fetchCategories: PropTypes.func.isRequired,
@@ -43,9 +44,12 @@ class categorySelectorDialog extends Component {
       type: PropTypes.string.isRequired,
     }),
   };
+  static defaultProps = {
+    type: 'supply',
+  }
   constructor(props) {
     super(props);
-    const { category, catalog } = props;
+    const { category, catalog, type } = props;
     if (category) {
       this.state = { // catalogType is string, others are objects
         catalogType: category.catalog.type,
@@ -57,8 +61,10 @@ class categorySelectorDialog extends Component {
         catalogType: catalog.type,
         catalog,
       };
-    } else {
+    } else if (type === 'supply') {
       this.state = { catalogType: catalogTypes.supply.farm.value };
+    } else {
+      this.state = { catalogType: catalogTypes.shop.shop.value };
     }
   }
   componentDidMount() {
@@ -105,7 +111,7 @@ class categorySelectorDialog extends Component {
   renderTypes = () => {
     const { catalogType } = this.state;
     return (
-      <Types catalogType={catalogType} onButtonClick={(type) => this.setSelection({ catalogType: type })} />
+      <Types type={this.props.type} catalogType={catalogType} onButtonClick={(type) => this.setSelection({ catalogType: type })} />
     );
   }
   renderHeader = () => {

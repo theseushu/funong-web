@@ -9,7 +9,7 @@ const updateShop = actions.update;
 
 // export for unit testing
 
-export const validate = ({ name, location, areas, desc, images }) => {
+export const validate = ({ name, location, areas }) => {
   const errors = {};
   if (_isEmpty(name) || name.length < 3) {
     errors.name = '必填, 至少3个字';

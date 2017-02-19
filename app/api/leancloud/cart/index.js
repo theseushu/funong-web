@@ -23,7 +23,7 @@ export default ({ AV, context }) => {
       if (shopProduct) {
         cartItem.set('shopProduct', AV.Object.createWithoutData('ShopProduct', shopProduct.objectId));
       } else if (supplyProduct) {
-        cartItem.set('supplyProduct', AV.Object.createWithoutData('SupplyProduct', supplyProduct.objectId));
+        cartItem.set('supplyProduct', AV.Object.createWithoutData('ShopProduct', supplyProduct.objectId));
       } else {
         throw new AV.Error(AV.Error.OTHER_CAUSE, '未指定商品');
       }

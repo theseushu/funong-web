@@ -16,7 +16,7 @@ const BreadcrumbComponent = ({ catalogType, catalog, onClick, sheet: { classes }
           {catalogType}
         </a>)
     }
-    <span>{'>'}</span>
+    <span>{' > '}</span>
     {
       catalog && (<span>{catalog.name}</span>)
     }
@@ -36,6 +36,7 @@ BreadcrumbComponent.propTypes = {
 export default injectSheet({
   wrapper: {
     textAlign: 'left',
-    paddingTop: 16,
+    padding: '16px 16px 0',
+    fontSize: 14,
   },
 })(BreadcrumbComponent);

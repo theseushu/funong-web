@@ -5,6 +5,14 @@ export const UserSchema = new Schema('users', {
 });
 export const UsersSchema = arrayOf(UserSchema);
 
+export const ShopSchema = new Schema('shops', {
+  idAttribute: 'objectId',
+});
+ShopSchema.define({
+  owner: UserSchema,
+});
+export const ShopsSchema = arrayOf(ShopSchema);
+
 export const CatalogSchema = new Schema('catalogs', {
   idAttribute: 'objectId',
 });
@@ -34,15 +42,15 @@ SpecificationSchema.define({
 });
 export const SpecificationsSchema = arrayOf(SpecificationSchema);
 
-export const ProductSchema = new Schema('products', {
+export const ShopProductSchema = new Schema('shopProducts', {
   idAttribute: 'objectId',
 });
-ProductSchema.define({
-  owner: UserSchema,
+ShopProductSchema.define({
+  shop: ShopSchema,
   species: SpeciesSchema,
   specifications: SpecificationsSchema,
 });
-export const ProductsSchema = arrayOf(ProductSchema);
+export const ShopProductsSchema = arrayOf(ShopProductSchema);
 
 export const SupplyProductSchema = new Schema('supplyProducts', {
   idAttribute: 'objectId',
@@ -53,16 +61,6 @@ SupplyProductSchema.define({
   category: CategorySchema,
 });
 export const SupplyProductsSchema = arrayOf(SupplyProductSchema);
-
-export const ShopProductSchema = new Schema('shopProducts', {
-  idAttribute: 'objectId',
-});
-ShopProductSchema.define({
-  owner: UserSchema,
-  species: SpeciesSchema,
-  category: CategorySchema,
-});
-export const ShopProductsSchema = arrayOf(ShopProductSchema);
 
 export const LogisticsProductSchema = new Schema('logisticsProducts', {
   idAttribute: 'objectId',
@@ -91,11 +89,3 @@ CartItemSchema.define({
   owner: UserSchema,
 });
 export const CartItemsSchema = arrayOf(CartItemSchema);
-
-export const ShopSchema = new Schema('shops', {
-  idAttribute: 'objectId',
-});
-ShopSchema.define({
-  owner: UserSchema,
-});
-export const ShopsSchema = arrayOf(ShopSchema);

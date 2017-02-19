@@ -63,7 +63,7 @@ CreateButtonComponent.propTypes = {
 };
 const CreateButton = injectSheet(style)(CreateButtonComponent);
 
-class Profile extends Component {
+class Info extends Component {
   static propTypes = {
     sheet: PropTypes.object,
     user: PropTypes.object.isRequired,
@@ -114,7 +114,6 @@ class Profile extends Component {
         </Card>
       );
     }
-    console.log(content)
     return (
       <Page>
         <div className={classes.content}>
@@ -138,4 +137,4 @@ export default injectSheet({
     height: 100,
     position: 'relative',
   },
-})(Profile);
+})(Info);

@@ -4,12 +4,12 @@ import { put } from 'redux-saga/effects';
 
 import { UPDATE_DATA, REMOVE_ENTITIES, SET_USERS, SET_CURRENT_USER,
   UPDATE_CURRENT_USER_INFO, SET_CATALOGS, SET_CATAGORIES, SET_SPECIES,
-  SET_SPECIFICATIONS, SET_PRODUCT, SET_PRODUCTS,
+  SET_SPECIFICATIONS, SET_SHOP_PRODUCTS,
   SET_SUPPLY_PRODUCTS, SET_LOGISTICS_PRODUCTS, SET_CERTS,
   SET_CART_ITEMS, REMOVE_CART_ITEMS, SET_SHOPS } from './constants';
 import { UserSchema, UsersSchema, CatalogsSchema,
   CategoriesSchema, SpeciesArraySchema, SpecificationsSchema,
-  ProductSchema, ProductsSchema, LogisticsProductsSchema,
+  ShopProductsSchema, LogisticsProductsSchema,
   SupplyProductsSchema, CertsSchema, CartItemsSchema, ShopsSchema } from './schemas';
 
 function* setUsersSaga(action) {
@@ -61,16 +61,9 @@ function* setSpecificationsSaga(action) {
   yield put({ type: UPDATE_DATA, payload });
 }
 
-function* setProductSaga(action) {
-  const { product } = action.payload;
-  const data = normalize(product, ProductSchema);
-  const payload = Object.assign({}, data);
-  yield put({ type: UPDATE_DATA, payload });
-}
-
-function* setProductsSaga(action) {
-  const { products } = action.payload;
-  const data = normalize(products, ProductsSchema);
+function* setShopProductsSaga(action) {
+  const { shopProducts } = action.payload;
+  const data = normalize(shopProducts, ShopProductsSchema);
   const payload = Object.assign({}, data);
   yield put({ type: UPDATE_DATA, payload });
 }
@@ -125,8 +118,7 @@ function* rootSaga(api) {
   yield takeEvery(SET_CATAGORIES, setCategoriesSaga);
   yield takeEvery(SET_SPECIES, setSpeciesSaga);
   yield takeEvery(SET_SPECIFICATIONS, setSpecificationsSaga);
-  yield takeEvery(SET_PRODUCT, setProductSaga);
-  yield takeEvery(SET_PRODUCTS, setProductsSaga);
+  yield takeEvery(SET_SHOP_PRODUCTS, setShopProductsSaga);
   yield takeEvery(SET_SUPPLY_PRODUCTS, setSupplyProductsSaga);
   yield takeEvery(SET_LOGISTICS_PRODUCTS, setLodisticsProductsSaga);
   yield takeEvery(SET_CERTS, setCertsSaga);

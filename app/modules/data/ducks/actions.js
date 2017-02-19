@@ -6,8 +6,7 @@ import {
   SET_CATAGORIES,
   SET_SPECIES,
   SET_SPECIFICATIONS,
-  SET_PRODUCT,
-  SET_PRODUCTS,
+  SET_SHOP_PRODUCTS,
   SET_SUPPLY_PRODUCTS,
   SET_LOGISTICS_PRODUCTS,
   SET_CERTS,
@@ -46,13 +45,9 @@ export const setSpecifications = (specifications) => ({
   payload: { specifications },
 });
 // todo refactor like certs
-export const setProduct = (product) => ({
-  type: SET_PRODUCT,
-  payload: { product },
-});
-export const setProducts = (products) => ({
-  type: SET_PRODUCTS,
-  payload: { products },
+export const setShopProducts = (shopProducts) => ({
+  type: SET_SHOP_PRODUCTS,
+  payload: { shopProducts },
 });
 export const setSupplyProducts = (supplyProducts) => ({
   type: SET_SUPPLY_PRODUCTS,

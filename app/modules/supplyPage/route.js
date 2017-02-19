@@ -1,38 +1,46 @@
 import _toPairs from 'lodash/toPairs';
-import { ensureProfile } from 'utils/routerUtils';
+import { requireAuth } from 'utils/routerUtils';
 import { actions } from 'api/supplyProduct';
 
 const fetchSupplyProduct = actions.fetch;
 
-const fetchData = async (store, id, query) => {
-  if (id === 'new' || query.edit) {
-    await ensureProfile(store);
-  }
-  await new Promise((resolve, reject) => {
-    store.dispatch(fetchSupplyProduct({
-      objectId: id,
-      meta: {
-        resolve,
-        reject: (err) => {
-          console.log(err); // eslint-disable-line
-          reject();
-          // todo deal with error
-        },
-      },
-    }));
-  });
-};
-
 export default ({ store, injectReducer, injectSagas, loadModule, errorLoading }) => ({ // eslint-disable-line no-unused-vars
   path: '/supply/:id',
   name: 'supply',
+  onEnter: async ({ params: { id }, location: { pathname, search, query } }, replace, proceed) => {
+    if (id === 'new' || !query.edit) {
+      const { login } = await requireAuth(store);
+      if (!login) {
+        const redirect = `${location.pathname}${location.search}`;
+        const message = '请登录';
+        replace(`/login?message=${message}&redirect=${redirect}`);
+        proceed();
+        return;
+      }
+    }
+    if (id !== 'new') {
+      await new Promise((resolve, reject) => {
+        store.dispatch(fetchSupplyProduct({
+          objectId: id,
+          meta: {
+            resolve,
+            reject: (err) => {
+              console.log(err); // eslint-disable-line
+              reject();
+              // todo deal with error
+            },
+          },
+        }));
+      });
+    }
+    proceed();
+  },
   getComponent(nextState, cb) {
     // TODO fetch product
     const { params: { id }, location: { query } } = nextState;
     const importModules = Promise.all([
       System.import('./index'),
       System.import('./ducks'),
-      fetchData(store, id, query),
     ]);
 
     const renderRoute = loadModule(cb);

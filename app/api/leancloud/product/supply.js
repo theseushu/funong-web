@@ -33,7 +33,7 @@ export default ({ AV, context }) => {
         fetchWhenSave: true,
         sessionToken,
       });
-      return { ...savedProduct.toJSON(), category, species, specs, location, desc, images, thumbnail: images[0], labels };
+      return { ...savedProduct.toJSON(), category, species, specs, location, desc, images, owner: profile, thumbnail: images[0], labels };
     } catch (err) {
       debug(err);
       throw err;
@@ -41,7 +41,7 @@ export default ({ AV, context }) => {
   };
 
   const updateSupplyProduct = async ({ objectId, category, species, name, specs, location, desc, images, available, labels }) => {
-    const { token: { sessionToken } } = context;
+    const { token: { sessionToken }, profile } = context;
     if (!objectId) {
       throw new Error('objectId is empty');
     }
@@ -82,7 +82,7 @@ export default ({ AV, context }) => {
         fetchWhenSave: true,
         sessionToken,
       });
-      return { ...savedProduct.toJSON(), category, species, specs, location, desc, images, thumbnail: images ? images[0] : null, labels };
+      return { ...savedProduct.toJSON(), category, species, specs, location, desc, images, owner: profile, thumbnail: images ? images[0] : null, labels };
     } catch (err) {
       debug(err);
       throw err;

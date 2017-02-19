@@ -10,6 +10,7 @@ import * as uploadFile from './uploadFile/ducks';
 import * as uploadAvatar from './uploadAvatar/ducks';
 import * as cert from './cert';
 import * as supplyProduct from './supplyProduct';
+import * as shopProduct from './shopProduct';
 import * as fetchCatalogs from './fetchCatalogs/ducks';
 import * as fetchCategories from './fetchCategories/ducks';
 import * as createSpecies from './createSpecies/ducks';
@@ -30,6 +31,7 @@ export default {
     ...uploadFile.default,
     ...uploadAvatar.default,
     ...cert.default,
+    ...shopProduct.default,
     ...supplyProduct.default,
     ...fetchCatalogs.default,
     ...fetchCategories.default,
@@ -52,6 +54,7 @@ export const sagas = [
   ...uploadAvatar.sagas,
   ...uploadFile.sagas,
   ...cert.sagas,
+  ...shopProduct.sagas,
   ...supplyProduct.sagas,
   ...fetchCatalogs.sagas,
   ...fetchCategories.sagas,
