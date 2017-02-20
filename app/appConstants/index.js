@@ -13,6 +13,12 @@ export const statusValues = {
   cancelled: { value: 18, title: '已取消' },
 };
 
+export const availableValues = {
+  all: { title: '全部', value: undefined },
+  on: { title: '已上架', value: true },
+  off: { title: '已下架', value: false },
+};
+
 export const userTypes = [
   { icon: 'shopping_basket', title: '逛逛再说', value: '一般用户', subtitle: '您可以稍候在个人信息里重新选择' },
   { icon: 'home', title: '我要开店', value: '微店店主' },

@@ -1,47 +1,54 @@
 import React, { PropTypes } from 'react';
 import injectSheet from 'react-jss';
 import Link from 'react-router/lib/Link';
-import Button from 'react-mdl/lib/Button';
 import { Card, CardActions } from 'react-mdl/lib/Card';
+import { formatPrices, formatParams } from 'utils/displayUtils';
 import Badge from '../badge';
 import styles, { breakpoints, colors } from '../styles';
 
-const ShopProduct = ({ classes }) => (
-  <Card shadow={0} className={`${classes.card} ${styles.defaultTransition}`}>
-    <Link to="/me" className={classes.title}>
-      <div className={classes.image}>
-        <div className="_wrapper">
+const ShopProduct = ({ product, actions, classes }) => {
+  const paramsStr = formatParams(product.specs);
+  return (
+    <Card shadow={0} className={`${classes.card} ${styles.defaultTransition}`}>
+      <Link to="/me" className={classes.title}>
+        <div className={classes.image}>
+          <div className="_wrapper" style={{ backgroundImage: `url(${product.thumbnail.thumbnail_300_300})` }}>
+          </div>
         </div>
-      </div>
-      <div className={`${classes.priceAndName} ${styles.colorPrice}`}>
-        <h4 title="Welcomedsfadsafdasfsdafsdafasdfasd">Welcomedsfadsafdasfsdafsdafasdfasd</h4>
-        <p title="Welcomedsfadsafdasfsdafsdafasdfasd">Welcomedsfadsafdasfsdafsdafasdfasd</p>
-      </div>
-    </Link>
-    <div className={classes.content}>
-      <div className={classes.specsOwnerAndBadge}>
-        <p className={classes.specs}>
-          茵曼 INMAN 格子长袖连衣裙 湛蓝色 XL
-        </p>
-        <div className={classes.ownerAndBadge}>
-          <p>
-            呼啸为
+        <div className={`${classes.priceAndName} ${styles.colorPrice}`}>
+          <h4>{formatPrices(product.specs)}</h4>
+          <p title={product.name}>{product.name}</p>
+        </div>
+      </Link>
+      <div className={classes.content}>
+        <div className={classes.specsOwnerAndBadge}>
+          <p className={classes.specs} title={paramsStr}>
+            {paramsStr}
           </p>
-          <div>
-            <Badge>大</Badge>
-            <Badge>小</Badge>
+          <div className={classes.ownerAndBadge}>
+            <p>
+              {product.shop.name}
+            </p>
+            <div>
+              <Badge>大</Badge>
+              <Badge>小</Badge>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    <CardActions className={classes.cardActions} border>
-      <Button colored>111</Button>
-    </CardActions>
-  </Card>
-);
+      {(actions && actions.length > 0) &&
+        <CardActions className={classes.cardActions} border>
+          {actions}
+        </CardActions>
+      }
+    </Card>
+  );
+};
 
 ShopProduct.propTypes = {
+  product: PropTypes.object.isRequired,
   classes: PropTypes.object.isRequired,
+  actions: PropTypes.array,
 };
 
 export default injectSheet({
@@ -52,6 +59,11 @@ export default injectSheet({
     minHeight: 0,
     '&:hover': {
       boxShadow: 'rgba(0, 0, 0, 0.188235) 0px 10px 30px, rgba(0, 0, 0, 0.227451) 0px 6px 10px !important',
+    },
+    '& p': {
+      fontSize: '1rem',
+      lineHeight: '1rem',
+      marginBottom: 8,
     },
     [breakpoints.mediaTabletBelow]: {
       maxWidth: 1000,
@@ -69,11 +81,11 @@ export default injectSheet({
   },
   image: {
     width: '100%',
-    background: 'red',
     '& > ._wrapper': {
       position: 'relative',
+      backgroundSize: 'cover',
       width: '100%',
-      paddingTop: '133.33%',
+      paddingTop: '75%',
     },
     [breakpoints.mediaTabletBelow]: {
       width: '60px',
@@ -81,10 +93,6 @@ export default injectSheet({
   },
   content: {
     padding: '0 8px 16px',
-    '& p': {
-      fontSize: '1rem',
-      marginBottom: 8,
-    },
   },
   priceAndName: {
     width: '100%',
@@ -96,7 +104,6 @@ export default injectSheet({
     },
     '& > p': {
       margin: 0,
-      fontSize: '1rem',
       color: colors.colorText,
     },
     '& > h4, p': {

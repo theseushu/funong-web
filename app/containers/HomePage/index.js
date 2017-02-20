@@ -10,16 +10,15 @@
  */
 
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
+// import { FormattedMessage } from 'react-intl';
 import MediaTop5LinesCard from 'modules/common/cards/shopProduct';
-import messages from './messages';
+// import messages from './messages';
 
 export default class HomePage extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
   render() {
     return (
       <h1>
-        <MediaTop5LinesCard
-        />
+        <MediaTop5LinesCard />
       </h1>
     );
   }

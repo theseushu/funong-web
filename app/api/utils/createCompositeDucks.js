@@ -49,14 +49,14 @@ export const restCallStateReducerCreator = (ACTION_TYPE) => (state = {}, action)
   return state;
 };
 
-export const createReducer = ({ ids, slice, stateActionConstant }, reducerCreator, storeKeyGenerator) => {
+export const createReducer = ({ ids, slice, stateActionConstant }, reducerCreator) => {
   if (typeof reducerCreator === 'function') {
     return {
-      [slice]: reducerCreator(stateActionConstant, storeKeyGenerator),
+      [slice]: reducerCreator(stateActionConstant),
     };
   }
   return {
-    [slice]: restCallStateReducerCreator(stateActionConstant, storeKeyGenerator),
+    [slice]: restCallStateReducerCreator(stateActionConstant),
   };
 };
 

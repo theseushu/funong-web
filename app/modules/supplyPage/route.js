@@ -37,7 +37,6 @@ export default ({ store, injectReducer, injectSagas, loadModule, errorLoading })
   },
   getComponent(nextState, cb) {
     // TODO fetch product
-    const { params: { id }, location: { query } } = nextState;
     const importModules = Promise.all([
       System.import('./index'),
       System.import('./ducks'),

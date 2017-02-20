@@ -9,6 +9,7 @@ import DescAndImagesFields from './descAndImagesFields';
 import SpecsField from './specsField';
 import AvailableField from './availableField';
 import RecommendField from './recommendField';
+import AgentableField from './agentableField';
 import LabelsField from './labelsField';
 
 const Form = (props, { router }) => {
@@ -24,6 +25,7 @@ const Form = (props, { router }) => {
         <Fields names={['desc', 'images']} component={DescAndImagesFields} sheet={{ classes }} />
         <Field name="available" component={AvailableField} sheet={{ classes }} />
         <Field name="recommend" component={RecommendField} sheet={{ classes }} />
+        <Field name="agentable" component={AgentableField} sheet={{ classes }} />
         <Field name="labels" component={LabelsField} sheet={{ classes }} />
         {
           error && (

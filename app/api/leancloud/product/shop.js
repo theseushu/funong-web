@@ -6,14 +6,14 @@
  * this object is mutable, deconstruction could cause latest value untouchable
  * wait until I figure out a better way
  */
-import { supplyProductToJSON } from '../converters';
+import { shopProductToJSON } from '../converters';
 const debug = require('debug')('app:api:supply');
 
 export default ({ AV, context }) => {
   class ShopProduct extends AV.Object {}
   AV.Object.register(ShopProduct);
 
-  const createShopProduct = async ({ category, species, name, specs, recommend, desc, images, available, labels, shop }) => {
+  const createShopProduct = async ({ category, species, name, specs, recommend, agentable, desc, images, available, labels, shop }) => {
     const { token: { sessionToken } } = context;
     try {
       const product = new ShopProduct();
@@ -22,6 +22,7 @@ export default ({ AV, context }) => {
       product.set('name', name);
       product.set('specs', specs);
       product.set('recommend', recommend);
+      product.set('agentable', agentable);
       product.set('desc', desc);
       product.set('images', images.map((image) => AV.Object.createWithoutData('_File', image.id)));
       product.set('thumbnail', AV.Object.createWithoutData('_File', images[0].id));
@@ -32,14 +33,14 @@ export default ({ AV, context }) => {
         fetchWhenSave: true,
         sessionToken,
       });
-      return { ...savedProduct.toJSON(), category, species, specs, shop, desc, images, recommend, thumbnail: images[0], labels };
+      return { ...savedProduct.toJSON(), category, species, specs, shop, desc, images, recommend, agentable, thumbnail: images[0], labels };
     } catch (err) {
       debug(err);
       throw err;
     }
   };
 
-  const updateShopProduct = async ({ objectId, category, species, name, specs, recommend, desc, images, available, labels }) => {
+  const updateShopProduct = async ({ objectId, category, species, name, specs, recommend, agentable, desc, images, available, labels }) => {
     const { token: { sessionToken } } = context;
     if (!objectId) {
       throw new Error('objectId is empty');
@@ -61,6 +62,9 @@ export default ({ AV, context }) => {
       if (recommend != null) {
         product.set('recommend', recommend);
       }
+      if (agentable != null) {
+        product.set('agentable', agentable);
+      }
       if (location && location.lnglat) {
         product.set('lnglat', new AV.GeoPoint(location.lnglat));
       }
@@ -81,7 +85,7 @@ export default ({ AV, context }) => {
         fetchWhenSave: true,
         sessionToken,
       });
-      return { ...savedProduct.toJSON(), category, species, specs, recommend, desc, images, thumbnail: images ? images[0] : null, labels };
+      return { ...savedProduct.toJSON(), category, species, specs, recommend, agentable, desc, images, thumbnail: images ? images[0] : null, labels };
     } catch (err) {
       debug(err);
       throw err;
@@ -96,20 +100,23 @@ export default ({ AV, context }) => {
       }, {
         sessionToken,
       });
-    return product ? supplyProductToJSON(product) : null;
+    return product ? shopProductToJSON(product) : null;
   };
 
-  const searchShopProducts = async ({ shop }) => {
+  const searchShopProducts = async ({ shop, available }) => {
     const query = new AV.Query('ShopProduct')
       .include(['images', 'thumbnail', 'category', 'category.catalog', 'species', 'shop', 'shop.thumbnail']);
     if (shop && shop.objectId) {
       query.equalTo('shop', AV.Object.createWithoutData('Shop', shop.objectId));
     }
+    if (available != null) {
+      query.equalTo('available', available);
+    }
     query
       .limit(1000);
     const products = await query.find();
 
-    return products.map(supplyProductToJSON);
+    return products.map(shopProductToJSON);
   };
 
   return {

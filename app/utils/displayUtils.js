@@ -1,6 +1,7 @@
 import React from 'react';
 import _reduce from 'lodash/reduce';
 import _find from 'lodash/find';
+import _union from 'lodash/union';
 import { statusValues, districtLevels, badges } from 'appConstants';
 import styles, { colors } from 'modules/common/styles';
 import Badge from 'modules/common/badge';
@@ -24,6 +25,8 @@ export const formatPrice = (spec) => {
   }
   return result;
 };
+
+export const formatParams = (specs) => _reduce(specs, (result, spec) => _union(result, spec.params), []);
 
 export const formatArea = (address, { level, districts, distance }) => {
   if (level === districtLevels.custom.value) {

@@ -1,3 +1,6 @@
+import _omitBy from 'lodash/omitBy';
+import _isUndefined from 'lodash/isUndefined';
+
 const thumbnailURL = function thumbnailURL(width, height, q, scaleToFit, f) {
   const url = this.attributes.url;
   if (!url) {
@@ -44,7 +47,7 @@ export const userToJSON = (user) => {
   const avUpdatedAt = user.get('updatedAt');
   const createdAt = avCreatedAt ? avCreatedAt.getTime() : undefined;
   const updatedAt = avUpdatedAt ? avUpdatedAt.getTime() : undefined;
-  return { ...user.toJSON(), avatar, images, roles, createdAt, updatedAt };
+  return _omitBy({ ...user.toJSON(), avatar, images, roles, createdAt, updatedAt }, _isUndefined);
 };
 
 export const certToJSON = (cert) => {
@@ -55,7 +58,7 @@ export const certToJSON = (cert) => {
   const owner = cert.get('owner');
   const createdAt = cert.get('createdAt').getTime();
   const updatedAt = cert.get('updatedAt').getTime();
-  return { ...cert.toJSON(), images, owner: userToJSON(owner), createdAt, updatedAt };
+  return _omitBy({ ...cert.toJSON(), images, owner: userToJSON(owner), createdAt, updatedAt }, _isUndefined);
 };
 
 export const shopProductToJSON = (product) => {
@@ -67,10 +70,6 @@ export const shopProductToJSON = (product) => {
 
   const avSpecies = product.get('species');
   const species = avSpecies ? { ...avSpecies.toJSON(), category } : null;
-
-  const address = product.get('address') || null;
-
-  const lnglat = product.get('lnglat').toJSON() || null;
 
   const avImages = product.get('images');
   const images = avImages ? avImages.map(fileToJSON) : [];
@@ -88,11 +87,10 @@ export const shopProductToJSON = (product) => {
   const createdAt = product.get('createdAt').getTime();
   const updatedAt = product.get('updatedAt').getTime();
 
-  return {
+  return _omitBy({
     ...product.toJSON(),
     category,
     species,
-    location: { address, lnglat },
     specs,
     images,
     shop,
@@ -100,7 +98,7 @@ export const shopProductToJSON = (product) => {
     labels,
     updatedAt,
     createdAt,
-  };
+  }, _isUndefined);
 };
 
 export const supplyProductToJSON = (product) => {
@@ -133,7 +131,7 @@ export const supplyProductToJSON = (product) => {
   const createdAt = product.get('createdAt').getTime();
   const updatedAt = product.get('updatedAt').getTime();
 
-  return {
+  return _omitBy({
     ...product.toJSON(),
     category,
     species,
@@ -145,7 +143,7 @@ export const supplyProductToJSON = (product) => {
     labels,
     updatedAt,
     createdAt,
-  };
+  }, _isUndefined);
 };
 
 export const logisticsToJSON = (logistics) => {
@@ -170,7 +168,7 @@ export const logisticsToJSON = (logistics) => {
   const createdAt = logistics.get('createdAt').getTime();
   const updatedAt = logistics.get('updatedAt').getTime();
 
-  return {
+  return _omitBy({
     ...logistics.toJSON(),
     location: { address, lnglat },
     images,
@@ -179,7 +177,7 @@ export const logisticsToJSON = (logistics) => {
     labels,
     updatedAt,
     createdAt,
-  };
+  }, _isUndefined);
 };
 
 export const cartItemToJSON = (cartItem) => {
@@ -189,7 +187,7 @@ export const cartItemToJSON = (cartItem) => {
   // TODO shop
   // const avShop = cartItem.get('shop');
   const avSupply = cartItem.get('supplyProduct');
-  const supplyProduct = avSupply ? supplyProductToJSON(avSupply) : null;
+  const supplyProduct = avSupply ? shopProductToJSON(avSupply) : null;
   const avShop = cartItem.get('shopProduct');
   const shopProduct = avShop ? shopProductToJSON(avShop) : null;
   const avOwner = cartItem.get('owner');
@@ -198,7 +196,7 @@ export const cartItemToJSON = (cartItem) => {
   const createdAt = cartItem.get('createdAt').getTime();
   const updatedAt = cartItem.get('updatedAt').getTime();
 
-  return { ...cartItem.toJSON(), owner, supplyProduct, shopProduct, createdAt, updatedAt };
+  return _omitBy({ ...cartItem.toJSON(), owner, supplyProduct, shopProduct, createdAt, updatedAt }, _isUndefined);
 };
 
 export const shopToJSON = (shop) => {
@@ -220,7 +218,7 @@ export const shopToJSON = (shop) => {
   const createdAt = shop.get('createdAt').getTime();
   const updatedAt = shop.get('updatedAt').getTime();
 
-  return {
+  return _omitBy({
     ...shop.toJSON(),
     location: { address, lnglat },
     areas,
@@ -228,5 +226,5 @@ export const shopToJSON = (shop) => {
     owner,
     updatedAt,
     createdAt,
-  };
+  }, _isUndefined);
 };
