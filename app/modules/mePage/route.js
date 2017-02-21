@@ -24,9 +24,7 @@ export default ({ store, injectReducer, injectSagas, loadModule, errorLoading })
         System.import('modules/mePage/profile'),
         System.import('modules/mePage/profile/ducks'),
       ]);
-
       const renderRoute = loadModule(cb);
-
       importModules.then(([component, ducks]) => {
         _toPairs(ducks.default).forEach((pair) => {
           injectReducer(pair[0], pair[1]);

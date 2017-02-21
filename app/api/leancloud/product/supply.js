@@ -6,7 +6,7 @@
  * this object is mutable, deconstruction could cause latest value untouchable
  * wait until I figure out a better way
  */
-import { shopProductToJSON } from '../converters';
+import { supplyProductToJSON } from '../converters';
 const debug = require('debug')('app:api:supply');
 
 export default ({ AV, context }) => {
@@ -97,7 +97,7 @@ export default ({ AV, context }) => {
       }, {
         sessionToken,
       });
-    return product ? shopProductToJSON(product) : null;
+    return product ? supplyProductToJSON(product) : null;
   };
 
   const searchSupplyProducts = async ({ ownerId }) => {
@@ -110,7 +110,7 @@ export default ({ AV, context }) => {
       .limit(1000);
     const products = await query.find();
 
-    return products.map(shopProductToJSON);
+    return products.map(supplyProductToJSON);
   };
 
   return {

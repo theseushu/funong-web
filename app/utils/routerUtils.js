@@ -5,25 +5,6 @@ import { actions as shopActions } from 'api/shop';
 const fetchProfile = actions.fetch;
 const fetchMyShop = shopActions.fetchMine;
 
-export const ensureProfile = async (store) => {
-  const currentUser = currentUserSelector(store.getState());
-  // if currentUser's not been fetched, fetch it before continue
-  // if it's fetched already, don't wait for the result
-  if (currentUser) {
-    store.dispatch(fetchProfile({}));
-  } else {
-    await new Promise((resolve, reject) => {
-      store.dispatch(fetchProfile({
-        meta: {
-          resolve,
-          reject,
-        },
-      }));
-    });
-  }
-  return currentUserSelector(store.getState());
-};
-
 export const requireAuth = async (store) => {
   const result = { login: false };
   try {

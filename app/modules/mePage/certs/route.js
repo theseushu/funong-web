@@ -1,6 +1,5 @@
 import _toPairs from 'lodash/toPairs';
 import { actions, selectors } from 'api/cert';
-import { ensureProfile } from 'utils/routerUtils';
 
 const searchMine = actions.searchMine;
 const searchMineState = selectors.searchMine;
@@ -13,19 +12,17 @@ export default ({ store, injectReducer, injectSagas, loadModule, errorLoading })
       System.import('./index'),
       System.import('./ducks'),
       new Promise((resolve, reject) => {
-        ensureProfile(store).then(() => {
-          if (searchMineState(store.getState()).fulfilled) {
-            resolve();
-            store.dispatch(searchMine({}));
-          } else {
-            store.dispatch(searchMine({
-              meta: {
-                resolve,
-                reject,
-              },
-            }));
-          }
-        });
+        if (searchMineState(store.getState()).fulfilled) {
+          resolve();
+          store.dispatch(searchMine());
+        } else {
+          store.dispatch(searchMine({
+            meta: {
+              resolve,
+              reject,
+            },
+          }));
+        }
       }),
     ]);
 

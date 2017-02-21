@@ -1,11 +1,10 @@
 import _toPairs from 'lodash/toPairs';
-import { ensureProfile } from 'utils/routerUtils';
+import { requireAuth } from 'utils/routerUtils';
 import { actions } from 'api/cart';
 
 const fetchCart = actions.fetch;
 
 const fetchData = async (store) => {
-  await ensureProfile(store);
   await new Promise((resolve, reject) => {
     store.dispatch(fetchCart({
       meta: {
@@ -23,6 +22,17 @@ const fetchData = async (store) => {
 export default ({ store, injectReducer, injectSagas, loadModule, errorLoading }) => ({ // eslint-disable-line no-unused-vars
   path: '/cart',
   name: 'cart',
+  onEnter: async ({ location }, replace, callback) => {
+    const { login } = await requireAuth(store);
+    if (login) {
+      callback();
+    } else {
+      const redirect = `${location.pathname}${location.search}`;
+      const message = '请登录';
+      replace(`/login?message=${message}&redirect=${redirect}`);
+      callback();
+    }
+  },
   getComponent(nextState, cb) {
     // TODO fetch product
     const importModules = Promise.all([

@@ -1,5 +1,5 @@
 import _toPairs from 'lodash/toPairs';
-import { ensureProfile } from 'utils/routerUtils';
+import { currentUserSelector } from 'modules/data/ducks/selectors';
 
 export default ({ store, injectReducer, injectSagas, loadModule, errorLoading }) => ({
   path: 'logistics',
@@ -11,9 +11,6 @@ export default ({ store, injectReducer, injectSagas, loadModule, errorLoading })
     ]);
     const renderRoute = loadModule(cb);
     const [component, ducks] = await importModules;
-    _toPairs(ducks.default).forEach((pair) => {
-      injectReducer(pair[0], pair[1]);
-    });
     if (!this.injected) {
       this.injected = true;
       _toPairs(ducks.default).forEach((pair) => {
@@ -21,7 +18,7 @@ export default ({ store, injectReducer, injectSagas, loadModule, errorLoading })
       });
       injectSagas(ducks.sagas);
     }
-    const currentUser = await ensureProfile(store);
+    const currentUser = currentUserSelector(store.getState());
     await new Promise((resolve, reject) => {
       const { actions: { searchLogisticsProducts }, selectors } = ducks;
       const searchLogisticsProductState = selectors.searchLogisticsProducts(store.getState());

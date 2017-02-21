@@ -1,35 +1,46 @@
 import _toPairs from 'lodash/toPairs';
 import { actions } from 'api/logisticsProduct';
-import { ensureProfile } from 'utils/routerUtils';
+import { requireAuth } from 'utils/routerUtils';
 
 const fetchLogisticsProduct = actions.fetch;
 
 export default ({ store, injectReducer, injectSagas, loadModule, errorLoading }) => ({ // eslint-disable-line no-unused-vars
   path: '/logistics/:id',
   name: 'newLogistics',
+  onEnter: async ({ params: { id }, location: { pathname, search, query } }, replace, proceed) => {
+    if (id === 'new' || !query.edit) {
+      const { login } = await requireAuth(store);
+      if (!login) {
+        const redirect = `${location.pathname}${location.search}`;
+        const message = '请登录';
+        replace(`/login?message=${message}&redirect=${redirect}`);
+        proceed();
+        return;
+      }
+    }
+    if (id !== 'new') {
+      await new Promise((resolve, reject) => {
+        store.dispatch(fetchLogisticsProduct({
+          objectId: id,
+          meta: {
+            resolve,
+            reject: (err) => {
+              console.log(err); // eslint-disable-line
+              reject();
+              // todo deal with error
+            },
+          },
+        }));
+      });
+    }
+    proceed();
+  },
   getComponent(nextState, cb) {
     // TODO fetch product
     const { params: { id }, location: { query } } = nextState;
     const importModules = Promise.all([
       System.import('./index'),
       System.import('./ducks'),
-      new Promise((resolve, reject) => {
-        if (id === 'new' || query.edit) {
-          ensureProfile(store).then(resolve);
-        } else {
-          store.dispatch(fetchLogisticsProduct({
-            objectId: id,
-            meta: {
-              resolve,
-              reject: (err) => {
-                console.log(err); // eslint-disable-line
-                reject();
-                // todo deal with error
-              },
-            },
-          }));
-        }
-      }),
     ]);
 
     const renderRoute = loadModule(cb);
