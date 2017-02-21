@@ -22,7 +22,7 @@ class ResponsiveCarouselCard extends Component {
   }
   state = { specIndex: 0, tabIndex: 0 }
   render() {
-    const { product: { name, images, category, species, specs, address, lnglat, desc }, location, sheet: { classes } } = this.props;
+    const { product: { name, images, category, species, specs, location: { address, lnglat }, desc }, location, sheet: { classes } } = this.props;
     const { specIndex, tabIndex } = this.state;
     return (
       <Card shadow={2} className={classes.card}>

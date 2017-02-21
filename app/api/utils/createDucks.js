@@ -13,14 +13,12 @@ export const createNames = ({ apiName, namespace, key = apiName }) => ({
 });
 
 // action creators
-export const createActionCreators = ({ actionConstant, action }) => {
-  return ({
-    [action]: (actionParams) => {
-      const { meta = {}, ...params } = actionParams || {};
-      return { type: actionConstant, payload: { ...params }, meta };
-    },
-  });
-}
+export const createActionCreators = ({ actionConstant, action }) => ({
+  [action]: (actionParams) => {
+    const { meta = {}, ...params } = actionParams || {};
+    return { type: actionConstant, payload: { ...params }, meta };
+  },
+});
 
 // reducer
 // a simple default one. it just replace states with action.payload
