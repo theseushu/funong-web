@@ -8,6 +8,7 @@ import Icon from 'react-mdl/lib/Icon';
 import IconButton from 'react-mdl/lib/IconButton';
 import Tooltip from 'react-mdl/lib/Tooltip';
 import { actions } from 'modules/fullScreenGallery/ducks';
+import styles from 'modules/common/styles';
 import Files from './files';
 
 const debug = require('debug')('app:photosField');
@@ -92,13 +93,13 @@ class FilesUpload extends Component {
     }
   }
   render() {
-    const { title, editing, sheet: { classes }, allowGallery = true } = this.props;
+    const { title, editing, sheet: { classes }, allowGallery = true, className } = this.props;
     return (
-      <div>
+      <div className={className ? `${styles.w100} ${className}` : styles.w100}>
         {
           editing && (
             <div>
-              <small className={classes.title}>{title || '图片内容'}</small>
+              <span className={classes.title}>{title || '图片内容'}</span>
               <IconButton colored name="add_circle" onClick={(e) => { e.preventDefault(); this.fileSelector.click(); }}></IconButton>
               <input
                 className="hidden"
@@ -136,6 +137,7 @@ class FilesUpload extends Component {
 }
 
 FilesUpload.propTypes = {
+  className: PropTypes.string,
   files: PropTypes.array,
   onChange: PropTypes.func,
   allowGallery: PropTypes.bool,

@@ -1,12 +1,17 @@
 import React, { PropTypes } from 'react';
 import injectSheet from 'react-jss';
-import { Field, Fields } from 'redux-form';
+import { Fields } from 'redux-form';
 import Button from 'react-mdl/lib/Button';
 import RadioGroup from 'react-mdl/lib/RadioGroup';
 import Radio from 'react-mdl/lib/Radio';
 import styles, { colors } from 'modules/common/styles';
-import createTextfield from '../../utils/createTextField';
-import ImagesField from '../../utils/imagesField';
+import { createTextField, ImagesField } from 'modules/common/form';
+
+const NameField = createTextField('name', '企业名称', 10);
+const CorporateField = createTextField('corporate', '法人代表', 30);
+const UnifiedCodeField = createTextField('unifiedCode', '社会统一信用代码', 30);
+const RegistrationCodeField = createTextField('registrationCode', '营业执照号码', 30);
+const CooperationCodeField = createTextField('cooperationCode', '组织机构代码证号码', 30);
 
 const IsUnifiedField = ({ input: { value, onChange } }) => (
   <RadioGroup name="isNew" value={value} onChange={onChange}>
@@ -61,13 +66,6 @@ UnifiedFields.propTypes = {
   sheet: PropTypes.object.isRequired,
 };
 
-const NameField = createTextfield('企业名称');
-const CorporateField = createTextfield('法人代表');
-const UnifiedCodeField = createTextfield('社会统一信用代码');
-const RegistrationCodeField = createTextfield('营业执照号码');
-const CooperationCodeField = createTextfield('组织机构代码证号码');
-
-
 // export for unit testing
 const companyCertForm = (props) => {
   const { handleSubmit, pristine, submitting, submitSucceeded, invalid, onSubmit, sheet: { classes } } = props;
@@ -75,18 +73,18 @@ const companyCertForm = (props) => {
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className={classes.line}>
         <div className={classes.input}>
-          <Field name="name" component={NameField} />
+          <NameField />
         </div>
         <h5 style={{ margin: 0 }}><small>请输入企业名称（与证件保持一致）</small></h5>
       </div>
       <div className={classes.line}>
         <div className={classes.input}>
-          <Field name="corporate" component={CorporateField} />
+          <CorporateField />
         </div>
         <h5 style={{ margin: 0 }}><small>法人代表姓名（与证件保持一致）</small></h5>
       </div>
       <Fields names={['isUnified', 'unifiedCode', 'registrationCode', 'cooperationCode']} component={UnifiedFields} sheet={{ classes }} />
-      <Field name="images" component={ImagesField} />
+      <ImagesField title="证件照片" />
       <div className={[styles.contentCenter, classes.marginTop16].join(' ')}>
         <Button raised colored type="submit" disabled={pristine || invalid || submitting}>{submitSucceeded ? '保存成功' : '确定'}</Button>
       </div>

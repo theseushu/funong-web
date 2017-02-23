@@ -1,9 +1,10 @@
 import React, { Component, PropTypes } from 'react';
 import injectSheet from 'react-jss';
-import styles, { colors } from 'modules/common/styles';
+import styles from 'modules/common/styles';
 import FilesUpload from 'modules/common/filesUpload';
 import CertDisplay from 'modules/common/cert/display';
 import { statusValues } from 'appConstants';
+import moduleStyles from '../styles';
 import createForm from './createForm';
 import image4 from '../assets/image4.jpg';
 import image5 from '../assets/image5.jpg';
@@ -62,21 +63,4 @@ class Company extends Component {
   }
 }
 
-export default injectSheet({
-  wrapper: {
-    maxWidth: 580, margin: '0 auto', padding: 16,
-  },
-  instructions: {
-    color: colors.colorSubTitle,
-  },
-  sampleImages: {
-    listStyle: 'none',
-  },
-  text: {
-    marginTop: 0,
-    fontSize: 'smaller',
-    paddingLeft: 0,
-    listStyle: 'none',
-    textWrap: 'wrap',
-  },
-})(Company);
+export default injectSheet(moduleStyles)(Company);

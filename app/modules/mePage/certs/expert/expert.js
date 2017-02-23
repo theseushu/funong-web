@@ -1,13 +1,14 @@
 import React, { Component, PropTypes } from 'react';
 import injectSheet from 'react-jss';
-import styles, { colors } from 'modules/common/styles';
-import CertDisplay from 'modules/common/cert/display';
 import { statusValues } from 'appConstants';
+import styles from 'modules/common/styles';
+import CertDisplay from 'modules/common/cert/display';
+import moduleStyles from '../styles';
 import createForm from './createForm';
 
 class Personal extends Component {
   static propTypes = {
-    sheet: PropTypes.object,
+    classes: PropTypes.object,
     cert: PropTypes.object,
   }
   constructor(props) {
@@ -15,7 +16,7 @@ class Personal extends Component {
     this.state = { activeTab: 0 };
   }
   render() {
-    const { sheet: { classes }, cert } = this.props;
+    const { classes, cert } = this.props;
     let title;
     let display;
     if (cert && cert.status === statusValues.verified.value) {
@@ -48,21 +49,4 @@ class Personal extends Component {
   }
 }
 
-export default injectSheet({
-  wrapper: {
-    maxWidth: 580, margin: '0 auto', padding: 16,
-  },
-  instructions: {
-    color: colors.colorSubTitle,
-  },
-  sampleImages: {
-    listStyle: 'none',
-  },
-  text: {
-    marginTop: 0,
-    fontSize: 'smaller',
-    paddingLeft: 0,
-    listStyle: 'none',
-    textWrap: 'wrap',
-  },
-})(Personal);
+export default injectSheet(moduleStyles)(Personal);

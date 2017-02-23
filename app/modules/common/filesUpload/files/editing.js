@@ -16,7 +16,7 @@ function asyncLoadImage(file) {
       (canvas) => {
         resolve(canvas);
       },
-      { contain: true, maxWidth: 1024, minWidth: 1024, canvas: true, downsamplingRatio: 0.2 }
+      { contain: true, maxWidth: 1024, minWidth: 1024, canvas: true, downsamplingRatio: 1 }
     );
     loadingCanvas.onerror = (error) => { reject(error); };
   });

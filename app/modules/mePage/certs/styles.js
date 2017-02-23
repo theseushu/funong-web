@@ -1,49 +1,21 @@
-import { breakpoints } from 'modules/common/styles';
-
-export const layout = {
-  title: {
-    col: 2,
-    offsetDesktop: 2,
-    tablet: 3,
-    phone: 4,
-  },
-  content: {
-    col: 6,
-    offsetDesktop: 2,
-    tablet: 5,
-    phone: 4,
-  },
-  children: {
-    col: 8,
-    offsetDesktop: 2,
-    tablet: 8,
-    phone: 4,
-  },
-};
+import { colors } from 'modules/common/styles';
 
 export default {
-  grid: { width: '100%', boxSizing: 'border-box' },
-  title: {
+  wrapper: {
+    maxWidth: 580, margin: '0 auto', padding: 16, width: '100%',
   },
-  content: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'flex-start',
-    [breakpoints.mediaTabletBelow]: {
-      alignItems: 'center',
-    },
+  instructions: {
+    color: colors.colorSubTitle,
   },
-  textfield: {
-    display: 'flex',
-    alignItems: 'center',
-    height: 24,
+  sampleImages: {
+    listStyle: 'none',
   },
-  input: {
-    flex: 1,
-    width: 150,
-    marginLeft: 16,
-    [breakpoints.mediaTabletBelow]: {
-      marginLeft: 0,
-    },
+  text: {
+    marginTop: 0,
+    fontSize: 'smaller',
+    paddingLeft: 0,
+    listStyle: 'none',
+    textWrap: 'wrap',
   },
 };
+

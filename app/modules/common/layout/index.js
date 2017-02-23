@@ -49,7 +49,7 @@ class LayoutComponent extends Component {
 
 export default injectSheet({
   layout: {
-    zIndex: 100001,
+    zIndex: 10001,
     [breakpoints.mediaDestkopAbove]: {
       '& .mdl-layout__drawer-button': {
         display: 'none',

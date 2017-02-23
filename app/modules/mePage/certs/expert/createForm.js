@@ -8,12 +8,6 @@ import { expert } from '../selectors';
 const createCert = actions.create;
 const updateCert = actions.update;
 
-// export for unit testing
-export const validate = ({ desc, images }) => ({
-  desc: desc.length > 0 ? undefined : 'Required',
-  images: (!images || images.length === 0) ? 'Required' : undefined,
-});
-
 const DEFAULT = {
   desc: '',
   images: [],
@@ -21,7 +15,6 @@ const DEFAULT = {
 
 export default (cert) => reduxForm({
   form: 'personalCert',  // a unique identifier for this form
-  validate,                // <--- validation function given to redux-form
   initialValues: cert ? {
     desc: cert.fields.desc,
     images: cert.images,

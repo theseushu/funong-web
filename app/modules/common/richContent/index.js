@@ -52,7 +52,7 @@ class RichContent extends Component {
       editing, onImagesChange, allowGallery,
     } = this.props;
     return (
-      <div>
+      <div className={classes.richContent}>
         {
           (editing || images.length > 0) && (
             <div className={classes.marginTop}>
@@ -80,6 +80,9 @@ class RichContent extends Component {
 }
 
 export default injectSheet({
+  richContent: {
+    width: '100%',
+  },
   marginTop: {
     marginTop: 16,
   },

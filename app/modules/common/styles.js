@@ -114,6 +114,15 @@ const styles = {
     overflow: 'hidden',
     'text-overflow': 'ellipsis',
   },
+  w100: {
+    width: '100%',
+  },
+  mw100: {
+    'max-width': '100%',
+  },
+  mt16: {
+    'magin-top': '16px',
+  },
 };
 
 const { classes } = jss.createStyleSheet(styles).attach();
