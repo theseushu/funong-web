@@ -6,10 +6,9 @@ import Switch from 'react-mdl/lib/Switch';
 import injectSheet from 'react-jss';
 import moduleStyles from '../moduleStyles';
 
-const Labels = ({ classes, labels, input: { value, onChange } }) => {
-  return (
-    <div className={classes.labels}>
-      {
+const Labels = ({ classes, labels, input: { value, onChange } }) => (
+  <div className={classes.labels}>
+    {
         labels.map((label, i) => (
           <Switch
             key={i} ripple
@@ -24,9 +23,8 @@ const Labels = ({ classes, labels, input: { value, onChange } }) => {
           >{label.title}</Switch>
         ))
       }
-    </div>
+  </div>
   );
-}
 
 Labels.propTypes = {
   classes: PropTypes.object.isRequired,

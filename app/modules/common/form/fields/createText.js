@@ -4,7 +4,7 @@ import Textfield from 'react-mdl/lib/Textfield';
 
 const FormTextfield = ({ label, name, validate, ...props }) => {
   const textfield = ({ input: { value, onChange }, meta: { dirty, error } }) => {
-    const showError = (!!error);
+    const showError = (!!dirty) && (!!error);
     return (
       <Textfield
         floatingLabel
