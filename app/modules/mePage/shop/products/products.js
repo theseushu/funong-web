@@ -60,15 +60,16 @@ class Products extends Component { // eslint-disable-line
           <Toolbar query={query} />
           <div className={classes.products}>
             {products.map((product, i) => (
-              <ShopProductCard
-                key={i}
-                product={product}
-                actions={[
-                  <Button key={0} colored accent={product.available}>{product.available ? '下架' : '上架'}</Button>,
-                  <Link key={1} to={{ pathname: `/product/${product.objectId}`, query: { edit: true } }}><IconButton colored name="edit"></IconButton></Link>,
-                  <IconButton key={2} accent name="delete_sweep">删除</IconButton>,
-                ]}
-              />
+              <div key={i} className={classes.cell}>
+                <ShopProductCard
+                  product={product}
+                  actions={[
+                    <Button key={0} colored accent={product.available}>{product.available ? '下架' : '上架'}</Button>,
+                    <Link key={1} to={{ pathname: `/product/${product.objectId}`, query: { edit: true } }}><IconButton colored name="edit"></IconButton></Link>,
+                    <IconButton key={2} accent name="delete_sweep">删除</IconButton>,
+                  ]}
+                />
+              </div>
             ))}
           </div>
         </div>
@@ -96,6 +97,31 @@ export default injectSheet({
     width: 100,
     height: 100,
     position: 'relative',
+  },
+  products: {
+    width: '100%',
+    display: 'flex',
+    flexWrap: 'wrap',
+  },
+  cell: {
+    width: '25%',
+    boxSizing: 'border-box',
+    padding: 8,
+    [breakpoints.mediaSmallScreen]: {
+      width: '33.33%',
+    },
+    [breakpoints.mediaDestkopBelow]: {
+      width: '33.33%',
+    },
+    '@media (max-width: 680px)': {
+      width: '50%',
+    },
+    [breakpoints.mediaTabletBelow]: {
+      width: '50%',
+    },
+    '@media (max-width: 400px)': {
+      width: '100%',
+    },
   },
 })(connect(
   (state, props) => ({ products: createShopProductsSelector(props.shop.objectId)(state) })

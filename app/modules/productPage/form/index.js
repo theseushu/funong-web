@@ -1,6 +1,9 @@
+import React from 'react';
 import { reduxForm } from 'redux-form';
+import { push } from 'react-router-redux';
 import _isEmpty from 'lodash/isEmpty';
 import { actions } from 'api/shopProduct';
+import success from 'modules/toastr/success';
 import FORM_NAME from './formName';
 import productForm from './form';
 
@@ -50,7 +53,16 @@ export default reduxForm({
             available,
             labels,
             meta: {
-              resolve,
+              resolve: (product) => {
+                const image = product.thumbnail.thumbnail_80_80;
+                success({
+                  icon: <img role="presentation" width="70" height="70" src={image} />,
+                  title: `产品${product.name}的修改已保存`,
+                  onHideComplete: () => {
+                  },
+                });
+                resolve();
+              },
               reject,
             },
           }));
@@ -69,7 +81,17 @@ export default reduxForm({
             labels,
             shop,
             meta: {
-              resolve,
+              resolve: (product) => {
+                const image = product.thumbnail.thumbnail_80_80;
+                success({
+                  icon: <img role="presentation" width="70" height="70" src={image} />,
+                  title: `新产品${product.name}已加入您的微店`,
+                  onHideComplete: () => {
+                    dispatch(push('/me/shop/products'));
+                  },
+                });
+                resolve();
+              },
               reject,
             },
           }));

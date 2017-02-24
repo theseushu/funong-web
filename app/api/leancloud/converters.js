@@ -133,8 +133,7 @@ export const shopProductToJSON = (product) => {
   if (!product) {
     return null;
   }
-  const { objectId, name, agentable, status, available, recommended, desc, specs, labels } = product.toJSON();
-
+  const { objectId, name, status, desc, specs, labels } = product.toJSON();
   const category = embeddedCategoryToJSON(product.get('category'));
   const species = embeddedSpeciesToJSON(product.get('species'));
   const images = imagesToJSON(product.get('images'));
@@ -143,14 +142,14 @@ export const shopProductToJSON = (product) => {
   const createdAt = product.get('createdAt').getTime();
   const updatedAt = product.get('updatedAt').getTime();
 
-  return _omitBy({ objectId, name, agentable, status, available, recommended, desc, specs, labels, category, species, images, shop, thumbnail, updatedAt, createdAt }, _isUndefined);
+  return _omitBy({ objectId, name, status, desc, specs, labels, category, species, images, shop, thumbnail, updatedAt, createdAt }, _isUndefined);
 };
 
 export const supplyProductToJSON = (product) => {
   if (!product) {
     return null;
   }
-  const { objectId, name, address, status, available, desc, specs, labels } = product.toJSON();
+  const { objectId, name, address, status, desc, specs, labels } = product.toJSON();
 
   const lnglat = lnglatToJSON(product.get('lnglat'));
   const category = embeddedCategoryToJSON(product.get('category'));
@@ -161,21 +160,21 @@ export const supplyProductToJSON = (product) => {
   const createdAt = product.get('createdAt').getTime();
   const updatedAt = product.get('updatedAt').getTime();
 
-  return _omitBy({ objectId, location: { address, lnglat }, name, status, available, desc, specs, labels, category, species, images, thumbnail, owner, updatedAt, createdAt }, _isUndefined);
+  return _omitBy({ objectId, location: { address, lnglat }, name, status, desc, specs, labels, category, species, images, thumbnail, owner, updatedAt, createdAt }, _isUndefined);
 };
 
 export const logisticsToJSON = (product) => {
   if (!product) {
     return null;
   }
-  const { objectId, name, address, status, available, capacity, price, maxNumber, range, desc, specs, labels } = product.toJSON();
+  const { objectId, name, address, status, capacity, price, count, range, desc, specs, labels } = product.toJSON();
   const lnglat = lnglatToJSON(product.get('lnglat'));
   const images = imagesToJSON(product.get('images'));
   const owner = embeddedUserToJSON(product.get('owner'));
   const thumbnail = fileToJSON(product.get('thumbnail'));
   const createdAt = product.get('createdAt').getTime();
   const updatedAt = product.get('updatedAt').getTime();
-  return _omitBy({ objectId, location: { address, lnglat }, name, status, available, desc, specs, labels, capacity, price, maxNumber, range, images, thumbnail, owner, updatedAt, createdAt }, _isUndefined);
+  return _omitBy({ objectId, location: { address, lnglat }, name, status, desc, specs, labels, capacity, price, count, range, images, thumbnail, owner, updatedAt, createdAt }, _isUndefined);
 };
 
 export const cartItemToJSON = (cartItem) => {

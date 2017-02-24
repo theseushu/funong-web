@@ -32,11 +32,12 @@ export default injectSheet({
     alignItems: 'center',
     '& > i': {
       fontSize: '1.2em',
+      marginRight: 8,
     },
     '& > img': {
-      width: '1em',
-      height: '1em',
-      margin: '0 0.1em',
+      width: '1.2em',
+      height: '1.2em',
+      marginRight: 8,
     },
   },
 })(ButtonWithIcon);

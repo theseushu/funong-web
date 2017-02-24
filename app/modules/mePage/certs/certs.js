@@ -42,10 +42,10 @@ class Certs extends Component {
         type = certTypes.company.value;
         break;
       case 2:
-        type = certTypes.product.value;
+        type = certTypes.expert.value;
         break;
       case 3:
-        type = certTypes.expert.value;
+        type = certTypes.product.value;
         break;
       default:
         type = certTypes.personal.value;
@@ -63,10 +63,10 @@ class Certs extends Component {
       case certTypes.company.value:
         activeTab = 1;
         break;
-      case certTypes.product.value:
+      case certTypes.expert.value:
         activeTab = 2;
         break;
-      case certTypes.expert.value:
+      case certTypes.product.value:
         activeTab = 3;
         break;
       default:

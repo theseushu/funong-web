@@ -13,7 +13,7 @@ export default ({ AV, context }) => {
   class SupplyProduct extends AV.Object {}
   AV.Object.register(SupplyProduct);
 
-  const createSupplyProduct = async ({ category, species, name, specs, location, desc, images, available, labels }) => {
+  const createSupplyProduct = async ({ category, species, name, specs, location, desc, images, labels }) => {
     const { token: { sessionToken }, profile } = context;
     try {
       const product = new SupplyProduct();
@@ -27,7 +27,6 @@ export default ({ AV, context }) => {
       product.set('images', images.map((image) => AV.Object.createWithoutData('_File', image.id)));
       product.set('thumbnail', AV.Object.createWithoutData('_File', images[0].id));
       product.set('owner', AV.Object.createWithoutData('Profile', profile.objectId));
-      product.set('available', available);
       product.set('labels', labels);
       const savedProduct = await product.save(null, {
         fetchWhenSave: true,
@@ -40,7 +39,7 @@ export default ({ AV, context }) => {
     }
   };
 
-  const updateSupplyProduct = async ({ objectId, category, species, name, specs, location, desc, images, available, labels }) => {
+  const updateSupplyProduct = async ({ objectId, category, species, name, specs, location, desc, images, labels }) => {
     const { token: { sessionToken }, profile } = context;
     if (!objectId) {
       throw new Error('objectId is empty');
@@ -71,9 +70,6 @@ export default ({ AV, context }) => {
       if (images) {
         product.set('images', images.map((image) => AV.Object.createWithoutData('_File', image.id)));
         product.set('thumbnail', images.length > 0 ? AV.Object.createWithoutData('_File', images[0].id) : null);
-      }
-      if (available != null) {
-        product.set('available', available);
       }
       if (labels != null) {
         product.set('labels', labels);

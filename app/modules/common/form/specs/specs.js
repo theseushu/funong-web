@@ -1,21 +1,23 @@
 import React, { Component, PropTypes } from 'react';
 import _without from 'lodash/without';
+import { Card, CardTitle, CardText } from 'react-mdl/lib/Card';
+import injectSheet from 'react-jss';
 import IconButton from 'react-mdl/lib/IconButton';
-import { Grid, Cell } from 'react-mdl/lib/Grid';
 import { List, ListItem, ListItemContent, ListItemAction } from 'react-mdl/lib/List';
 import FormIconButton from 'modules/common/formElements/iconButton';
 import SpecDialog from 'modules/common/specDialog';
-import styles from 'modules/common/styles';
 import { formatPrice } from 'utils/displayUtils';
+import { colors } from '../../styles';
+import moduleStyles from '../moduleStyles';
 
-class SpecsField extends Component {
+class Specs extends Component {
   static propTypes = {
     input: PropTypes.shape({
       value: PropTypes.array.isRequired,
       onChange: PropTypes.func.isRequired,
     }).isRequired,
     meta: PropTypes.object,
-    sheet: PropTypes.object,
+    classes: PropTypes.object,
   }
   constructor(props) {
     super(props);
@@ -53,36 +55,19 @@ class SpecsField extends Component {
   }
 
   render() {
-    const { input: { value }, meta: { error }, sheet: { classes } } = this.props; // eslint-disable-line
+    const { input: { value }, meta: { error }, classes } = this.props; // eslint-disable-line
     const { editingIndex } = this.state;
     return (
-      <Grid className={error && styles.colorError}>
-        <Cell col={4} tablet={3} phone={2} className={classes.field}>
+      <Card shadow={1} className={classes.card}>
+        <CardTitle>
           规格
-        </Cell>
-        <Cell col={8} tablet={5} phone={2} className={classes.field}>
-          <FormIconButton
-            error={error}
-            className={classes.iconButton}
-            name="add_circle" ripple onClick={(e) => { e.preventDefault(); this.addSpec(); }}
-          ></FormIconButton>
-          {
-            editingIndex !== null && (
-              <SpecDialog
-                isDefault={editingIndex === 0}
-                spec={value[editingIndex]}
-                close={this.hideDialog}
-                onSubmit={this.saveSpec}
-              />
-            )
-          }
-        </Cell>
-        {
-          value.length > 0 && (
-            <List className={classes.fieldContent}>
+        </CardTitle>
+        <CardText>
+          {value.length > 0 && (
+            <List className={classes.list}>
               {
                 value.map((spec, i) => (
-                  <ListItem key={i} threeLine className="mdl-shadow--2dp">
+                  <ListItem key={i} threeLine>
                     <ListItemContent
                       subtitle={spec.params.join(', ')}
                     ><span>{spec.name}<small> {formatPrice(spec)}</small></span></ListItemContent>
@@ -95,10 +80,38 @@ class SpecsField extends Component {
               }
             </List>
           )
+          }
+        </CardText>
+        <FormIconButton
+          error={error}
+          className={classes.iconButton}
+          name="add_circle" ripple onClick={(e) => { e.preventDefault(); this.addSpec(); }}
+        />
+        {
+          editingIndex !== null && (
+            <SpecDialog
+              isDefault={editingIndex === 0}
+              spec={value[editingIndex]}
+              close={this.hideDialog}
+              onSubmit={this.saveSpec}
+            />
+          )
         }
-      </Grid>
+      </Card>
     );
   }
 }
 
-export default SpecsField;
+export default injectSheet({
+  ...moduleStyles,
+  list: {
+    margin: 0,
+    padding: 0,
+    '& > li': {
+      height: 56,
+      padding: 0,
+      marginBottom: 8,
+      borderBottom: `solid 1px ${colors.colorLightGrey}`,
+    },
+  },
+})(Specs);

@@ -4,7 +4,7 @@ import { Grid, Cell } from 'react-mdl/lib/Grid';
 import Textfield from 'react-mdl/lib/Textfield';
 
 const NameField = ({ input: { value, onChange }, meta: { error }, sheet: { classes } }) => (
-  <Grid>
+  <Grid noSpacing>
     <Cell col={12}>
       <div className={classes.wrapper}>
         <Textfield

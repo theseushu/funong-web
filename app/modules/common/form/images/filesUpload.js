@@ -5,12 +5,10 @@ import _without from 'lodash/without';
 import injectSheet from 'react-jss';
 import { toastrEmitter } from 'react-redux-toastr/lib/toastrEmitter';
 import { Card, CardTitle, CardText } from 'react-mdl/lib/Card';
-import Icon from 'react-mdl/lib/Icon';
-import IconButton from 'react-mdl/lib/IconButton';
-import Tooltip from 'react-mdl/lib/Tooltip';
 import { actions } from 'modules/fullScreenGallery/ducks';
-import styles from 'modules/common/styles';
-import Files from './files';
+import Files from 'modules/common/filesUpload/files';
+import FormIconButton from 'modules/common/formElements/iconButton';
+import moduleStyles from '../moduleStyles';
 
 const debug = require('debug')('app:photosField');
 
@@ -94,57 +92,44 @@ class FilesUpload extends Component {
     }
   }
   render() {
-    const { title, editing, sheet: { classes }, allowGallery = true, className } = this.props;
+    const { title, sheet: { classes }, allowGallery = true, error } = this.props;
     return (
-      <div className={className ? `${styles.w100} ${className}` : styles.w100}>
-        {
-          editing && (
-            <div>
-              <span className={classes.title}>{title || '图片内容'}</span>
-              <IconButton colored name="add_circle" onClick={(e) => { e.preventDefault(); this.fileSelector.click(); }}></IconButton>
-              <input
-                className="hidden"
-                multiple
-                type="file"
-                placeholder="点击选择"
-                ref={(fileSelector) => { this.fileSelector = fileSelector; }}
-                onChange={this.onFilesSelected}
-              />
-              <Tooltip
-                label={
-                  <div>
-                    <div>点击 <Icon name="add" style={{ fontSize: 10 }} /> 按钮添加图片</div>
-                    <div>拖拽图片到 <Icon name="delete_sweep" style={{ fontSize: 10 }} /> 删除图片</div>
-                    <div>您也可以拖拽交换图片的位置</div>
-                    <div>单击图片可预览</div>
-                  </div>
-                }
-              >
-                <IconButton accent name="help_outline"></IconButton>
-              </Tooltip>
-            </div>
-          )
-        }
-        <Files
-          editing={editing}
-          files={this.state.files}
-          onProcessed={this.onProcessed} onUploaded={this.onUploaded} onSwitch={this.onSwitch} onDrop={this.onDrop}
-          onItemClick={allowGallery ? this.openFullScreenGallery : null}
-          onFilesSelected={this.onFilesSelected}
-        />
-      </div>
+      <Card shadow={1} className={classes.card}>
+        <CardTitle>
+          {title || '缩略图'}
+        </CardTitle>
+        <CardText>
+          <div>
+            <input
+              className="hidden"
+              multiple
+              type="file"
+              placeholder="点击选择"
+              ref={(fileSelector) => { this.fileSelector = fileSelector; }}
+              onChange={this.onFilesSelected}
+            />
+            <Files
+              editing
+              files={this.state.files}
+              onProcessed={this.onProcessed} onUploaded={this.onUploaded} onSwitch={this.onSwitch} onDrop={this.onDrop}
+              onItemClick={allowGallery ? this.openFullScreenGallery : null}
+              onFilesSelected={this.onFilesSelected}
+            />
+          </div>
+        </CardText>
+        <FormIconButton error={error} name="add_circle" onClick={(e) => { e.preventDefault(); this.fileSelector.click(); }}></FormIconButton>
+      </Card>
     );
   }
 }
 
 FilesUpload.propTypes = {
-  className: PropTypes.string,
+  title: PropTypes.string,
+  error: PropTypes.any,
   files: PropTypes.array,
   onChange: PropTypes.func,
   allowGallery: PropTypes.bool,
   openGallery: PropTypes.func.isRequired,
-  editing: PropTypes.bool,
-  title: PropTypes.string,
   sheet: PropTypes.object.isRequired,
 };
 
@@ -153,8 +138,4 @@ export default connect(
   (dispatch) => ({
     ...bindActionCreators(actions, dispatch),
   })
-)(injectSheet({
-  title: {
-    marginRight: 24,
-  },
-})(FilesUpload));
+)(injectSheet(moduleStyles)(FilesUpload));

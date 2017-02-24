@@ -63,10 +63,23 @@ export const units = [
 ];
 
 export const productLabels = {
-  includesTransportation: { title: '包运费', key: 'includesTransportation' },
-  supportsLogistics: { title: '协助找物流', key: 'supportsLogistics' },
-  supportsDelivery: { title: '支持走快递', key: 'supportsDelivery' },
-  supportsAssurance: { title: '担保交易', key: 'supportsAssurance' },
+  available: { title: '上架', key: 'available', value: 'available' },
+  recommend: { title: '店长推荐', key: 'recommend', value: 'recommend' },
+  agent: { title: '可代销', key: 'agent', value: 'agent' },
+  supportsAssurance: { title: '担保交易', key: 'supportsAssurance', value: 'supportsAssurance' },
+};
+
+export const supplyLabels = {
+  available: { title: '上架', key: 'available', value: 'available' },
+  supportsAssurance: { title: '担保交易', key: 'supportsAssurance', value: 'supportsAssurance' },
+  includesTransportation: { title: '包运费', key: 'includesTransportation', value: 'includesTransportation' },
+  supportsLogistics: { title: '协助找物流', key: 'supportsLogistics', value: 'supportsLogistics' },
+  supportsDelivery: { title: '支持走快递', key: 'supportsDelivery', value: 'supportsDelivery' },
+};
+
+export const logisticsLabels = {
+  available: { title: '上架', key: 'available', value: 'available' },
+  supportsAssurance: { title: '担保交易', key: 'supportsAssurance', value: 'supportsAssurance' },
 };
 
 export const provinces = [

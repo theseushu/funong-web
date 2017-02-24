@@ -8,7 +8,7 @@ import Badge from '../badge';
 import styles, { breakpoints, colors } from '../styles';
 
 const ShopProduct = ({ product, classes }) => (
-  <Card shadow={0} className={`${classes.card} ${styles.defaultTransition}`}>
+  <Card shadow={4} className={`${classes.card} ${styles.defaultTransition}`}>
     <Link to="/me" className={classes.title}>
       <div className={classes.image}>
         <div className="_wrapper" style={{ background: `url(${product.thumbnail.thumbnail_300_300})` }}>
@@ -53,7 +53,7 @@ export default injectSheet({
     minWidth: 0,
     minHeight: 0,
     '&:hover': {
-      boxShadow: 'rgba(0, 0, 0, 0.188235) 0px 10px 30px, rgba(0, 0, 0, 0.227451) 0px 6px 10px !important',
+      boxShadow: 'rgba(0, 0, 0, 0.247059) 0px 14px 45px, rgba(0, 0, 0, 0.219608) 0px 10px 18px !important',
     },
     [breakpoints.mediaTabletBelow]: {
       maxWidth: 1000,

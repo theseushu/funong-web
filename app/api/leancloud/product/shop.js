@@ -13,7 +13,7 @@ export default ({ AV, context }) => {
   class ShopProduct extends AV.Object {}
   AV.Object.register(ShopProduct);
 
-  const createShopProduct = async ({ category, species, name, specs, recommend, agentable, desc, images, available, labels, shop }) => {
+  const createShopProduct = async ({ category, species, name, specs, desc, images, labels, shop }) => {
     const { token: { sessionToken } } = context;
     try {
       const product = new ShopProduct();
@@ -21,26 +21,23 @@ export default ({ AV, context }) => {
       product.set('species', AV.Object.createWithoutData('Species', species.objectId));
       product.set('name', name);
       product.set('specs', specs);
-      product.set('recommend', recommend);
-      product.set('agentable', agentable);
       product.set('desc', desc);
       product.set('images', images.map((image) => AV.Object.createWithoutData('_File', image.id)));
       product.set('thumbnail', AV.Object.createWithoutData('_File', images[0].id));
       product.set('shop', AV.Object.createWithoutData('Shop', shop.objectId));
-      product.set('available', available);
       product.set('labels', labels);
       const savedProduct = await product.save(null, {
         fetchWhenSave: true,
         sessionToken,
       });
-      return { ...savedProduct.toJSON(), category, species, specs, shop, desc, images, recommend, agentable, thumbnail: images[0], labels };
+      return { ...savedProduct.toJSON(), category, species, specs, shop, desc, images, thumbnail: images[0], labels };
     } catch (err) {
       debug(err);
       throw err;
     }
   };
 
-  const updateShopProduct = async ({ objectId, category, species, name, specs, recommend, agentable, desc, images, available, labels }) => {
+  const updateShopProduct = async ({ objectId, category, species, name, specs, desc, images, labels }) => {
     const { token: { sessionToken } } = context;
     if (!objectId) {
       throw new Error('objectId is empty');
@@ -59,12 +56,6 @@ export default ({ AV, context }) => {
       if (specs) {
         product.set('specs', specs);
       }
-      if (recommend != null) {
-        product.set('recommend', recommend);
-      }
-      if (agentable != null) {
-        product.set('agentable', agentable);
-      }
       if (location && location.lnglat) {
         product.set('lnglat', new AV.GeoPoint(location.lnglat));
       }
@@ -75,9 +66,6 @@ export default ({ AV, context }) => {
         product.set('images', images.map((image) => AV.Object.createWithoutData('_File', image.id)));
         product.set('thumbnail', images.length > 0 ? AV.Object.createWithoutData('_File', images[0].id) : null);
       }
-      if (available != null) {
-        product.set('available', available);
-      }
       if (labels != null) {
         product.set('labels', labels);
       }
@@ -85,7 +73,7 @@ export default ({ AV, context }) => {
         fetchWhenSave: true,
         sessionToken,
       });
-      return { ...savedProduct.toJSON(), category, species, specs, recommend, agentable, desc, images, thumbnail: images ? images[0] : null, labels };
+      return { ...savedProduct.toJSON(), category, species, specs, desc, images, thumbnail: images ? images[0] : null, labels };
     } catch (err) {
       debug(err);
       throw err;

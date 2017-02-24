@@ -121,7 +121,7 @@ const styles = {
     'max-width': '100%',
   },
   mt16: {
-    'magin-top': '16px',
+    'margin-top': '16px',
   },
 };
 

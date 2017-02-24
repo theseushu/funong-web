@@ -3,7 +3,13 @@ import Button from 'react-mdl/lib/Button';
 import styles from '../styles';
 
 const formButton = ({ error, className, children, ...props }) => (
-  <Button colored={!error} className={error ? `${className} ${styles.colorError}` : styles.colorError} {...props}>{children}</Button>
+  <Button
+    ripple
+    colored={!error}
+    style={{ padding: 0 }}
+    className={error ? `${styles.colorError} ${className || ''}` : `${className || ''}`}
+    {...props}
+  >{children}</Button>
 );
 
 formButton.propTypes = {

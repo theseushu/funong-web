@@ -9,7 +9,7 @@ import styles, { breakpoints, colors } from '../styles';
 const ShopProduct = ({ product, actions, classes }) => {
   const paramsStr = formatParams(product.specs);
   return (
-    <Card shadow={0} className={`${classes.card} ${styles.defaultTransition}`}>
+    <Card shadow={2} className={`${classes.card} ${styles.defaultTransition}`}>
       <Link to={`/product/${product.objectId}`} className={classes.title}>
         <div className={classes.image}>
           <div className="_wrapper" style={{ backgroundImage: `url(${product.thumbnail.thumbnail_300_300})` }}>
@@ -58,7 +58,7 @@ export default injectSheet({
     minWidth: 0,
     minHeight: 0,
     '&:hover': {
-      boxShadow: 'rgba(0, 0, 0, 0.188235) 0px 10px 30px, rgba(0, 0, 0, 0.227451) 0px 6px 10px !important',
+      boxShadow: 'rgba(0, 0, 0, 0.247059) 0px 14px 45px, rgba(0, 0, 0, 0.219608) 0px 10px 18px !important',
     },
     '& p': {
       fontSize: '1rem',

@@ -13,12 +13,12 @@ export default ({ AV, context }) => {
   class LogisticsProduct extends AV.Object {}
   AV.Object.register(LogisticsProduct);
 
-  const createLogisticsProduct = async ({ capacity, maxNumber, price, range, name, location, available, desc, images, labels }) => {
+  const createLogisticsProduct = async ({ capacity, count, price, range, name, location, available, desc, images, labels }) => {
     const { token: { sessionToken }, profile } = context;
     try {
       const logistics = new LogisticsProduct();
       logistics.set('capacity', capacity);
-      logistics.set('maxNumber', maxNumber);
+      logistics.set('count', count);
       logistics.set('price', price);
       logistics.set('range', range);
       logistics.set('name', name);
@@ -34,14 +34,14 @@ export default ({ AV, context }) => {
         fetchWhenSave: true,
         sessionToken,
       });
-      return { ...saved.toJSON(), capacity, maxNumber, price, range, name, location, images, thumbnail: images[0], labels };
+      return { ...saved.toJSON(), capacity, count, price, range, name, location, images, thumbnail: images[0], labels };
     } catch (err) {
       debug(err);
       throw err;
     }
   };
 
-  const updateLogisticsProduct = async ({ objectId, capacity, maxNumber, price, range, name, location, available, desc, images, labels }) => {
+  const updateLogisticsProduct = async ({ objectId, capacity, count, price, range, name, location, desc, images, labels }) => {
     const { token: { sessionToken } } = context;
     if (!objectId) {
       throw new Error('objectId is empty');
@@ -51,8 +51,8 @@ export default ({ AV, context }) => {
       if (capacity) {
         logistics.set('capacity', capacity);
       }
-      if (maxNumber) {
-        logistics.set('maxNumber', maxNumber);
+      if (count) {
+        logistics.set('count', count);
       }
       if (price) {
         logistics.set('price', price);
@@ -62,9 +62,6 @@ export default ({ AV, context }) => {
       }
       if (name) {
         logistics.set('name', name);
-      }
-      if (available != null) {
-        logistics.set('available', available);
       }
       if (location && location.address) {
         logistics.set('address', location.address);
@@ -93,7 +90,7 @@ export default ({ AV, context }) => {
         fetchWhenSave: true,
         sessionToken,
       });
-      return { ...saved.toJSON(), capacity, maxNumber, price, range, name, location, available, images, thumbnail: images ? images[0] : null, labels };
+      return { ...saved.toJSON(), capacity, count, price, range, name, location, images, thumbnail: images ? images[0] : null, labels };
     } catch (err) {
       debug(err);
       throw err;

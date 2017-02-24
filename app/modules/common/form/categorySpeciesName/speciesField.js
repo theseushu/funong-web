@@ -5,7 +5,6 @@ import injectJss from 'react-jss';
 import AutoComplete from 'react-mdl-extra/lib/AutoComplete';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { formValueSelector } from 'redux-form';
 import { Grid, Cell } from 'react-mdl/lib/Grid';
 import Tooltip from 'react-mdl/lib/Tooltip';
 import IconButton from 'react-mdl/lib/IconButton';
@@ -16,7 +15,6 @@ import { selector as fetchSpeciesSelector, fetchSpecies as fetchSpeciesAction } 
 import { selector as createSpeciesSelector, createSpecies as createSpeciesAction } from 'api/createSpecies';
 import { speciesSelector } from 'modules/data/ducks/selectors';
 import styles from 'modules/common/styles';
-import FORM_NAME from '../formName';
 
 const CreateButton = ({ createSpeciesState: { pending, error }, onClick }) => (
   <Button
@@ -119,7 +117,7 @@ class SpeciesField extends Component {
     const { text } = this.state;
     const enableCreating = this.enableCreating();
     return (
-      <Grid>
+      <Grid noSpacing>
         <Cell col={12} className={classes.species}>
           <div className={classes.wrapper}>
             <AutoComplete
@@ -157,7 +155,6 @@ class SpeciesField extends Component {
 
 export default connect(
   (state) => ({
-    category: formValueSelector(FORM_NAME)(state, 'category'),
     fetchSpeciesState: fetchSpeciesSelector(state),
     createSpeciesState: createSpeciesSelector(state),
     species: speciesSelector(state),

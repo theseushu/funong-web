@@ -18,9 +18,6 @@ const sideRoutes = () => [
       title: '商家认证',
       path: '/me/certs?type=company',
     }, {
-      title: '产品认证',
-      path: '/me/certs?type=product',
-    }, {
       title: '专家认证',
       path: '/me/certs?type=expert',
     },
