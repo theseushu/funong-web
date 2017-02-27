@@ -3,11 +3,11 @@ import { takeEvery } from 'redux-saga';
 import { put } from 'redux-saga/effects';
 
 import { UPDATE_DATA, REMOVE_ENTITIES, SET_USERS, SET_CURRENT_USER,
-  UPDATE_CURRENT_USER_INFO, SET_CATALOGS, SET_CATAGORIES, SET_SPECIES,
+  UPDATE_CURRENT_USER_INFO, SET_CATAGORIES, SET_SPECIES,
   SET_SPECIFICATIONS, SET_SHOP_PRODUCTS,
   SET_SUPPLY_PRODUCTS, SET_LOGISTICS_PRODUCTS, SET_CERTS,
   SET_CART_ITEMS, REMOVE_CART_ITEMS, SET_SHOPS } from './constants';
-import { UserSchema, UsersSchema, CatalogsSchema,
+import { UserSchema, UsersSchema,
   CategoriesSchema, SpeciesArraySchema, SpecificationsSchema,
   ShopProductsSchema, LogisticsProductsSchema,
   SupplyProductsSchema, CertsSchema, CartItemsSchema, ShopsSchema } from './schemas';
@@ -30,13 +30,6 @@ function* setCurrentUserSaga(action) {
   const { user } = action.payload;
   const data = normalize(user, UserSchema);
   const payload = Object.assign({}, data, { currentUser: data.result });
-  yield put({ type: UPDATE_DATA, payload });
-}
-
-function* setCatalogsSaga(action) {
-  const { catalogs } = action.payload;
-  const data = normalize(catalogs, CatalogsSchema);
-  const payload = Object.assign({}, data);
   yield put({ type: UPDATE_DATA, payload });
 }
 
@@ -114,7 +107,6 @@ function* rootSaga(api) {
   });
   yield takeEvery(SET_USERS, setUsersSaga);
   yield takeEvery(UPDATE_CURRENT_USER_INFO, updateCurrentUserInfoSaga);
-  yield takeEvery(SET_CATALOGS, setCatalogsSaga);
   yield takeEvery(SET_CATAGORIES, setCategoriesSaga);
   yield takeEvery(SET_SPECIES, setSpeciesSaga);
   yield takeEvery(SET_SPECIFICATIONS, setSpecificationsSaga);

@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import injectSheet from 'react-jss';
-import Dialog from '../dialog';
+import { Dialog } from 'modules/common/dialog';
 import RichContent from '../richContent';
 
 export const defaultValidate = ({ desc, images }) => images.length > 0 && desc.length > 10;

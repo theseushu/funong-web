@@ -2,7 +2,6 @@ import {
   SET_USERS,
   SET_CURRENT_USER,
   UPDATE_CURRENT_USER_INFO,
-  SET_CATALOGS,
   SET_CATAGORIES,
   SET_SPECIES,
   SET_SPECIFICATIONS,
@@ -27,10 +26,6 @@ export const updateCurrentUserInfo = (user) => ({
 export const setUsers = (users) => ({
   type: SET_USERS,
   payload: { users },
-});
-export const setCatalogs = (catalogs) => ({
-  type: SET_CATALOGS,
-  payload: { catalogs },
 });
 export const setCategories = (categories) => ({
   type: SET_CATAGORIES,

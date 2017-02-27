@@ -6,34 +6,36 @@
  * this object is mutable, deconstruction could cause latest value untouchable
  * wait until I figure out a better way
  */
+import { categoryToJSON, speciesToJSON } from '../converters';
 const debug = require('debug')('app:api:catalogCategorySpecies');
 
 export default ({ AV, context }) => {
   class Species extends AV.Object {}
   AV.Object.register(Species);
 
-// TODO deal with empty catalogType
-  const fetchCatalogs = () => new AV.Query('Catalog').find()
-    .then((results) => results.map((result) => Object.assign({}, result.toJSON())));
+  const fetchCategory = ({ objectId }) => AV.Object.createWithoutData('Category', objectId)
+    .fetch()
+    .then((result) => result ? categoryToJSON(result) : null);
 
-  const fetchCategories = (catalog) => new AV.Query('Category')
-    .equalTo('catalog', AV.Object.createWithoutData('Catalog', catalog.objectId))
-    .addAscending('name')
+  const fetchCategories = (catalogs) => new AV.Query('Category')
+    .containedIn('catalog', catalogs)
+    .addAscending('ordinal')
     .limit(1000)
     .find()
-    .then((results) => results.map((result) => {
-      const json = result.toJSON();
-      return ({ ...json, catalog: { objectId: json.catalog.objectId } });
-    }));
+    .then((results) => results.map(categoryToJSON));
+
+  const fetchSpeciesById = (objectId) => AV.Object.createWithoutData('Species', objectId)
+    .fetch({
+      include: ['category'],
+    })
+    .then(speciesToJSON);
 
   const fetchSpecies = (category) => new AV.Query('Species')
     .equalTo('category', AV.Object.createWithoutData('Category', category.objectId))
+    .include(['category'])
     .limit(1000)
     .find()
-    .then((results) => results.map((result) => {
-      const json = result.toJSON();
-      return ({ ...json, category: { objectId: json.category.objectId } });
-    }));
+    .then((results) => results.map(speciesToJSON));
 
   const createSpecies = async ({ category, name }) => {
     const { token: { sessionToken }, profile } = context;
@@ -46,7 +48,7 @@ export default ({ AV, context }) => {
         fetchWhenSave: true,
         sessionToken,
       });
-      return { ...savedSpecies.toJSON(), category };
+      return speciesToJSON({ ...savedSpecies, category });
     } catch (err) {
       debug(err);
       throw err;
@@ -54,8 +56,9 @@ export default ({ AV, context }) => {
   };
 
   return {
-    fetchCatalogs,
+    fetchCategory,
     fetchCategories,
+    fetchSpeciesById,
     fetchSpecies,
     createSpecies,
   };

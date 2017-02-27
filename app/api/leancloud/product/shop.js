@@ -84,7 +84,7 @@ export default ({ AV, context }) => {
     const { token: { sessionToken } } = context;
     const product = await AV.Object.createWithoutData('ShopProduct', objectId)
       .fetch({
-        include: ['images', 'thumbnail', 'category', 'category.catalog', 'species', 'shop', 'shop.thumbnail'],
+        include: ['images', 'thumbnail', 'category', 'species', 'shop', 'shop.thumbnail'],
       }, {
         sessionToken,
       });
@@ -93,7 +93,7 @@ export default ({ AV, context }) => {
 
   const searchShopProducts = async ({ shop, available }) => {
     const query = new AV.Query('ShopProduct')
-      .include(['images', 'thumbnail', 'category', 'category.catalog', 'species', 'shop', 'shop.thumbnail']);
+      .include(['images', 'thumbnail', 'category', 'species', 'shop', 'shop.thumbnail']);
     if (shop && shop.objectId) {
       query.equalTo('shop', AV.Object.createWithoutData('Shop', shop.objectId));
     }

@@ -89,7 +89,7 @@ export default ({ AV, context }) => {
     const { token: { sessionToken } } = context;
     const product = await AV.Object.createWithoutData('SupplyProduct', objectId)
       .fetch({
-        include: ['images', 'thumbnail', 'category', 'category.catalog', 'species', 'owner', 'owner.avatar'],
+        include: ['images', 'thumbnail', 'category', 'species', 'owner', 'owner.avatar'],
       }, {
         sessionToken,
       });
@@ -98,7 +98,7 @@ export default ({ AV, context }) => {
 
   const searchSupplyProducts = async ({ ownerId }) => {
     const query = new AV.Query('SupplyProduct')
-      .include(['images', 'thumbnail', 'category', 'category.catalog', 'species', 'owner', 'owner.avatar']);
+      .include(['images', 'thumbnail', 'category', 'species', 'owner', 'owner.avatar']);
     if (ownerId) {
       query.equalTo('owner', AV.Object.createWithoutData('_User', ownerId));
     }

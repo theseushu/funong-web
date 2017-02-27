@@ -21,6 +21,7 @@ export const colors = {
   colorIDVerified: '#4DB6AC', // teal300
   colorCompanyVerified: '#DCE775', // lime300
   colorExpertVerified: '#7986CB', // indigo300
+  colorMenuBg: '#E8F5E9', // green50
 };
 
 export const breakpoints = {

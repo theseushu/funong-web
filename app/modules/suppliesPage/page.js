@@ -8,42 +8,49 @@ import { catalogTypes } from 'appConstants/index';
 import Criteria from './criteria';
 import Recommends from './recommends';
 
-const SuppliesPage = ({ user, products, sheet: { classes } }) => ( // eslint-disable-line no-unused-vars
+const SuppliesPage = ({ user, location, products, sheet: { classes } }) => ( // eslint-disable-line no-unused-vars
   <Layout
-    content={(
-      <ContentMainRight
-        main={
-          <div>
-            <Criteria
-              types={Object.values(catalogTypes.supply).map((type) => type.value)}
-            />
-            <div className={classes.products}>
-              {
-                products.map((product, i) => (
-                  <div key={i} className={classes.product}>
-                    <SupplyCard key={i} product={product} />
-                  </div>
-                ))
-              }
+    content={
+      <div className={classes.page}>
+        <Criteria
+          location={location}
+          types={Object.values(catalogTypes.supply).map((type) => type.value)}
+        />
+        <ContentMainRight
+          main={
+            <div>
+              <div className={classes.products}>
+                {
+                  products.map((product, i) => (
+                    <div key={i} className={classes.product}>
+                      <SupplyCard key={i} product={product} />
+                    </div>
+                  ))
+                }
+              </div>
             </div>
-          </div>
-        }
-        right={
-          <Recommends />
-        }
-      />
-    )}
+          }
+          right={
+            <Recommends />
+          }
+        />
+      </div>
+    }
   >
   </Layout>
 );
 
 SuppliesPage.propTypes = {
+  location: PropTypes.object.isRequired,
   products: PropTypes.array.isRequired,
   user: PropTypes.object,
   sheet: PropTypes.object.isRequired,
 };
 
 export default injectSheet({
+  page: {
+    width: '100%',
+  },
   products: {
     flex: 1,
     display: 'flex',

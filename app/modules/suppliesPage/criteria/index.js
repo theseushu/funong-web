@@ -1,11 +1,17 @@
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { actions, selectors } from '../ducks';
-import Component from './criteria';
+import { push } from 'react-router-redux';
+import { catalogs } from 'appConstants';
+import Criteria, { criteriaToQuery } from 'modules/common/criteria';
+import { selectors } from '../ducks';
 
 export default connect(
   (state) => ({
     ...selectors.criteria(state),
+    catalogGroups: catalogs.groupedFarm,
   }),
-  (dispatch) => bindActionCreators({ setCriteria: actions.setCriteria }, dispatch),
-)(Component);
+  (dispatch, { location }) => bindActionCreators({ setCriteria: (criteria) => {
+    const query = criteriaToQuery(criteria);
+    return push(`${location.pathname}${query ? '?' : ''}${query}`);
+  } }, dispatch),
+)(Criteria);

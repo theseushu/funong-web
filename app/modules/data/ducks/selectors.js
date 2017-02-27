@@ -2,7 +2,7 @@ import { createSelector } from 'reselect';
 import _find from 'lodash/find';
 import { denormalize } from 'denormalizr';
 
-import { CertsSchema, ShopProductsSchema, SupplyProductsSchema, LogisticsProductsSchema, CartItemsSchema, ShopsSchema } from './schemas';
+import { SpeciesArraySchema, CertsSchema, ShopProductsSchema, SupplyProductsSchema, LogisticsProductsSchema, CartItemsSchema, ShopsSchema } from './schemas';
 
 const rootSelector = (state) => state.data;
 
@@ -39,22 +39,20 @@ export const adminUsersSelector = createSelector(
   }
 );
 
-export const catalogsSelector = createSelector(
-  rootSelector,
-  (data) => {
-    const { entities: { catalogs = {} } } = data;
-    return Object.values(catalogs);
-  }
-);
-
 export const categoriesSelector = createSelector(
   rootSelector,
-  (data) => data.entities.categories || {},
+  (data) => data.entities.categories ? Object.values(data.entities.categories) : [],
 );
 
 export const speciesSelector = createSelector(
   rootSelector,
-  (data) => data.entities.species || {},
+  (data) => {
+    const { species } = data.entities;
+    if (!species) {
+      return [];
+    }
+    return Object.values(denormalize(species, data.entities, SpeciesArraySchema));
+  }
 );
 
 export const supplyProductsSelector = createSelector(

@@ -1,8 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import injectSheet from 'react-jss';
 import Button from 'react-bootstrap/lib/Button';
+import { Dialog } from 'modules/common/dialog';
 import RaisingButton from '../raisingButton';
-import Dialog from '../dialog';
 
 import { availablePeriods, displayPeriod } from '../../../utils/momentUtils';
 

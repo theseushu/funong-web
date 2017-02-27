@@ -1,13 +1,14 @@
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { selector as fetchCatalogsSelector, fetchCatalogs } from 'api/fetchCatalogs';
-import { selector as fetchCategoriesSelector, fetchCategories } from 'api/fetchCategories';
+import { selectors, actions } from 'api/category';
 import Component from './categorySelectorDialog';
+
+const { fetchCategories } = actions;
+const fetchCategoriesSelector = selectors.fetchCategories;
 
 export default connect(
   (state) => ({
-    fetchCatalogsState: fetchCatalogsSelector(state),
     fetchCategoriesState: fetchCategoriesSelector(state),
   }),
-  (dispatch) => ({ actions: bindActionCreators({ fetchCatalogs, fetchCategories }, dispatch) }),
+  (dispatch) => ({ actions: bindActionCreators({ fetchCategories }, dispatch) }),
 )(Component);

@@ -7,7 +7,7 @@ import Button from 'react-mdl/lib/Button';
 import { Chip } from 'react-mdl/lib/Chip';
 import { units } from 'appConstants';
 import { isQuantityInvalid, isPriceInvalid } from 'utils/validationUtils';
-import Dialog from '../dialog';
+import { Dialog } from 'modules/common/dialog';
 import styles from '../styles';
 
 const EMPTY = {

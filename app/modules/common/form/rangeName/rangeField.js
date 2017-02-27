@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import injectSheet from 'react-jss';
-import ProvincesSelectorDialog from 'modules/common/provincesSelectorDialog';
+import ProvincesSelectorDialog from 'modules/common/location/provincesSelectorDialog';
 import FormButton from 'modules/common/formElements/button';
 import styles, { colors } from 'modules/common/styles';
 

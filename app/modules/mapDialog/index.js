@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import injectSheet from 'react-jss';
 import Textfield from 'react-mdl/lib/Textfield';
-import Dialog from 'modules/common/dialog';
+import { Dialog } from 'modules/common/dialog';
 import { initAMap } from 'api/initAMap';
 import { selector as fetchLocationSelector, actions as fetchLocationActions } from 'api/fetchLocation/ducks';
 import { formatAddress } from 'utils/displayUtils';

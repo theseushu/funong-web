@@ -1,3 +1,5 @@
+export { default as catalogs } from './catalogs';
+
 export const statusValues = {
   unverified: { value: 0, title: '待审核' },
   verified: { value: 1, title: '已通过' },
@@ -38,12 +40,10 @@ export const certTypes = {
 export const catalogTypes = {
   supply: {
     farm: { title: '农产品', value: '农产品' },
-    other: { title: '农资农机', value: '农资' },
   },
   shop: {
     shop: { title: '商品分类', value: '商品分类' },
     farm: { title: '农产品', value: '农产品' },
-    other: { title: '农资农机', value: '农资' },
   },
 };
 

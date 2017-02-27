@@ -1,11 +1,18 @@
 import _toPairs from 'lodash/toPairs';
+import _find from 'lodash/find';
+import { actions } from 'api/species';
+import { actions as categoryActions } from 'api/category';
+import { categoriesSelector, speciesSelector } from 'modules/data/ducks/selectors';
+
+const fetchSpecies = actions.fetchSpecies;
+const fetchCategory = categoryActions.fetch;
 
 export default ({ store, injectReducer, injectSagas, loadModule, errorLoading }) => ({ // eslint-disable-line no-unused-vars
   path: '/supplies',
   name: 'supplies',
   getComponent: async (nextState, cb) => {
     // TODO fetch product
-    const { params: { id } } = nextState; // eslint-disable-line no-unused-vars
+    const { location: { query: { category, species, provinces } } } = nextState; // eslint-disable-line no-unused-vars
     const importModules = Promise.all([
       System.import('./index'),
       System.import('./ducks'),
@@ -20,7 +27,8 @@ export default ({ store, injectReducer, injectSagas, loadModule, errorLoading })
       });
       injectSagas(ducks.sagas);
     }
-    await new Promise((resolve, reject) => {
+    const toFetch = [];
+    toFetch.push(new Promise((resolve, reject) => {
       const { actions: { searchSupplyProducts }, selectors } = ducks;
       const searchSupplyProductState = selectors.searchSupplyProducts(store.getState());
       // if the data has been fetched before, don't wait for the api response. otherwise, wait for it
@@ -36,7 +44,46 @@ export default ({ store, injectReducer, injectSagas, loadModule, errorLoading })
           },
         }));
       }
-    });
+    }));
+    if (category) { // we fetch species&category whether its been fetched before or not
+      toFetch.push(new Promise((resolve, reject) => {
+        store.dispatch(fetchSpecies({
+          category: { objectId: category },
+          meta: {
+            resolve: (speciesArray) => {
+              if (speciesArray.length > 0) { // if there's valid species, category will be fetch according to data relations
+                resolve();
+              } else {
+                store.dispatch(fetchCategory({ // if there's no species, we'd have to fetch category directly
+                  objectId: category,
+                  meta: {
+                    resolve,
+                    reject,
+                  },
+                }));
+              }
+            },
+            reject,
+          },
+        }));
+      }));
+    }
+    await Promise.all(toFetch);
+
+    // set criteria according to url params
+    const { setCriteria } = ducks.actions;
+    const criteria = {};
+    if (category) {
+      criteria.category = category; // _find(categoriesSelector(store.getState()), (c) => c.objectId === category);
+    }
+    if (species) {
+      criteria.species = species; // _find(speciesSelector(store.getState()), (s) => s.objectId === species);
+    }
+    if (provinces) {
+      criteria.provinces = provinces;
+    }
+    store.dispatch(setCriteria(criteria));
+
     renderRoute(component);
     importModules.catch(errorLoading);
   },

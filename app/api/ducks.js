@@ -4,6 +4,8 @@ import * as initAMap from './initAMap/ducks';
 import * as fetchLocation from './fetchLocation/ducks';
 import * as requestSmsCode from './requestSmsCode/ducks';
 import * as signupOrLoginWithMobilePhone from './signupOrLogin/ducks';
+import * as category from './category';
+import * as species from './species';
 import * as role from './role';
 import * as profile from './profile';
 import * as uploadFile from './uploadFile/ducks';
@@ -11,10 +13,6 @@ import * as uploadAvatar from './uploadAvatar/ducks';
 import * as cert from './cert';
 import * as supplyProduct from './supplyProduct';
 import * as shopProduct from './shopProduct';
-import * as fetchCatalogs from './fetchCatalogs/ducks';
-import * as fetchCategories from './fetchCategories/ducks';
-import * as createSpecies from './createSpecies/ducks';
-import * as fetchSpecies from './fetchSpecies/ducks';
 import * as logisticsProduct from './logisticsProduct';
 import * as cart from './cart';
 import * as shop from './shop';
@@ -26,6 +24,8 @@ export default {
     ...fetchLocation.default,
     ...requestSmsCode.default,
     ...signupOrLoginWithMobilePhone.default,
+    ...category.default,
+    ...species.default,
     ...profile.default,
     ...role.default,
     ...uploadFile.default,
@@ -33,10 +33,6 @@ export default {
     ...cert.default,
     ...shopProduct.default,
     ...supplyProduct.default,
-    ...fetchCatalogs.default,
-    ...fetchCategories.default,
-    ...fetchSpecies.default,
-    ...createSpecies.default,
     ...logisticsProduct.default,
     ...cart.default,
     ...shop.default,
@@ -49,6 +45,8 @@ export const sagas = [
   ...fetchLocation.sagas,
   ...requestSmsCode.sagas,
   ...signupOrLoginWithMobilePhone.sagas,
+  ...category.sagas,
+  ...species.sagas,
   ...profile.sagas,
   ...role.sagas,
   ...uploadAvatar.sagas,
@@ -56,10 +54,6 @@ export const sagas = [
   ...cert.sagas,
   ...shopProduct.sagas,
   ...supplyProduct.sagas,
-  ...fetchCatalogs.sagas,
-  ...fetchCategories.sagas,
-  ...fetchSpecies.sagas,
-  ...createSpecies.sagas,
   ...logisticsProduct.sagas,
   ...cart.sagas,
   ...shop.sagas,

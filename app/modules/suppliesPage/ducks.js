@@ -1,7 +1,8 @@
 import combineReducers from 'redux/lib/combineReducers';
 import { put } from 'redux-saga/effects';
-import createDucks from '../../api/utils/createDucks';
-import { setSupplyProducts } from '../data/ducks/actions';
+import createDucks from 'api/utils/createDucks';
+import { setSupplyProducts } from 'modules/data/ducks/actions';
+import { createDucks as createCriteriaDucks } from 'modules/common/criteria';
 
 const SLICE_NAME = 'page_supply';
 
@@ -18,32 +19,23 @@ const searchSupplyProductsDucks = createDucks({
   },
 });
 
-const CRITERIA_ACTION = 'page_supply/set_criteria';
-
-const criteriaReducer = (state = {}, action) => {
-  if (action.type === CRITERIA_ACTION) {
-    return action.payload;
-  }
-  return state;
-};
-
-const setCriteria = ({ category, species, address }) => ({ type: CRITERIA_ACTION, payload: { category, species, address } });
+const criteriaDucks = createCriteriaDucks({ namespace: SLICE_NAME, rootSelector });
 
 export default {
   [SLICE_NAME]: combineReducers({
     ...searchSupplyProductsDucks.default,
-    criteria: criteriaReducer,
+    ...criteriaDucks.default,
   }),
 };
 
 export const actions = {
   searchSupplyProducts: searchSupplyProductsDucks.actions.searchSupplyProducts,
-  setCriteria,
+  ...criteriaDucks.actions, // setCriteria
 };
 
 export const selectors = {
   searchSupplyProducts: searchSupplyProductsDucks.selector,
-  criteria: (state) => rootSelector(state).criteria,
+  criteria: criteriaDucks.selector,
 };
 
 export const sagas = [

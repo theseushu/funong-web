@@ -13,17 +13,10 @@ ShopSchema.define({
 });
 export const ShopsSchema = arrayOf(ShopSchema);
 
-export const CatalogSchema = new Schema('catalogs', {
-  idAttribute: 'objectId',
-});
-export const CatalogsSchema = arrayOf(CatalogSchema);
-
 export const CategorySchema = new Schema('categories', {
   idAttribute: 'objectId',
 });
-CategorySchema.define({
-  catalog: CatalogSchema,
-});
+
 export const CategoriesSchema = arrayOf(CategorySchema);
 
 export const SpeciesSchema = new Schema('species', {

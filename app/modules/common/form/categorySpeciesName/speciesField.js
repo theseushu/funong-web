@@ -11,10 +11,14 @@ import IconButton from 'react-mdl/lib/IconButton';
 import Button from 'react-mdl/lib/Button';
 import Spinner from 'react-mdl/lib/Spinner';
 import { toastrEmitter } from 'react-redux-toastr/lib/toastrEmitter';
-import { selector as fetchSpeciesSelector, fetchSpecies as fetchSpeciesAction } from 'api/fetchSpecies';
-import { selector as createSpeciesSelector, createSpecies as createSpeciesAction } from 'api/createSpecies';
+import { selectors, actions } from 'api/species';
 import { speciesSelector } from 'modules/data/ducks/selectors';
 import styles from 'modules/common/styles';
+
+const fetchSpeciesAction = actions.fetchSpecies;
+const createSpeciesAction = actions.create;
+const fetchSpeciesSelector = selectors.fetchSpecies;
+const createSpeciesSelector = selectors.create;
 
 const CreateButton = ({ createSpeciesState: { pending, error }, onClick }) => (
   <Button
@@ -41,7 +45,7 @@ class SpeciesField extends Component {
     fetchSpecies: PropTypes.func,
     createSpeciesState: PropTypes.object,
     createSpecies: PropTypes.func,
-    species: PropTypes.object,
+    species: PropTypes.array,
     sheet: PropTypes.object,
   }
   constructor(props) {
@@ -122,7 +126,7 @@ class SpeciesField extends Component {
           <div className={classes.wrapper}>
             <AutoComplete
               className={classes.input}
-              label={'品类'}
+              label={'品种'}
               floatingLabel
               items={Object.values(species)}
               valueIndex={'objectId'}
@@ -143,7 +147,7 @@ class SpeciesField extends Component {
             <Spinner />
           </div>}
           {!category &&
-            <Tooltip label={<span>请先选择品种<br /></span>}>
+            <Tooltip label={<span>请先选择分类<br /></span>}>
               <IconButton className={styles.colorError} name="help_outline"></IconButton>
             </Tooltip>
           }

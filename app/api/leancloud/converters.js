@@ -59,29 +59,20 @@ export const embeddedShopToJSON = (shop) => {
   return _omitBy({ objectId, thumbnail, name, location: { address, lnglat }, owner }, _isUndefined);
 };
 
-export const embeddedCatalogToJSON = (catalog) => {
-  if (!catalog) {
-    return undefined;
-  }
-  const { objectId, name } = catalog.toJSON();
-  return _omitBy({ objectId, name }, _isUndefined);
-};
-
-export const embeddedCategoryToJSON = (category) => {
+export const categoryToJSON = (category) => {
   if (!category) {
     return undefined;
   }
-  const { objectId, name } = category.toJSON();
-  const catalog = embeddedCatalogToJSON(category.get('catalog'));
-  return _omitBy({ objectId, name, catalog }, _isUndefined);
+  const { objectId, name, group, catalog, pinyin } = category.toJSON();
+  return _omitBy({ objectId, name, group, catalog, pinyin }, _isUndefined);
 };
 
-export const embeddedSpeciesToJSON = (species) => {
+export const speciesToJSON = (species) => {
   if (!species) {
     return undefined;
   }
   const { objectId, name } = species.toJSON();
-  const category = embeddedCategoryToJSON(species.get('category'));
+  const category = categoryToJSON(species.get('category'));
   return _omitBy({ objectId, name, category }, _isUndefined);
 };
 
@@ -134,8 +125,8 @@ export const shopProductToJSON = (product) => {
     return null;
   }
   const { objectId, name, status, desc, specs, labels } = product.toJSON();
-  const category = embeddedCategoryToJSON(product.get('category'));
-  const species = embeddedSpeciesToJSON(product.get('species'));
+  const category = categoryToJSON(product.get('category'));
+  const species = speciesToJSON(product.get('species'));
   const images = imagesToJSON(product.get('images'));
   const shop = embeddedShopToJSON(product.get('shop'));
   const thumbnail = fileToJSON(product.get('thumbnail'));
@@ -152,8 +143,8 @@ export const supplyProductToJSON = (product) => {
   const { objectId, name, address, status, desc, specs, labels } = product.toJSON();
 
   const lnglat = lnglatToJSON(product.get('lnglat'));
-  const category = embeddedCategoryToJSON(product.get('category'));
-  const species = embeddedSpeciesToJSON(product.get('species'));
+  const category = categoryToJSON(product.get('category'));
+  const species = speciesToJSON(product.get('species'));
   const images = imagesToJSON(product.get('images'));
   const owner = embeddedUserToJSON(product.get('owner'));
   const thumbnail = fileToJSON(product.get('thumbnail'));

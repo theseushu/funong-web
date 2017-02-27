@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { catalogTypes } from 'appConstants';
-import Dialog from '../dialog';
+import { Dialog } from 'modules/common/dialog';
 import Breadcrumb from './components/breadcrumb';
 import Types from './components/types';
 import Results from './components/results';
@@ -12,15 +12,7 @@ class categorySelectorDialog extends Component {
     onSubmit: PropTypes.func.isRequired,
     type: PropTypes.oneOf(Object.keys(catalogTypes)),
     actions: PropTypes.shape({
-      fetchCatalogs: PropTypes.func.isRequired,
       fetchCategories: PropTypes.func.isRequired,
-    }).isRequired,
-    fetchCatalogsState: PropTypes.shape({
-      pending: PropTypes.bool,
-      fulfilled: PropTypes.bool,
-      rejected: PropTypes.bool,
-      error: PropTypes.object,
-      catalogs: PropTypes.array,
     }).isRequired,
     fetchCategoriesState: PropTypes.shape({
       pending: PropTypes.bool,
