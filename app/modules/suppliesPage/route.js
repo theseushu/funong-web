@@ -78,7 +78,7 @@ export default ({ store, injectReducer, injectSagas, loadModule, errorLoading })
       criteria.species = typeof species === 'string' ? [species] : species; // _find(speciesSelector(store.getState()), (s) => s.objectId === species);
     }
     if (provinces) {
-      criteria.provinces = provinces;
+      criteria.provinces = typeof provinces === 'string' ? [provinces] : provinces; // _find(speciesSelector(store.getState()), (s) => s.objectId === species);
     }
     store.dispatch(setCriteria(criteria));
 
