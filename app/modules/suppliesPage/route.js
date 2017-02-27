@@ -1,8 +1,6 @@
 import _toPairs from 'lodash/toPairs';
-import _find from 'lodash/find';
 import { actions } from 'api/species';
 import { actions as categoryActions } from 'api/category';
-import { categoriesSelector, speciesSelector } from 'modules/data/ducks/selectors';
 
 const fetchSpecies = actions.fetchSpecies;
 const fetchCategory = categoryActions.fetch;
@@ -77,7 +75,7 @@ export default ({ store, injectReducer, injectSagas, loadModule, errorLoading })
       criteria.category = category; // _find(categoriesSelector(store.getState()), (c) => c.objectId === category);
     }
     if (species) {
-      criteria.species = species; // _find(speciesSelector(store.getState()), (s) => s.objectId === species);
+      criteria.species = typeof species === 'string' ? [species] : species; // _find(speciesSelector(store.getState()), (s) => s.objectId === species);
     }
     if (provinces) {
       criteria.provinces = provinces;

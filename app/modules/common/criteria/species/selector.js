@@ -11,10 +11,12 @@ class SpeciesSelector extends Component {
     classes: PropTypes.object.isRequired,
     speciesArray: PropTypes.array.isRequired,
     pending: PropTypes.bool,
-    species: PropTypes.object,
+    selected: PropTypes.array.isRequired,
+    onSelect: PropTypes.func.isRequired,
+    onClear: PropTypes.func.isRequired,
   }
   render() {
-    const { classes, speciesArray, pending, species } = this.props;
+    const { classes, speciesArray, pending, selected, onSelect, onClear } = this.props;
     if (pending) {
       return (
         <div className={classes.line}>
@@ -31,11 +33,22 @@ class SpeciesSelector extends Component {
           <strong>品种：</strong>
         </div>
         <div className={classes.content}>
+          <Link
+            to={'/supplies'}
+            onClick={(e) => {
+              e.preventDefault();
+              onClear();
+            }}
+          >{selected.length === 0 ? <Label species={{ name: '不限' }} /> : <LabelWithBorder>不限</LabelWithBorder>}</Link>
           {speciesArray.map((s, i) =>
             <Link
               key={i}
+              onClick={(e) => {
+                e.preventDefault();
+                onSelect(s);
+              }}
               to={`/supplies?category=${s.category.objectId}&species=${s.objectId}`}
-            >{(species && species.objectId === s.objectId) ? <Label species={s} /> : <LabelWithBorder>{s.name}</LabelWithBorder>}</Link>
+            >{(selected.indexOf(s.objectId) >= 0) ? <Label species={s} /> : <LabelWithBorder>{s.name}</LabelWithBorder>}</Link>
           )}
         </div>
       </div>

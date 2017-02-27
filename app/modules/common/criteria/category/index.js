@@ -6,7 +6,7 @@ import Selector from './selector';
 
 class CriteriaCategory extends Component {
   static propTypes = {
-    category: PropTypes.shape({
+    selected: PropTypes.shape({
       name: PropTypes.string.isRequired,
       objectId: PropTypes.string.isRequired,
       catalog: PropTypes.string.isRequired,
@@ -25,15 +25,15 @@ class CriteriaCategory extends Component {
     this.setState({ show: false });
   }
   render() {
-    const { classes, catalogGroups, category } = this.props;
+    const { classes, catalogGroups, selected } = this.props;
     const { show } = this.state;
     return (
       <span className={classes.wrapper}>
         <Button colored onMouseEnter={() => this.setState({ show: true })}>全部分类</Button>
-        { category && '>'}
-        { category && <span><Label category={category} /></span>}
+        { selected && '>'}
+        { selected && <span><Label category={selected} /></span>}
         { show && (
-          <Selector category={category} catalogGroups={catalogGroups} onSelect={this.onSelect} hide={this.hide} />
+          <Selector selected={selected} catalogGroups={catalogGroups} onSelect={this.onSelect} hide={this.hide} />
         )}
       </span>
     );

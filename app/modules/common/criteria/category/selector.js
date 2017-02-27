@@ -5,7 +5,7 @@ import Categories from './categories';
 
 class CriteriaCategorySelector extends Component {
   static propTypes = {
-    category: PropTypes.shape({
+    selected: PropTypes.shape({
       name: PropTypes.string.isRequired,
       objectId: PropTypes.string.isRequired,
       catalog: PropTypes.string.isRequired,
@@ -24,7 +24,7 @@ class CriteriaCategorySelector extends Component {
     this.setState({ index });
   }
   render() {
-    const { category, catalogGroups, classes, hide } = this.props;
+    const { selected, catalogGroups, classes, hide } = this.props;
     const { index } = this.state;
     return (
       <div className={`${classes.wrapper} shadow--3 ${index != null ? ' full-width' : ''}`} onMouseLeave={hide}>
@@ -40,7 +40,7 @@ class CriteriaCategorySelector extends Component {
         {
           index != null && (
             <div className={classes.categories}>
-              <Categories category={category} catalogs={catalogGroups[index]} onSelect={this.onSelect} />
+              <Categories category={selected} catalogs={catalogGroups[index]} onSelect={this.onSelect} />
             </div>
           )
         }
