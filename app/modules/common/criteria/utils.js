@@ -38,6 +38,6 @@ export const queryToCriteria = (query) => {
     criteria.sort = { sort, order };
   }
   criteria.page = page != null ? Number(page) : 1;
-  criteria.pageSize = pageSize != null ? Number(pageSize) : 4;
+  criteria.pageSize = pageSize != null ? Number(pageSize) : 24;
   return criteria;
 };

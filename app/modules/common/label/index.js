@@ -20,11 +20,12 @@ Label.propTypes = {
 
 export default injectSheet({
   label: {
-    display: 'inline',
-    padding: '.25em .6em .25em',
-    height: '1.25em',
+    display: 'inline-block',
+    margin: 0,
+    padding: '0 .6em',
+    height: 'calc(1.25em + 2px)',
     lineHeight: '1.25em',
-    fontSize: '75%',
+    fontSize: '80%',
     fontWeight: '700',
     color: colors.colorAccentContrast,
     textAlign: 'center',
@@ -33,8 +34,9 @@ export default injectSheet({
     borderRadius: '.25em',
     '& .mdl-chip__text': {
       fontSize: 'inherit',
-      verticalAlign: 'inherit',
       display: 'inline',
+      lineHeight: '1.25em',
+      height: '1.25em',
     },
   },
 })(Label);

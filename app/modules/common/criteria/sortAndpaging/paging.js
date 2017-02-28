@@ -26,7 +26,7 @@ const Paging = ({ page, pageSize, countingState, onSelect, classes }) => {
       { total > 1 && <IconButton name="navigate_next" disabled={page === total} onClick={() => onSelect(page + 1)}></IconButton> }
     </div>
   );
-}
+};
 
 Paging.propTypes = {
   classes: PropTypes.object.isRequired,

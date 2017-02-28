@@ -3,7 +3,7 @@ import Link from 'react-router/lib/Link';
 import Icon from 'react-mdl/lib/Icon';
 import Button from 'react-mdl/lib/Button';
 import IconButton from 'react-mdl/lib/IconButton';
-import MediaLeftCard from '../cards/mediaLeftCard';
+import MediaLeftCard from './mediaLeftCard';
 
 const LogisticsCard = ({ product, className, hideActions = true }) => {
   const { thumbnail, name, price, range, available } = product;

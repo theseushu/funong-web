@@ -30,7 +30,6 @@ export default ({ store, injectReducer, injectSagas, loadModule, errorLoading })
     // set criteria according to url params
     const { setCriteria } = ducks.actions;
     const criteria = queryToCriteria(query);
-    console.log(criteria)
     store.dispatch(setCriteria(criteria));
 
     const toFetch = [];

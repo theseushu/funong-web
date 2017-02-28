@@ -6,12 +6,12 @@ import ContentMainRight from 'modules/common/content/mainRight';
 import UserCard from 'modules/common/user/card';
 import MediaLeftUserCard from 'modules/common/user/mediaLeftCard';
 import { breakpoints } from 'modules/common/styles';
-import ResponsiveCarouselCard from '../responsiveCarouselCard';
+import { Details } from 'modules/common/product';
 
 const Display = ({ product, location, sheet: { classes } }) => ( // eslint-disable-line
   <ContentMainRight
     main={[
-      <ResponsiveCarouselCard key={0} product={product} location={location} />,
+      <Details key={0} product={product} location={location} />,
       <MediaLeftUserCard className={classes.mobileUser} key={1} user={product.owner} hideActions={false} />,
     ]}
     right={

@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 import injectSheet from 'react-jss';
-import { BriefCard } from '../../common/product';
+import BriefCard from 'modules/common/cards/supplyBriefCard';
 
 const Recommends = ({ products, sheet: { classes } }) => ( // eslint-disable-line no-unused-vars
   <div className={classes.recommends}>

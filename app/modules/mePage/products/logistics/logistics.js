@@ -4,7 +4,7 @@ import FABButton from 'react-mdl/lib/FABButton';
 import Icon from 'react-mdl/lib/Icon';
 import Link from 'react-router/lib/Link';
 import styles, { breakpoints } from 'modules/common/styles';
-import LogisticsCard from 'modules/common/product/logisticsCard';
+import LogisticsCard from 'modules/common/cards/logisticsProduct';
 import Tabs from '../tabs';
 import Page from '../../page';
 

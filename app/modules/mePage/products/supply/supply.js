@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import injectSheet from 'react-jss';
 import styles, { breakpoints } from 'modules/common/styles';
-import { SupplyCard } from 'modules/common/product';
+import SupplyCard from 'modules/common/cards/supplyProduct';
 import Tabs from '../tabs';
 import Page from '../../page';
 

@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import ImageGallery from 'react-image-gallery';
 import injectSheet from 'react-jss';
 import 'react-image-gallery/styles/css/image-gallery.css';
-import { colors } from '../../common/styles';
+import { colors } from 'modules/common/styles';
 
 const Carousel = ({ images, sheet: { classes } }) => {
   if (images.length === 0) {
