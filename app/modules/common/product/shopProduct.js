@@ -4,7 +4,7 @@ import Link from 'react-router/lib/Link';
 import Button from 'react-mdl/lib/Button';
 import { Card, CardActions } from 'react-mdl/lib/Card';
 import formatPrices from 'utils/displayUtils';
-import Badge from '../badge';
+import { ImageBadge } from '../badge';
 import styles, { breakpoints, colors } from '../styles';
 
 const ShopProduct = ({ product, classes }) => (
@@ -29,8 +29,8 @@ const ShopProduct = ({ product, classes }) => (
             呼啸为
           </p>
           <div>
-            <Badge>大</Badge>
-            <Badge>小</Badge>
+            <ImageBadge name="company" tooltip size={'1em'} />
+            <ImageBadge name="company" tooltip size={'1em'} />
           </div>
         </div>
       </div>

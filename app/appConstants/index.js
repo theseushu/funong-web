@@ -83,47 +83,49 @@ export const logisticsLabels = {
 };
 
 export const provinces = [
-  { title: '北京', value: '北京' },
-  { title: '天津', value: '天津' },
-  { title: '上海', value: '上海' },
+  { title: '北京', value: '北京市' },
+  { title: '天津', value: '天津市' },
+  { title: '上海', value: '上海市' },
 
-  { title: '重庆', value: '重庆' },
-  { title: '河北', value: '河北' },
-  { title: '山西', value: '山西' },
+  { title: '重庆', value: '重庆市' },
+  { title: '河北', value: '河北省' },
+  { title: '山西', value: '山西省' },
 
-  { title: '内蒙古', value: '内蒙古' },
-  { title: '辽宁', value: '辽宁' },
-  { title: '吉林', value: '吉林' },
+  { title: '内蒙古', value: '内蒙古自治区' },
+  { title: '辽宁', value: '辽宁省' },
+  { title: '吉林', value: '吉林省' },
 
-  { title: '黑龙江', value: '黑龙江' },
-  { title: '江苏', value: '江苏' },
-  { title: '浙江', value: '浙江' },
+  { title: '黑龙江', value: '黑龙江省' },
+  { title: '江苏', value: '江苏省' },
+  { title: '浙江', value: '浙江省' },
 
-  { title: '安徽', value: '安徽' },
-  { title: '福建', value: '福建' },
-  { title: '江西', value: '江西' },
+  { title: '安徽', value: '安徽省' },
+  { title: '福建', value: '福建省' },
+  { title: '江西', value: '江西省' },
 
-  { title: '山东', value: '山东' },
-  { title: '河南', value: '河南' },
-  { title: '湖北', value: '湖北' },
+  { title: '山东', value: '山东省' },
+  { title: '河南', value: '河南省' },
+  { title: '湖北', value: '湖北省' },
 
-  { title: '湖南', value: '湖南' },
-  { title: '广东', value: '广东' },
-  { title: '广西', value: '广西' },
+  { title: '湖南', value: '湖南省' },
+  { title: '广东', value: '广东省' },
+  { title: '广西', value: '广西壮族自治区' },
 
-  { title: '海南', value: '海南' },
-  { title: '四川', value: '四川' },
-  { title: '贵州', value: '贵州' },
+  { title: '海南', value: '海南省' },
+  { title: '四川', value: '四川省' },
+  { title: '贵州', value: '贵州省' },
 
-  { title: '云南', value: '云南' },
-  { title: '西藏', value: '西藏' },
-  { title: '陕西', value: '陕西' },
+  { title: '云南', value: '云南省' },
+  { title: '西藏', value: '西藏自治区' },
+  { title: '陕西', value: '陕西省' },
 
-  { title: '甘肃', value: '甘肃' },
-  { title: '青海', value: '青海' },
-  { title: '宁夏', value: '宁夏' },
+  { title: '甘肃', value: '甘肃省' },
+  { title: '青海', value: '青海省' },
+  { title: '宁夏', value: '宁夏回族自治区' },
 
-  { title: '新疆', value: '新疆' },
+  { title: '新疆', value: '新疆维吾尔自治区' },
+  { title: '香港', value: '香港特别行政区' },
+  { title: '澳门', value: '澳门特别行政区' },
 ];
 
 export const badges = {

@@ -2,12 +2,25 @@ import React from 'react';
 import _reduce from 'lodash/reduce';
 import _find from 'lodash/find';
 import _union from 'lodash/union';
+import _endsWith from 'lodash/endsWith';
 import { statusValues, districtLevels, badges } from 'appConstants';
-import styles, { colors } from 'modules/common/styles';
-import Badge from 'modules/common/badge';
+import styles from 'modules/common/styles';
+import { ImageBadge } from 'modules/common/badge';
 
 export const formatAddress = ({ country = '', province = '', city = '', district = '' }) =>
   `${country === '中国' ? '' : country}${province}${city}${district}`;
+
+export const briefAddress = ({ province, city }) => {
+  let p = province;
+  let c = city;
+  if (_endsWith(province, '省') || _endsWith(province, '市')) {
+    p = province.substring(0, province.length - 1);
+  }
+  if (_endsWith(city, '市')) {
+    c = city.substring(0, city.length - 1);
+  }
+  return `${p}${c}`;
+};
 
 export const formatPrices = (specs) => {
   const formattedPrice = _reduce(specs, (result, spec) => ({
@@ -123,30 +136,26 @@ export function humanizeLnglat(lat1, lng1, lat2, lng2) {
   return s === 0 ? '小于1公里' : `约${s}公里`;
 }
 
-export function createBadgesForUser(user) {
+export function createBadgesForUser(user, size) {
   if (!user || !user.badges) {
     return [];
   }
   return user.badges.map((badge, i) => {
-    let text;
-    let color;
+    let name;
     switch (badge) {
       case badges.idVerified.value:
-        text = badges.idVerified.title;
-        color = colors.colorIDVerified;
+        name = 'personal';
         break;
       case badges.companyVerified.value:
-        text = badges.companyVerified.title;
-        color = colors.colorCompanyVerified;
+        name = 'company';
         break;
       case badges.expertVerified.value:
-        text = badges.expertVerified.title;
-        color = colors.colorExpertVerified;
+        name = 'expert';
         break;
       default:
-        console.error(`unknown badge: ${badge}`);
+        console.error(`unknown badge: ${badge}`); // eslint-disable-line
         return null;
     }
-    return <Badge key={i} color={color} tooltip={`已通过${text}`}>{text}</Badge>;
+    return <ImageBadge key={i} name={name} size={size} tooltip />;
   });
 }

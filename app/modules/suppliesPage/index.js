@@ -1,11 +1,13 @@
 import { connect } from 'react-redux';
-import { currentUserSelector, supplyProductsSelector } from '../data/ducks/selectors';
+import { currentUserSelector } from '../data/ducks/selectors';
+import { selectors } from './ducks';
 import Page from './page';
 
 export default connect(
   (state) => {
     const user = currentUserSelector(state);
-    return { user, products: supplyProductsSelector(state) };
+    const searchState = selectors.searchSupplyProducts(state);
+    return { user, products: searchState.result || [] };
   }
 )(Page);
 

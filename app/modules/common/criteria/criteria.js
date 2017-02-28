@@ -9,60 +9,83 @@ import { categoriesSelector } from 'modules/data/ducks/selectors';
 import Category from './category';
 import Species from './species';
 import Provinces from './provinces';
+import SortAndpaging from './sortAndpaging';
 
-const Criteria = ({ setCriteria, catalogGroups, category, species = [], provinces = [], sort, disabled = [], classes }) => (
-  <div className={classes.wrapper}>
-    <Category
-      catalogGroups={catalogGroups}
-      selected={category}
-      onSelect={(c) => {
-        setCriteria(_omitBy({ category: c, species: null, provinces, sort }, _isUndefined));
-      }}
-    >{category}</Category>
-    { category && (
-    <Species
-      category={category}
-      selected={species}
-      onSelect={({ objectId }) => {
-        if (species.indexOf(objectId) >= 0) {
-          setCriteria(_omitBy({ category, species: _without(species, objectId), provinces, sort }, _isUndefined));
-        } else {
-          setCriteria(_omitBy({ category, species: [...species, objectId], provinces, sort }, _isUndefined));
-        }
-      }}
-      onClear={() => {
-        setCriteria(_omitBy({ category, provinces, sort }, _isUndefined));
-      }}
-    />)
+const Criteria = ({ setCriteria, catalogGroups, category, species = [], provinces = [], sort, disabled = [], page, pageSize, countingState, classes }) => {
+  const criteria = { category, species, provinces, sort, page, pageSize };
+  return (
+    <div className={classes.wrapper}>
+      <Category
+        catalogGroups={catalogGroups}
+        selected={category}
+        onSelect={(c) => {
+          setCriteria(_omitBy({ ...criteria, category: c }, _isUndefined));
+        }}
+      >{category}</Category>
+      { category && (
+        <Species
+          category={category}
+          selected={species}
+          onSelect={({ objectId }) => {
+            if (species.indexOf(objectId) >= 0) {
+              setCriteria(_omitBy({ ...criteria, species: _without(species, objectId) }, _isUndefined));
+            } else {
+              setCriteria(_omitBy({ ...criteria, species: [...species, objectId] }, _isUndefined));
+            }
+          }}
+          onClear={() => {
+            setCriteria(_omitBy({ ...criteria, species: undefined }, _isUndefined));
+          }}
+        />)
       }
-    { disabled.indexOf('provinces') < 0 && (
-      <Provinces
-        selected={provinces}
-        onSelect={(province) => {
-          if (provinces.indexOf(province) >= 0) {
-            setCriteria(_omitBy({ category, species, provinces: _without(provinces, province), sort }, _isUndefined));
-          } else {
-            setCriteria(_omitBy({ category, species, provinces: [...provinces, province], sort }, _isUndefined));
-          }
-        }}
-        onClear={() => {
-          setCriteria(_omitBy({ category, species, sort }, _isUndefined));
-        }}
-      />)
-    }
-    <div>{sort}</div>
-  </div>
+      { disabled.indexOf('provinces') < 0 && (
+        <Provinces
+          selected={provinces}
+          onSelect={(province) => {
+            if (provinces.indexOf(province) >= 0) {
+              setCriteria(_omitBy({ ...criteria, provinces: _without(provinces, province) }, _isUndefined));
+            } else {
+              setCriteria(_omitBy({ ...criteria, provinces: [...provinces, province] }, _isUndefined));
+            }
+          }}
+          onClear={() => {
+            setCriteria(_omitBy({ ...criteria, provinces: undefined }, _isUndefined));
+          }}
+        />)
+      }
+      { disabled.indexOf('sort') < 0 && (
+        <SortAndpaging
+          selected={sort}
+          page={page}
+          pageSize={pageSize}
+          countingState={countingState}
+          onSelect={(s) => {
+            setCriteria(_omitBy({ ...criteria, sort: s }, _isUndefined));
+          }}
+          onClear={() => {
+            setCriteria(_omitBy({ ...criteria, sort: undefined }, _isUndefined));
+          }}
+          onPageSelected={(p) => {
+            setCriteria(_omitBy({ ...criteria, page: p }, _isUndefined));
+          }}
+        />)
+      }
+    </div>
   );
+};
 
 Criteria.propTypes = {
   classes: PropTypes.object.isRequired,
   setCriteria: PropTypes.func.isRequired,
   catalogGroups: PropTypes.array.isRequired,
+  page: PropTypes.number,
+  pageSize: PropTypes.number,
   category: PropTypes.object,
   species: PropTypes.array,
   provinces: PropTypes.array,
-  sort: PropTypes.string,
+  sort: PropTypes.object,
   disabled: PropTypes.array,
+  countingState: PropTypes.object,
 };
 
 export default injectSheet({

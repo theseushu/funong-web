@@ -6,6 +6,7 @@
  * this object is mutable, deconstruction could cause latest value untouchable
  * wait until I figure out a better way
  */
+import _reduce from 'lodash/reduce';
 import { supplyProductToJSON } from '../converters';
 const debug = require('debug')('app:api:supply');
 
@@ -21,6 +22,7 @@ export default ({ AV, context }) => {
       product.set('species', AV.Object.createWithoutData('Species', species.objectId));
       product.set('name', name);
       product.set('specs', specs);
+      product.set('minPrice', _reduce(specs, (min, { price }) => Math.min(min, price), 999999));
       product.set('address', location.address);
       product.set('lnglat', new AV.GeoPoint(location.lnglat));
       product.set('desc', desc);
@@ -57,6 +59,7 @@ export default ({ AV, context }) => {
       }
       if (specs) {
         product.set('specs', specs);
+        product.set('minPrice', _reduce(specs, (min, { price }) => Math.min(min, price), 999999));
       }
       if (location && location.address) {
         product.set('address', location.address);
@@ -96,17 +99,44 @@ export default ({ AV, context }) => {
     return product ? supplyProductToJSON(product) : null;
   };
 
-  const searchSupplyProducts = async ({ ownerId }) => {
+  const createQuery = ({ ownerId, category, species, provinces }) => {
     const query = new AV.Query('SupplyProduct')
       .include(['images', 'thumbnail', 'category', 'species', 'owner', 'owner.avatar']);
     if (ownerId) {
       query.equalTo('owner', AV.Object.createWithoutData('_User', ownerId));
     }
+    if (category) {
+      query.equalTo('category', AV.Object.createWithoutData('Category', category.objectId));
+    }
+    if (species) {
+      query.containedIn('species', species.map((s) => AV.Object.createWithoutData('Species', s.objectId)));
+    }
+    if (provinces) {
+      query.containedIn('address.province', provinces);
+    }
+    return query;
+  };
+
+  const searchSupplyProducts = async ({ ownerId, category, species, provinces, sort = {}, page, pageSize }) => { // species is an array. so is provinces
+    const query = createQuery({ ownerId, category, species, provinces });
+    if (sort.sort) {
+      if (sort.order === 'asc') {
+        query.addAscending(sort.sort);
+      } else {
+        query.addDescending(sort.sort);
+      }
+    }
     query
-      .limit(1000);
+      .skip((page - 1) * pageSize)
+      .limit(pageSize);
     const products = await query.find();
 
     return products.map(supplyProductToJSON);
+  };
+
+  const countSupplyProducts = async ({ ownerId, category, species, provinces }) => { // species is an array. so is provinces
+    const query = createQuery({ ownerId, category, species, provinces });
+    return await query.count();
   };
 
   return {
@@ -114,5 +144,6 @@ export default ({ AV, context }) => {
     updateSupplyProduct,
     fetchSupplyProduct,
     searchSupplyProducts,
+    countSupplyProducts,
   };
 };

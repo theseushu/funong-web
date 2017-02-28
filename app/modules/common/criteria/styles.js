@@ -15,6 +15,7 @@ export default {
     flex: 1,
     display: 'flex',
     flexWrap: 'wrap',
+    alignItems: 'center',
     '& > a': {
       marginLeft: 16,
       marginBottom: 4,

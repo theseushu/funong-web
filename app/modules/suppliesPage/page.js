@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import injectSheet from 'react-jss';
 import Layout from 'modules/common/layout';
 import ContentMainRight from 'modules/common/content/mainRight';
-import SupplyCard from 'modules/common/product/supplyCard';
+import SupplyCard from 'modules/common/cards/supplyProduct';
 import { breakpoints } from 'modules/common/styles';
 import { catalogTypes } from 'appConstants/index';
 import Criteria from './criteria';
@@ -71,9 +71,6 @@ export default injectSheet({
       width: '50%',
     },
     [breakpoints.mediaTabletBelow]: {
-      width: '50%',
-    },
-    '@media (max-width: 400px)': {
       width: '100%',
     },
   },

@@ -9,6 +9,7 @@ export default connect(
   (state) => ({
     ...selectors.criteria(state),
     catalogGroups: catalogs.groupedFarm,
+    countingState: selectors.countSupplyProducts(state),
   }),
   (dispatch, { location }) => bindActionCreators({ setCriteria: (criteria) => {
     const query = criteriaToQuery(criteria);

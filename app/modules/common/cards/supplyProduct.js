@@ -2,11 +2,11 @@ import React, { PropTypes } from 'react';
 import injectSheet from 'react-jss';
 import Link from 'react-router/lib/Link';
 import { Card, CardActions } from 'react-mdl/lib/Card';
-import { formatPrices, formatParams } from 'utils/displayUtils';
+import { briefAddress, formatPrices, formatParams, humanizeTime } from 'utils/displayUtils';
 import { ImageBadge } from '../badge';
 import styles, { breakpoints, colors } from '../styles';
 
-const ShopProduct = ({ product, actions, classes }) => {
+const SupplyProduct = ({ product, actions, classes }) => {
   const paramsStr = formatParams(product.specs);
   return (
     <Card shadow={2} className={`${classes.card} ${styles.defaultTransition}`}>
@@ -16,7 +16,7 @@ const ShopProduct = ({ product, actions, classes }) => {
           </div>
         </div>
         <div className={`${classes.priceAndName} ${styles.colorPrice}`}>
-          <h4>{formatPrices(product.specs)}</h4>
+          <h6>{formatPrices(product.specs)}</h6>
           <p title={product.name}>{product.name}</p>
         </div>
       </Link>
@@ -25,14 +25,19 @@ const ShopProduct = ({ product, actions, classes }) => {
           <p className={classes.specs} title={paramsStr}>
             {paramsStr}
           </p>
-          <div className={classes.ownerAndBadge}>
+          <div className={classes.ownerBadge}>
             <p>
-              {product.shop.name}
+              {product.owner.name}
             </p>
             <div>
               <ImageBadge name="company" tooltip size={'1em'} />
-              <ImageBadge name="company" tooltip size={'1em'} />
+              <ImageBadge name="expert" tooltip size={'1em'} />
+              <ImageBadge name="personal" tooltip size={'1em'} />
+              <ImageBadge name="assurance" tooltip size={'1em'} />
             </div>
+          </div>
+          <div className={classes.locationAndUpdateTime}>
+            <p>{briefAddress(product.location.address)}</p><p>{humanizeTime(product.updatedAt)}</p>
           </div>
         </div>
       </div>
@@ -45,7 +50,7 @@ const ShopProduct = ({ product, actions, classes }) => {
   );
 };
 
-ShopProduct.propTypes = {
+SupplyProduct.propTypes = {
   product: PropTypes.object.isRequired,
   classes: PropTypes.object.isRequired,
   actions: PropTypes.array,
@@ -61,8 +66,8 @@ export default injectSheet({
       boxShadow: 'rgba(0, 0, 0, 0.247059) 0px 14px 45px, rgba(0, 0, 0, 0.219608) 0px 10px 18px !important',
     },
     '& p': {
-      fontSize: '1rem',
-      lineHeight: '1rem',
+      fontSize: 12,
+      lineHeight: '16px',
       marginBottom: 8,
     },
     [breakpoints.mediaTabletBelow]: {
@@ -76,7 +81,8 @@ export default injectSheet({
     textDecoration: 'none',
     [breakpoints.mediaTabletBelow]: {
       flexDirection: 'row',
-      height: 80,
+      height: 60,
+      marginBottom: 8,
     },
   },
   image: {
@@ -89,6 +95,9 @@ export default injectSheet({
     },
     [breakpoints.mediaTabletBelow]: {
       width: '60px',
+      '& > ._wrapper': {
+        paddingTop: '100%',
+      },
     },
   },
   content: {
@@ -98,7 +107,7 @@ export default injectSheet({
     width: '100%',
     overflow: 'hidden',
     padding: 8,
-    '& > h4': {
+    '& > h6': {
       margin: 0,
       color: colors.colorPrice,
     },
@@ -106,7 +115,7 @@ export default injectSheet({
       margin: 0,
       color: colors.colorText,
     },
-    '& > h4, p': {
+    '& > h6, p': {
       whiteSpace: 'nowrap',
       overflow: 'hidden',
       textOverflow: 'clip',
@@ -117,11 +126,17 @@ export default injectSheet({
   },
   specsOwnerAndBadge: {
   },
-  ownerAndBadge: {
-    [breakpoints.mediaTabletBelow]: {
-      display: 'flex',
-      justifyContent: 'space-between',
+  ownerBadge: {
+    '& > p': {
+      fontSize: 14,
     },
+    display: 'flex',
+    justifyContent: 'space-between',
+  },
+  locationAndUpdateTime: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    color: colors.colorSubTitle,
   },
   specs: {
     whiteSpace: 'nowrap',
@@ -129,4 +144,4 @@ export default injectSheet({
     textOverflow: 'clip',
     color: colors.colorSubTitle,
   },
-})(ShopProduct);
+})(SupplyProduct);

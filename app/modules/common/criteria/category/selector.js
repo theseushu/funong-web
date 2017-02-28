@@ -85,7 +85,7 @@ export default injectSheet({
     minHeight: height,
     boxSizing: 'border-box',
     background: '#fafafa',
-    maxHeight: 600,
+    maxHeight: 500,
     overflowY: 'scroll',
     marginLeft: -1,
   },
