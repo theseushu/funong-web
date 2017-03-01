@@ -9,7 +9,7 @@ const DescCard = ({ product: { desc }, className }) => (
       <div dangerouslySetInnerHTML={{ __html: desc }}></div>
     </CardText>
   </Card>
-)
+);
 
 DescCard.propTypes = {
   product: PropTypes.object.isRequired,

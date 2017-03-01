@@ -1,7 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import injectSheet from 'react-jss';
-import { Card, CardTitle, CardMenu, CardText, CardActions, CardMedia } from 'react-mdl/lib/Card';
-import { Tabs, Tab } from 'react-mdl/lib/Tabs';
+import { Card, CardTitle, CardMenu, CardActions, CardMedia } from 'react-mdl/lib/Card';
 import Button from 'react-mdl/lib/Button';
 import styles, { colors } from 'modules/common/styles';
 import Share from 'modules/common/share';
@@ -17,9 +16,9 @@ class ProductDetails extends Component {
     location: PropTypes.object,
     classes: PropTypes.object.isRequired,
   }
-  state = { specIndex: 0}
+  state = { specIndex: 0 }
   render() {
-    const { product: { name, images, category, species, specs, location: { address, lnglat }, desc, updatedAt }, location, classes } = this.props;
+    const { product: { name, images, category, species, specs, location: { address, lnglat }, updatedAt }, location, classes } = this.props;
     const { specIndex } = this.state;
     return (
       <Card shadow={2} className={styles.w100}>

@@ -12,7 +12,7 @@ const ducks = createDucks({
   sagas: {
     * beforeFulfilled(comments) {
       yield put(setComments(comments));
-      return { result: comments.map((comment) => comment.objectId)};
+      return { result: comments.map((comment) => comment.objectId) };
     },
   },
 });

@@ -3,7 +3,6 @@ import injectSheet from 'react-jss';
 import Link from 'react-router/lib/Link';
 import { Card, CardTitle, CardText, CardActions } from 'react-mdl/lib/Card';
 import Button from 'react-mdl/lib/Button';
-import LabelWithBorder from '../label/labelWithBorder';
 import { colors } from '../styles';
 
 const CardComponent = ({ user, sheet: { classes }, className }) => (
@@ -15,19 +14,16 @@ const CardComponent = ({ user, sheet: { classes }, className }) => (
       <h6>
         {user.name}
       </h6>
-      <div>
-        <LabelWithBorder>{user.type}</LabelWithBorder>
-      </div>
     </CardTitle>
     <CardText>
-      认证信息
-    </CardText>
+        认证信息
+      </CardText>
     <CardActions className={classes.cardActions} border>
       <Button colored>关注</Button>
       <Button colored>拨打电话</Button>
     </CardActions>
   </Card>
-);
+  );
 
 CardComponent.propTypes = {
   user: PropTypes.object.isRequired,

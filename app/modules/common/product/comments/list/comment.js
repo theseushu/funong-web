@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 import injectSheet from 'react-jss';
-import styles, { colors } from 'modules/common/styles';
+import { colors } from 'modules/common/styles';
 import { Avatar } from 'modules/common/avatar';
 import FilesUpload from 'modules/common/filesUpload';
 
