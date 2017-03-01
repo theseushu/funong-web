@@ -15,6 +15,7 @@ import createProductApis from './product';
 import createCatalogCategorySpeciesApis from './catalogCategorySpecies';
 import createCartApi from './cart';
 import createShopApi from './shop';
+import createCommentApi from './comment';
 
 const debug = require('debug')('app:api'); // eslint-disable-line no-unused-vars
 
@@ -55,5 +56,6 @@ export default () => {
     ...createCatalogCategorySpeciesApis({ AV, context }),
     ...createCartApi({ AV, context }),
     ...createShopApi({ AV, context }),
+    ...createCommentApi({ AV, context }),
   };
 };

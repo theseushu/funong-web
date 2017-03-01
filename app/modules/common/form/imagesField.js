@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import { Field } from 'redux-form';
 import FilesUpload from 'modules/common/filesUpload';
 import styles from 'modules/common/styles';
-import { required } from './validations';
+import { required as requiredValidator } from './validations';
 
 const Images = ({ input: { value, onChange }, meta: { error }, title }) => (
   <FilesUpload className={error ? styles.colorError : undefined} title={title} files={value || []} onChange={onChange} editing />
@@ -14,6 +14,10 @@ Images.propTypes = {
   title: PropTypes.string,
 };
 
-const ImagesField = ({ ...props }) => <Field name="images" validate={[required]} component={Images} props={{ ...props }} />;
+const ImagesField = ({ ...props, required = true }) => <Field name="images" validate={required ? [requiredValidator] : undefined} component={Images} props={{ ...props }} />;
+
+ImagesField.propTypes = {
+  required: PropTypes.bool,
+};
 
 export default ImagesField;

@@ -6,11 +6,13 @@ import { UPDATE_DATA, REMOVE_ENTITIES, SET_USERS, SET_CURRENT_USER,
   UPDATE_CURRENT_USER_INFO, SET_CATAGORIES, SET_SPECIES,
   SET_SPECIFICATIONS, SET_SHOP_PRODUCTS,
   SET_SUPPLY_PRODUCTS, SET_LOGISTICS_PRODUCTS, SET_CERTS,
-  SET_CART_ITEMS, REMOVE_CART_ITEMS, SET_SHOPS } from './constants';
+  SET_CART_ITEMS, REMOVE_CART_ITEMS, SET_SHOPS,
+  SET_COMMENTS, REMOVE_COMMENTS } from './constants';
 import { UserSchema, UsersSchema,
   CategoriesSchema, SpeciesArraySchema, SpecificationsSchema,
   ShopProductsSchema, LogisticsProductsSchema,
-  SupplyProductsSchema, CertsSchema, CartItemsSchema, ShopsSchema } from './schemas';
+  SupplyProductsSchema, CertsSchema, CartItemsSchema, ShopsSchema,
+  CommentsSchema } from './schemas';
 
 function* setUsersSaga(action) {
   const { users } = action.payload;
@@ -100,6 +102,18 @@ function* setShopsSaga(action) {
   const payload = Object.assign({}, data);
   yield put({ type: UPDATE_DATA, payload });
 }
+
+function* setCommentsSaga(action) {
+  const { comments } = action.payload;
+  const data = normalize(comments, CommentsSchema);
+  const payload = Object.assign({}, data);
+  yield put({ type: UPDATE_DATA, payload });
+}
+
+function* removeCommentsSaga(action) {
+  const { ids } = action.payload;
+  yield put({ type: REMOVE_ENTITIES, payload: { entities: { [CommentsSchema.getItemSchema().getKey()]: { ...ids.map((id) => ({ [id]: null })) } } } });
+}
 // watcher Saga:
 function* rootSaga(api) {
   yield takeEvery(SET_CURRENT_USER, function* saga(action) {
@@ -117,6 +131,8 @@ function* rootSaga(api) {
   yield takeEvery(SET_CART_ITEMS, setCartItemsSaga);
   yield takeEvery(REMOVE_CART_ITEMS, removeCartItemsSaga);
   yield takeEvery(SET_SHOPS, setShopsSaga);
+  yield takeEvery(SET_COMMENTS, setCommentsSaga);
+  yield takeEvery(REMOVE_COMMENTS, removeCommentsSaga);
 }
 
 export default [rootSaga];

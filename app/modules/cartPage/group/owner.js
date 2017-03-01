@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import injectSheet from 'react-jss';
 import Checkbox from 'react-mdl/lib/Checkbox';
-import Avatar from 'modules/common/avatar/avatar';
+import { Avatar } from 'modules/common/avatar';
 
 const Owner = ({ user, classes, checked, onChange }) => (
   <div className={classes.owner}>

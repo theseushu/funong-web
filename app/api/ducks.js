@@ -16,6 +16,7 @@ import * as shopProduct from './shopProduct';
 import * as logisticsProduct from './logisticsProduct';
 import * as cart from './cart';
 import * as shop from './shop';
+import * as comment from './comment';
 import * as searchDistinct from './searchDistrict/ducks';
 
 export default {
@@ -36,6 +37,7 @@ export default {
     ...logisticsProduct.default,
     ...cart.default,
     ...shop.default,
+    ...comment.default,
     ...searchDistinct.default,
   }),
 };
@@ -57,5 +59,6 @@ export const sagas = [
   ...logisticsProduct.sagas,
   ...cart.sagas,
   ...shop.sagas,
+  ...comment.sagas,
   ...searchDistinct.sagas,
 ];

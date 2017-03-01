@@ -5,10 +5,11 @@ import Item from '../item';
 class Normal extends Component {
   static propTypes = {
     files: PropTypes.array.isRequired, // { key: {process, upload, rawFile} }
+    small: PropTypes.bool.isRequired,
     onItemClick: PropTypes.func,
   }
   render() {
-    const { files, onItemClick } = this.props;
+    const { files, onItemClick, small } = this.props;
     if (files.length === 0) {
       return null;
     }
@@ -18,6 +19,7 @@ class Normal extends Component {
           <a key={i} href="#_non_existing_anchor_" onClick={(e) => onItemClick(e, i)}>
             <Item
               file={file}
+              small={small}
               onUploaded={() => {}}
               className="mdl-shadow--2dp"
             />

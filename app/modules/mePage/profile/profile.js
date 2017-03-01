@@ -5,7 +5,7 @@ import Button from 'react-mdl/lib/Button';
 import IconButton from 'react-mdl/lib/IconButton';
 import Tooltip from 'react-mdl/lib/Tooltip';
 import styles, { breakpoints } from 'modules/common/styles';
-import Avatar from 'modules/common/avatar';
+import { MyAvatar } from 'modules/common/avatar';
 import Page from '../page';
 import AvatarCropper from '../avatarCropper';
 import Line from './line';
@@ -36,7 +36,7 @@ class Profile extends Component {
             </CardTitle>
             <CardMedia className={styles.contentCenter} style={{ background: 'none' }}>
               <div className={classes.avatar}>
-                <Avatar />
+                <MyAvatar />
                 <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}>
                   <AvatarCropper />
                 </div>

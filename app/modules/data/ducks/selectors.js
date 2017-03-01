@@ -2,7 +2,7 @@ import { createSelector } from 'reselect';
 import _find from 'lodash/find';
 import { denormalize } from 'denormalizr';
 
-import { SpeciesArraySchema, CertsSchema, ShopProductsSchema, SupplyProductsSchema, LogisticsProductsSchema, CartItemsSchema, ShopsSchema } from './schemas';
+import { SpeciesArraySchema, CertsSchema, ShopProductsSchema, SupplyProductsSchema, LogisticsProductsSchema, CartItemsSchema, ShopsSchema, CommentsSchema } from './schemas';
 
 const rootSelector = (state) => state.data;
 
@@ -181,4 +181,15 @@ export const myShopSelector = createSelector(
   shopsSelector,
   currentUserSelector,
   (shops, currentUser) => _find(shops, (shop) => shop.owner.objectId === currentUser.objectId),
+);
+
+export const commentsSelector = createSelector(
+  rootSelector,
+  (data) => {
+    const { comments } = data.entities;
+    if (!comments || Object.values(comments) === 0) {
+      return [];
+    }
+    return denormalize(Object.values(comments), data.entities, CommentsSchema);
+  },
 );

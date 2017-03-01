@@ -82,3 +82,14 @@ CartItemSchema.define({
   owner: UserSchema,
 });
 export const CartItemsSchema = arrayOf(CartItemSchema);
+
+export const CommentSchema = new Schema('comments', {
+  idAttribute: 'objectId',
+});
+CommentSchema.define({
+  shopProduct: ShopProductSchema,
+  supplyProduct: SupplyProductSchema,
+  logisticsProduct: LogisticsProductSchema,
+  owner: UserSchema,
+});
+export const CommentsSchema = arrayOf(CommentSchema);

@@ -93,7 +93,7 @@ class FilesUpload extends Component {
     }
   }
   render() {
-    const { title, editing, sheet: { classes }, allowGallery = true, className } = this.props;
+    const { title, editing, sheet: { classes }, allowGallery = true, small = false, className } = this.props;
     return (
       <div className={className ? `${styles.w100} ${className}` : styles.w100}>
         {
@@ -119,12 +119,13 @@ class FilesUpload extends Component {
                   </div>
                 }
               >
-                <IconButton accent name="help_outline"></IconButton>
+                <IconButton accent name="help_outline" onClick={(e) => e.preventDefault()}></IconButton>
               </Tooltip>
             </div>
           )
         }
         <Files
+          small={small}
           editing={editing}
           files={this.state.files}
           onProcessed={this.onProcessed} onUploaded={this.onUploaded} onSwitch={this.onSwitch} onDrop={this.onDrop}
@@ -143,6 +144,7 @@ FilesUpload.propTypes = {
   allowGallery: PropTypes.bool,
   openGallery: PropTypes.func.isRequired,
   editing: PropTypes.bool,
+  small: PropTypes.bool,
   title: PropTypes.string,
   sheet: PropTypes.object.isRequired,
 };

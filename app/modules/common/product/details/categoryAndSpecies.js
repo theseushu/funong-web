@@ -17,7 +17,7 @@ CategoryAndSpecies.propTypes = {
   category: PropTypes.object.isRequired,
   species: PropTypes.object.isRequired,
   classes: PropTypes.object.isRequired,
-}
+};
 
 export default injectSheet({
   categoryAndSpecies: {

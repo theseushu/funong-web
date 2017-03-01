@@ -12,6 +12,8 @@ import {
   SET_CART_ITEMS,
   REMOVE_CART_ITEMS,
   SET_SHOPS,
+  SET_COMMENTS,
+  REMOVE_COMMENTS,
 } from './constants';
 
 export const setCurrentUser = (user) => ({
@@ -67,5 +69,13 @@ export const removeCartItems = (ids) => ({
 export const setShops = (shops) => ({
   type: SET_SHOPS,
   payload: { shops },
+});
+export const setComments = (comments) => ({
+  type: SET_COMMENTS,
+  payload: { comments },
+});
+export const removeComments = (ids) => ({
+  type: REMOVE_COMMENTS,
+  payload: { ids },
 });
 

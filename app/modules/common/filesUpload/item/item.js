@@ -26,6 +26,7 @@ class FileUploadItem extends Component {
     uploadStates: PropTypes.object,
     onUploaded: PropTypes.func.isRequired,
     className: PropTypes.string,
+    small: PropTypes.bool.isRequired,
   }
   constructor(props) {
     super(props);
@@ -57,7 +58,7 @@ class FileUploadItem extends Component {
     });
   }
   render() {
-    const { file: { process, upload }, sheet: { classes }, uploadStates, className = '' } = this.props;
+    const { file: { process, upload }, sheet: { classes }, uploadStates, small, className = '' } = this.props;
     let info;
     const uploadingState = uploadStates[this.key];
     if (uploadingState) {
@@ -74,7 +75,7 @@ class FileUploadItem extends Component {
       }
     }
     return (
-      <div className={[classes.wrapper, className].join(' ')}>
+      <div className={[small ? `${classes.wrapper} ${classes.wrapperSmall}` : classes.wrapper, className].join(' ')}>
         <img role="presentation" src={(process && process.dataUrl) ? process.dataUrl : upload.file.url} />
         {info}
       </div>
@@ -96,6 +97,10 @@ export default injectSheet({
       maxWidth: '100%',
       maxHeight: '100%',
     },
+  },
+  wrapperSmall: {
+    width: 36,
+    height: 48,
   },
   info: {
     position: 'absolute',

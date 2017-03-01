@@ -22,7 +22,7 @@ const UpdateTimeAndLocation = ({ location: { address, lnglat }, currentLocation,
 );
 
 UpdateTimeAndLocation.propTypes = {
-  currentLocation: PropTypes.object.isRequired,
+  currentLocation: PropTypes.object,
   location: PropTypes.object.isRequired,
   updatedAt: PropTypes.number.isRequired,
   classes: PropTypes.object.isRequired,

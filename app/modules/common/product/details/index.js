@@ -3,28 +3,24 @@ import injectSheet from 'react-jss';
 import { Card, CardTitle, CardMenu, CardText, CardActions, CardMedia } from 'react-mdl/lib/Card';
 import { Tabs, Tab } from 'react-mdl/lib/Tabs';
 import Button from 'react-mdl/lib/Button';
-import { Grid, Cell } from 'react-mdl/lib/Grid';
 import styles, { colors } from 'modules/common/styles';
-import Label from 'modules/common/label';
 import Share from 'modules/common/share';
-import LabelWithBorder from 'modules/common/label/labelWithBorder';
-import { humanizeTime, formatAddress, humanizeLnglat } from 'utils/displayUtils';
 import Carousel from '../components/carousel';
 import AddToCartButton from '../components/addToCartButton';
 import CategoryAndSpecies from './categoryAndSpecies';
 import Specs from './specs';
 import UpdateTimeAndLocation from './updateTimeAndLocation';
 
-class ResponsiveCarouselCard extends Component {
+class ProductDetails extends Component {
   static propTypes = {
     product: PropTypes.object.isRequired,
     location: PropTypes.object,
     classes: PropTypes.object.isRequired,
   }
-  state = { specIndex: 0, tabIndex: 0 }
+  state = { specIndex: 0}
   render() {
     const { product: { name, images, category, species, specs, location: { address, lnglat }, desc, updatedAt }, location, classes } = this.props;
-    const { specIndex, tabIndex } = this.state;
+    const { specIndex } = this.state;
     return (
       <Card shadow={2} className={styles.w100}>
         <CardTitle>{name}</CardTitle>
@@ -45,19 +41,6 @@ class ResponsiveCarouselCard extends Component {
           <Button raised accent ripple>在线联系</Button>
           <AddToCartButton supplyProduct={this.props.product} specIndex={specIndex} quantity={specs[specIndex].minimum}>加入购物车</AddToCartButton>
         </CardActions>
-        <div className={classes.tabs}>
-          <Tabs activeTab={0} onChange={(tabId) => this.setState({ tabIndex: tabId })} ripple>
-            <Tab>更多介绍</Tab>
-            <Tab>评论</Tab>
-          </Tabs>
-        </div>
-        {
-          tabIndex === 0 && (
-            <CardText>
-              <div dangerouslySetInnerHTML={{ __html: desc }}></div>
-            </CardText>
-          )
-        }
       </Card>
     );
   }
@@ -81,4 +64,4 @@ export default injectSheet({
   images: {
     background: 'transparent',
   },
-})(ResponsiveCarouselCard);
+})(ProductDetails);

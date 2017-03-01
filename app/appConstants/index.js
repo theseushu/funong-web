@@ -4,6 +4,7 @@ export const statusValues = {
   unverified: { value: 0, title: '待审核' },
   verified: { value: 1, title: '已通过' },
   rejected: { value: 2, title: '已拒绝' },
+  removed: { value: 3, title: '已删除' },
 
   unconfirmed: { value: 11, title: '待确认' },
   unbilled: { value: 12, title: '待付款' },
