@@ -25,8 +25,9 @@ export default ({ store, injectReducer, injectSagas, loadModule, errorLoading })
         meta: {
           storeKey,
           resolve: proceed,
-          reject: () => {
+          reject: (err) => {
             // todo prompt error to user
+            console.log(err); // eslint-disable-line
             replace('/error');
             proceed();
           },

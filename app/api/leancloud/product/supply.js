@@ -15,7 +15,7 @@ export default ({ AV, context }) => {
   class SupplyProduct extends AV.Object {}
   AV.Object.register(SupplyProduct);
 
-  const supplySchema = {
+  const schema = {
     Type: SupplyProduct,
     table,
     attributes: {
@@ -37,15 +37,15 @@ export default ({ AV, context }) => {
     },
   };
 
-  const createSupplyProduct = async (params) => await create(AV, supplySchema, params, context);
+  const createSupplyProduct = async (params) => await create(AV, schema, params, context);
 
-  const updateSupplyProduct = async (params) => await update(AV, supplySchema, params, context);
+  const updateSupplyProduct = async (params) => await update(AV, schema, params, context);
 
-  const fetchSupplyProduct = async (params) => await fetch(AV, supplySchema, params, context);
+  const fetchSupplyProduct = async (params) => await fetch(AV, schema, params, context);
 
-  const searchSupplyProducts = async (params) => await search(AV, supplySchema, params, context);
+  const searchSupplyProducts = async (params) => await search(AV, schema, params, context);
 
-  const countSupplyProducts = async (params) => await count(AV, supplySchema, params, context);
+  const countSupplyProducts = async (params) => await count(AV, schema, params, context);
 
   return {
     createSupplyProduct,

@@ -13,24 +13,24 @@ const updateLogisticsProduct = actions.update;
 
 export default reduxForm({
   form: FORM_NAME,  // a unique identifier for this form
-  onSubmit: ({ capacity, maxNumber, price, range, name, location, available, desc, labels }, dispatch, { initialValues }) => (
+  onSubmit: ({ capacity, count, price, range, name, location, desc, images, labels }, dispatch, { initialValues }) => (
       initialValues.objectId ?
         new Promise((resolve, reject) => {
           dispatch(updateLogisticsProduct({
-            objectId: initialValues.objectId,
+            product: initialValues,
             capacity: Number(capacity),
-            maxNumber: Number(maxNumber),
+            count: Number(count),
             price,
             range,
             name,
             desc,
-            available,
+            images,
             location,
             labels,
             meta: {
               meta: {
                 resolve: (product) => {
-                  const image = product.thumbnail.thumbnail_80_80;
+                  const image = images[0].thumbnail_80_80;
                   success({
                     icon: <img role="presentation" width="70" height="70" src={image} />,
                     title: `${product.name}的修改已保存`,
@@ -48,17 +48,17 @@ export default reduxForm({
         new Promise((resolve, reject) => {
           dispatch(createLogisticsProduct({
             capacity: Number(capacity),
-            maxNumber: Number(maxNumber),
+            count: Number(count),
             price,
             range,
             name,
-            available,
             desc,
+            images,
             location,
             labels,
             meta: {
               resolve: (product) => {
-                const image = product.thumbnail.thumbnail_80_80;
+                const image = images[0].thumbnail_80_80;
                 success({
                   icon: <img role="presentation" width="70" height="70" src={image} />,
                   title: `${product.name}已发布成功`,

@@ -102,6 +102,34 @@ export const minPrice = {
   converter: createConverter('minPrice'),
 };
 
+export const capacity = {
+  create: (AV, product, value) => setRequiredAttr(product, 'capacity', value),
+  update: (AV, product, value) => setRequiredAttr(product, 'capacity', value),
+  search: undefined,
+  converter: createConverter('capacity'),
+};
+
+export const count = {
+  create: (AV, product, value) => setRequiredAttr(product, 'count', value),
+  update: (AV, product, value) => setRequiredAttr(product, 'count', value),
+  search: undefined,
+  converter: createConverter('count'),
+};
+
+export const price = {
+  create: (AV, product, value) => setRequiredAttr(product, 'price', value),
+  update: (AV, product, value) => setRequiredAttr(product, 'price', value),
+  search: undefined,
+  converter: createConverter('price'),
+};
+
+export const range = {
+  create: (AV, product, value) => setRequiredAttr(product, 'range', value),
+  update: (AV, product, value) => setRequiredAttr(product, 'range', value),
+  search: undefined,
+  converter: createConverter('range'),
+};
+
 export const desc = {
   create: (AV, product, value) => setRequiredAttr(product, 'desc', value),
   update: (AV, product, value) => setRequiredAttr(product, 'desc', value),
@@ -146,6 +174,11 @@ export const location = {
 export const shop = {
   create: (AV, product, value) => setRequiredAttr(product, 'shop', AV.Object.createWithoutData('Shop', value.objectId)),
   converter: createConverter('shop', embeddedShopToJSON),
+  search: (AV, query, value) => {
+    if (value) {
+      query.equalTo('shop', AV.Object.createWithoutData('Shop', value.objectId));
+    }
+  },
   include: ['shop', 'shop.thumbnail'],
 };
 

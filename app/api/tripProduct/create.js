@@ -16,4 +16,12 @@ const ducks = createDucks({
   },
 });
 
+// shape of ducks
+// {
+//   actions: { create },
+//   default: { create: reducer },
+//   selector rootSelector.create,
+//   sagas,
+// }
+
 module.exports = ducks;

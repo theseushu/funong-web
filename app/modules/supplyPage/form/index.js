@@ -27,7 +27,7 @@ export default reduxForm({
             labels,
             meta: {
               resolve: (product) => {
-                const image = initialValues.thumbnail.thumbnail_80_80;
+                const image = images[0].thumbnail_80_80;
                 success({
                   icon: <img role="presentation" width="70" height="70" src={image} />,
                   title: `产品${product.name}的修改已保存`,
@@ -52,7 +52,7 @@ export default reduxForm({
             labels,
             meta: {
               resolve: (product) => {
-                const image = product.thumbnail.thumbnail_80_80;
+                const image = images[0].thumbnail_80_80;
                 success({
                   icon: <img role="presentation" width="70" height="70" src={image} />,
                   title: `新产品${product.name}已发布成功`,

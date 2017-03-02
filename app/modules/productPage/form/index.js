@@ -37,24 +37,21 @@ export const validate = (values) => {
 export default reduxForm({
   form: FORM_NAME,  // a unique identifier for this form
   validate,                // <--- validation function given to redux-form
-  onSubmit: ({ category, species, name, specs, recommend, agentable, desc, images, available, labels }, dispatch, { shop, initialValues }) => (
+  onSubmit: ({ category, species, name, specs, desc, images, labels }, dispatch, { shop, initialValues }) => (
       initialValues.objectId ?
         new Promise((resolve, reject) => {
           dispatch(updateShopProduct({
-            objectId: initialValues.objectId,
+            product: initialValues,
             category,
             species,
             name,
             specs,
             desc,
             images,
-            recommend,
-            agentable,
-            available,
             labels,
             meta: {
               resolve: (product) => {
-                const image = product.thumbnail.thumbnail_80_80;
+                const image = images[0].thumbnail_80_80;
                 success({
                   icon: <img role="presentation" width="70" height="70" src={image} />,
                   title: `产品${product.name}的修改已保存`,
@@ -75,14 +72,11 @@ export default reduxForm({
             specs,
             desc,
             images,
-            recommend,
-            agentable,
-            available,
             labels,
             shop,
             meta: {
               resolve: (product) => {
-                const image = product.thumbnail.thumbnail_80_80;
+                const image = images[0].thumbnail_80_80;
                 success({
                   icon: <img role="presentation" width="70" height="70" src={image} />,
                   title: `新产品${product.name}已加入您的微店`,
