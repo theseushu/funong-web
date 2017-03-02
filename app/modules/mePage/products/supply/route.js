@@ -26,11 +26,15 @@ export default ({ store, injectReducer, injectSagas, loadModule, errorLoading })
       if (searchSupplyProductState && searchSupplyProductState.fulfilled) {
         store.dispatch(searchSupplyProducts({
           ownerId: currentUser.objectId,
+          page: 1,
+          pageSize: 1000,
         }));
         resolve();
       } else {
         store.dispatch(searchSupplyProducts({
           ownerId: currentUser.objectId,
+          page: 1,
+          pageSize: 1000,
           meta: {
             resolve,
             reject,

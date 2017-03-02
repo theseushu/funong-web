@@ -7,81 +7,58 @@
  * wait until I figure out a better way
  */
 import _reduce from 'lodash/reduce';
+import _map from 'lodash/map';
 import { supplyProductToJSON } from '../converters';
+import { supplySchema } from './schemas';
 const debug = require('debug')('app:api:supply');
 
 export default ({ AV, context }) => {
   class SupplyProduct extends AV.Object {}
   AV.Object.register(SupplyProduct);
 
-  const createSupplyProduct = async ({ category, species, name, specs, location, desc, images, labels }) => {
+  const createSupplyProduct = async (params) => {
     const { token: { sessionToken }, profile } = context;
     try {
+      const attrs = { ...params, owner: profile };
       const product = new SupplyProduct();
-      product.set('category', AV.Object.createWithoutData('Category', category.objectId));
-      product.set('species', AV.Object.createWithoutData('Species', species.objectId));
-      product.set('name', name);
-      product.set('specs', specs);
-      product.set('minPrice', _reduce(specs, (min, { price }) => Math.min(min, price), 999999));
-      product.set('address', location.address);
-      product.set('lnglat', new AV.GeoPoint(location.lnglat));
-      product.set('desc', desc);
-      product.set('images', images.map((image) => AV.Object.createWithoutData('_File', image.id)));
-      product.set('thumbnail', AV.Object.createWithoutData('_File', images[0].id));
-      product.set('owner', AV.Object.createWithoutData('Profile', profile.objectId));
-      product.set('labels', labels);
+      _map(attrs, (value, key) => {
+        const attrSchema = supplySchema[key];
+        if (!attrSchema || !attrSchema.create) {
+          throw new Error(`Unsupported attr(${key}) in supplyProduct creating`);
+        }
+        attrSchema.create(AV, product, value);
+      });
       const savedProduct = await product.save(null, {
         fetchWhenSave: true,
         sessionToken,
       });
-      return { ...savedProduct.toJSON(), category, species, specs, location, desc, images, owner: profile, thumbnail: images[0], labels };
+      return { ...savedProduct.toJSON(), ...attrs };
     } catch (err) {
       debug(err);
       throw err;
     }
   };
 
-  const updateSupplyProduct = async ({ objectId, category, species, name, specs, location, desc, images, labels }) => {
-    const { token: { sessionToken }, profile } = context;
-    if (!objectId) {
+  const updateSupplyProduct = async ({ product, ...attrs }) => {
+    const { token: { sessionToken } } = context;
+    if (!product || !product.objectId) {
       throw new Error('objectId is empty');
     }
     try {
-      const product = AV.Object.createWithoutData('SupplyProduct', objectId);
-      if (category && category.objectId) {
-        product.set('category', AV.Object.createWithoutData('Category', category.objectId));
-      }
-      if (species && species.objectId) {
-        product.set('species', AV.Object.createWithoutData('Species', species.objectId));
-      }
-      if (name) {
-        product.set('name', name);
-      }
-      if (specs) {
-        product.set('specs', specs);
-        product.set('minPrice', _reduce(specs, (min, { price }) => Math.min(min, price), 999999));
-      }
-      if (location && location.address) {
-        product.set('address', location.address);
-      }
-      if (location && location.lnglat) {
-        product.set('lnglat', new AV.GeoPoint(location.lnglat));
-      }
-      if (desc) {
-        product.set('desc', desc);
-      }
-      if (images) {
-        product.set('images', images.map((image) => AV.Object.createWithoutData('_File', image.id)));
-        product.set('thumbnail', images.length > 0 ? AV.Object.createWithoutData('_File', images[0].id) : null);
-      }
-      if (labels != null) {
-        product.set('labels', labels);
-      }
-      const savedProduct = await product.save(null, {
+      console.log(attrs.images)
+      const toSave = AV.Object.createWithoutData('SupplyProduct', product.objectId);
+      _map(attrs, (value, key) => {
+        const attrSchema = supplySchema[key];
+        if (!attrSchema || !attrSchema.update) {
+          throw new Error(`Unsupported attr(${key}) in supplyProduct creating`);
+        }
+        attrSchema.update(AV, toSave, value);
+      });
+      const savedProduct = await toSave.save(null, {
         fetchWhenSave: true,
         sessionToken,
       });
-      return { ...savedProduct.toJSON(), category, species, specs, location, desc, images, owner: profile, thumbnail: images ? images[0] : null, labels };
+      return { ...product, ...savedProduct.toJSON(), ...attrs };
     } catch (err) {
       debug(err);
       throw err;

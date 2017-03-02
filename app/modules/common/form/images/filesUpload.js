@@ -110,6 +110,7 @@ class FilesUpload extends Component {
             />
             <Files
               editing
+              small={false}
               files={this.state.files}
               onProcessed={this.onProcessed} onUploaded={this.onUploaded} onSwitch={this.onSwitch} onDrop={this.onDrop}
               onItemClick={allowGallery ? this.openFullScreenGallery : null}

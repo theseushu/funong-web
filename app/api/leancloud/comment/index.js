@@ -19,7 +19,7 @@ export default ({ AV, context }) => {
     if (shopProduct) {
       query.equalTo('shopProduct', AV.Object.createWithoutData('ShopProduct', shopProduct.objectId));
     } else if (supplyProduct) {
-      query.equalTo('supplyProduct', AV.Object.createWithoutData('SupplyProduct', supplyProduct.objectId));
+      query.equalTo('supplyProduct', AV.Object.createWithoutData('TripProduct', supplyProduct.objectId));
     } else if (logisticsProduct) {
       query.equalTo('logisticsProduct', AV.Object.createWithoutData('LogisticsProduct', logisticsProduct.objectId));
     }
@@ -42,7 +42,7 @@ export default ({ AV, context }) => {
     if (shopProduct) {
       comment.set('shopProduct', AV.Object.createWithoutData('ShopProduct', shopProduct.objectId));
     } else if (supplyProduct) {
-      comment.set('supplyProduct', AV.Object.createWithoutData('SupplyProduct', supplyProduct.objectId));
+      comment.set('supplyProduct', AV.Object.createWithoutData('TripProduct', supplyProduct.objectId));
     } else if (logisticsProduct) {
       comment.set('logisticsProduct', AV.Object.createWithoutData('LogisticsProduct', logisticsProduct.objectId));
     }

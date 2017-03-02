@@ -30,6 +30,7 @@ class Editing extends Component {
     onSwitch: PropTypes.func.isRequired,
     onDrop: PropTypes.func.isRequired,
     onItemClick: PropTypes.func,
+    small: PropTypes.bool.isRequired,
   }
   componentDidMount() {
     const { files } = this.props;
@@ -49,7 +50,7 @@ class Editing extends Component {
       });
   }
   render() {
-    const { files, onUploaded, onItemClick } = this.props;
+    const { files, onUploaded, onItemClick, small } = this.props;
     const items = files.filter((file) => !!file.upload.file || !!file.process.dataUrl).map((file, i) => {
       const index = files.indexOf(file);
       return (
@@ -58,6 +59,7 @@ class Editing extends Component {
             <a href="#_non_existing_anchor_" onClick={(e) => onItemClick(e, i)}>
               <Item
                 file={file}
+                small={small}
                 onUploaded={(uploadedFile, err) => onUploaded(index, uploadedFile, err)}
                 className="mdl-shadow--4dp"
               />

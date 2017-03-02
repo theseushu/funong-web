@@ -10,6 +10,7 @@ export const SET_SPECIFICATIONS = 'data/set_specifications';
 export const SET_SHOP_PRODUCTS = 'data/set_products';
 export const SET_SUPPLY_PRODUCTS = 'data/set_supply_products';
 export const SET_LOGISTICS_PRODUCTS = 'data/set_logistics_products';
+export const SET_TRIP_PRODUCTS = 'data/set_trip_products';
 export const SET_CERTS = 'data/set_certs';
 export const SET_CART_ITEMS = 'data/set_cart_items';
 export const REMOVE_CART_ITEMS = 'data/remove_cart_items';

@@ -12,11 +12,11 @@ const updateSupplyProduct = actions.update;
 
 export default reduxForm({
   form: FORM_NAME,  // a unique identifier for this form
-  onSubmit: ({ category, species, name, specs, location, desc, images, available, labels }, dispatch, { initialValues }) => (
+  onSubmit: ({ category, species, name, specs, location, desc, images, labels }, dispatch, { initialValues }) => (
       initialValues.objectId ?
         new Promise((resolve, reject) => {
           dispatch(updateSupplyProduct({
-            objectId: initialValues.objectId,
+            product: initialValues,
             category,
             species,
             name,
@@ -24,11 +24,10 @@ export default reduxForm({
             desc,
             images,
             location,
-            available,
             labels,
             meta: {
               resolve: (product) => {
-                const image = product.thumbnail.thumbnail_80_80;
+                const image = initialValues.thumbnail.thumbnail_80_80;
                 success({
                   icon: <img role="presentation" width="70" height="70" src={image} />,
                   title: `产品${product.name}的修改已保存`,
@@ -50,7 +49,6 @@ export default reduxForm({
             desc,
             images,
             location,
-            available,
             labels,
             meta: {
               resolve: (product) => {

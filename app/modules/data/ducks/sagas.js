@@ -4,13 +4,13 @@ import { put } from 'redux-saga/effects';
 
 import { UPDATE_DATA, REMOVE_ENTITIES, SET_USERS, SET_CURRENT_USER,
   UPDATE_CURRENT_USER_INFO, SET_CATAGORIES, SET_SPECIES,
-  SET_SPECIFICATIONS, SET_SHOP_PRODUCTS,
+  SET_SPECIFICATIONS, SET_SHOP_PRODUCTS, SET_TRIP_PRODUCTS,
   SET_SUPPLY_PRODUCTS, SET_LOGISTICS_PRODUCTS, SET_CERTS,
   SET_CART_ITEMS, REMOVE_CART_ITEMS, SET_SHOPS,
   SET_COMMENTS, REMOVE_COMMENTS } from './constants';
 import { UserSchema, UsersSchema,
   CategoriesSchema, SpeciesArraySchema, SpecificationsSchema,
-  ShopProductsSchema, LogisticsProductsSchema,
+  ShopProductsSchema, LogisticsProductsSchema, TripProductsSchema,
   SupplyProductsSchema, CertsSchema, CartItemsSchema, ShopsSchema,
   CommentsSchema } from './schemas';
 
@@ -77,6 +77,13 @@ function* setLodisticsProductsSaga(action) {
   yield put({ type: UPDATE_DATA, payload });
 }
 
+function* setTripProductsSaga(action) {
+  const { tripProducts } = action.payload;
+  const data = normalize(tripProducts, TripProductsSchema);
+  const payload = Object.assign({}, data);
+  yield put({ type: UPDATE_DATA, payload });
+}
+
 function* setCertsSaga(action) {
   const { certs } = action.payload;
   const data = normalize(certs, CertsSchema);
@@ -127,6 +134,7 @@ function* rootSaga(api) {
   yield takeEvery(SET_SHOP_PRODUCTS, setShopProductsSaga);
   yield takeEvery(SET_SUPPLY_PRODUCTS, setSupplyProductsSaga);
   yield takeEvery(SET_LOGISTICS_PRODUCTS, setLodisticsProductsSaga);
+  yield takeEvery(SET_TRIP_PRODUCTS, setTripProductsSaga);
   yield takeEvery(SET_CERTS, setCertsSaga);
   yield takeEvery(SET_CART_ITEMS, setCartItemsSaga);
   yield takeEvery(REMOVE_CART_ITEMS, removeCartItemsSaga);

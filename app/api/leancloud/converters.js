@@ -32,11 +32,11 @@ export const fileToJSON = (file) => {
   return undefined;
 };
 
-const imagesToJSON = (images) => images ? images.map(fileToJSON).filter((f) => !_isUndefined(f)) : undefined;
+export const imagesToJSON = (images) => images ? images.map(fileToJSON).filter((f) => !_isUndefined(f)) : undefined;
 
-const lnglatToJSON = (lnglat) => lnglat ? lnglat.toJSON() : undefined;
+export const lnglatToJSON = (lnglat) => lnglat ? lnglat.toJSON() : undefined;
 
-const embeddedUserToJSON = (user) => {
+export const embeddedUserToJSON = (user) => {
   if (!user) {
     return undefined;
   }
@@ -174,6 +174,22 @@ export const logisticsToJSON = (product) => {
   const createdAt = product.get('createdAt').getTime();
   const updatedAt = product.get('updatedAt').getTime();
   return _omitBy({ objectId, location: { address, lnglat }, name, status, desc, specs, labels, capacity, price, count, range, images, thumbnail, owner, updatedAt, createdAt }, _isUndefined);
+};
+
+export const tripProductToJSON = (product) => {
+  if (!product) {
+    return null;
+  }
+  const { objectId, name, address, status, desc, specs, labels } = product.toJSON();
+
+  const lnglat = lnglatToJSON(product.get('lnglat'));
+  const images = imagesToJSON(product.get('images'));
+  const owner = embeddedUserToJSON(product.get('owner'));
+  const thumbnail = fileToJSON(product.get('thumbnail'));
+  const createdAt = product.get('createdAt').getTime();
+  const updatedAt = product.get('updatedAt').getTime();
+
+  return _omitBy({ objectId, location: { address, lnglat }, name, status, desc, specs, labels, images, thumbnail, owner, updatedAt, createdAt }, _isUndefined);
 };
 
 export const cartItemToJSON = (cartItem) => {

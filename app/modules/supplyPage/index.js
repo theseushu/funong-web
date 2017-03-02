@@ -7,10 +7,10 @@ import Form from './form';
 import Display from './display';
 
 const EMPTY_PRODUCT = {
-  category: null,
+  category: { name: '人参果', objectId: '5859445ddc9477148f492652', catalog: { objectId: '1', name: 'aaaa', catalogType: 'adlafdjklsa' } },
   species: null,
   name: '',
-  specs: [],
+  specs: [{ name: '默认', params: ['123 rfdqf'], prices: [{ minCount: 1, unit: '斤', value: 1 }] }],
   location: null,
   desc: '',
   images: [],

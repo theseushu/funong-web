@@ -11,7 +11,7 @@ const routes = [
   { title: '首页', path: '/' },
   { title: '供应', path: '/supplies' },
   { title: '采购', path: '/' },
-  { title: '市场行情', path: '/market' },
+  { title: '乡村游', path: '/trips' },
   { title: '我的润财', path: '/me' },
   { title: '物流', path: '/logistics' },
   { title: '微店', path: '/shops' },

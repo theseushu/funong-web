@@ -8,6 +8,7 @@ import {
   SET_SHOP_PRODUCTS,
   SET_SUPPLY_PRODUCTS,
   SET_LOGISTICS_PRODUCTS,
+  SET_TRIP_PRODUCTS,
   SET_CERTS,
   SET_CART_ITEMS,
   REMOVE_CART_ITEMS,
@@ -53,6 +54,10 @@ export const setSupplyProducts = (supplyProducts) => ({
 export const setLogisticsProducts = (logisticsProducts) => ({
   type: SET_LOGISTICS_PRODUCTS,
   payload: { logisticsProducts },
+});
+export const setTripProducts = (tripProducts) => ({
+  type: SET_TRIP_PRODUCTS,
+  payload: { tripProducts },
 });
 export const setCerts = (certs) => ({
   type: SET_CERTS,
