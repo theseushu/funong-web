@@ -35,16 +35,19 @@ export default ({ store, injectReducer, injectSagas, loadModule, errorLoading })
     const toFetch = [];
     toFetch.push(new Promise((resolve, reject) => {
       const { actions: { searchSupplyProducts, countSupplyProducts }, selectors } = ducks;
-      const queryParams = {
+      const countParams = {
         category: criteria.category ? { objectId: criteria.category } : undefined,
         species: criteria.species ? criteria.species.map((s) => ({ objectId: s })) : undefined,
-        provinces: criteria.provinces,
+        location: { address: { provinces: criteria.provinces } },
         sort: criteria.sort,
+      };
+      const queryParams = {
+        ...countParams,
         page: criteria.page ? criteria.page : undefined,
         pageSize: criteria.pageSize ? criteria.pageSize : undefined,
       };
       // count
-      store.dispatch(countSupplyProducts(queryParams));
+      store.dispatch(countSupplyProducts(countParams));
       const searchSupplyProductState = selectors.searchSupplyProducts(store.getState());
       // if the data has been fetched before, don't wait for the api response. otherwise, wait for it
       if (searchSupplyProductState && searchSupplyProductState.fulfilled) {

@@ -25,14 +25,14 @@ export default ({ store, injectReducer, injectSagas, loadModule, errorLoading })
         // if the data has been fetched before, don't wait for the api response. otherwise, wait for it
       if (searchSupplyProductState && searchSupplyProductState.fulfilled) {
         store.dispatch(searchSupplyProducts({
-          ownerId: currentUser.objectId,
+          owner: currentUser,
           page: 1,
           pageSize: 1000,
         }));
         resolve();
       } else {
         store.dispatch(searchSupplyProducts({
-          ownerId: currentUser.objectId,
+          owner: currentUser,
           page: 1,
           pageSize: 1000,
           meta: {
