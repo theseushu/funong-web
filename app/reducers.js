@@ -6,7 +6,7 @@
 import { combineReducers } from 'redux';
 import { LOCATION_CHANGE } from 'react-router-redux';
 import { reducer as formReducer } from 'redux-form';
-import toastrReducer from 'react-redux-toastr/lib/reducer';
+import { reducer as toastrReducer } from 'react-redux-toastr';
 import languageProviderReducer from 'containers/LanguageProvider/reducer';
 import api from 'api/ducks';
 import data from 'modules/data/ducks';

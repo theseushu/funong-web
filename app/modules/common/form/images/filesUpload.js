@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import _without from 'lodash/without';
 import injectSheet from 'react-jss';
-import { toastrEmitter } from 'react-redux-toastr/lib/toastrEmitter';
+import { toastr as toastrEmitter } from 'react-redux-toastr';
 import { Card, CardTitle, CardText } from 'react-mdl/lib/Card';
 import { actions } from 'modules/fullScreenGallery/ducks';
 import Files from 'modules/common/filesUpload/files';

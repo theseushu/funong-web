@@ -12,7 +12,7 @@
  */
 
 import React from 'react';
-import ReduxToastr from 'react-redux-toastr/lib/ReduxToastr';
+import ReduxToastr from 'react-redux-toastr';
 import withProgressBar from './ProgressBar';
 
 class App extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function

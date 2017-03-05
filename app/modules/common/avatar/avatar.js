@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import MdAccountCircle from 'react-icons/lib/md/account-circle';
+import Icon from 'react-mdl/lib/Icon';
 import injectSheet from 'react-jss';
 import { colors } from '../styles';
 
@@ -7,7 +7,8 @@ import { colors } from '../styles';
 const Content = ({ user }) => (
     (user && user.avatar) ?
       <img role="presentation" src={user.avatar.url} /> :
-      <MdAccountCircle
+      <Icon
+        name="account_circle"
         style={{
           position: 'relative',
           width: '100%',

@@ -10,7 +10,7 @@ import Tooltip from 'react-mdl/lib/Tooltip';
 import IconButton from 'react-mdl/lib/IconButton';
 import Button from 'react-mdl/lib/Button';
 import Spinner from 'react-mdl/lib/Spinner';
-import { toastrEmitter } from 'react-redux-toastr/lib/toastrEmitter';
+import { toastr as toastrEmitter } from 'react-redux-toastr';
 import { selectors, actions } from 'api/species';
 import { speciesSelector } from 'modules/data/ducks/selectors';
 import styles from 'modules/common/styles';

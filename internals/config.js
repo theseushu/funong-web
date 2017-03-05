@@ -28,13 +28,6 @@ const ReactBoilerplate = {
         'ip',
         'minimist',
         'sanitize.css',
-        'react-redux-toastr',
-        'react-icons',
-        'react-jss',
-        'react-photoswipe',
-        'disposables',
-        'react-mdl',
-        'react-mdl-extra',
       ],
 
       /**

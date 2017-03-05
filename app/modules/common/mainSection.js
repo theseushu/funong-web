@@ -24,7 +24,7 @@ const styles = {
   },
   container: {
     maxWidth: 1170,
-  }
+  },
 };
 
 const MainSectionComponent = ({ children, sheet: { classes } }) => (

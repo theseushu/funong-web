@@ -27,7 +27,7 @@ class Trip extends Component { // eslint-disable-line
                     product={product}
                     hideActions={false}
                     actions={[
-                      <Button key={0} colored accent={true}>{'上架'}</Button>,
+                      <Button key={0} colored accent>{'上架'}</Button>,
                       <Link key={1} to={`/trip/${product.objectId}?edit=true`}><IconButton colored name="edit"></IconButton></Link>,
                       <IconButton key={2} accent name="delete_sweep">删除</IconButton>,
                     ]}

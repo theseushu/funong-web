@@ -175,14 +175,7 @@
       "express",
       "ip",
       "minimist",
-      "sanitize.css",
-      "react-redux-toastr",
-      "react-icons",
-      "react-jss",
-      "react-photoswipe",
-      "disposables",
-      "react-mdl",
-      "react-mdl-extra"
+      "sanitize.css"
     ],
     "include": [
       "core-js",
@@ -250,7 +243,6 @@
     "react-dnd-html5-backend": "^2.1.2",
     "react-dom": "15.4.2",
     "react-helmet": "3.2.2",
-    "react-icons": "^2.2.3",
     "react-image-gallery": "^0.7.12",
     "react-intl": "2.1.5",
     "react-jss": "^5.1.0",
