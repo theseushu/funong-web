@@ -1,5 +1,6 @@
 import createSupplyRoute from './supply/route';
 import createLogisticsRoute from './logistics/route';
+import createTripRoute from './trip/route';
 
 export default ({ store, injectReducer, injectSagas, loadModule, errorLoading }) => {
   const supplyRoute = createSupplyRoute({ store, injectReducer, injectSagas, loadModule, errorLoading });
@@ -10,6 +11,7 @@ export default ({ store, injectReducer, injectSagas, loadModule, errorLoading })
     childRoutes: [
       supplyRoute,
       createLogisticsRoute({ store, injectReducer, injectSagas, loadModule, errorLoading }),
+      createTripRoute({ store, injectReducer, injectSagas, loadModule, errorLoading }),
     ],
   };
 };

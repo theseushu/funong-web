@@ -1,22 +1,23 @@
 import React, { PropTypes } from 'react';
 import injectSheet from 'react-jss';
-import { breakpoints } from '../styles';
+import { breakpoints } from 'modules/common/styles';
 
-const MainRight = ({ main, right, sheet: { classes } }) => (
-  <div className={classes.content}>
+const MainLeft = ({ main, left, sheet: { classes }, className }) => (
+  <div className={`${classes.content} ${className}`}>
+    <div className={classes.left}>
+      {left}
+    </div>
     <div className={classes.main}>
       {main}
-    </div>
-    <div className={classes.right}>
-      {right}
     </div>
   </div>
 );
 
-MainRight.propTypes = {
+MainLeft.propTypes = {
+  className: PropTypes.string,
   sheet: PropTypes.object.isRequired,
   main: PropTypes.any.isRequired,
-  right: PropTypes.any.isRequired,
+  left: PropTypes.any.isRequired,
 };
 
 export default injectSheet({
@@ -27,11 +28,11 @@ export default injectSheet({
   main: {
     flex: 1,
   },
-  right: {
+  left: {
     width: 200,
-    marginLeft: 16,
+    marginRight: 16,
     [breakpoints.mediaDestkopBelow]: {
       display: 'none',
     },
   },
-})(MainRight);
+})(MainLeft);

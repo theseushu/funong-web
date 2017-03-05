@@ -13,7 +13,7 @@ const DescCard = ({ product: { desc }, className }) => (
 
 DescCard.propTypes = {
   product: PropTypes.object.isRequired,
-  className: PropTypes.string.isRequired,
+  className: PropTypes.string,
 };
 
 export default DescCard;

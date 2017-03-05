@@ -48,7 +48,7 @@ export default injectSheet({
   logoRow: {
     justifyContent: 'center',
     padding: 0,
-    minHeight: 200,
+    minHeight: 100,
     '.is-compact &': {
       minHeight: 0,
     },

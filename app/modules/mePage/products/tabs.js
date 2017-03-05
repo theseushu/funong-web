@@ -7,6 +7,8 @@ const tabs = (props, { router }) => {
     activeTab = 0;
   } else if (router.isActive('/me/products/logistics')) {
     activeTab = 1;
+  } else if (router.isActive('/me/products/trip')) {
+    activeTab = 2;
   }
   return (
     <Tabs
@@ -17,13 +19,13 @@ const tabs = (props, { router }) => {
         } else if (tabId === 1) {
           router.push('/me/products/logistics');
         } else {
-          router.push('/me/products/shop');
+          router.push('/me/products/trip');
         }
       }} ripple
     >
       <Tab>农资农产供应</Tab>
       <Tab>物流</Tab>
-      <Tab>微店商品</Tab>
+      <Tab>乡村游</Tab>
     </Tabs>
   );
 };

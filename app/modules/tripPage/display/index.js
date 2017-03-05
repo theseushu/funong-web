@@ -2,17 +2,25 @@ import React, { PropTypes } from 'react';
 import injectSheet from 'react-jss';
 import { connect } from 'react-redux';
 import { selector } from 'api/fetchLocation';
+import { MainRight as ContentMainRight } from 'modules/common/layout/content';
+import UserCard from 'modules/common/user/card';
 import MediaLeftUserCard from 'modules/common/user/mediaLeftCard';
-import styles, { breakpoints } from 'modules/common/styles';
+import { breakpoints } from 'modules/common/styles';
 import { Supply } from 'modules/common/product';
 
-// <UserCard user={product.owner} />
 const Display = ({ product, location, sheet: { classes } }) => ( // eslint-disable-line
-  <div className={styles.w100}>
-    <Supply product={product} location={location} />,
-    <MediaLeftUserCard className={classes.mobileUser} user={product.owner} hideActions={false} />,
-  </div>
-);
+  <ContentMainRight
+    main={[
+      <Supply key={0} product={product} location={location} />,
+      <MediaLeftUserCard className={classes.mobileUser} key={1} user={product.owner} hideActions={false} />,
+    ]}
+    right={
+      <div>
+        <UserCard user={product.owner} />
+      </div>
+      }
+  />
+  );
 
 Display.propTypes = {
   sheet: PropTypes.object.isRequired,

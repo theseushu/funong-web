@@ -1,7 +1,7 @@
 const reducer = (state = {}) => state;
 
 export default {
-  logisticsPage: reducer,
+  tripPage: reducer,
 };
 
 export const actions = {

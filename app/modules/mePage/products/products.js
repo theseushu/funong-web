@@ -22,13 +22,13 @@ const Products = ({ children, sheet: { classes } }, { router }) => (
           } else if (tabId === 1) {
             router.push('/me/products/logistics');
           } else {
-            router.push('/me/products/shop');
+            router.push('/me/products/trip');
           }
         }} ripple
       >
         <Tab>农资农产供应</Tab>
         <Tab>物流</Tab>
-        <Tab>微店商品</Tab>
+        <Tab>乡村游</Tab>
       </Tabs>
       {children}
     </div>

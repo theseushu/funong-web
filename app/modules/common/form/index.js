@@ -14,3 +14,4 @@ export LabelsCard from './labels';
 export LocationCard from './location';
 export CapacityCountPriceCard from './capacityCountPrice';
 export RangeNameCard from './rangeName';
+export LocationNameCard from './locationName';

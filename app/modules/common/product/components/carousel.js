@@ -11,7 +11,7 @@ const Carousel = ({ images, sheet: { classes } }) => {
   return (
     <div className={classes.wrapper}>
       <ImageGallery
-        items={images}
+        items={images.map((image) => ({ ...image, originalClass: classes.image }))}
         slideInterval={2000}
         infinite={false}
         showNav={false}
@@ -46,7 +46,7 @@ export default injectSheet({
       justifyContent: 'center',
     },
     '& .image-gallery-slides': {
-      border: `solid 1px ${colors.colorLightGrey}`,
+      borderBottom: `solid 1px ${colors.colorLightGrey}`,
     },
     '& .image-gallery-thumbnail img': {
       maxWidth: 50,
@@ -58,6 +58,17 @@ export default injectSheet({
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
+    },
+  },
+  image: {
+    width: '100%',
+    paddingTop: '100%',
+    '& > .image-gallery-image': {
+      width: '100%',
+      height: '100%',
+      position: 'absolute',
+      top: 0,
+      left: 0,
     },
   },
 })(Carousel);

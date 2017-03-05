@@ -1,13 +1,13 @@
 import React, { PropTypes } from 'react';
 import injectSheet from 'react-jss';
 import Button from 'react-mdl/lib/Button';
-import { colors } from 'modules/common/styles';
+import { breakpoints, colors } from 'modules/common/styles';
 import LabelWithBorder from 'modules/common/label/labelWithBorder';
 
 const Specs = ({ specs, specIndex, onClick, classes }) => (
   <div className={classes.wrapper}>
     <div className={classes.specs}>
-      <h6>规格</h6>
+      <h6>规格：</h6>
       <div className={classes.specNames}>
         {specs.length > 0 && specs.map((spec, i) => <Button key={i} ripple colored={specIndex === i} onClick={() => onClick(i)}>{spec.name}</Button>)}
       </div>
@@ -28,6 +28,10 @@ Specs.propTypes = {
 
 export default injectSheet({
   wrapper: {
+    marginBottom: 24,
+    [breakpoints.mediaDestkopBelow]: {
+      marginBottom: 8,
+    },
   },
   specs: {
     display: 'flex',
@@ -46,10 +50,12 @@ export default injectSheet({
   },
   params: {
     padding: 8,
+    '& > span': {
+      margin: '0 4px',
+    },
   },
   price: {
     color: colors.colorPrice,
     paddingLeft: 8,
-    marginBottom: 24,
   },
 })(Specs);

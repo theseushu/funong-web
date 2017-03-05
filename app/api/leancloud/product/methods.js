@@ -36,7 +36,6 @@ export const create = async (AV, schema, params, context) => {
 };
 
 export const update = async (AV, schema, params, context) => {
-  console.log(params)
   const { token: { sessionToken } } = context;
   const { table, attributes } = schema;
   const { product, ...attrs } = params;

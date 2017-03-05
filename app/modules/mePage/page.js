@@ -23,7 +23,7 @@ const sideRoutes = () => [
     },
     ],
   },
-  { title: '我的供应', path: '/me/products' },
+  { title: '我发布的', path: '/me/products' },
   { title: '我的微店',
     path: '/me/shop',
     routes: [{

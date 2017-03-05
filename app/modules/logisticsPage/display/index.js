@@ -2,46 +2,15 @@ import React, { PropTypes } from 'react';
 import injectSheet from 'react-jss';
 import { connect } from 'react-redux';
 import { selector } from 'api/fetchLocation';
-import ContentMainRight from 'modules/common/content/mainRight';
-import { humanizeLnglat, humanizeTime, formatAddress } from 'utils/displayUtils';
-import { colors } from 'modules/common/styles';
-import Carousel from './carousel';
+import MediaLeftUserCard from 'modules/common/user/mediaLeftCard';
+import { Logistics } from 'modules/common/product';
+import styles, { breakpoints } from 'modules/common/styles';
 
 const Display = ({ product, location, sheet: { classes } }) => ( // eslint-disable-line
-  <ContentMainRight
-    main={
-      <div>
-        <div style={{ display: 'flex' }}>
-          <div style={{ width: 300, marginRight: 24, boxSizing: 'border-box' }}>
-            <Carousel width={300} height={400} images={product.images.map((image) => ({ original: image.thumbnail_300_300, thumbnail: image.thumbnail_80_80 }))} />
-          </div>
-          <div style={{ flex: 1, color: colors.colorSubTitle }}>
-            <h4><strong>{product.name}</strong></h4>
-            <p>更新时间：{humanizeTime(product.updatedAt)}</p>
-            <h6 style={{ color: colors.colorAccent }}>
-              {product.price}
-            </h6>
-            <p>
-                常驻地：<span style={{}}>{formatAddress(product.address)}</span>
-              <span> ({(location && location.lnglat) && humanizeLnglat(location.lnglat.latitude, location.lnglat.longitude, product.lnglat.latitude, product.lnglat.longitude)})</span>
-            </p>
-            <p style={{ width: '100%', display: 'flex', justifyContent: 'space-between' }}>
-              <span>最大运量：{product.capacity}吨</span><span>车辆数：{product.maxNumber}</span>
-            </p>
-            <p>
-                服务区域：
-                { product.range.map((province, i) => <span key={i}> {province.title}</span>) }
-            </p>
-          </div>
-        </div>
-        <div style={{ marginTop: 24 }} dangerouslySetInnerHTML={{ __html: product.desc }} />
-      </div>
-      }
-    right={
-      <div>
-      </div>
-      }
-  />
+  <div className={styles.w100}>
+    <Logistics product={product} location={location} />,
+    <MediaLeftUserCard className={classes.mobileUser} user={product.owner} hideActions={false} />,
+  </div>
   );
 
 Display.propTypes = {
@@ -53,4 +22,10 @@ Display.propTypes = {
 export default connect(
   (state) => ({ location: selector(state).location })
 )(injectSheet({
+  mobileUser: {
+    marginTop: 16,
+    [breakpoints.mediaDestkopAbove]: {
+      display: 'none',
+    },
+  },
 })(Display));
