@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import injectSheet from 'react-jss';
 import Button from 'react-mdl/lib/Button';
 import { Label } from 'modules/common/categories';
+import LabelWithBorder from 'modules/common/label/labelWithBorder';
 import Selector from './selector';
 
 class CriteriaCategory extends Component {
@@ -31,6 +32,7 @@ class CriteriaCategory extends Component {
       <span className={classes.wrapper}>
         <Button colored onMouseEnter={() => this.setState({ show: true })}>全部分类</Button>
         { selected && '>'}
+        { selected && <span><LabelWithBorder onClick={() => this.onSelect(null)}>不限</LabelWithBorder></span>}
         { selected && <span><Label category={selected} /></span>}
         { show && (
           <Selector selected={selected} catalogGroups={catalogGroups} onSelect={this.onSelect} hide={this.hide} />

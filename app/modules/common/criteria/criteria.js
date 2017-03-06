@@ -15,14 +15,16 @@ const Criteria = ({ setCriteria, catalogGroups, category, species = [], province
   const criteria = { category, species, provinces, sort, page, pageSize };
   return (
     <div className={classes.wrapper}>
-      <Category
-        catalogGroups={catalogGroups}
-        selected={category}
-        onSelect={(c) => {
-          setCriteria(_omitBy({ ...criteria, category: c }, _isUndefined));
-        }}
-      >{category}</Category>
-      { category && (
+      { disabled.indexOf('category') < 0 &&
+        <Category
+          catalogGroups={catalogGroups}
+          selected={category}
+          onSelect={(c) => {
+            setCriteria(_omitBy({ ...criteria, category: c }, _isUndefined));
+          }}
+        >{category}</Category>
+      }
+      { disabled.indexOf('category') < 0 && category && (
         <Species
           category={category}
           selected={species}

@@ -1,16 +1,8 @@
-see config.js
+see
+https://github.com/react-boilerplate/react-boilerplate/issues/1569
 
-        'react-redux-toastr',
-        'react-icons',
-        'react-jss',
-        'react-photoswipe',
-        'disposables',
-        'react-mdl',
-        'react-mdl-extra',
+for dll issues
 
-those libs are supposed to be used in es6
-
-I haven't figured out how to configure them yet
-So they are excluded for now until I get some time to deal with it
-
-Codes in app/ are importing them like {import from 'react-redux-toastr/lib/xxx'}. es5 code.
+basically, it's about problems of the dllplugin with modules with jsnext:main in package.json
+It has been killing me for several days
+I go for main over jsnext:main now

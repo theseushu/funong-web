@@ -4,7 +4,7 @@ import Link from 'react-router/lib/Link';
 import { Header, HeaderRow, Navigation } from 'react-mdl/lib/Layout';
 import logoHorizontal from 'assets/logo-horizontal.png';
 import logoBig from 'assets/logo-big.png';
-import styles, { colors, breakpoints } from '../../styles';
+import styles, { colors, breakpoints } from 'modules/common/styles';
 import background from './assets/header-bg.jpg';
 
 const routes = [
@@ -30,7 +30,7 @@ const AppHeader = ({ sheet: { classes }, header }) => (
       </div>
     </HeaderRow>
   </Header>
-  );
+);
 
 AppHeader.contextTypes = {
   router: PropTypes.object.isRequired,

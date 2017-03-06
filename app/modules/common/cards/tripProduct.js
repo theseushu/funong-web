@@ -10,7 +10,7 @@ const tripProduct = ({ product, actions, classes }) => {
   const paramsStr = formatParams(product.specs);
   return (
     <Card shadow={2} className={`${classes.card} ${styles.defaultTransition}`}>
-      <Link to={`/supply/${product.objectId}`} className={classes.title}>
+      <Link to={`/trip/${product.objectId}`} className={classes.title}>
         <div className={classes.image}>
           <div className="_wrapper" style={{ backgroundImage: `url(${product.thumbnail.thumbnail_300_300})` }}>
           </div>

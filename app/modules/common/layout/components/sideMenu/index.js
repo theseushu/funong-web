@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import injectSheet from 'react-jss';
 import Link from 'react-router/lib/Link';
 import Button from 'react-mdl/lib/Button';
-import { colors, shadows, breakpoints } from '../../styles';
+import { colors, shadows, breakpoints } from 'modules/common/styles';
 import SubMenu from './subMenu';
 
 const SideMenu = ({ routes, classes }) => (

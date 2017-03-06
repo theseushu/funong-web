@@ -1,6 +1,7 @@
 import _map from 'lodash/map';
 import _forEach from 'lodash/forEach';
 import _union from 'lodash/union';
+import _isUndefined from 'lodash/isUndefined';
 const debug = require('debug')('app:api:product:methods');
 
 const converter = (schema, product) => {
@@ -79,11 +80,13 @@ const createQuery = (AV, schema, { sort, page, pageSize, ...params }) => {
   const query = new AV.Query(table)
     .include(_union(..._map(attributes, (attr) => attr.include)));
   _map(params, (value, key) => {
-    const attrSchema = attributes[key];
-    if (!attrSchema || !attrSchema.search) {
-      throw new Error(`Unsupported attr(${key}) in ${table} searching`);
+    if (!_isUndefined(value)) {
+      const attrSchema = attributes[key];
+      if (!attrSchema || !attrSchema.search) {
+        throw new Error(`Unsupported attr(${key}) in ${table} searching`);
+      }
+      attrSchema.search(AV, query, value);
     }
-    attrSchema.search(AV, query, value);
   });
   if (sort && sort.sort) {
     if (sort.order === 'asc') {
