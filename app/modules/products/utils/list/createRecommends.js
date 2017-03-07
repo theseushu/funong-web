@@ -56,11 +56,11 @@ export default (actions, selectors, BriefCard) => {
   )(injectSheet({
     recommends: {
       '& > h6': {
-        margin: '0 0 8px',
+        margin: '0 0 16px',
       },
     },
     product: {
-      margin: '8px 0',
+      marginBottom: 16,
     },
   })(Recommends));
 };

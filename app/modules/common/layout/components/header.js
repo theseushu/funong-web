@@ -12,9 +12,9 @@ const routes = [
   { title: '供应', path: '/supplies' },
   { title: '采购', path: '/' },
   { title: '乡村游', path: '/trips' },
-  { title: '我的润财', path: '/me' },
-  { title: '物流', path: '/logistics' },
-  { title: '微店', path: '/shops' },
+  { title: '我的富农', path: '/me' },
+  { title: '物流', path: '/logisticsList' },
+  { title: '微店', path: '/products' },
 ];
 
 const AppHeader = ({ sheet: { classes }, header }) => (

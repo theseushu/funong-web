@@ -6,7 +6,7 @@ import Label from '../label';
 import MediaLeftCard from '../cards/mediaLeftCard';
 import { colors } from '../styles';
 
-const LogisticsCard = ({ user, className, hideActions = true }) => {
+const MediaLeftUserCard = ({ user, className, hideActions = true }) => {
   const { name } = user;
   return (
     <MediaLeftCard
@@ -23,10 +23,10 @@ const LogisticsCard = ({ user, className, hideActions = true }) => {
   );
 };
 
-LogisticsCard.propTypes = {
+MediaLeftUserCard.propTypes = {
   user: PropTypes.object.isRequired,
   className: PropTypes.string,
   hideActions: PropTypes.bool,
 };
 
-export default LogisticsCard;
+export default MediaLeftUserCard;

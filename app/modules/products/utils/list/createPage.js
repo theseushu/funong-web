@@ -8,7 +8,7 @@ import { catalogTypes } from 'appConstants/index';
 import createCriteria from './createCriteria';
 import createRecommends from './createRecommends';
 
-export default ({ type, ducks, Card, BriefCard, catalogGroups }) => {
+export default ({ type, ducks, Card, BriefCard, catalogGroups, horizontal }) => {
   const { actions, selectors } = ducks;
   const Criteria = createCriteria(selectors, catalogGroups);
   const Recommends = createRecommends(actions, selectors, BriefCard);
@@ -28,7 +28,7 @@ export default ({ type, ducks, Card, BriefCard, catalogGroups }) => {
                 <div className={classes.products}>
                   {
                     products.map((product, i) => (
-                      <div key={i} className={classes.product}>
+                      <div key={i} className={horizontal ? classes.productHorizontal : classes.product}>
                         <Card key={i} product={product} />
                       </div>
                     ))
@@ -81,6 +81,20 @@ export default ({ type, ducks, Card, BriefCard, catalogGroups }) => {
         width: '50%',
       },
       [breakpoints.mediaTabletBelow]: {
+        width: '100%',
+      },
+    },
+    productHorizontal: {
+      width: '33.3%',
+      boxSizing: 'border-box',
+      padding: '0 8px 16px',
+      [breakpoints.mediaSmallScreen]: {
+        width: '50%',
+      },
+      [breakpoints.mediaDestkopBelow]: {
+        width: '50%',
+      },
+      '@media (max-width: 680px)': {
         width: '100%',
       },
     },

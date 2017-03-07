@@ -3,11 +3,13 @@ import createWelcomePageRoute from 'modules/welcomePage/route';
 import createMePageRoute from 'modules/mePage/route';
 import createSupplyRoute from 'modules/products/supply/page/route';
 import createSuppliesRoute from 'modules/products/supply/list/route';
-import createLogisticsRoute from 'modules/logisticsPage/route';
+import createLogisticsRoute from 'modules/products/logistics/page/route';
+import createLogisticsListRoute from 'modules/products/logistics/list/route';
 import createCartPageRoute from 'modules/cartPage/route';
-import createProductPageRoute from 'modules/productPage/route';
-import createTripsRoute from 'modules/tripsPage/route';
-import createTripPageRoute from 'modules/tripPage/route';
+import createTripRoute from 'modules/products/trip/page/route';
+import createTripsRoute from 'modules/products/trip/list/route';
+import createShopProductRoute from 'modules/products/shop/page/route';
+import createShopProductsRoute from 'modules/products/shop/list/route';
 
 const errorLoading = (err) => {
   console.error('Dynamic page loading failed', err); // eslint-disable-line no-console
@@ -70,9 +72,11 @@ export default function createRoutes(store) {
     createSuppliesRoute({ store, injectReducer, injectSagas, loadModule, errorLoading }),
     createSupplyRoute({ store, injectReducer, injectSagas, loadModule, errorLoading }),
     createLogisticsRoute({ store, injectReducer, injectSagas, loadModule, errorLoading }),
-    createProductPageRoute({ store, injectReducer, injectSagas, loadModule, errorLoading }),
+    createLogisticsListRoute({ store, injectReducer, injectSagas, loadModule, errorLoading }),
+    createTripRoute({ store, injectReducer, injectSagas, loadModule, errorLoading }),
     createTripsRoute({ store, injectReducer, injectSagas, loadModule, errorLoading }),
-    createTripPageRoute({ store, injectReducer, injectSagas, loadModule, errorLoading }),
+    createShopProductRoute({ store, injectReducer, injectSagas, loadModule, errorLoading }),
+    createShopProductsRoute({ store, injectReducer, injectSagas, loadModule, errorLoading }),
     createCartPageRoute({ store, injectReducer, injectSagas, loadModule, errorLoading }),
     {
       path: '*',

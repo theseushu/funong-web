@@ -1,10 +1,11 @@
 import { connect } from 'react-redux';
-import { currentUserSelector, userLogisticsProductsSelector } from 'modules/data/ducks/selectors';
-import Logistics from './logistics';
+import { currentUserSelector, createUserProductsSelector } from 'modules/data/ducks/selectors';
+import type, { editPath, Card } from './constants';
+import createPage from '../utils/createPage';
 
 export default connect(
   (state) => {
     const user = currentUserSelector(state);
-    return { user, products: userLogisticsProductsSelector(user.objectId)(state) };
+    return { user, products: createUserProductsSelector(type, user.objectId)(state) };
   }
-)(Logistics);
+)(createPage(editPath, Card, true));

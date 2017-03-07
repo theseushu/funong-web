@@ -8,9 +8,9 @@ export const listRoute = {
   name: 'supplies',
 };
 
-export Card from 'modules/common/cards/supplyProduct';
+export Card from 'modules/common/product/cards/supply';
 
-export BriefCard from 'modules/common/cards/supplyBriefCard';
+export BriefCard from 'modules/common/product/cards/supplyBrief';
 
 export const catalogGroups = catalogs.groupedFarm;
 
