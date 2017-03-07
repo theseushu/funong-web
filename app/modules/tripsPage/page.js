@@ -8,40 +8,39 @@ import { catalogTypes } from 'appConstants/index';
 import Criteria from './criteria';
 import Recommends from './recommends';
 
-const TripsPage = ({ user, location, products, sheet: { classes } }) => { // eslint-disable-line no-unused-vars
-  return (
-    <Layout
-      content={
-        <div className={classes.page}>
-          <Criteria
-            disabled={['category']}
-            location={location}
-            types={Object.values(catalogTypes.supply).map((type) => type.value)}
-          />
-          <ContentMainRight
-            main={
-              <div>
-                <div className={classes.products}>
-                  {
+const TripsPage = ({ user, location, products, sheet: { classes } }) =>  // eslint-disable-line no-unused-vars
+   (
+     <Layout
+       content={
+         <div className={classes.page}>
+           <Criteria
+             disabled={['category']}
+             location={location}
+             types={Object.values(catalogTypes.supply).map((type) => type.value)}
+           />
+           <ContentMainRight
+             main={
+               <div>
+                 <div className={classes.products}>
+                   {
                     products.map((product, i) => (
                       <div key={i} className={classes.product}>
                         <TripCard key={i} product={product} />
                       </div>
                     ))
                   }
-                </div>
-              </div>
+                 </div>
+               </div>
             }
-            right={
-              <Recommends />
+             right={
+               <Recommends />
             }
-          />
-        </div>
+           />
+         </div>
       }
-    >
-    </Layout>
+     >
+     </Layout>
   );
-}
 
 TripsPage.propTypes = {
   location: PropTypes.object.isRequired,

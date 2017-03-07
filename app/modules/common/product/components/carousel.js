@@ -1,38 +1,44 @@
 import React, { PropTypes } from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import ImageGallery from 'react-image-gallery';
 import injectSheet from 'react-jss';
 import 'react-image-gallery/styles/css/image-gallery.css';
+import { actions } from 'modules/fullScreenGallery/ducks';
 import { colors } from 'modules/common/styles';
 
-const Carousel = ({ images, sheet: { classes } }) => {
+const openGalleryAction = actions.openGallery;
+
+const Carousel = ({ images, sheet: { classes }, openGallery }) => {
   if (images.length === 0) {
     return null;
   }
   return (
     <div className={classes.wrapper}>
       <ImageGallery
-        items={images.map((image) => ({ ...image, originalClass: classes.image }))}
+        items={images.map((image) => ({ original: image.thumbnail_600_600, thumbnail: image.thumbnail_80_80, originalClass: classes.image }))}
         slideInterval={2000}
         infinite={false}
         showNav={false}
-        showFullscreenButton={false}
         showPlayButton={false}
+        showFullscreenButton={false}
         showBullets={false}
         slideOnThumbnailHover={false}
         onImageLoad={this.handleImageLoad}
+        onClick={() => {
+          if (images.length > 0) {
+            openGallery(images.map((image) => ({ src: image.url, width: image.metaData.width, height: image.metaData.height })));
+          }
+        }}
       />
     </div>
   );
 };
 
 Carousel.propTypes = {
-  images: PropTypes.arrayOf(
-    PropTypes.shape({
-      original: PropTypes.string.isRequired,
-      thumbnail: PropTypes.string.isRequired,
-    })
-  ).isRequired,
+  images: PropTypes.array.isRequired,
   sheet: PropTypes.object.isRequired,
+  openGallery: PropTypes.func.isRequired,
 };
 
 export default injectSheet({
@@ -71,4 +77,7 @@ export default injectSheet({
       left: 0,
     },
   },
-})(Carousel);
+})(connect(
+  null,
+  (dispatch) => bindActionCreators({ openGallery: openGalleryAction }, dispatch),
+)(Carousel));

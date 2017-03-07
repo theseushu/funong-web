@@ -1,8 +1,8 @@
 import { getAsyncInjectors } from 'utils/asyncInjectors';
 import createWelcomePageRoute from 'modules/welcomePage/route';
 import createMePageRoute from 'modules/mePage/route';
-import createSupplyRoute from 'modules/supplyPage/route';
-import createSuppliesRoute from 'modules/suppliesPage/route';
+import createSupplyRoute from 'modules/products/supply/page/route';
+import createSuppliesRoute from 'modules/products/supply/list/route';
 import createLogisticsRoute from 'modules/logisticsPage/route';
 import createCartPageRoute from 'modules/cartPage/route';
 import createProductPageRoute from 'modules/productPage/route';

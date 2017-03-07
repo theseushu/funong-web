@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { currentUserSelector } from '../data/ducks/selectors';
+import { currentUserSelector } from 'modules/data/ducks/selectors';
 import { selectors } from './ducks';
 import Page from './page';
 

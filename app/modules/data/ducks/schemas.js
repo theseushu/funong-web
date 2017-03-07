@@ -71,6 +71,25 @@ TripProductSchema.define({
 });
 export const TripProductsSchema = arrayOf(TripProductSchema);
 
+export const ProductSchemas = {
+  supply: {
+    schema: SupplyProductSchema,
+    array: SupplyProductsSchema,
+  },
+  shop: {
+    schema: ShopProductSchema,
+    array: ShopProductsSchema,
+  },
+  logistics: {
+    schema: LogisticsProductSchema,
+    array: LogisticsProductsSchema,
+  },
+  trip: {
+    schema: TripProductSchema,
+    array: TripProductsSchema,
+  },
+};
+
 export const CertSchema = new Schema('certs', {
   idAttribute: 'objectId',
 });

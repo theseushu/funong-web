@@ -4,7 +4,7 @@ import {
   UPDATE_CURRENT_USER_INFO,
   SET_CATAGORIES,
   SET_SPECIES,
-  SET_SPECIFICATIONS,
+  SET_PRODUCTS,
   SET_SHOP_PRODUCTS,
   SET_SUPPLY_PRODUCTS,
   SET_LOGISTICS_PRODUCTS,
@@ -38,18 +38,15 @@ export const setSpecies = (species) => ({
   type: SET_SPECIES,
   payload: { species },
 });
-export const setSpecifications = (specifications) => ({
-  type: SET_SPECIFICATIONS,
-  payload: { specifications },
+export const setProducts = (type, products) => ({
+  type: SET_PRODUCTS,
+  payload: { products },
+  meta: { type },
 });
 // todo refactor like certs
 export const setShopProducts = (shopProducts) => ({
   type: SET_SHOP_PRODUCTS,
   payload: { shopProducts },
-});
-export const setSupplyProducts = (supplyProducts) => ({
-  type: SET_SUPPLY_PRODUCTS,
-  payload: { supplyProducts },
 });
 export const setLogisticsProducts = (logisticsProducts) => ({
   type: SET_LOGISTICS_PRODUCTS,

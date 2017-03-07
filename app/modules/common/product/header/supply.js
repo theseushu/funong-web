@@ -26,9 +26,7 @@ class ProductDetails extends Component {
       <Grid noSpacing className={styles.w100}>
         <Cell col={4} tablet={8} phone={4} className={classes.carouselCell}>
           <Card shadow={2} className={classes.carouselCard}>
-            <Carousel
-              images={images.map((image) => ({ original: image.thumbnail_600_600, thumbnail: image.thumbnail_80_80 }))}
-            />
+            <Carousel images={images} />
           </Card>
         </Cell>
         <Cell col={8} tablet={8} phone={4}>

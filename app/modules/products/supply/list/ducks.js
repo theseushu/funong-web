@@ -2,8 +2,8 @@ import _find from 'lodash/find';
 import combineReducers from 'redux/lib/combineReducers';
 import { put } from 'redux-saga/effects';
 import createDucks from 'api/utils/createDucks';
-import { supplyProductsSelector } from 'modules/data/ducks/selectors';
-import { setSupplyProducts } from 'modules/data/ducks/actions';
+import { createProductsSelector } from 'modules/data/ducks/selectors';
+import { setProducts } from 'modules/data/ducks/actions';
 import { createDucks as createCriteriaDucks } from 'modules/common/criteria';
 
 const SLICE_NAME = 'page_supply';
@@ -16,7 +16,7 @@ const searchSupplyProductsDucks = createDucks({
   namespace: `${SLICE_NAME}`,
   sagas: {
     * beforeFulfilled(products) {
-      yield put(setSupplyProducts(products));
+      yield put(setProducts('supply', products));
       return { result: products.map((product) => product.objectId) };
     },
   },
@@ -53,7 +53,7 @@ export const selectors = {
   searchSupplyProducts: (state) => {
     const { result, ...other } = searchSupplyProductsDucks.selector(state);
     if (result) {
-      const supplyProducts = supplyProductsSelector(state);
+      const supplyProducts = createProductsSelector('supply')(state);
       return { ...other, result: result.map((id) => _find(supplyProducts, (p) => p.objectId === id)) };
     }
     return { ...other };

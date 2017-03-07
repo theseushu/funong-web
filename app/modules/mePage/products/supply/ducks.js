@@ -1,7 +1,7 @@
 import combineReducers from 'redux/lib/combineReducers';
 import { put } from 'redux-saga/effects';
 import createDucks from 'api/utils/createDucks';
-import { setSupplyProducts } from 'modules/data/ducks/actions';
+import { setProducts } from 'modules/data/ducks/actions';
 
 export const SLICE_NAME = 'page_me_products_supply';
 
@@ -13,7 +13,7 @@ const searchSupplyProductsDucks = createDucks({
   namespace: `${SLICE_NAME}`,
   sagas: {
     * beforeFulfilled(products) {
-      yield put(setSupplyProducts(products));
+      yield put(setProducts('supply', products));
     },
   },
 });

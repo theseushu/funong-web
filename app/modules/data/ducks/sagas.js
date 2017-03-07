@@ -4,13 +4,13 @@ import { put } from 'redux-saga/effects';
 
 import { UPDATE_DATA, REMOVE_ENTITIES, SET_USERS, SET_CURRENT_USER,
   UPDATE_CURRENT_USER_INFO, SET_CATAGORIES, SET_SPECIES,
-  SET_SPECIFICATIONS, SET_SHOP_PRODUCTS, SET_TRIP_PRODUCTS,
+  SET_PRODUCTS, SET_SHOP_PRODUCTS, SET_TRIP_PRODUCTS,
   SET_SUPPLY_PRODUCTS, SET_LOGISTICS_PRODUCTS, SET_CERTS,
   SET_CART_ITEMS, REMOVE_CART_ITEMS, SET_SHOPS,
   SET_COMMENTS, REMOVE_COMMENTS } from './constants';
 import { UserSchema, UsersSchema,
-  CategoriesSchema, SpeciesArraySchema, SpecificationsSchema,
-  ShopProductsSchema, LogisticsProductsSchema, TripProductsSchema,
+  CategoriesSchema, SpeciesArraySchema,
+  ProductSchemas, ShopProductsSchema, LogisticsProductsSchema, TripProductsSchema,
   SupplyProductsSchema, CertsSchema, CartItemsSchema, ShopsSchema,
   CommentsSchema } from './schemas';
 
@@ -49,9 +49,10 @@ function* setSpeciesSaga(action) {
   yield put({ type: UPDATE_DATA, payload });
 }
 
-function* setSpecificationsSaga(action) {
-  const specifications = action.payload.specifications;
-  const data = normalize(specifications, SpecificationsSchema);
+function* setProductsSaga(action) {
+  const { products } = action.payload;
+  const { type } = action.meta;
+  const data = normalize(products, ProductSchemas[type].array);
   const payload = Object.assign({}, data);
   yield put({ type: UPDATE_DATA, payload });
 }
@@ -59,13 +60,6 @@ function* setSpecificationsSaga(action) {
 function* setShopProductsSaga(action) {
   const { shopProducts } = action.payload;
   const data = normalize(shopProducts, ShopProductsSchema);
-  const payload = Object.assign({}, data);
-  yield put({ type: UPDATE_DATA, payload });
-}
-
-function* setSupplyProductsSaga(action) {
-  const { supplyProducts } = action.payload;
-  const data = normalize(supplyProducts, SupplyProductsSchema);
   const payload = Object.assign({}, data);
   yield put({ type: UPDATE_DATA, payload });
 }
@@ -130,9 +124,8 @@ function* rootSaga(api) {
   yield takeEvery(UPDATE_CURRENT_USER_INFO, updateCurrentUserInfoSaga);
   yield takeEvery(SET_CATAGORIES, setCategoriesSaga);
   yield takeEvery(SET_SPECIES, setSpeciesSaga);
-  yield takeEvery(SET_SPECIFICATIONS, setSpecificationsSaga);
+  yield takeEvery(SET_PRODUCTS, setProductsSaga);
   yield takeEvery(SET_SHOP_PRODUCTS, setShopProductsSaga);
-  yield takeEvery(SET_SUPPLY_PRODUCTS, setSupplyProductsSaga);
   yield takeEvery(SET_LOGISTICS_PRODUCTS, setLodisticsProductsSaga);
   yield takeEvery(SET_TRIP_PRODUCTS, setTripProductsSaga);
   yield takeEvery(SET_CERTS, setCertsSaga);

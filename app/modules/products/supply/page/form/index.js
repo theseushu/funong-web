@@ -2,7 +2,7 @@ import React from 'react';
 import { reduxForm } from 'redux-form';
 import { push } from 'react-router-redux';
 import success from 'modules/toastr/success';
-import { actions } from 'api/supplyProduct';
+import { actions } from 'api/products/supply';
 import FORM_NAME from './formName';
 import productForm from './form';
 

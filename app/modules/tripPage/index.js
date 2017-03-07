@@ -22,7 +22,7 @@ const TripPage = ({ product, params: { id }, location: { query } }) => (
           <Form initialValues={product || EMPTY_PRODUCT} /> :
           <Display product={product} />
       }
-    smallContent
+    smallContent={id === 'new' || query.edit}
   >
   </Layout>
   );

@@ -16,6 +16,17 @@ const debug = require('debug')('app:photosField');
 const getUploadedFiles = (files) => files.filter((file) => file.upload.file).map((file) => file.upload.file);
 
 class FilesUpload extends Component {
+  static propTypes = {
+    className: PropTypes.string,
+    files: PropTypes.array,
+    onChange: PropTypes.func,
+    allowGallery: PropTypes.bool,
+    openGallery: PropTypes.func.isRequired,
+    editing: PropTypes.bool,
+    small: PropTypes.bool,
+    title: PropTypes.string,
+    sheet: PropTypes.object.isRequired,
+  }
   constructor(props) {
     super(props);
     const { files = [] } = this.props; // files here are uploaded files for sure
@@ -136,18 +147,6 @@ class FilesUpload extends Component {
     );
   }
 }
-
-FilesUpload.propTypes = {
-  className: PropTypes.string,
-  files: PropTypes.array,
-  onChange: PropTypes.func,
-  allowGallery: PropTypes.bool,
-  openGallery: PropTypes.func.isRequired,
-  editing: PropTypes.bool,
-  small: PropTypes.bool,
-  title: PropTypes.string,
-  sheet: PropTypes.object.isRequired,
-};
 
 export default connect(
   null,

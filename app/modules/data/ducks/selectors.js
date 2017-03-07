@@ -2,7 +2,7 @@ import { createSelector } from 'reselect';
 import _find from 'lodash/find';
 import { denormalize } from 'denormalizr';
 
-import { SpeciesArraySchema, CertsSchema, ShopProductsSchema,
+import { SpeciesArraySchema, CertsSchema, ProductSchemas, ShopProductsSchema,
   SupplyProductsSchema, LogisticsProductsSchema, TripProductsSchema, CartItemsSchema,
   ShopsSchema, CommentsSchema } from './schemas';
 
@@ -57,30 +57,34 @@ export const speciesSelector = createSelector(
   }
 );
 
-export const supplyProductsSelector = createSelector(
+export const createProductsSelector = (type) => createSelector(
   rootSelector,
   (data) => {
-    const { entities: { supplyProducts } } = data;
-    if (!supplyProducts) {
+    const { entities } = data;
+    if (!entities) {
       return [];
     }
-    const result = Object.values(denormalize(supplyProducts, data.entities, SupplyProductsSchema));
-    return result;
+    const products = entities[`${type}Products`];
+    if (!products) {
+      return [];
+    }
+    const schema = ProductSchemas[type].array;
+    return Object.values(denormalize(products, data.entities, schema));
   },
 );
 
-export const createSupplyProductSelector = (objectId) => createSelector(
-  supplyProductsSelector,
+export const createProductSelector = (type, objectId) => createSelector(
+  createProductsSelector(type),
   (products) => _find(products, (p) => p.objectId === objectId),
 );
 
-export const userSupplyProductsSelector = (objectId) => createSelector(
-  supplyProductsSelector,
+export const createUserProductsSelector = (type, userId) => createSelector(
+  createProductsSelector(type),
   (products) => {
     if (!products) {
       return [];
     }
-    const result = products.filter((p) => p.owner.objectId === objectId);
+    const result = products.filter((p) => p.owner.objectId === userId);
     return result;
   },
 );

@@ -1,4 +1,5 @@
 import snakeCase from 'snake-case';
+import _get from 'lodash/get';
 import { createSelector } from 'reselect';
 import { takeEvery } from 'redux-saga';
 import { call, put } from 'redux-saga/effects';
@@ -45,7 +46,7 @@ export const createSaga = ({ apiName, actionConstant, stateActionConstant }, bef
     try {
       // if you need to do other stuff rather than simply call the api, use apiSaga
       // a sample usage would be cache result in api state after 1st call, use the cached results later
-      const result = apiSaga ? yield* apiSaga(api, payload) : yield call(api[apiName], payload);
+      const result = apiSaga ? yield* apiSaga(api, payload) : yield call(_get(api, (apiName)), payload);
       if (beforeFulfilledSaga) {
         const beforeResult = yield* beforeFulfilledSaga(result, { payload, meta: { resolve, reject } });
         yield put({ type: stateActionConstant, payload: { fulfilled: true, ...beforeResult } });
@@ -71,7 +72,7 @@ export const createSaga = ({ apiName, actionConstant, stateActionConstant }, bef
 };
 
 /**
- * @param apiName the api to call (api.apiName)
+ * @param apiName the api to call (api.apiName) NOTE: you can use name like 'products.supply.create', the api to call will be api.products.supply.create
  * @param key optional key name. (default is same as apiName). it will be used to create the slice name of the state, the action creator's name and the action types
  * @param rootSelector the slice of store state this reducer will be put in. eg: state => state.api.user
  * @param reducerCreator optional creator for reducer. if reducer is not as simple as replacing state by action.payload, set one here

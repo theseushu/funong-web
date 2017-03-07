@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import Layout from 'modules/common/layout';
-import { createSupplyProductSelector } from 'modules/data/ducks/selectors';
+import { createProductSelector } from 'modules/data/ducks/selectors';
 import { supplyLabels } from 'appConstants';
 import Form from './form';
 import Display from './display';
@@ -39,5 +39,5 @@ SupplyPage.propTypes = {
 };
 
 export default connect(
-  (state, { params: { id } }) => ({ product: id === 'new' ? null : createSupplyProductSelector(id)(state) }),
+  (state, { params: { id } }) => ({ product: id === 'new' ? null : createProductSelector('supply', id)(state) }),
 )(SupplyPage);
