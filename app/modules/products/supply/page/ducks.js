@@ -1,8 +1,4 @@
-const reducer = (state = {}) => state;
+import type from '../constants';
+import createDucks from '../../utils/page/createDucks';
 
-export default {
-  supplyPage: reducer,
-};
-
-export const actions = {
-};
+module.exports = createDucks(type);

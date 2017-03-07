@@ -41,3 +41,15 @@ export const queryToCriteria = (query) => {
   criteria.pageSize = pageSize != null ? Number(pageSize) : 24;
   return criteria;
 };
+
+export const criteriaToApiParams = ({ category, species, provinces, sort = {}, page, pageSize }) => {
+  const query = {
+    category: category ? { objectId: category } : undefined,
+    species: species ? species.map((s) => ({ objectId: s })) : undefined,
+    location: { address: { provinces } },
+    sort,
+    page: page || undefined,
+    pageSize: pageSize || undefined,
+  };
+  return _omitBy(query, _isUndefined);
+};

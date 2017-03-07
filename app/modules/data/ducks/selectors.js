@@ -3,7 +3,7 @@ import _find from 'lodash/find';
 import { denormalize } from 'denormalizr';
 
 import { SpeciesArraySchema, CertsSchema, ProductSchemas, ShopProductsSchema,
-  SupplyProductsSchema, LogisticsProductsSchema, TripProductsSchema, CartItemsSchema,
+  LogisticsProductsSchema, TripProductsSchema, CartItemsSchema,
   ShopsSchema, CommentsSchema } from './schemas';
 
 const rootSelector = (state) => state.data;

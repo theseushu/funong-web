@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import injectSheet from 'react-jss';
 import { Buttons, CategorySpeciesNameCard, SpecsCard, ImagesCard, RichTextCard, LabelsCard, LocationCard } from 'modules/common/form';
-import { supplyLabels } from 'appConstants';
+import { labels } from '../constants';
 
 const Form = (props) => {
   const { handleSubmit, pristine, submitting, invalid, sheet: { classes } } = props;
@@ -12,7 +12,7 @@ const Form = (props) => {
       <LocationCard />
       <ImagesCard />
       <RichTextCard />
-      <LabelsCard labels={Object.values(supplyLabels)} />
+      <LabelsCard labels={Object.values(labels)} />
       <Buttons handleSubmit={handleSubmit} pristine={pristine} submitting={submitting} invalid={invalid} />
     </form>
   );

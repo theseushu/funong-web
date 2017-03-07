@@ -46,6 +46,8 @@ export const catalogTypes = {
     shop: { title: '商品分类', value: '商品分类' },
     farm: { title: '农产品', value: '农产品' },
   },
+  logistics: {},
+  trip: {},
 };
 
 export const specificationTypes = {

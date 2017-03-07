@@ -1,13 +1,5 @@
-import { connect } from 'react-redux';
-import { currentUserSelector } from 'modules/data/ducks/selectors';
-import { selectors } from './ducks';
-import Page from './page';
+import createPage from '../../utils/list/createPage';
+import type, { Card, BriefCard, catalogGroups } from '../constants';
+import * as ducks from './ducks';
 
-export default connect(
-  (state) => {
-    const user = currentUserSelector(state);
-    const searchState = selectors.searchSupplyProducts(state);
-    return { user, products: searchState.result || [] };
-  }
-)(Page);
-
+export default createPage({ type, ducks, Card, BriefCard, catalogGroups });

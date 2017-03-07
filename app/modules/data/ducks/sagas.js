@@ -5,13 +5,13 @@ import { put } from 'redux-saga/effects';
 import { UPDATE_DATA, REMOVE_ENTITIES, SET_USERS, SET_CURRENT_USER,
   UPDATE_CURRENT_USER_INFO, SET_CATAGORIES, SET_SPECIES,
   SET_PRODUCTS, SET_SHOP_PRODUCTS, SET_TRIP_PRODUCTS,
-  SET_SUPPLY_PRODUCTS, SET_LOGISTICS_PRODUCTS, SET_CERTS,
+  SET_LOGISTICS_PRODUCTS, SET_CERTS,
   SET_CART_ITEMS, REMOVE_CART_ITEMS, SET_SHOPS,
   SET_COMMENTS, REMOVE_COMMENTS } from './constants';
 import { UserSchema, UsersSchema,
   CategoriesSchema, SpeciesArraySchema,
   ProductSchemas, ShopProductsSchema, LogisticsProductsSchema, TripProductsSchema,
-  SupplyProductsSchema, CertsSchema, CartItemsSchema, ShopsSchema,
+  CertsSchema, CartItemsSchema, ShopsSchema,
   CommentsSchema } from './schemas';
 
 function* setUsersSaga(action) {

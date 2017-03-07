@@ -2,35 +2,25 @@ import React from 'react';
 import { reduxForm } from 'redux-form';
 import { push } from 'react-router-redux';
 import success from 'modules/toastr/success';
-import { actions } from 'api/products/supply';
-import FORM_NAME from './formName';
-import productForm from './form';
-
-const createSupplyProduct = actions.create;
-const updateSupplyProduct = actions.update;
 
 
-export default reduxForm({
-  form: FORM_NAME,  // a unique identifier for this form
-  onSubmit: ({ category, species, name, specs, location, desc, images, labels }, dispatch, { initialValues }) => (
+export default (FORM_NAME, actions, FormComponent) => {
+  const { create, update } = actions;
+  return reduxForm({
+    form: FORM_NAME,  // a unique identifier for this form
+    onSubmit: ({ objectId, status, createdAt, minPrice, owner, shop, thumbnail, updatedAt, ...params }, dispatch, { initialValues }) => (
       initialValues.objectId ?
         new Promise((resolve, reject) => {
-          dispatch(updateSupplyProduct({
+          dispatch(update({
             product: initialValues,
-            category,
-            species,
-            name,
-            specs,
-            desc,
-            images,
-            location,
-            labels,
+            ...params,
             meta: {
               resolve: (product) => {
-                const image = images[0].thumbnail_80_80;
+                const image = params.images[0].thumbnail_80_80;
                 success({
                   icon: <img role="presentation" width="70" height="70" src={image} />,
-                  title: `产品${product.name}的修改已保存`,
+                  title: '保存完毕',
+                  message: product.name,
                   onHideComplete: () => {
                   },
                 });
@@ -41,21 +31,15 @@ export default reduxForm({
           }));
         }) :
         new Promise((resolve, reject) => {
-          dispatch(createSupplyProduct({
-            category,
-            species,
-            name,
-            specs,
-            desc,
-            images,
-            location,
-            labels,
+          dispatch(create({
+            ...params,
             meta: {
               resolve: (product) => {
-                const image = images[0].thumbnail_80_80;
+                const image = params.images[0].thumbnail_80_80;
                 success({
                   icon: <img role="presentation" width="70" height="70" src={image} />,
-                  title: `新产品${product.name}已发布成功`,
+                  title: '创建成功',
+                  message: product.name,
                   onHideComplete: () => {
                     dispatch(push('/me/products'));
                   },
@@ -67,4 +51,5 @@ export default reduxForm({
           }));
         })
     ),
-})(productForm);
+  })(FormComponent);
+};
