@@ -6,8 +6,9 @@ import injectSheet from 'react-jss';
 import Button from 'react-mdl/lib/Button';
 import Checkbox from 'react-mdl/lib/Checkbox';
 import styles, { colors, breakpoints } from 'modules/common/styles';
+import RemoveItemsButton from './removeItemsButton';
 
-const Bottom = ({ classes, cartItems, selected, error, onSelect, onDeselect }) => {
+const Bottom = ({ classes, cartItems, selected, error, onSelect, onDeselect, onItemsRemoved }) => {
   if (cartItems.length === 0) {
     return null;
   }
@@ -41,7 +42,8 @@ const Bottom = ({ classes, cartItems, selected, error, onSelect, onDeselect }) =
           {`选中${selected.length}个`}
         </div>
         <div className={classes.actions}>
-          <Button>删除</Button><Button>收藏</Button>
+          <RemoveItemsButton cartItemIds={selected} onItemsRemoved={onItemsRemoved} />
+          <Button>收藏</Button>
         </div>
       </div>
       <div className={classes.amountAndOrder}>
@@ -63,6 +65,7 @@ Bottom.propTypes = {
   error: PropTypes.object.isRequired,
   onSelect: PropTypes.func.isRequired,
   onDeselect: PropTypes.func.isRequired,
+  onItemsRemoved: PropTypes.func.isRequired,
 };
 
 export default injectSheet({

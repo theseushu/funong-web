@@ -9,8 +9,9 @@ import LabelWithBorder from 'modules/common/label/labelWithBorder';
 import { formatPrice } from 'utils/displayUtils';
 import { breakpoints, shadows, colors } from 'modules/common/styles';
 import layout from '../layout';
+import RemoveItemsButton from '../removeItemsButton';
 
-const CartItem = ({ item, classes, checked, onChange, onItemChange, error }) => {
+const CartItem = ({ item, classes, checked, onChange, onItemChange, onItemsRemoved, error }) => {
   const product = item.shopProduct || item.supplyProduct;
   const spec = product.specs[item.specIndex || 0];
   return (
@@ -65,7 +66,7 @@ const CartItem = ({ item, classes, checked, onChange, onItemChange, error }) => 
         </div>
       </div>
       <div className={classes.actions}>
-        <Button>删除</Button>
+        <RemoveItemsButton cartItemIds={[item.objectId]} onItemsRemoved={onItemsRemoved} />
         <Button>加入收藏</Button>
       </div>
     </div>
@@ -78,6 +79,7 @@ CartItem.propTypes = {
   checked: PropTypes.bool.isRequired,
   onChange: PropTypes.func.isRequired,
   onItemChange: PropTypes.func.isRequired,
+  onItemsRemoved: PropTypes.func.isRequired,
   error: PropTypes.string,
 };
 

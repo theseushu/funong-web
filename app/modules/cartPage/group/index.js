@@ -5,7 +5,7 @@ import { colors } from 'modules/common/styles';
 import Owner from './owner';
 import CartItem from './cartItem';
 
-const Group = ({ owner, shop, items, select, deselect, selected, onItemChange, error, classes }) => {
+const Group = ({ owner, shop, items, select, deselect, selected, onItemChange, onItemsRemoved, error, classes }) => {
   const itemIds = items.map((i) => i.objectId);
   const groupChecked = _without(itemIds, ...selected).length === 0;
   return (
@@ -36,6 +36,7 @@ const Group = ({ owner, shop, items, select, deselect, selected, onItemChange, e
               }
             }}
             onItemChange={(value) => onItemChange(item.objectId, value)}
+            onItemsRemoved={onItemsRemoved}
             error={error[item.objectId]}
           />);
       })
@@ -52,6 +53,7 @@ Group.propTypes = {
   select: PropTypes.func.isRequired,
   deselect: PropTypes.func.isRequired,
   onItemChange: PropTypes.func.isRequired,
+  onItemsRemoved: PropTypes.func.isRequired,
   selected: PropTypes.array.isRequired,
   error: PropTypes.object.isRequired,
 };

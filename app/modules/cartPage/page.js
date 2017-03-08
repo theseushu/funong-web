@@ -17,9 +17,7 @@ import Bottom from './bottom';
 class Page extends Component {
   static propTypes = {
     cartItems: PropTypes.array.isRequired,
-    removeItems: PropTypes.func.isRequired,
     updateItem: PropTypes.func.isRequired,
-    removeItemsState: PropTypes.object,
   }
   constructor(props) {
     super(props);
@@ -44,6 +42,13 @@ class Page extends Component {
     const { updateItem } = this.props;
     updateItem({ objectId: itemId, quantity, specIndex });
   }
+  onItemsRemoved = (itemIds) => {
+    const { cartItems, selected } = this.state;
+    this.setState({
+      cartItems: _filter(cartItems, (item) => itemIds.indexOf(item.objectId) < 0),
+      selected: _filter(selected, (selectedId) => itemIds.indexOf(selectedId) < 0),
+    });
+  }
   validate = () => {
     const { cartItems } = this.state;
     const error = {};
@@ -62,7 +67,6 @@ class Page extends Component {
     return error;
   }
   render() {
-    const { removeItems, removeItemsState } = this.props;
     const { cartItems, selected } = this.state;
     const itemIds = cartItems.map((i) => i.objectId);
     const shopItemss = Object.values(_filter(cartItems, (item) => !!item.shopProduct));
@@ -87,9 +91,8 @@ class Page extends Component {
             select={this.onItemsSelected}
             deselect={this.onItemsDeselected}
             onItemChange={this.onItemChange}
+            onItemsRemoved={this.onItemsRemoved}
             error={error}
-            removeItems={removeItems}
-            removeItemState={removeItemsState}
           />
         ))}
         {supplyGroups.map((group, i) => (
@@ -101,9 +104,8 @@ class Page extends Component {
             select={this.onItemsSelected}
             deselect={this.onItemsDeselected}
             onItemChange={this.onItemChange}
+            onItemsRemoved={this.onItemsRemoved}
             error={error}
-            removeItems={removeItems}
-            removeItemState={removeItemsState}
           />
         ))}
         <Bottom
@@ -112,21 +114,19 @@ class Page extends Component {
           error={error}
           onSelect={() => this.onItemsSelected(itemIds)}
           onDeselect={() => this.onItemsDeselected(itemIds)}
-          removeItems={removeItems}
-          removeItemState={removeItemsState}
+          onItemsRemoved={this.onItemsRemoved}
         />
       </div>
     );
   }
 }
 
-const { removeItems, updateItem } = actions;
-const removeItemsSelector = selectors.removeItems;
+const { updateItem } = actions;
 
 export default connect(
-  (state) => ({ cartItems: cartItemsSelector(state), removeItemsState: removeItemsSelector(state) }),
+  (state) => ({ cartItems: cartItemsSelector(state) }),
   (dispatch) => {
-    const actionCreators = bindActionCreators({ removeItems, updateItem }, dispatch)
+    const actionCreators = bindActionCreators({ updateItem }, dispatch);
     const debouncedUpdateItem = _debounce(actionCreators.updateItem, 2000);
     return { ...actionCreators, updateItem: debouncedUpdateItem };
   },
