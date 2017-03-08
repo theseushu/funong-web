@@ -12,9 +12,6 @@ import * as uploadFile from './uploadFile/ducks';
 import * as uploadAvatar from './uploadAvatar/ducks';
 import * as cert from './cert';
 import * as products from './products/ducks';
-import * as shopProduct from './shopProduct';
-import * as logisticsProduct from './logisticsProduct';
-import * as tripProduct from './tripProduct';
 import * as cart from './cart';
 import * as shop from './shop';
 import * as comment from './comment';
@@ -34,9 +31,6 @@ export default {
     ...uploadAvatar.default,
     ...cert.default,
     ...products.default,
-    ...shopProduct.default,
-    ...logisticsProduct.default,
-    ...tripProduct.default,
     ...cart.default,
     ...shop.default,
     ...comment.default,
@@ -57,9 +51,6 @@ export const sagas = [
   ...uploadFile.sagas,
   ...cert.sagas,
   ...products.sagas,
-  ...shopProduct.sagas,
-  ...logisticsProduct.sagas,
-  ...tripProduct.sagas,
   ...cart.sagas,
   ...shop.sagas,
   ...comment.sagas,

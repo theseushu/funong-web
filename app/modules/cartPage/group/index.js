@@ -1,15 +1,18 @@
 import React, { PropTypes } from 'react';
+import injectSheet from 'react-jss';
 import _without from 'lodash/without';
+import { colors } from 'modules/common/styles';
 import Owner from './owner';
 import CartItem from './cartItem';
 
-const Group = ({ owner, items, select, deselect, selected, onQuantityChange, error }) => {
+const Group = ({ owner, shop, items, select, deselect, selected, onItemChange, error, classes }) => {
   const itemIds = items.map((i) => i.objectId);
   const groupChecked = _without(itemIds, ...selected).length === 0;
   return (
-    <div>
+    <div className={classes.group}>
       <Owner
         user={owner}
+        shop={shop}
         checked={groupChecked}
         onChange={() => {
           if (groupChecked) {
@@ -32,7 +35,7 @@ const Group = ({ owner, items, select, deselect, selected, onQuantityChange, err
                 select([item.objectId]);
               }
             }}
-            onQuantityChange={(value) => onQuantityChange(item.objectId, value)}
+            onItemChange={(value) => onItemChange(item.objectId, value)}
             error={error[item.objectId]}
           />);
       })
@@ -42,12 +45,20 @@ const Group = ({ owner, items, select, deselect, selected, onQuantityChange, err
 };
 
 Group.propTypes = {
-  owner: PropTypes.object.isRequired,
+  classes: PropTypes.object,
+  owner: PropTypes.object,
+  shop: PropTypes.object,
   items: PropTypes.array.isRequired,
   select: PropTypes.func.isRequired,
   deselect: PropTypes.func.isRequired,
-  onQuantityChange: PropTypes.func.isRequired,
+  onItemChange: PropTypes.func.isRequired,
   selected: PropTypes.array.isRequired,
   error: PropTypes.object.isRequired,
 };
-export default Group;
+export default injectSheet({
+  group: {
+    marginTop: 16,
+    paddingBottom: 16,
+    borderBottom: `solid 1px ${colors.colorLightGrey}`,
+  },
+})(Group);

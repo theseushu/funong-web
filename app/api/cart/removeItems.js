@@ -5,7 +5,7 @@ import createDucks from '../utils/createDucks';
 import rootSelector from './rootSelector';
 
 const ducks = createDucks({
-  key: 'remove',
+  key: 'removeItems',
   apiName: 'removeCartItems',
   rootSelector: (state) => rootSelector(state),
   namespace: NAMESPACE,

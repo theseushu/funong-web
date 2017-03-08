@@ -7,8 +7,8 @@ import { colors, breakpoints } from 'modules/common/styles';
 import layout from './layout';
 import emptyCart from './assets/empty.png';
 
-const Header = ({ classes, groups, cartItems, selected }) => {
-  if (groups.length === 0) {
+const Header = ({ classes, cartItems, selected, onSelect, onDeselect }) => {
+  if (cartItems.length === 0) {
     return (
       <div className={classes.empty}>
         <div className="_empty_image" />
@@ -26,7 +26,18 @@ const Header = ({ classes, groups, cartItems, selected }) => {
     <div className={classes.header}>
       <div className={classes.checkboxAndName}>
         <div className={classes.checkbox}>
-          <Checkbox label="全选" ripple checked={selected.length === cartItems.length} onChange={() => {}} />
+          <Checkbox
+            label="全选"
+            ripple
+            checked={selected.length === cartItems.length}
+            onChange={(e) => {
+              if (e.target.checked) {
+                onSelect();
+              } else {
+                onDeselect();
+              }
+            }}
+          />
         </div>
         <div className={classes.name}>
           名称
@@ -46,9 +57,10 @@ const Header = ({ classes, groups, cartItems, selected }) => {
 
 Header.propTypes = {
   classes: PropTypes.object.isRequired,
-  groups: PropTypes.array.isRequired,
   cartItems: PropTypes.array.isRequired,
   selected: PropTypes.array.isRequired,
+  onSelect: PropTypes.func.isRequired,
+  onDeselect: PropTypes.func.isRequired,
 };
 
 export default injectSheet({
@@ -60,7 +72,7 @@ export default injectSheet({
     },
   },
   header: {
-    display: 'flex', padding: '4px 0 4px 16px', marginBottom: 16, background: colors.colorLightGrey,
+    display: 'flex', padding: '4px 0 4px 16px', background: colors.colorLightGrey,
   },
   checkboxAndName: {
     width: layout.title.checkboxAndName.width,

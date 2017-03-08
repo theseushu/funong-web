@@ -10,7 +10,7 @@ import { formatPrice } from 'utils/displayUtils';
 import { breakpoints, shadows, colors } from 'modules/common/styles';
 import layout from '../layout';
 
-const CartItem = ({ item, classes, checked, onChange, onQuantityChange, error }) => {
+const CartItem = ({ item, classes, checked, onChange, onItemChange, error }) => {
   const product = item.shopProduct || item.supplyProduct;
   const spec = product.specs[item.specIndex || 0];
   return (
@@ -30,7 +30,11 @@ const CartItem = ({ item, classes, checked, onChange, onQuantityChange, error })
               <small>更多规格</small>
               <IconButton name="more_vert" id={`${item.objectId}_spec_menu`} />
               <Menu target={`${item.objectId}_spec_menu`} align="right">
-                {product.specs.map((s, i) => <MenuItem key={i} disabled={s === spec}>{s.name}</MenuItem>)}
+                {product.specs.map((s, i) => <MenuItem
+                  key={i}
+                  disabled={s === spec}
+                  onClick={() => onItemChange({ specIndex: i })}
+                >{s.name}</MenuItem>)}
               </Menu>
             </div>
           }
@@ -44,25 +48,25 @@ const CartItem = ({ item, classes, checked, onChange, onQuantityChange, error })
       </div>
       <div className={classes.countAndAmount}>
         <div className={classes.count}>
-          <IconButton name="add_circle_outline" onClick={() => onQuantityChange(item.quantity + 1)} />
+          <IconButton name="add_circle_outline" onClick={() => onItemChange({ quantity: item.quantity + 1 })} />
           <Textfield
             label="数量"
             type="number"
             className={classes.countInput}
             value={item.quantity}
-            onChange={(e) => onQuantityChange(e.target.value)}
+            onChange={(e) => onItemChange({ quantity: e.target.value })}
             autoComplete="off"
             error={error}
           />
-          <IconButton name="remove_circle_outline" onClick={() => onQuantityChange(item.quantity - 1)} />
+          <IconButton name="remove_circle_outline" onClick={() => onItemChange({ quantity: item.quantity - 1 })} />
         </div>
         <div className={classes.amount}>
           <h6>{!error && (spec.price * Number(item.quantity))}</h6>
         </div>
       </div>
       <div className={classes.actions}>
-        <Button colored>删除</Button>
-        <Button colored>加入收藏</Button>
+        <Button>删除</Button>
+        <Button>加入收藏</Button>
       </div>
     </div>
   );
@@ -73,7 +77,7 @@ CartItem.propTypes = {
   classes: PropTypes.object.isRequired,
   checked: PropTypes.bool.isRequired,
   onChange: PropTypes.func.isRequired,
-  onQuantityChange: PropTypes.func.isRequired,
+  onItemChange: PropTypes.func.isRequired,
   error: PropTypes.string,
 };
 
@@ -84,11 +88,11 @@ export default injectSheet({
     margin: '0 16px',
   },
   cartItem: {
-    padding: 16,
+    padding: 8,
     marginTop: 16,
     display: 'flex',
     alignItems: 'stretch',
-    height: 132,
+    height: 96,
     [breakpoints.mediaDestkopBelow]: {
       flexDirection: 'column',
       height: 'auto',

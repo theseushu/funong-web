@@ -50,13 +50,13 @@ export const embeddedShopToJSON = (shop) => {
   if (!shop) {
     return undefined;
   }
-  const { objectId, address, name } = shop.toJSON();
+  const { objectId, areas, address, name } = shop.toJSON();
 
   const thumbnail = fileToJSON(shop.get('thumbnail'));
   const lnglat = lnglatToJSON(shop.get('lnglat'));
   const owner = embeddedUserToJSON(shop.get('owner'));
 
-  return _omitBy({ objectId, thumbnail, name, location: { address, lnglat }, owner }, _isUndefined);
+  return _omitBy({ objectId, thumbnail, name, areas, location: { address, lnglat }, owner }, _isUndefined);
 };
 
 export const embeddedProductToJSON = (product) => {
@@ -199,7 +199,7 @@ export const cartItemToJSON = (cartItem) => {
   // TODO shop
   // const avShop = cartItem.get('shop');
   const avSupply = cartItem.get('supplyProduct');
-  const supplyProduct = avSupply ? shopProductToJSON(avSupply) : null;
+  const supplyProduct = avSupply ? supplyProductToJSON(avSupply) : null;
   const avShop = cartItem.get('shopProduct');
   const shopProduct = avShop ? shopProductToJSON(avShop) : null;
   const avOwner = cartItem.get('owner');

@@ -37,14 +37,19 @@ export default ({ AV, context }) => {
     }
   };
 
-  const updateCartItem = async ({ objectId, quantity }) => {
+  const updateCartItem = async ({ objectId, quantity, specIndex }) => {
     const { token: { sessionToken } } = context;
     if (!objectId) {
       throw new Error('objectId is empty');
     }
     try {
       const cartItem = AV.Object.createWithoutData('CartItem', objectId);
-      cartItem.set('quantity', quantity);
+      if (quantity != null) {
+        cartItem.set('quantity', quantity);
+      }
+      if (specIndex != null) {
+        cartItem.set('specIndex', specIndex);
+      }
       await cartItem.save(null, {
         fetchWhenSave: true,
         sessionToken,
@@ -64,7 +69,7 @@ export default ({ AV, context }) => {
     const { profile } = context;
     const query = new AV.Query('CartItem')
       .include([
-        'shopProduct', 'shopProduct.images', 'shopProduct.category', 'shopProduct.catalog', 'shopProduct.species', 'shopProduct.thumbnail', 'shopProduct.owner', 'shopProduct.owner.avatar',
+        'shopProduct', 'shopProduct.images', 'shopProduct.category', 'shopProduct.catalog', 'shopProduct.species', 'shopProduct.thumbnail', 'shopProduct.shop', 'shopProduct.shop.thumbnail',
         'supplyProduct', 'supplyProduct.images', 'supplyProduct.category', 'supplyProduct.category.catalog', 'supplyProduct.species', 'supplyProduct.thumbnail', 'supplyProduct.owner', 'supplyProduct.owner.avatar',
       ]);
     query.equalTo('owner', AV.Object.createWithoutData('Profile', profile.objectId));
