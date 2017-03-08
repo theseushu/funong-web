@@ -9,7 +9,7 @@ const CardComponent = ({ shop, sheet: { classes }, className }) => (
   <Card shadow={0} className={className ? `${classes.card} ${className}` : classes.card} >
     <CardTitle className={classes.priceAndName}>
       <Link to={`/shop/${shop.objectId}`}>
-        <img role="presentation" src={shop.images[0].thumbnail_300_300} />
+        <img role="presentation" src={shop.thumbnail.thumbnail_300_300} />
       </Link>
       <h6>
         {shop.name}
