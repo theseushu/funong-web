@@ -171,6 +171,18 @@ export const location = {
   },
 };
 
+export const shopLocation = {
+  search: (AV, query, value) => {
+    if (value && value.address && value.address.provinces) {
+      const innerQuery = new AV.Query('Shop');
+      innerQuery.containedIn('address.province', value.address.provinces);
+      query.matchesQuery('shop', innerQuery);
+    }
+  },
+  converter: null,
+};
+
+
 export const shop = {
   create: (AV, product, value) => setRequiredAttr(product, 'shop', AV.Object.createWithoutData('Shop', value.objectId)),
   converter: createConverter('shop', embeddedShopToJSON),

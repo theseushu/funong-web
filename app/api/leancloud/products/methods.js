@@ -7,7 +7,9 @@ const debug = require('debug')('app:api:product:methods');
 const converter = (schema, product) => {
   const result = {};
   _forEach(schema.attributes, (attr, key) => {
-    result[key] = attr.converter(product);
+    if (attr.converter !== null) {
+      result[key] = attr.converter(product);
+    }
   });
   return result;
 };

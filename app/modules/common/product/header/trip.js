@@ -7,7 +7,6 @@ import styles, { breakpoints, colors } from 'modules/common/styles';
 import Share from 'modules/common/share';
 import Carousel from '../components/carousel';
 import AddToCartButton from '../components/addToCartButton';
-import CategoryAndSpecies from './content/categoryAndSpecies';
 import Specs from './content/specs';
 import UpdateTimeAndLocation from './content/updateTimeAndLocation';
 import Badges from './content/badges';

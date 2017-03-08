@@ -5,22 +5,20 @@ import { Card } from 'react-mdl/lib/Card';
 import styles, { breakpoints, colors } from 'modules/common/styles';
 import { formatPrices } from 'utils/displayUtils';
 
-const tripProductBriefCard = ({ product, sheet: { classes } }) => {
-  return (
-    <Card shadow={2} className={`${classes.card} ${styles.defaultTransition}`}>
-      <Link to={`/trip/${product.objectId}`} className={classes.title}>
-        <div className={classes.image}>
-          <div className="_wrapper" style={{ backgroundImage: `url(${product.thumbnail.thumbnail_300_300})` }}>
-          </div>
+const tripProductBriefCard = ({ product, sheet: { classes } }) => (
+  <Card shadow={2} className={`${classes.card} ${styles.defaultTransition}`}>
+    <Link to={`/trip/${product.objectId}`} className={classes.title}>
+      <div className={classes.image}>
+        <div className="_wrapper" style={{ backgroundImage: `url(${product.thumbnail.thumbnail_300_300})` }}>
         </div>
-        <div className={`${classes.priceAndName} ${styles.colorPrice}`}>
-          <h6>{formatPrices(product.specs)}</h6>
-          <p title={product.name}>{product.name}</p>
-        </div>
-      </Link>
-    </Card>
+      </div>
+      <div className={`${classes.priceAndName} ${styles.colorPrice}`}>
+        <h6>{formatPrices(product.specs)}</h6>
+        <p title={product.name}>{product.name}</p>
+      </div>
+    </Link>
+  </Card>
   );
-};
 
 tripProductBriefCard.propTypes = {
   product: PropTypes.object.isRequired,

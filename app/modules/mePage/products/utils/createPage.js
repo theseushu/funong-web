@@ -3,7 +3,7 @@ import injectSheet from 'react-jss';
 import Link from 'react-router/lib/Link';
 import Button from 'react-mdl/lib/Button';
 import IconButton from 'react-mdl/lib/IconButton';
-import styles, { breakpoints } from 'modules/common/styles';
+import { breakpoints } from 'modules/common/styles';
 import Tabs from '../tabs';
 import PageComponent from '../../page';
 

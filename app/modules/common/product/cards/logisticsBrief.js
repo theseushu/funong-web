@@ -3,24 +3,21 @@ import injectSheet from 'react-jss';
 import Link from 'react-router/lib/Link';
 import { Card } from 'react-mdl/lib/Card';
 import styles, { breakpoints, colors } from 'modules/common/styles';
-import { formatPrices } from 'utils/displayUtils';
 
-const LogisticsProductBriefCard = ({ product, sheet: { classes } }) => {
-  return (
-    <Card shadow={2} className={`${classes.card} ${styles.defaultTransition}`}>
-      <Link to={`/logistics/${product.objectId}`} className={classes.title}>
-        <div className={classes.image}>
-          <div className="_wrapper" style={{ backgroundImage: `url(${product.images[0].thumbnail_300_300})` }}>
-          </div>
+const LogisticsProductBriefCard = ({ product, sheet: { classes } }) => (
+  <Card shadow={2} className={`${classes.card} ${styles.defaultTransition}`}>
+    <Link to={`/logistics/${product.objectId}`} className={classes.title}>
+      <div className={classes.image}>
+        <div className="_wrapper" style={{ backgroundImage: `url(${product.images[0].thumbnail_300_300})` }}>
         </div>
-        <div className={`${classes.priceAndName} ${styles.colorPrice}`}>
-          <h6 title={product.name}>{product.name}</h6>
-          <p title={product.price}>{product.price}</p>
-        </div>
-      </Link>
-    </Card>
+      </div>
+      <div className={`${classes.priceAndName} ${styles.colorPrice}`}>
+        <h6 title={product.name}>{product.name}</h6>
+        <p title={product.price}>{product.price}</p>
+      </div>
+    </Link>
+  </Card>
   );
-};
 
 LogisticsProductBriefCard.propTypes = {
   product: PropTypes.object.isRequired,

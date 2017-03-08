@@ -37,7 +37,7 @@ const ShopProductCard = ({ product, actions, classes }) => {
             </div>
           </div>
           <div className={classes.locationAndUpdateTime}>
-            <p>{briefAddress(product.location.address)}</p><p>{humanizeTime(product.updatedAt)}</p>
+            <p>{briefAddress(product.shop.location.address)}</p><p>{humanizeTime(product.updatedAt)}</p>
           </div>
         </div>
       </div>

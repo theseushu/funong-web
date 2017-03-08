@@ -50,7 +50,7 @@ export const embeddedShopToJSON = (shop) => {
   if (!shop) {
     return undefined;
   }
-  const { objectId, address, name, images } = shop.toJSON();
+  const { objectId, address, name } = shop.toJSON();
 
   const thumbnail = fileToJSON(shop.get('thumbnail'));
   const lnglat = lnglatToJSON(shop.get('lnglat'));

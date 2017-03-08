@@ -7,7 +7,7 @@
  * wait until I figure out a better way
  */
 import { objectId, status, category, species, name, images, thumbnail,
-  desc, specs, minPrice, labels, shop, createdAt, updatedAt } from './schemas';
+  desc, specs, minPrice, labels, shop, shopLocation, createdAt, updatedAt } from './schemas';
 import createMethods from './methods';
 
 export default ({ AV, context }) => {
@@ -33,6 +33,7 @@ export default ({ AV, context }) => {
       shop,
       createdAt,
       updatedAt,
+      location: shopLocation,
     },
   };
 
