@@ -5,11 +5,12 @@ import createSupplyRoute from 'modules/products/supply/page/route';
 import createSuppliesRoute from 'modules/products/supply/list/route';
 import createLogisticsRoute from 'modules/products/logistics/page/route';
 import createLogisticsListRoute from 'modules/products/logistics/list/route';
-import createCartPageRoute from 'modules/cartPage/route';
 import createTripRoute from 'modules/products/trip/page/route';
 import createTripsRoute from 'modules/products/trip/list/route';
 import createShopProductRoute from 'modules/products/shop/page/route';
 import createShopProductsRoute from 'modules/products/shop/list/route';
+import createCartPageRoute from 'modules/cartPage/route';
+import createOrderPageRoute from 'modules/orderPage/route';
 
 const errorLoading = (err) => {
   console.error('Dynamic page loading failed', err); // eslint-disable-line no-console
@@ -78,6 +79,7 @@ export default function createRoutes(store) {
     createShopProductRoute({ store, injectReducer, injectSagas, loadModule, errorLoading }),
     createShopProductsRoute({ store, injectReducer, injectSagas, loadModule, errorLoading }),
     createCartPageRoute({ store, injectReducer, injectSagas, loadModule, errorLoading }),
+    createOrderPageRoute({ store, injectReducer, injectSagas, loadModule, errorLoading }),
     {
       path: '*',
       name: 'notfound',

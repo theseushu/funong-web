@@ -8,8 +8,9 @@ import _find from 'lodash/find';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { cartItemsSelector } from 'modules/data/ducks/selectors';
-import { actions, selectors } from 'api/cart';
+import { actions } from 'api/cart';
 import { isQuantityInvalid } from 'utils/validationUtils';
+import { actions as pageActions } from './ducks';
 import Header from './header';
 import Group from './group';
 import Bottom from './bottom';
@@ -18,6 +19,10 @@ class Page extends Component {
   static propTypes = {
     cartItems: PropTypes.array.isRequired,
     updateItem: PropTypes.func.isRequired,
+    setItems: PropTypes.func.isRequired,
+  }
+  static contextTypes = {
+    router: PropTypes.object.isRequired,
   }
   constructor(props) {
     super(props);
@@ -48,6 +53,12 @@ class Page extends Component {
       cartItems: _filter(cartItems, (item) => itemIds.indexOf(item.objectId) < 0),
       selected: _filter(selected, (selectedId) => itemIds.indexOf(selectedId) < 0),
     });
+  }
+  onOrder = (items) => {
+    const { setItems } = this.props;
+    const { router } = this.context;
+    setItems(items);
+    router.push('/order');
   }
   validate = () => {
     const { cartItems } = this.state;
@@ -115,6 +126,7 @@ class Page extends Component {
           onSelect={() => this.onItemsSelected(itemIds)}
           onDeselect={() => this.onItemsDeselected(itemIds)}
           onItemsRemoved={this.onItemsRemoved}
+          onOrder={this.onOrder}
         />
       </div>
     );
@@ -122,11 +134,12 @@ class Page extends Component {
 }
 
 const { updateItem } = actions;
+const { setItems } = pageActions;
 
 export default connect(
   (state) => ({ cartItems: cartItemsSelector(state) }),
   (dispatch) => {
-    const actionCreators = bindActionCreators({ updateItem }, dispatch);
+    const actionCreators = bindActionCreators({ updateItem, setItems }, dispatch);
     const debouncedUpdateItem = _debounce(actionCreators.updateItem, 2000);
     return { ...actionCreators, updateItem: debouncedUpdateItem };
   },

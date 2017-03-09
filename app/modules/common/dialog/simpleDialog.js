@@ -8,20 +8,15 @@ import { findDOMNode } from 'react-dom';
 
 class LeftMainDialog extends Component {
   static propTypes = {
+    className: PropTypes.string,
     title: PropTypes.oneOfType([
       PropTypes.string, PropTypes.func, PropTypes.element,
     ]),
-    fixedContent: PropTypes.oneOfType([
-      PropTypes.string, PropTypes.func, PropTypes.element,
-    ]),
-    scrollableContent: PropTypes.oneOfType([
-      PropTypes.string, PropTypes.func, PropTypes.element,
-    ]),
-    sheet: PropTypes.object.isRequired,
+    content: PropTypes.any.isRequired,
+    classes: PropTypes.object.isRequired,
     onHide: PropTypes.func,
     onCancel: PropTypes.func,
     show: PropTypes.bool,
-    fixedHeight: PropTypes.bool,
     submit: PropTypes.shape({
       onSubmit: PropTypes.func,
       disabled: PropTypes.bool,
@@ -34,20 +29,16 @@ class LeftMainDialog extends Component {
     }
   }
   render() {
-    const { title, fixedContent, scrollableContent, sheet: { classes }, show = true, onHide, onCancel, submit, fixedHeight = true } = this.props;const firstAnchor = <a href="#_non_existing_" />; // eslint-disable-line
+    const { title, content, className, classes, show = true, onHide, onCancel, submit } = this.props;
+    const firstAnchor = <a href="#_non_existing_" />; // eslint-disable-line
     return (
-      <Dialog open={show} onCancel={onHide} className={`${classes.modal}${fixedHeight ? ' ' : ''}${fixedHeight ? classes.fixedHeight : ''}`}>
+      <Dialog open={show} onCancel={onHide} className={`${classes.modal} ${className}`}>
         <DialogTitle>
           {title}
         </DialogTitle>
-        <DialogContent className={`${classes.modalBody}${fixedHeight ? ' ' : ''}${fixedHeight ? classes.fixedHeightBody : ''}`}>
+        <DialogContent className={classes.modalBody}>
           {firstAnchor}
-          {fixedContent && <div className={classes.fixedContent}>
-            {fixedContent}
-          </div>}
-          {scrollableContent && <div className={classes.scrollableContent}>
-            {scrollableContent}
-          </div>}
+          {content}
         </DialogContent>
         <DialogActions>
           <Button colored onClick={(e) => { e.preventDefault(); onCancel(); }}>取消</Button>
@@ -68,22 +59,5 @@ export default injectSheet({
     overflow: 'hidden',
     display: 'flex',
     flexDirection: 'column',
-  },
-  fixedHeightBody: {
-    height: 'calc(100vh - 140px)', // dialog padding 32 + button line 52 + title 56
-    maxHeight: 460,
-    minHeight: 260,
-  },
-  fixedContent: {
-    borderBottom: 'solid 1px lightgray',
-    paddingBottom: 15,
-    '& ol': {
-      marginTop: 15,
-      marginBottom: '0 !important',
-    },
-  },
-  scrollableContent: {
-    flex: 1,
-    overflowY: 'auto',
   },
 })(LeftMainDialog);

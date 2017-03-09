@@ -18,8 +18,8 @@ const ducks = createDucks({
 
 // shape of ducks
 // {
-//   actions: { create },
-//   default: { create: reducer },
+//   actions: { update },
+//   default: { update: reducer },
 //   selector rootSelector.create,
 //   sagas,
 // }

@@ -8,7 +8,7 @@ import Checkbox from 'react-mdl/lib/Checkbox';
 import styles, { colors, breakpoints } from 'modules/common/styles';
 import RemoveItemsButton from './removeItemsButton';
 
-const Bottom = ({ classes, cartItems, selected, error, onSelect, onDeselect, onItemsRemoved }) => {
+const Bottom = ({ classes, cartItems, selected, error, onSelect, onDeselect, onItemsRemoved, onOrder }) => {
   if (cartItems.length === 0) {
     return null;
   }
@@ -51,7 +51,11 @@ const Bottom = ({ classes, cartItems, selected, error, onSelect, onDeselect, onI
           合计：<span className={styles.colorPrice}>{ amount }</span>
         </div>
         <div className={classes.order}>
-          <Button disabled={disabled || selected.length === 0} colored>下单</Button>
+          <Button
+            disabled={disabled || selected.length === 0}
+            colored
+            onClick={() => onOrder(selectedItems)}
+          >下单</Button>
         </div>
       </div>
     </div>
@@ -65,6 +69,7 @@ Bottom.propTypes = {
   error: PropTypes.object.isRequired,
   onSelect: PropTypes.func.isRequired,
   onDeselect: PropTypes.func.isRequired,
+  onOrder: PropTypes.func.isRequired,
   onItemsRemoved: PropTypes.func.isRequired,
 };
 
