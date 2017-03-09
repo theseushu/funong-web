@@ -3,6 +3,7 @@ import injectSheet from 'react-jss';
 
 const Address = ({ address }) => (
   <div style={{ width: '100%' }}>
+    {address}
   </div>
 );
 

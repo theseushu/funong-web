@@ -1,144 +1,157 @@
+import _once from 'lodash/once';
 const WEB_KEY = '47126811591e35236dbde1130d579dde';
+
+const loadMapFunc = _once(async () => {
+  const Map = await new Promise((resolve) => {
+    window.initAMap = () => {
+      resolve(window.AMap);
+    };
+    const script = document.createElement('script');
+    script.id = '_amap_script';
+    script.type = 'text/javascript';
+    script.src = `https://webapi.amap.com/maps?v=1.3&key=${WEB_KEY}&callback=initAMap`;
+    document.head.appendChild(script);
+  });
+  const Geocoder = await new Promise((resolve) => {
+    Map.plugin('AMap.Geocoder', () => {
+      const result = new Map.Geocoder({});
+      resolve(result);
+    });
+  });
+  const DistrictSearch = await new Promise((resolve) => {
+    Map.service('AMap.DistrictSearch', () => {
+      const result = new Map.DistrictSearch({
+        showbiz: false,
+      });
+      resolve(result);
+    });
+  });
+  return { Map, Geocoder, DistrictSearch };
+});
+
+const loadGeolocation = async (Map, map) =>
+  new Promise((resolve) => {
+    map.plugin('AMap.Geolocation', () => {
+      const result = new Map.Geolocation({
+        panToLocation: true,
+        enableHighAccuracy: true, // 是否使用高精度定位，默认:true
+        timeout: 10000,          // 超过10秒后停止定位，默认：无穷大
+        zoomToAccuracy: false,      // 定位成功后调整地图视野范围使定位位置及精度范围视野内可见，默认：false
+        buttonPosition: 'RB',
+        maximumAge: 100000000, // todo caching result forever. seems useless, to be removed
+      });
+      map.addControl(result);
+      resolve(result);
+    });
+  });
+
+
+const bindOnClick = (Map, map, geocoder, onClick) => {
+  const clickHandler = (e) => {
+    const marker = new Map.Marker({
+      position: e.lnglat,
+      map,
+      animation: 'AMAP_ANIMATION_DROP',
+    });
+    geocoder.getAddress(e.lnglat, (status, result) => {
+      if (status === 'complete' && result.info === 'OK') {
+        const { addressComponent, formattedAddress } = result.regeocode;
+        onClick(marker, {
+          lnglat: {
+            longitude: e.lnglat.lng,
+            latitude: e.lnglat.lat,
+          },
+          address: {
+            country: addressComponent.country || '中国',
+            province: addressComponent.province,
+            city: addressComponent.province && addressComponent.city,
+            district: addressComponent.city && addressComponent.district,
+            details: formattedAddress,
+          },
+        });
+      }
+    });
+  };
+  map.on('click', clickHandler);
+};
 
 export default () => {
   if (window) {
-    let globalInstance;
-    let map;
+    const maps = {};
     let geolocation;
-    let districtSearch;
-    let geocoder;
-    let clickHandler;
-    let marker;
-
-    const bindOnClick = (onClick) => {
-      if (clickHandler) {
-        map.off('click', clickHandler);
+    const initMap = async ({ id, zoom = 10, onClick, center }) => {
+      if (maps[id]) {
+        console.error(`You're creating map on dom element ${id} twice!`);
+        return;
       }
-      clickHandler = (e) => {
-        if (marker) {
-          marker.setMap(null);
-        }
-        marker = new globalInstance.Marker({
-          position: e.lnglat,
+      const { Map, Geocoder } = await loadMapFunc();
+      const map = new Map.Map(id, {
+        resizeEnable: true,
+        zoom,
+        mapStyle: 'fresh',
+      });
+      let marker;
+      if (center) {
+        const lnglat = new Map.LngLat(center.longitude, center.latitude);
+        map.setCenter(lnglat);
+        marker = new Map.Marker({
+          position: lnglat,
           map,
           animation: 'AMAP_ANIMATION_DROP',
         });
-        geocoder.getAddress(e.lnglat, (status, result) => {
-          if (status === 'complete' && result.info === 'OK') {
-            const { addressComponent, formattedAddress } = result.regeocode;
-            onClick({
-              lnglat: {
-                longitude: e.lnglat.lng,
-                latitude: e.lnglat.lat,
-              },
-              address: {
-                country: addressComponent.country || '中国',
-                province: addressComponent.province,
-                city: addressComponent.province && addressComponent.city,
-                district: addressComponent.city && addressComponent.district,
-                details: formattedAddress,
-              },
-            });
+      }
+      maps[id] = { map, marker };
+      if (onClick) {
+        const clickHandler = (newMarker, location) => {
+          if (maps[id].marker) {
+            maps[id].marker.setMap(null);
           }
-        });
-      };
-      map.on('click', clickHandler);
-    };
-
-    const loadGeocoder = (GLOBAL_INSTANCE) => {
-      if (geocoder) {
-        return geocoder;
-      }
-      return new Promise((resolve) => {
-        GLOBAL_INSTANCE.plugin('AMap.Geocoder', () => {
-          const result = new GLOBAL_INSTANCE.Geocoder({});
-          geocoder = result;
-          resolve(result);
-        });
-      });
-    };
-
-    const loadGeolocation = (GLOBAL_INSTANCE, MAP_INSTANCE) => {
-      if (geolocation) {
-        return geolocation;
-      }
-      return new Promise((resolve) => {
-        MAP_INSTANCE.plugin('AMap.Geolocation', () => {
-          const result = new GLOBAL_INSTANCE.Geolocation({
-            panToLocation: true,
-            enableHighAccuracy: true, // 是否使用高精度定位，默认:true
-            timeout: 10000,          // 超过10秒后停止定位，默认：无穷大
-            zoomToAccuracy: false,      // 定位成功后调整地图视野范围使定位位置及精度范围视野内可见，默认：false
-            buttonPosition: 'RB',
-            maximumAge: 100000000, // todo caching result forever. seems useless, to be removed
-          });
-          MAP_INSTANCE.addControl(result);
-          geolocation = result;
-          resolve(result);
-        });
-      });
-    };
-
-    const loadDistrictSearch = (GLOBAL_INSTANCE) => {
-      if (districtSearch) {
-        return districtSearch;
-      }
-      return new Promise((resolve) => {
-        GLOBAL_INSTANCE.service('AMap.DistrictSearch', () => {
-          const result = new GLOBAL_INSTANCE.DistrictSearch({
-            showbiz: false,
-          });
-          districtSearch = result;
-          resolve(result);
-        });
-      });
-    };
-
-    const initAMap = async (params = {}) => {
-      const { onClick, center } = params;
-      if (map && geolocation && globalInstance && districtSearch) {
-        if (onClick) {
-          bindOnClick(onClick);
-        }
-        if (center) {
-          const lnglat = new globalInstance.LngLat(center.longitude, center.latitude);
-          map.setCenter(lnglat);
-          if (marker) {
-            marker.setMap(null);
-          }
-          marker = new globalInstance.Marker({
-            position: lnglat,
-            map,
-            animation: 'AMAP_ANIMATION_DROP',
-          });
-        }
-        return { globalInstance, map, geolocation, districtSearch };
-      }
-      await new Promise((resolve) => {
-        window.initAMap = () => {
-          globalInstance = window.AMap;
-          map = new globalInstance.Map('_amap_container', {
-            resizeEnable: true,
-            zoom: 10,
-            mapStyle: 'fresh',
-          });
-          resolve();
+          marker = newMarker;
+          maps[id] = { map, marker };
+          onClick(location);
         };
-        const script = document.createElement('script');
-        script.id = '_amap_script';
-        script.type = 'text/javascript';
-        script.src = `https://webapi.amap.com/maps?v=1.3&key=${WEB_KEY}&callback=initAMap`;
-        document.head.appendChild(script);
-      });
-      await Promise.all([loadGeocoder(globalInstance), loadGeolocation(globalInstance, map), loadDistrictSearch(globalInstance)]);
-      bindOnClick(onClick);
-      return { map, geolocation, globalInstance, districtSearch };
+        bindOnClick(Map, map, Geocoder, clickHandler);
+      }
+    };
+
+    const centerMap = async ({ id, center }) => {
+      if (!maps[id]) {
+        console.error(`Cannot find map on dom element ${id}!`);
+        return;
+      }
+      const { Map } = await loadMapFunc();
+      const { map, marker } = maps[id];
+      const lnglat = new Map.LngLat(center.longitude, center.latitude);
+      map.setCenter(lnglat);
+      if (marker) {
+        marker.setMap(null);
+      }
+      maps[id] = {
+        map,
+        marker: new Map.Marker({
+          position: lnglat,
+          map,
+          animation: 'AMAP_ANIMATION_DROP',
+        }),
+      };
     };
 
     const getCurrentLocation = async () => {
-      await initAMap();
+      const { Map } = await loadMapFunc();
+      if (!geolocation) {
+        // create a invisible map just for geo locating
+        const div = document.createElement('div');
+        div.id = '_amap_invisible_map';
+        div.style = 'display: none';
+        document.body.appendChild(div);
+        const map = new Map.Map('_amap_invisible_map', {
+          resizeEnable: true,
+          mapStyle: 'fresh',
+        });
+        geolocation = await loadGeolocation(Map, map);
+      }
       return new Promise((resolve, reject) => {
-        globalInstance.event.addListenerOnce(geolocation, 'complete', ({ addressComponent, formattedAddress, position }) => {
+        Map.event.addListenerOnce(geolocation, 'complete', ({ addressComponent, formattedAddress, position }) => {
           resolve({
             address: {
               country: addressComponent.country || '中国',
@@ -153,7 +166,7 @@ export default () => {
             },
           });
         });
-        globalInstance.event.addListenerOnce(geolocation, 'error', (err) => {
+        Map.event.addListenerOnce(geolocation, 'error', (err) => {
           reject(err);
         });
         geolocation.getCurrentPosition();
@@ -161,13 +174,13 @@ export default () => {
     };
 
     const searchDistrict = async ({ name, level, subdistrict = 1 }) => {
-      await initAMap();
+      const { DistrictSearch } = await loadMapFunc();
       return new Promise((resolve, reject) => {
         if (level) {
-          districtSearch.setLevel(level);
+          DistrictSearch.setLevel(level);
         }
-        districtSearch.setSubdistrict(subdistrict);
-        districtSearch.search(name, (status, result) => {
+        DistrictSearch.setSubdistrict(subdistrict);
+        DistrictSearch.search(name, (status, result) => {
           if (status === 'complete' && result.info === 'OK') {
             // todo this method should always resolve an array. it could be empty but never null
             resolve(result.districtList);
@@ -179,14 +192,15 @@ export default () => {
     };
 
     return {
+      centerMap,
       getCurrentLocation,
       searchDistrict,
-      initAMap,
+      initMap,
     };
   }
   return {
     getCurrentLocation: () => { throw new Error('Do not call this method outside browser'); },
     searchDistrict: () => { throw new Error('Do not call this method outside browser'); },
-    initAMap: () => { throw new Error('Do not call this method outside browser'); },
+    initMap: () => { throw new Error('Do not call this method outside browser'); },
   };
 };

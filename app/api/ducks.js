@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux';
 import namespace from './namespace';
+import * as map from './map';
 import * as initAMap from './initAMap/ducks';
 import * as fetchLocation from './fetchLocation/ducks';
 import * as requestSmsCode from './requestSmsCode/ducks';
@@ -19,6 +20,7 @@ import * as searchDistinct from './searchDistrict/ducks';
 
 export default {
   [namespace]: combineReducers({
+    ...map.default,
     ...initAMap.default,
     ...fetchLocation.default,
     ...requestSmsCode.default,
@@ -39,6 +41,7 @@ export default {
 };
 
 export const sagas = [
+  ...map.sagas,
   ...initAMap.sagas,
   ...fetchLocation.sagas,
   ...requestSmsCode.sagas,

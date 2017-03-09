@@ -37,21 +37,22 @@ import 'file-loader?name=[name].[ext]!./.htaccess'; // eslint-disable-line impor
 
 /* eslint-enable import/no-unresolved, import/extensions */
 
-import configureStore from './store';
+import configureStore from 'store';
 
 // Import i18n messages
-import { translationMessages } from './i18n';
+import { translationMessages } from 'i18n';
 
 // Import CSS reset and Global Styles
-import './global-styles';
+import 'global-styles';
 
 // Import root routes
-import createRoutes from './routes';
+import createRoutes from 'routes';
 
 // create an api instance with sessionToken attached
-import createApi from './createApi';
-import FullScreenGallery from './modules/fullScreenGallery';
-import MapDialog from './modules/mapDialog';
+import createApi from 'createApi';
+import FullScreenGallery from 'modules/fullScreenGallery';
+import MapDialog from 'modules/mapDialog';
+import { actions as mapActions } from 'api/map';
 
 const openSansObserver = new FontFaceObserver('Open Sans', {});
 
@@ -87,6 +88,7 @@ const history = syncHistoryWithStore(browserHistory, store, {
   selectLocationState: makeSelectLocationState(),
 });
 
+store.dispatch(mapActions.getCurrentLocation())
 // Set up the router, wrapping all Routes in the App component
 const rootRoute = {
   component: App,

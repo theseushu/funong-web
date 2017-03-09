@@ -57,6 +57,9 @@ export const createSaga = ({ apiName, actionConstant, stateActionConstant }, bef
         resolve(result);
       }
     } catch (error) {
+      if (process.env.NODE_ENV !== 'production') {
+        console.log(error);
+      }
       yield put({ type: stateActionConstant, payload: { rejected: true, error } });
       if (typeof reject === 'function') {
         reject(error);
