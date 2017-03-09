@@ -43,6 +43,7 @@ class Name extends Component {
               <Textfield
                 key={0}
                 autoFocus
+                name="_user_name"
                 label="名称"
                 maxLength={20}
                 onChange={(e) => this.setState({ name: e.target.value })}

@@ -2,19 +2,20 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import injectSheet from 'react-jss';
-import Textfield from 'react-mdl/lib/Textfield';
-import { Dialog } from 'modules/common/dialog';
+import { SimpleDialog } from 'modules/common/dialog';
 import { actions as mapActions, selectors as mapSelectors } from 'api/map';
-import { formatAddress } from 'utils/displayUtils';
 import { actions, selector } from './ducks';
+import Location from './location';
+import PostAddress from './postAddress';
 
-const INITIAL_LOCATION = { address: { country: '', province: '', city: '', district: '', details: '' }, lnglat: {} };
+const INITIAL_LOCATION = { address: { country: '', province: '', city: '', district: '', details: '' }, lnglat: {}, contact: '', postCode: '', phone: '' };
 
 class mapDialog extends Component {
   static propTypes = {
     open: PropTypes.bool.isRequired,
-    detailsEditable: PropTypes.bool,
+    detailsEditable: PropTypes.bool.isRequired,
     closeDialog: PropTypes.func.isRequired,
+    postAddress: PropTypes.bool.isRequired,
     location: PropTypes.shape({
       lnglat: PropTypes.shape({
         latitude: PropTypes.number,
@@ -52,10 +53,8 @@ class mapDialog extends Component {
     //   location: PropTypes.object,
     // }),
   };
-  constructor(props) {
-    super(props);
-    const { location, currentLocation } = this.props;
-    this.state = { location: location || currentLocation || INITIAL_LOCATION };
+  componentWillMount() {
+    this.initStateLocation(this.props);
   }
   componentDidMount() {
     const { location } = this.state;
@@ -67,7 +66,7 @@ class mapDialog extends Component {
   }
   componentWillReceiveProps({ open, location, currentLocation }) {
     if (open) {
-      this.setState({ location: location || currentLocation || INITIAL_LOCATION }, () => {
+      this.initStateLocation({ location, currentLocation }, () => {
         if (this.state.location !== INITIAL_LOCATION) {
           this.props.centerMap({
             id: '_amap_container',
@@ -78,58 +77,49 @@ class mapDialog extends Component {
     }
   }
   onMapClick = ({ address, lnglat }) => {
-    this.setState({ location: { address, lnglat } });
+    this.setState({ location: { ...this.state.location, address, lnglat } });
+  }
+  onLocationChange = (location) => {
+    this.setState({ location });
+  }
+  initStateLocation = ({ location, currentLocation }, callback) => {
+    let nextLocation = INITIAL_LOCATION;
+    if (location) {
+      nextLocation = { ...INITIAL_LOCATION, ...location };
+    } else if (currentLocation) {
+      nextLocation = { ...INITIAL_LOCATION, ...currentLocation };
+    }
+    this.setState({ location: nextLocation }, callback);
   }
   closeDialog = () => {
     this.setState({ location: INITIAL_LOCATION });
     this.props.closeDialog();
   }
-  submit = () => {
-    this.props.closeDialog();
-  }
   render() {
-    const { open, onSubmit, detailsEditable } = this.props;
-    // const { getCurrentLocationState: { pending, fulfilled }, open, closeDialog } = this.props;
-    // const getCurrentLocationText = pending ? '正在读取当前地址' : (fulfilled ? location.formattedAddress : null); // eslint-disable-line no-nested-ternary
+    const { open, onSubmit, detailsEditable, postAddress } = this.props;
     const { location } = this.state;
     return (
-      <Dialog
+      <SimpleDialog
         show={open}
         close={this.closeDialog}
         onCancel={this.closeDialog}
         title="选择发货地点"
-        fixedContent={
-          <div id="_amap_container" style={{ width: '100%', height: 300 }}></div>
-        }
-        scrollableContent={
+        content={
           <div>
-            <h5 style={{ marginBottom: 0 }}>
-              {formatAddress(location.address)}
-            </h5>
-            {
-              detailsEditable ? (
-                <Textfield
-                  floatingLabel
-                  label="详细地址(可编辑)"
-                  name="_address_details"
-                  rows={2}
-                  style={{ width: '100%' }}
-                  value={location.address.details}
-                  onChange={(e) => {
-                    this.setState({ location: { address: { ...location.address, details: e.target.value }, lnglat: location.lnglat } });
-                  }}
-                />
-              ) : (
-                <p style={{ marginTop: 16 }}>
-                  {location.address.details}
-                </p>
-              )
-            }
+            <div id="_amap_container" style={{ width: '100%', height: 200, marginBottom: 16 }}></div>
+            { !postAddress && <Location detailsEditable={detailsEditable} location={location} onChange={this.onLocationChange} />}
+            { postAddress && <PostAddress location={location} onChange={this.onLocationChange} />}
           </div>
         }
         submit={{
           onSubmit: () => {
-            onSubmit(this.state.location);
+            if (postAddress) {
+              const { address, lnglat, contact, postCode, phone } = this.state.location;
+              onSubmit({ address, lnglat, contact, postCode, phone });
+            } else {
+              const { address, lnglat } = this.state.location;
+              onSubmit({ address, lnglat });
+            }
             this.closeDialog();
           },
           disabled: location === INITIAL_LOCATION,

@@ -1,5 +1,7 @@
 import _toPairs from 'lodash/toPairs';
+import _findIndex from 'lodash/findIndex';
 import { requireAuth } from 'utils/routerUtils';
+import { currentUserSelector } from 'modules/data/ducks/selectors';
 
 export default ({ store, injectReducer, injectSagas, loadModule, errorLoading }) => ({ // eslint-disable-line no-unused-vars
   path: '/order',
@@ -10,7 +12,8 @@ export default ({ store, injectReducer, injectSagas, loadModule, errorLoading })
       const cartPageDucks = await System.import('../cartPage/ducks');
       const itemsSelector = cartPageDucks.selectors.items;
       if (itemsSelector(store.getState()) == null) {
-        replace('/cart');
+        // TODO uncomment
+        // replace('/cart');
       }
       callback();
     } else {
@@ -33,6 +36,14 @@ export default ({ store, injectReducer, injectSagas, loadModule, errorLoading })
       _toPairs(ducks.default).forEach((pair) => {
         injectReducer(pair[0], pair[1]);
       });
+      // set default address selection
+      const { actions, selectors } = ducks;
+      const { selectAddress } = actions;
+      const addressIndex = selectors.addressIndex(store.getState());
+      if (addressIndex == null) {
+        const user = currentUserSelector(store.getState());
+        store.dispatch(selectAddress(_findIndex(user.addresses, (address) => address.default)));
+      }
       renderRoute(component);
     });
 

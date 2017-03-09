@@ -5,6 +5,7 @@ export const colors = {
   colorPrimary: 'rgb(76,175,80)', // green500
   colorPrimaryDark: 'rgb(56,142,60)', // green700
   colorAccent: '#9C27B0', // purple500
+  colorLightAccent: '#F3E5F5', // purple50 use as background or similiar stuff
   colorPrimaryContrast: 'black',
   colorAccentContrast: 'white',
   colorSubTitle: 'rgba(0,0,0, 0.54)',

@@ -88,7 +88,7 @@ const history = syncHistoryWithStore(browserHistory, store, {
   selectLocationState: makeSelectLocationState(),
 });
 
-store.dispatch(mapActions.getCurrentLocation())
+store.dispatch(mapActions.getCurrentLocation());
 // Set up the router, wrapping all Routes in the App component
 const rootRoute = {
   component: App,

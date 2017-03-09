@@ -30,14 +30,12 @@ class LeftMainDialog extends Component {
   }
   render() {
     const { title, content, className, classes, show = true, onHide, onCancel, submit } = this.props;
-    const firstAnchor = <a href="#_non_existing_" />; // eslint-disable-line
     return (
       <Dialog open={show} onCancel={onHide} className={`${classes.modal} ${className}`}>
         <DialogTitle>
           {title}
         </DialogTitle>
         <DialogContent className={classes.modalBody}>
-          {firstAnchor}
           {content}
         </DialogContent>
         <DialogActions>
@@ -52,7 +50,11 @@ class LeftMainDialog extends Component {
 
 export default injectSheet({
   modal: {
-    maxWidth: 500, width: '100%', boxSizing: 'border-box',
+    maxWidth: 500,
+    width: '100%',
+    boxSizing: 'border-box',
+    maxHeight: '100vh',
+    overflowY: 'scroll',
   },
   modalBody: {
     boxSizing: 'border-box',
