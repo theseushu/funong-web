@@ -4,7 +4,7 @@ import { denormalize } from 'denormalizr';
 
 import { SpeciesArraySchema, CertsSchema, ProductSchemas, ShopProductsSchema,
   LogisticsProductsSchema, TripProductsSchema, CartItemsSchema,
-  ShopsSchema, CommentsSchema } from './schemas';
+  ShopsSchema, CommentsSchema, OrdersSchema } from './schemas';
 
 const rootSelector = (state) => state.data;
 
@@ -224,5 +224,16 @@ export const commentsSelector = createSelector(
       return [];
     }
     return denormalize(Object.values(comments), data.entities, CommentsSchema);
+  },
+);
+
+export const ordersSelector = createSelector(
+  rootSelector,
+  (data) => {
+    const { orders } = data.entities;
+    if (!orders || Object.values(orders) === 0) {
+      return [];
+    }
+    return denormalize(Object.values(orders), data.entities, OrdersSchema);
   },
 );

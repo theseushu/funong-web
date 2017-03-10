@@ -43,7 +43,7 @@ class ProductDetails extends Component {
             </div>
             <CardActions border className={classes.buttons}>
               <Button raised accent ripple>在线联系</Button>
-              <AddToCartButton shopProduct={this.props.product} specIndex={specIndex} quantity={specs[specIndex].minimum}>加入购物车</AddToCartButton>
+              <AddToCartButton type="shop" product={this.props.product} specIndex={specIndex} quantity={specs[specIndex].minimum}>加入购物车</AddToCartButton>
             </CardActions>
           </Card>
         </Cell>

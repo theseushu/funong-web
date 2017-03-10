@@ -16,6 +16,13 @@ export const statusValues = {
   cancelled: { value: 18, title: '已取消' },
 };
 
+export const productTypes = {
+  supply: 'supply',
+  logistics: 'logistics',
+  trip: 'trip',
+  shop: 'shop',
+};
+
 export const availableValues = {
   all: { title: '全部', value: undefined },
   on: { title: '已上架', value: true },
@@ -69,12 +76,10 @@ export const shopProductLabels = {
   available: { title: '上架', key: 'available', value: 'available' },
   recommend: { title: '店长推荐', key: 'recommend', value: 'recommend' },
   agent: { title: '可代销', key: 'agent', value: 'agent' },
-  supportsAssurance: { title: '担保交易', key: 'supportsAssurance', value: 'supportsAssurance' },
 };
 
 export const supplyLabels = {
   available: { title: '上架', key: 'available', value: 'available' },
-  supportsAssurance: { title: '担保交易', key: 'supportsAssurance', value: 'supportsAssurance' },
   includesTransportation: { title: '包运费', key: 'includesTransportation', value: 'includesTransportation' },
   supportsLogistics: { title: '协助找物流', key: 'supportsLogistics', value: 'supportsLogistics' },
   supportsDelivery: { title: '支持走快递', key: 'supportsDelivery', value: 'supportsDelivery' },
@@ -82,12 +87,10 @@ export const supplyLabels = {
 
 export const logisticsLabels = {
   available: { title: '上架', key: 'available', value: 'available' },
-  supportsAssurance: { title: '担保交易', key: 'supportsAssurance', value: 'supportsAssurance' },
 };
 
 export const tripLabels = {
   available: { title: '上架', key: 'available', value: 'available' },
-  supportsAssurance: { title: '担保交易', key: 'supportsAssurance', value: 'supportsAssurance' },
 };
 
 export const provinces = [

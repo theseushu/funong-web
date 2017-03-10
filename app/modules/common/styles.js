@@ -128,6 +128,9 @@ const styles = {
   mt24: {
     'margin-top': '24px',
   },
+  mt0: {
+    'margin-top': '0px',
+  },
 };
 
 const { classes } = jss.createStyleSheet(styles).attach();

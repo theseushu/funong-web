@@ -80,9 +80,9 @@ class Page extends Component {
   render() {
     const { cartItems, selected } = this.state;
     const itemIds = cartItems.map((i) => i.objectId);
-    const shopItemss = Object.values(_filter(cartItems, (item) => !!item.shopProduct));
+    const shopItems = Object.values(_filter(cartItems, (item) => !!item.shopProduct));
     const supplyItems = Object.values(_filter(cartItems, (item) => !!item.supplyProduct));
-    const shopGroups = Object.values(_groupBy(shopItemss, (item) => item.shopProduct.shop.objectId));
+    const shopGroups = Object.values(_groupBy(shopItems, (item) => item.shopProduct.shop.objectId));
     const supplyGroups = Object.values(_groupBy(supplyItems, (item) => item.supplyProduct.owner.objectId));
     const error = this.validate();
     return (

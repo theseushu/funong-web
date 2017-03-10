@@ -1,23 +1,14 @@
 import _map from 'lodash/map';
-import _forEach from 'lodash/forEach';
 import _union from 'lodash/union';
 import _isUndefined from 'lodash/isUndefined';
+import { productToJSON as converter } from '../utils/converters';
+import { products as shemas } from '../utils/shemas';
 const debug = require('debug')('app:api:product:methods');
 
-const converter = (schema, product) => {
-  const result = {};
-  _forEach(schema.attributes, (attr, key) => {
-    if (attr.converter !== null) {
-      result[key] = attr.converter(product);
-    }
-  });
-  return result;
-};
-
-export const create = async (AV, schema, params, context) => {
+export const create = async (AV, Class, schema, params, context) => {
   const { token: { sessionToken }, profile } = context;
-  const { table, Type, attributes } = schema;
-  const product = new Type();
+  const { table, attributes } = schema;
+  const product = new Class();
   try {
     const attrs = { ...params, owner: profile };
     _map(attrs, (value, key) => {
@@ -38,7 +29,7 @@ export const create = async (AV, schema, params, context) => {
   }
 };
 
-export const update = async (AV, schema, params, context) => {
+export const update = async (AV, schema, { ...params }, context) => {
   const { token: { sessionToken } } = context;
   const { table, attributes } = schema;
   const { product, ...attrs } = params;
@@ -125,11 +116,15 @@ export const count = async (AV, schema, params, context) => {
   return await query.count({ sessionToken });
 };
 
-export default (AV, schema, context) => ({
-  create: (params) => create(AV, schema, params, context),
-  update: (params) => update(AV, schema, params, context),
-  fetch: (params) => fetch(AV, schema, params, context),
-  search: (params) => search(AV, schema, params, context),
-  recommend: (params) => recommend(AV, schema, params, context),
-  count: (params) => count(AV, schema, params, context),
-});
+export default (AV, Class, type, context) => {
+  const schema = shemas[type];
+  return ({
+    create: (params) => create(AV, Class, schema, params, context),
+    update: (params) => update(AV, schema, params, context),
+    fetch: (params) => fetch(AV, schema, params, context),
+    search: (params) => search(AV, schema, params, context),
+    recommend: (params) => recommend(AV, schema, params, context),
+    count: (params) => count(AV, schema, params, context),
+  });
+};
+

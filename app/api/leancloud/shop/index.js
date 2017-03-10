@@ -6,7 +6,7 @@
  * this object is mutable, deconstruction could cause latest value untouchable
  * wait until I figure out a better way
  */
-import { shopToJSON } from '../converters';
+import { shopToJSON } from '../utils/converters';
 const debug = require('debug')('app:api:certs');
 
 export default ({ AV, context }) => {

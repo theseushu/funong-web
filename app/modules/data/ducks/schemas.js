@@ -119,3 +119,14 @@ CommentSchema.define({
   owner: UserSchema,
 });
 export const CommentsSchema = arrayOf(CommentSchema);
+
+export const OrderSchema = new Schema('orders', {
+  idAttribute: 'objectId',
+});
+OrderSchema.define({
+  owner: UserSchema,
+  user: UserSchema,
+  shop: ShopSchema,
+  agent: ShopSchema,
+});
+export const OrdersSchema = arrayOf(OrderSchema);

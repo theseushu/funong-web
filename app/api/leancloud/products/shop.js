@@ -6,38 +6,15 @@
  * this object is mutable, deconstruction could cause latest value untouchable
  * wait until I figure out a better way
  */
-import { objectId, status, category, species, name, images, thumbnail,
-  desc, specs, minPrice, labels, shop, shopLocation, createdAt, updatedAt } from './schemas';
+import { productTypes } from 'appConstants';
 import createMethods from './methods';
 
+const type = productTypes.shop;
+
 export default ({ AV, context }) => {
-  const table = 'ShopProduct';
   class ShopProduct extends AV.Object {}
   AV.Object.register(ShopProduct);
-
-  const schema = {
-    Type: ShopProduct,
-    table,
-    attributes: {
-      objectId,
-      status,
-      category,
-      species,
-      name,
-      images,
-      thumbnail,
-      desc,
-      specs,
-      minPrice,
-      labels,
-      shop,
-      createdAt,
-      updatedAt,
-      location: shopLocation,
-    },
-  };
-
   return {
-    shop: createMethods(AV, schema, context),
+    [type]: createMethods(AV, ShopProduct, type, context),
   };
 };

@@ -6,7 +6,7 @@
  * this object is mutable, deconstruction could cause latest value untouchable
  * wait until I figure out a better way
  */
-import { userToJSON } from '../converters';
+import { userToJSON } from '../utils/converters';
 const debug = require('debug')('app:api:profile');
 
 export default ({ AV, context, updateContextProfile }) => {

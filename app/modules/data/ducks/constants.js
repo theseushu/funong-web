@@ -17,3 +17,5 @@ export const REMOVE_CART_ITEMS = 'data/remove_cart_items';
 export const SET_SHOPS = 'data/set_shops';
 export const SET_COMMENTS = 'data/set_comments';
 export const REMOVE_COMMENTS = 'data/remove_comments';
+export const SET_ORDERS = 'data/set_orders';
+export const REMOVE_ORDERS = 'data/remove_orders';

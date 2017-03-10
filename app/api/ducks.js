@@ -2,7 +2,6 @@ import { combineReducers } from 'redux';
 import namespace from './namespace';
 import * as map from './map';
 import * as initAMap from './initAMap/ducks';
-import * as fetchLocation from './fetchLocation/ducks';
 import * as requestSmsCode from './requestSmsCode/ducks';
 import * as signupOrLoginWithMobilePhone from './signupOrLogin/ducks';
 import * as category from './category';
@@ -17,12 +16,12 @@ import * as cart from './cart';
 import * as shop from './shop';
 import * as comment from './comment';
 import * as searchDistinct from './searchDistrict/ducks';
+import * as order from './order';
 
 export default {
   [namespace]: combineReducers({
     ...map.default,
     ...initAMap.default,
-    ...fetchLocation.default,
     ...requestSmsCode.default,
     ...signupOrLoginWithMobilePhone.default,
     ...category.default,
@@ -37,13 +36,13 @@ export default {
     ...shop.default,
     ...comment.default,
     ...searchDistinct.default,
+    ...order.default,
   }),
 };
 
 export const sagas = [
   ...map.sagas,
   ...initAMap.sagas,
-  ...fetchLocation.sagas,
   ...requestSmsCode.sagas,
   ...signupOrLoginWithMobilePhone.sagas,
   ...category.sagas,
@@ -58,4 +57,5 @@ export const sagas = [
   ...shop.sagas,
   ...comment.sagas,
   ...searchDistinct.sagas,
+  ...order.default,
 ];

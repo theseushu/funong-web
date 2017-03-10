@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import injectSheet from 'react-jss';
 import { connect } from 'react-redux';
-import { selector } from 'api/fetchLocation';
+import { selectors } from 'api/map';
 import styles, { breakpoints } from 'modules/common/styles';
 import { Shop } from 'modules/common/product';
 
@@ -19,7 +19,7 @@ Display.propTypes = {
 };
 
 export default connect(
-  (state) => ({ location: selector(state).location })
+  (state) => ({ location: selectors.getCurrentLocation(state).location })
 )(injectSheet({
   mobileUser: {
     marginTop: 16,

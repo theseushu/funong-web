@@ -1,5 +1,7 @@
 import _reduce from 'lodash/reduce';
-import { categoryToJSON, speciesToJSON, imagesToJSON, embeddedShopToJSON, embeddedUserToJSON, lnglatToJSON, fileToJSON } from '../converters';
+import { productTypes } from 'appConstants';
+import { productTables } from '../../constants';
+import { attributes as attrConverters } from '../converters/product';
 
 const setRequiredAttr = (product, attrName, value) => {
   if (value == null) {
@@ -7,25 +9,21 @@ const setRequiredAttr = (product, attrName, value) => {
   }
   product.set(attrName, value);
 };
-const createConverter = (attrName, converter) => (product) => {
-  const value = product.get(attrName);
-  return converter ? converter(value) : value;
-};
 
 export const objectId = {
-  converter: createConverter('objectId'),
+  converter: attrConverters.objectId,
 };
 
 export const createdAt = {
-  converter: createConverter('createdAt', (date) => date.getTime()),
+  converter: attrConverters.createdAt,
 };
 
 export const updatedAt = {
-  converter: createConverter('updatedAt', (date) => date.getTime()),
+  converter: attrConverters.updatedAt,
 };
 
 export const status = {
-  converter: createConverter('status'),
+  converter: attrConverters.status,
 };
 
 export const images = {
@@ -39,7 +37,7 @@ export const images = {
   },
   include: ['images'],
   search: undefined,
-  converter: createConverter('images', imagesToJSON),
+  converter: attrConverters.images,
 };
 
 export const thumbnail = {
@@ -47,7 +45,7 @@ export const thumbnail = {
   update: null,
   include: ['thumbnail'],
   search: undefined,
-  converter: createConverter('thumbnail', fileToJSON),
+  converter: attrConverters.thumbnail,
 };
 
 export const category = {
@@ -61,7 +59,7 @@ export const category = {
       query.equalTo('category', AV.Object.createWithoutData('Category', value.objectId));
     }
   },
-  converter: createConverter('category', categoryToJSON),
+  converter: attrConverters.category,
 };
 
 export const species = {
@@ -75,14 +73,14 @@ export const species = {
       query.containedIn('species', value.map((s) => AV.Object.createWithoutData('Species', s.objectId)));
     }
   },
-  converter: createConverter('species', speciesToJSON),
+  converter: attrConverters.species,
 };
 
 export const name = {
   create: (AV, product, value) => setRequiredAttr(product, 'name', value),
   update: (AV, product, value) => setRequiredAttr(product, 'name', value),
   search: undefined,
-  converter: createConverter('name'),
+  converter: attrConverters.name,
 };
 
 export const specs = {
@@ -95,58 +93,54 @@ export const specs = {
     setRequiredAttr(product, 'minPrice', _reduce(value, (min, { price }) => Math.min(min, price), 999999));
   },
   search: undefined,
-  converter: createConverter('specs'),
+  converter: attrConverters.specs,
 };
 
 export const minPrice = {
-  converter: createConverter('minPrice'),
+  converter: attrConverters.minPrice,
 };
 
 export const capacity = {
   create: (AV, product, value) => setRequiredAttr(product, 'capacity', value),
   update: (AV, product, value) => setRequiredAttr(product, 'capacity', value),
   search: undefined,
-  converter: createConverter('capacity'),
+  converter: attrConverters.capacity,
 };
 
 export const count = {
   create: (AV, product, value) => setRequiredAttr(product, 'count', value),
   update: (AV, product, value) => setRequiredAttr(product, 'count', value),
   search: undefined,
-  converter: createConverter('count'),
+  converter: attrConverters.count,
 };
 
 export const price = {
   create: (AV, product, value) => setRequiredAttr(product, 'price', value),
   update: (AV, product, value) => setRequiredAttr(product, 'price', value),
   search: undefined,
-  converter: createConverter('price'),
+  converter: attrConverters.price,
 };
 
 export const range = {
   create: (AV, product, value) => setRequiredAttr(product, 'range', value),
   update: (AV, product, value) => setRequiredAttr(product, 'range', value),
   search: undefined,
-  converter: createConverter('range'),
+  converter: attrConverters.range,
 };
 
 export const desc = {
   create: (AV, product, value) => setRequiredAttr(product, 'desc', value),
   update: (AV, product, value) => setRequiredAttr(product, 'desc', value),
   search: undefined,
-  converter: createConverter('desc'),
+  converter: attrConverters.desc,
 };
 
 export const labels = {
   create: (AV, product, value) => setRequiredAttr(product, 'labels', value),
   update: (AV, product, value) => setRequiredAttr(product, 'labels', value),
   search: undefined,
-  converter: createConverter('labels'),
+  converter: attrConverters.labels,
 };
-
-export const addressConverter = createConverter('address');
-
-export const lnglatConverter = createConverter('lnglat', lnglatToJSON);
 
 export const location = {
   create: (AV, product, value) => {
@@ -164,11 +158,7 @@ export const location = {
       query.containedIn('address.province', value.address.provinces);
     }
   },
-  converter: (product) => {
-    const address = addressConverter(product);
-    const lnglat = lnglatConverter(product);
-    return { address, lnglat };
-  },
+  converter: attrConverters.location,
 };
 
 export const shopLocation = {
@@ -179,13 +169,13 @@ export const shopLocation = {
       query.matchesQuery('shop', innerQuery);
     }
   },
-  converter: null,
+  converter: attrConverters.shopLocation,
 };
 
 
 export const shop = {
   create: (AV, product, value) => setRequiredAttr(product, 'shop', AV.Object.createWithoutData('Shop', value.objectId)),
-  converter: createConverter('shop', embeddedShopToJSON),
+  converter: attrConverters.shop,
   search: (AV, query, value) => {
     if (value) {
       query.equalTo('shop', AV.Object.createWithoutData('Shop', value.objectId));
@@ -196,11 +186,96 @@ export const shop = {
 
 export const owner = {
   create: (AV, product, value) => setRequiredAttr(product, 'owner', AV.Object.createWithoutData('Profile', value.objectId)),
-  converter: createConverter('owner', embeddedUserToJSON),
+  converter: attrConverters.owner,
   search: (AV, query, value) => {
     if (value) {
       query.equalTo('owner', AV.Object.createWithoutData('_User', value.objectId));
     }
   },
   include: ['owner', 'owner.avatar'],
+};
+
+export default {
+  [productTypes.supply]: {
+    type: productTypes.supply,
+    table: productTables[productTypes.supply],
+    attributes: {
+      objectId,
+      status,
+      category,
+      species,
+      name,
+      images,
+      thumbnail,
+      desc,
+      location,
+      specs,
+      minPrice,
+      labels,
+      owner,
+      createdAt,
+      updatedAt,
+    },
+  },
+  [productTypes.trip]: {
+    type: productTypes.trip,
+    table: productTables[productTypes.trip],
+    attributes: {
+      objectId,
+      status,
+      name,
+      images,
+      thumbnail,
+      desc,
+      location,
+      specs,
+      minPrice,
+      labels,
+      owner,
+      createdAt,
+      updatedAt,
+    },
+  },
+  [productTypes.logistics]: {
+    type: productTypes.logistics,
+    table: productTables[productTypes.logistics],
+    attributes: {
+      objectId,
+      status,
+      capacity,
+      price,
+      range,
+      count,
+      name,
+      images,
+      thumbnail,
+      desc,
+      location,
+      labels,
+      owner,
+      createdAt,
+      updatedAt,
+    },
+  },
+  [productTypes.shop]: {
+    type: productTypes.shop,
+    table: productTables[productTypes.shop],
+    attributes: {
+      objectId,
+      status,
+      category,
+      species,
+      name,
+      images,
+      thumbnail,
+      desc,
+      specs,
+      minPrice,
+      labels,
+      shop,
+      createdAt,
+      updatedAt,
+      location: shopLocation,
+    },
+  },
 };

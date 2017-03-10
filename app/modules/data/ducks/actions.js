@@ -14,6 +14,8 @@ import {
   SET_SHOPS,
   SET_COMMENTS,
   REMOVE_COMMENTS,
+  SET_ORDERS,
+  REMOVE_ORDERS,
 } from './constants';
 
 export const setCurrentUser = (user) => ({
@@ -77,6 +79,15 @@ export const setComments = (comments) => ({
 });
 export const removeComments = (ids) => ({
   type: REMOVE_COMMENTS,
+  payload: { ids },
+});
+
+export const setOrders = (orders) => ({
+  type: SET_ORDERS,
+  payload: { orders },
+});
+export const removeOrders = (ids) => ({
+  type: REMOVE_ORDERS,
   payload: { ids },
 });
 

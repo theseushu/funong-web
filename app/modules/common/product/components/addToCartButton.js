@@ -12,20 +12,20 @@ const addCartItemStateSelector = selectors.addItem;
 
 const ToastrLink = () => <Link to="/cart">去购物车</Link>;
 
-const AddToCartButton = ({ currentUser, pending, addCartItem, shopProduct, supplyProduct, specIndex, quantity }) => (
+const AddToCartButton = ({ currentUser, pending, addCartItem, type, product, specIndex, quantity }) => (
   <Button
     raised accent ripple disabled={pending}
     onClick={(e) => {
       e.preventDefault();
       if (currentUser) {
         addCartItem({
-          shopProduct,
-          supplyProduct,
+          type,
+          product,
           quantity,
           specIndex,
           meta: {
             resolve: () => {
-              const image = (shopProduct && shopProduct.thumbnail.thumbnail_80_80) || (supplyProduct && supplyProduct.thumbnail.thumbnail_80_80);
+              const image = product.thumbnail.thumbnail_80_80;
               success({
                 icon: <img role="presentation" width="70" height="70" src={image} />,
                 title: '加入成功',
@@ -45,8 +45,8 @@ AddToCartButton.propTypes = {
   currentUser: PropTypes.object,
   pending: PropTypes.bool,
   addCartItem: PropTypes.func.isRequired,
-  shopProduct: PropTypes.object,
-  supplyProduct: PropTypes.object,
+  type: PropTypes.string.isRequired,
+  product: PropTypes.object.isRequired,
   quantity: PropTypes.number,
   specIndex: PropTypes.number.isRequired,
 };

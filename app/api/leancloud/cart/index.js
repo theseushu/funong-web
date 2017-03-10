@@ -6,31 +6,32 @@
  * this object is mutable, deconstruction could cause latest value untouchable
  * wait until I figure out a better way
  */
-import { cartItemToJSON } from '../converters';
+import { productTables } from '../constants';
+import { cartItemToJSON } from '../utils/converters';
 const debug = require('debug')('app:api:file');
 
 export default ({ AV, context }) => {
   class CartItem extends AV.Object {}
   AV.Object.register(CartItem);
 
-  const addCartItem = async ({ shopProduct, supplyProduct, quantity }) => {
+  const addCartItem = async ({ quantity, type, product }) => {
     const { token: { sessionToken }, profile } = context;
     try {
       if (!sessionToken || !profile) {
         throw new AV.Error(AV.Error.SESSION_MISSING, '未登录用户不能使用购物车');
       }
+
       const cartItem = new CartItem();
-      if (shopProduct) {
-        cartItem.set('shopProduct', AV.Object.createWithoutData('ShopProduct', shopProduct.objectId));
-      } else if (supplyProduct) {
-        cartItem.set('supplyProduct', AV.Object.createWithoutData('SupplyProduct', supplyProduct.objectId));
+      const table = productTables[type];
+      if (table) {
+        cartItem.set(`${type}Product`, AV.Object.createWithoutData(table, product.objectId));
       } else {
-        throw new AV.Error(AV.Error.OTHER_CAUSE, '未指定商品');
+        throw new AV.Error(AV.Error.OTHER_CAUSE, `无法处理此类商品: ${type}`);
       }
       cartItem.set('quantity', quantity);
       cartItem.set('owner', AV.Object.createWithoutData('Profile', profile.objectId));
       const saved = await cartItem.save();
-      return { ...saved.toJSON(), shopProduct, supplyProduct };
+      return { ...saved.toJSON(), [type]: product };
     } catch (err) {
       debug(err);
       throw err;

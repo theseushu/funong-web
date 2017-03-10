@@ -1,4 +1,3 @@
-import _pullAt from 'lodash/pullAt';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { actions as mapDialogActions } from 'modules/mapDialog/ducks';
