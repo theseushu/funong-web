@@ -7,7 +7,7 @@ import { breakpoints } from 'modules/common/styles';
 import Tabs from '../tabs';
 import PageComponent from '../../page';
 
-export default (editPath, Card, horizontal) => {
+export default (editPath, Card, horizontal, Title) => {
   class Page extends Component { // eslint-disable-line
     static propTypes = {
       sheet: PropTypes.object.isRequired,
@@ -19,6 +19,7 @@ export default (editPath, Card, horizontal) => {
         <PageComponent smallContent={false}>
           <div className={classes.content}>
             <Tabs />
+            { Title && <Title /> }
             <div className={classes.products}>
               {
                 products.map((product, i) => (

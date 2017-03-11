@@ -7,7 +7,7 @@ const CartPage = () => (
     content={
       <Page />
     }
-    smallContent
+    smallContent={false}
   >
   </Layout>
   );

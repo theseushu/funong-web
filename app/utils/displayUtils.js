@@ -31,9 +31,9 @@ export const formatPrices = (specs) => {
   return min === max ? `${min}元` : `${min} ~ ${max}元`;
 };
 
-export const formatPrice = (spec) => {
-  const result = `￥${spec.price}每${spec.unit}`;
-  if (spec.minimum > 1) {
+export const formatPrice = (spec, displayMinimum = true) => {
+  const result = `￥${spec.price}/${spec.unit}`;
+  if (spec.minimum > 1 && displayMinimum) {
     return `${result}，${spec.minimum}${spec.unit}起售`;
   }
   return result;

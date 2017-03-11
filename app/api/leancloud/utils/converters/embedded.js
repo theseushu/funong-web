@@ -7,10 +7,10 @@ export const embeddedUserToJSON = (user) => {
   if (!user) {
     return undefined;
   }
-  const { objectId, name, mobilePhoneNumber, badges } = user.toJSON();
+  const { objectId, name, mobilePhoneNumber, badges, services } = user.toJSON();
   const avatar = fileToJSON(user.get('avatar'));
   const roles = user.get('roles');
-  return _omitBy({ objectId, name, mobilePhoneNumber, badges, avatar, roles }, _isUndefined);
+  return _omitBy({ objectId, name, mobilePhoneNumber, badges, services, avatar, roles }, _isUndefined);
 };
 
 export const embeddedShopToJSON = (shop) => {

@@ -1,4 +1,5 @@
 export { default as catalogs } from './catalogs';
+export { default as serviceTypes } from './services';
 
 export const statusValues = {
   unverified: { value: 0, title: '待审核' },

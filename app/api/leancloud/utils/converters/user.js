@@ -7,12 +7,12 @@ export default (user) => {
   if (!user) {
     return null;
   }
-  const { objectId, name, mobilePhoneNumber, desc, badges, addresses, roles } = user.toJSON();
+  const { objectId, name, mobilePhoneNumber, desc, badges, addresses, services, roles } = user.toJSON();
   const avatar = fileToJSON(user.get('avatar'));
   const images = imagesToJSON(user.get('images'));
   const avCreatedAt = user.get('createdAt');
   const avUpdatedAt = user.get('updatedAt');
   const createdAt = avCreatedAt ? avCreatedAt.getTime() : undefined;
   const updatedAt = avUpdatedAt ? avUpdatedAt.getTime() : undefined;
-  return _omitBy({ objectId, name, mobilePhoneNumber, desc, avatar, images, roles, addresses, badges, createdAt, updatedAt }, _isUndefined);
+  return _omitBy({ objectId, name, mobilePhoneNumber, desc, avatar, images, roles, addresses, badges, services, createdAt, updatedAt }, _isUndefined);
 };

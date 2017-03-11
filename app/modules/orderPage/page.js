@@ -6,6 +6,7 @@ import styles from 'modules/common/styles';
 // import { selectors as cartPageSelectors } from '../cartPage/ducks';
 import { actions, selectors } from './ducks';
 import Addresses from './addresses';
+import Orders from './orders';
 // import _debounce from 'lodash/debounce';
 // import _filter from 'lodash/filter';
 // import _groupBy from 'lodash/groupBy';
@@ -16,20 +17,17 @@ import Addresses from './addresses';
 
 const selectAddressAction = actions.selectAddress;
 const addressIndexSelector = selectors.addressIndex;
-const OrderPage = ({ user, items, addressIndex, selectAddress }) => {
-  return (
-    <div className={styles.w100}>
-      <h6 className={`${styles.mt0} ${styles.colorSubTitle}`}>收货地址</h6>
-      <Addresses
-        onAddressSelected={(index) => selectAddress(index)}
-        selectedIndex={addressIndex}
-      />
-      <h6 className={styles.colorSubTitle}>订单信息</h6>
-      {JSON.stringify(user)}
-      { JSON.stringify(items) }
-    </div>
+const OrderPage = ({ user, items, addressIndex, selectAddress }) => (
+  <div className={styles.w100}>
+    <h6 className={`${styles.mt0} ${styles.colorSubTitle}`}>收货地址</h6>
+    <Addresses
+      onAddressSelected={(index) => selectAddress(index)}
+      selectedIndex={addressIndex}
+    />
+    <h6 className={styles.colorSubTitle}>订单信息</h6>
+    <Orders items={items} user={user} />
+  </div>
   );
-}
 OrderPage.propTypes = {
   items: PropTypes.array.isRequired,
   user: PropTypes.object.isRequired,
