@@ -1,6 +1,7 @@
 import _toPairs from 'lodash/toPairs';
 import _findIndex from 'lodash/findIndex';
 import { requireAuth } from 'utils/routerUtils';
+import { groupToOrder } from 'utils/orderUtils';
 import { currentUserSelector } from 'modules/data/ducks/selectors';
 
 export default ({ store, injectReducer, injectSagas, loadModule, errorLoading }) => ({ // eslint-disable-line no-unused-vars
@@ -11,7 +12,8 @@ export default ({ store, injectReducer, injectSagas, loadModule, errorLoading })
     if (login) {
       const cartPageDucks = await System.import('../cartPage/ducks');
       const itemsSelector = cartPageDucks.selectors.items;
-      if (itemsSelector(store.getState()) == null) {
+      const items = itemsSelector(store.getState());
+      if (items == null || items.length === 0) {
         // TODO uncomment
         // replace('/cart');
       }
@@ -38,13 +40,20 @@ export default ({ store, injectReducer, injectSagas, loadModule, errorLoading })
       });
       // set default address selection
       const { actions, selectors } = ducks;
-      const { selectAddress } = actions;
+      const { selectAddress, setOrders } = actions;
       const addressIndex = selectors.addressIndex(store.getState());
       if (addressIndex == null) {
         const user = currentUserSelector(store.getState());
         store.dispatch(selectAddress(_findIndex(user.addresses, (address) => address.default)));
       }
-      renderRoute(component);
+      System.import('../cartPage/ducks').then((cartPageDucks) => {
+        const itemsSelector = cartPageDucks.selectors.items;
+        const items = itemsSelector(store.getState());
+        const items = require('./items').default; // eslint-disable-line
+        const allOrders = groupToOrder(items);
+        store.dispatch(setOrders(allOrders));
+        renderRoute(component);
+      });
     });
 
     importModules.catch(errorLoading);

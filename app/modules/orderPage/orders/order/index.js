@@ -1,8 +1,13 @@
 import React, { PropTypes } from 'react';
+import _find from 'lodash/find';
+import _reduce from 'lodash/reduce';
 import injectSheet from 'react-jss';
+import Checkbox from 'react-mdl/lib/Checkbox';
 import { Card, CardTitle } from 'react-mdl/lib/Card';
+import Textfield from 'react-mdl/lib/Textfield';
 import { formatPrice } from 'utils/displayUtils';
-import { colors } from 'modules/common/styles';
+import styles, { colors } from 'modules/common/styles';
+import { serviceTypes } from 'appConstants';
 import Owner from './owner';
 
 const Order = ({ order: { owner, shop, items }, classes }) => (
@@ -35,6 +40,39 @@ const Order = ({ order: { owner, shop, items }, classes }) => (
         </li>
       ))}
     </ul>
+    { owner && (
+      <div className={classes.services}>
+        <small>卖家提供以下服务</small>
+        <div className={classes.checkboxes}>
+          {
+            owner.services.map(({ value, charge }, i) => {
+              const serviceType = _find(serviceTypes, (type) => type.value === value);
+              return (
+                <div key={i}>
+                  <Checkbox label={serviceType.title} />
+                  { charge && <small className={styles.colorPrice}>(单独收费)</small>}
+                </div>
+              );
+            })
+          }
+        </div>
+      </div>
+    )}
+    <div className={classes.messages}>
+      <div className={classes.message}>
+        <Textfield
+          label="给卖家留言"
+          rows={3}
+        />
+      </div>
+      <div className={classes.info}>
+        <div className={classes.amount}>
+          <small>合计：</small>
+          {_reduce(items, (sum, { quantity, product: { spec } }) => sum + (quantity * spec.price), 0)}
+          <small> (不含运费)</small>
+        </div>
+      </div>
+    </div>
   </Card>
 );
 
@@ -86,5 +124,39 @@ export default injectSheet({
       color: colors.colorPrice,
       width: 140,
     },
+  },
+  services: {
+    padding: '0 16px',
+    color: colors.colorSubTitle,
+  },
+  checkboxes: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    '& > div': {
+      display: 'flex',
+      alignItems: 'center',
+      marginRight: 16,
+      '& > .mdl-checkbox': {
+        width: 'auto',
+      },
+    },
+  },
+  messages: {
+    padding: '0 16px 16px',
+    display: 'flex',
+    justifyContent: 'space-between',
+  },
+  message: {
+    width: 300,
+    minWidth: 'none',
+    maxWidth: '100%',
+  },
+  info: {
+    flex: 1,
+    paddingTop: 16,
+  },
+  amount: {
+    textAlign: 'center',
+    color: colors.colorPrice,
   },
 })(Order);

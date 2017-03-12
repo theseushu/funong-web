@@ -1,7 +1,7 @@
 export default {
   logistics: {
     title: '协助运输',
-    value: 'findLogistics',
+    value: 'logistics',
   },
   refrigeration: {
     title: '提供打冷',
