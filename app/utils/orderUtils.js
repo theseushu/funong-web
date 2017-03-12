@@ -2,6 +2,8 @@ import _filter from 'lodash/filter';
 import _groupBy from 'lodash/groupBy';
 import _map from 'lodash/map';
 import _omitBy from 'lodash/omitBy';
+import _orderBy from 'lodash/orderBy';
+import _reduce from 'lodash/reduce';
 import _isUndefined from 'lodash/isUndefined';
 import { productTypes } from 'appConstants';
 
@@ -22,6 +24,7 @@ const itemsToOrderProducts = (items, type) =>
     const product = item[`${type}Product`];
     return {
       quantity: item.quantity,
+      createdAt: item.createdAt,
       product: _omitBy({
         objectId: product.objectId,
         name: product.name,
@@ -35,16 +38,20 @@ const itemsToOrderProducts = (items, type) =>
   });
 
 export const groupToOrder = (cartItems) => {
-  const result = {};
+  const result = [];
   Object.values(productTypes).forEach((type) => {
     const orderItems = Object.values(_filter(cartItems, (item) => !!item[`${type}Product`]));
     if (type === productTypes.shop) {
       const orders = _groupBy(orderItems, (item) => item[`${type}Product`].shop.objectId);
-      result[type] = _map(orders, (value) => ({ shop: value[0][`${type}Product`].shop, items: itemsToOrderProducts(value, type) }));
+      result.push(..._map(orders, (value) => ({ shop: value[0][`${type}Product`].shop, items: itemsToOrderProducts(value, type), services: [] })));
     } else {
       const orders = _groupBy(orderItems, (item) => item[`${type}Product`].owner.objectId);
-      result[type] = _map(orders, (value) => ({ owner: value[0][`${type}Product`].owner, items: itemsToOrderProducts(value, type) }));
+      result.push(..._map(orders, (value) => ({ owner: value[0][`${type}Product`].owner, items: itemsToOrderProducts(value, type), services: [] })));
     }
   });
-  return result;
+  return _orderBy(result, (order) => -(_reduce(order.items, (r, item) => r > item.createdAt ? r : item.createdAt, 0)));
 };
+
+export const calculateDelivery = ({ areas }, { address, lnglat }) => {
+
+}

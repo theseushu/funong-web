@@ -12,6 +12,7 @@ export const colors = {
   colorText: 'rgba(0,0,0, 0.87)',
   colorError: 'rgb(213,0,0)',
   colorLightGrey: 'rgba(0,0,0, 0.1)',
+  colorSubPrice: '#FFAB91', // deepOrange200
   colorPrice: '#FF5722', // deepOrange500
   colorCategoryLabel: '#827717', // lime900
   colorSpeciesLabel: '#558B2F', // lightGreen800
@@ -106,7 +107,10 @@ const styles = {
     color: colors.colorWarning,
   },
   colorPrice: {
-    color: colors.colorPrice,
+    color: `${colors.colorPrice} !important`,
+  },
+  colorSubPrice: {
+    color: `${colors.colorSubPrice} !important`,
   },
   defaultTransition: {
     transition: 'all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms !important',

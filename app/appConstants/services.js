@@ -1,10 +1,10 @@
 export default {
-  logistics: {
-    title: '协助运输',
-    value: 'logistics',
+  delivery: {
+    title: '送货',
+    value: 'delivery',
   },
   refrigeration: {
-    title: '提供打冷',
+    title: '货品打冷',
     value: 'refrigeration',
   },
   cleaning: {
@@ -14,9 +14,5 @@ export default {
   reports: {
     title: '农残留检测',
     value: 'reports',
-  },
-  delivery: {
-    title: '周边送货',
-    value: 'delivery',
   },
 };

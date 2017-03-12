@@ -6,7 +6,7 @@ import { Dialog, DialogContent, DialogActions, DialogTitle } from 'react-mdl/lib
 import Button from 'react-mdl/lib/Button';
 import { findDOMNode } from 'react-dom';
 
-class LeftMainDialog extends Component {
+class SimpleDialog extends Component {
   static propTypes = {
     className: PropTypes.string,
     title: PropTypes.oneOfType([
@@ -62,4 +62,4 @@ export default injectSheet({
     display: 'flex',
     flexDirection: 'column',
   },
-})(LeftMainDialog);
+})(SimpleDialog);

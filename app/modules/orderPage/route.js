@@ -48,8 +48,8 @@ export default ({ store, injectReducer, injectSagas, loadModule, errorLoading })
       }
       System.import('../cartPage/ducks').then((cartPageDucks) => {
         const itemsSelector = cartPageDucks.selectors.items;
-        const items = itemsSelector(store.getState());
-        const items = require('./items').default; // eslint-disable-line
+        let items = itemsSelector(store.getState());
+        items = require('./items').default; // eslint-disable-line
         const allOrders = groupToOrder(items);
         store.dispatch(setOrders(allOrders));
         renderRoute(component);
