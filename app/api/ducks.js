@@ -1,7 +1,6 @@
 import { combineReducers } from 'redux';
 import namespace from './namespace';
 import * as map from './map';
-import * as initAMap from './initAMap/ducks';
 import * as requestSmsCode from './requestSmsCode/ducks';
 import * as signupOrLoginWithMobilePhone from './signupOrLogin/ducks';
 import * as category from './category';
@@ -21,7 +20,6 @@ import * as order from './order';
 export default {
   [namespace]: combineReducers({
     ...map.default,
-    ...initAMap.default,
     ...requestSmsCode.default,
     ...signupOrLoginWithMobilePhone.default,
     ...category.default,
@@ -42,7 +40,6 @@ export default {
 
 export const sagas = [
   ...map.sagas,
-  ...initAMap.sagas,
   ...requestSmsCode.sagas,
   ...signupOrLoginWithMobilePhone.sagas,
   ...category.sagas,

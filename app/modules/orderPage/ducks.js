@@ -2,10 +2,10 @@ const SELECT_ADDRESS = 'order_page/select_address';
 const SET_ORDERS = 'order_page/set_orders';
 const CHANGE_ORDER = 'order_page/change_order';
 
-const reducer = (state = { addressIndex: null, orders: {} }, action) => {
+const reducer = (state = { addressIndex: null, orders: [] }, action) => {
   if (action.type === SELECT_ADDRESS) {
     const { index } = action.payload;
-    return { ...state, addressIndex: index };
+    return { ...state, orders: state.orders.map((order) => ({ ...order, addtionalFee: null })), addressIndex: index };
   } else if (action.type === SET_ORDERS) {
     const { orders } = action.payload;
     return { ...state, orders };

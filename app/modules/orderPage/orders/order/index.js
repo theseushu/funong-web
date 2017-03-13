@@ -5,10 +5,12 @@ import _filter from 'lodash/filter';
 import injectSheet from 'react-jss';
 import { Card, CardTitle } from 'react-mdl/lib/Card';
 import { serviceTypes } from 'appConstants';
+import { calculateDelivery } from 'utils/orderUtils';
 import { colors } from 'modules/common/styles';
 import Owner from './owner';
 import Items from './items';
 import Services from './services';
+import Delivery from './delivery';
 import MessageAndAmount from './messageAndAmount';
 
 class Order extends PureComponent {
@@ -23,11 +25,21 @@ class Order extends PureComponent {
     onChange({ ...order, ...params });
   }
   render() {
-    const { order: { owner, shop, items, services, addtionalFee, message }, classes } = this.props;
+    const { order: { owner, shop, items, services, addtionalFee, message }, address, classes } = this.props;
     const amount = _reduce(items, (sum, { quantity, product: { spec } }) => sum + (quantity * spec.price), 0);
-    const ownerServices = (owner && owner.services) || (shop && shop.services);
-    const selectedServices = _filter(ownerServices, (service) => services.indexOf(service.value) > -1);
-    const chargedService = _filter(selectedServices, (service) => service.charge);
+    const addtionalFees = [];
+    if (owner) {
+      const ownerServices = (owner && owner.services) || (shop && shop.services);
+      const selectedServices = _filter(ownerServices, (service) => services.indexOf(service.value) > -1);
+      const chargedService = _filter(selectedServices, (service) => service.charge);
+      if (chargedService.length > 0) {
+        addtionalFees.push({ title: '附加费用', value: addtionalFee, desc: chargedService.map(({ value }) => _find(serviceTypes, (type) => type.value === value).title).join(',') });
+      }
+    }
+    if (shop) {
+      const { fee } = calculateDelivery(shop, address, amount);
+      addtionalFees.push({ title: '运费', value: fee || addtionalFee });
+    }
     return (
       <Card shadow={0} className={classes.card}>
         <CardTitle>
@@ -38,15 +50,14 @@ class Order extends PureComponent {
           { (owner && owner.services.length > 0) && (
             <Services classes={classes} order={this.props.order} onChange={this.onChange} />
           )}
+          { shop && (
+            <Delivery classes={classes} order={this.props.order} address={address} amount={amount} onChange={this.onChange} />
+          )}
           <MessageAndAmount
             message={message}
             onChange={this.onChange}
             productAmount={amount}
-            addtionalFees={
-              chargedService.length !== 0 ? [
-                { title: '附加费用', value: addtionalFee, desc: chargedService.map(({ value }) => _find(serviceTypes, (type) => type.value === value).title).join(',') },
-              ] : []
-            }
+            addtionalFees={addtionalFees}
             classes={classes}
           />
         </div>

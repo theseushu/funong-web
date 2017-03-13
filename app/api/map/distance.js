@@ -1,12 +1,12 @@
+import { NAMESPACE } from './constants';
 import createDucks from '../utils/createDucks';
-import rootSelector from '../rootSelector';
-import namespace from '../namespace';
+import rootSelector from './rootSelector';
 
 const ducks = createDucks({
-  key: 'initAMap',
-  apiName: 'initAMap',
+  key: 'init',
+  apiName: 'initMap',
   rootSelector: (state) => rootSelector(state),
-  namespace,
+  namespace: NAMESPACE,
   sagas: {},
 });
 

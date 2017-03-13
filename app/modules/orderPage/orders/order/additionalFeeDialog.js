@@ -7,6 +7,7 @@ const valueRegex = /^[0-9]{1,7}(\.[0-9]{1,2})?$/; // 0.01 - 9999999.99
 
 class AdditionalFeeDialog extends Component {
   static propTypes = {
+    title: PropTypes.string,
     label: PropTypes.string,
     close: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
@@ -24,14 +25,14 @@ class AdditionalFeeDialog extends Component {
     this.props.close();
   }
   render() {
-    const { label, close } = this.props;
+    const { title, label, close } = this.props;
     const { value } = this.state;
     return (
       <SimpleDialog
         show
         onHide={close}
         onCancel={close}
-        title="额外费用"
+        title={title || '额外费用'}
         content={
           <Textfield
             name="_price"

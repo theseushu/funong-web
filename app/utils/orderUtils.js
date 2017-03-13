@@ -6,6 +6,7 @@ import _orderBy from 'lodash/orderBy';
 import _reduce from 'lodash/reduce';
 import _isUndefined from 'lodash/isUndefined';
 import { productTypes } from 'appConstants';
+import { distance } from 'utils/mapUtils';
 
 export const groupByOrder = (items) => {
   const shopItems = Object.values(_filter(items, (item) => !!item.shopProduct));
@@ -43,7 +44,10 @@ export const groupToOrder = (cartItems) => {
     const orderItems = Object.values(_filter(cartItems, (item) => !!item[`${type}Product`]));
     if (type === productTypes.shop) {
       const orders = _groupBy(orderItems, (item) => item[`${type}Product`].shop.objectId);
-      result.push(..._map(orders, (value) => ({ shop: value[0][`${type}Product`].shop, items: itemsToOrderProducts(value, type), services: [] })));
+      result.push(..._map(orders, (value) => {
+
+        return { shop: value[0][`${type}Product`].shop, items: itemsToOrderProducts(value, type), services: [] };
+      }));
     } else {
       const orders = _groupBy(orderItems, (item) => item[`${type}Product`].owner.objectId);
       result.push(..._map(orders, (value) => ({ owner: value[0][`${type}Product`].owner, items: itemsToOrderProducts(value, type), services: [] })));
@@ -52,6 +56,42 @@ export const groupToOrder = (cartItems) => {
   return _orderBy(result, (order) => -(_reduce(order.items, (r, item) => r > item.createdAt ? r : item.createdAt, 0)));
 };
 
-export const calculateDelivery = ({ areas }, { address, lnglat }) => {
-
-}
+export const calculateDelivery = ({ areas, location }, { address, lnglat }, amount) => { // eslint-disable-line
+  const result = {
+    inside: false,
+    fee: null,
+    minimum: null,
+    raise: null,
+  };
+  const areasInclude = _filter(areas, (area) => {
+    let district;
+    switch (area.level) {
+      case 'country':
+        district = address.province;
+        break;
+      case 'province':
+        district = address.city;
+        break;
+      case 'city':
+        district = address.district;
+        break;
+      case 'district':
+        district = address.street;
+        break;
+      default:
+    }
+    if (district) {
+      return area.districts.indexOf(district) > -1;
+    }
+    // custom area
+    return (area.distance * 1000) > distance(lnglat, location.lnglat);
+  });
+  if (areasInclude.length > 0) {
+    result.inside = true;
+  }
+  result.fee = _reduce(areasInclude, (fee, area) => area.minimum <= amount ? Math.min(area.deliveryFee, fee) : fee, 99999999);
+  result.minimum = _reduce(areasInclude, (minimum, area) => Math.min(area.minimum, minimum), 99999999);
+  result.fee = result.fee === 99999999 ? null : result.fee;
+  result.raise = _filter(areasInclude, (fee, area) => area.deliveryFee < result.fee).map((area) => ({ value: area.minimum - amount, fee: area.deliveryFee }));
+  return result;
+};

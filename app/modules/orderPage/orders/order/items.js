@@ -31,7 +31,7 @@ const Items = ({ items, classes }) => (
       </li>
     ))}
   </ul>
-)
+);
 Items.propTypes = {
   items: PropTypes.array.isRequired,
   classes: PropTypes.object.isRequired,

@@ -41,10 +41,14 @@ export default ({ store, injectReducer, injectSagas, loadModule, errorLoading })
       // set default address selection
       const { actions, selectors } = ducks;
       const { selectAddress, setOrders } = actions;
-      const addressIndex = selectors.addressIndex(store.getState());
+      let addressIndex = selectors.addressIndex(store.getState());
       if (addressIndex == null) {
         const user = currentUserSelector(store.getState());
-        store.dispatch(selectAddress(_findIndex(user.addresses, (address) => address.default)));
+        addressIndex = _findIndex(user.addresses, (address) => address.default);
+        if (addressIndex < 0) {
+          addressIndex = 0;
+        }
+        store.dispatch(selectAddress(addressIndex));
       }
       System.import('../cartPage/ducks').then((cartPageDucks) => {
         const itemsSelector = cartPageDucks.selectors.items;

@@ -1,17 +1,36 @@
 import _once from 'lodash/once';
-const WEB_KEY = '47126811591e35236dbde1130d579dde';
+// const WEB_KEY = '47126811591e35236dbde1130d579dde';
+
+// const loadMapFunc = _once(async () => {
+//   const Map = await new Promise((resolve) => {
+//     window.initAMap = () => {
+//       resolve(window.AMap);
+//     };
+//     const script = document.createElement('script');
+//     script.id = '_amap_script';
+//     script.type = 'text/javascript';
+//     script.src = `https://webapi.amap.com/maps?v=1.3&key=${WEB_KEY}&callback=initAMap`;
+//     document.head.appendChild(script);
+//   });
+//   const Geocoder = await new Promise((resolve) => {
+//     Map.plugin('AMap.Geocoder', () => {
+//       const result = new Map.Geocoder({});
+//       resolve(result);
+//     });
+//   });
+//   const DistrictSearch = await new Promise((resolve) => {
+//     Map.service('AMap.DistrictSearch', () => {
+//       const result = new Map.DistrictSearch({
+//         showbiz: false,
+//       });
+//       resolve(result);
+//     });
+//   });
+//   return { Map, Geocoder, DistrictSearch };
+// });
 
 const loadMapFunc = _once(async () => {
-  const Map = await new Promise((resolve) => {
-    window.initAMap = () => {
-      resolve(window.AMap);
-    };
-    const script = document.createElement('script');
-    script.id = '_amap_script';
-    script.type = 'text/javascript';
-    script.src = `https://webapi.amap.com/maps?v=1.3&key=${WEB_KEY}&callback=initAMap`;
-    document.head.appendChild(script);
-  });
+  const Map = window.AMap;
   const Geocoder = await new Promise((resolve) => {
     Map.plugin('AMap.Geocoder', () => {
       const result = new Map.Geocoder({});
@@ -66,6 +85,7 @@ const bindOnClick = (Map, map, geocoder, onClick) => {
             province: addressComponent.province,
             city: addressComponent.province && addressComponent.city,
             district: addressComponent.city && addressComponent.district,
+            street: addressComponent.district && addressComponent.street,
             details: formattedAddress,
           },
         });

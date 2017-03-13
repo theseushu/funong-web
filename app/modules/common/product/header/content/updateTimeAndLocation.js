@@ -2,7 +2,8 @@ import React, { PropTypes } from 'react';
 import injectSheet from 'react-jss';
 import { Grid, Cell } from 'react-mdl/lib/Grid';
 import { breakpoints, colors } from 'modules/common/styles';
-import { humanizeTime, formatAddress, humanizeLnglat } from 'utils/displayUtils';
+import { humanizeTime, formatAddress, humanizeDistance } from 'utils/displayUtils';
+import { distance } from 'utils/mapUtils';
 
 const UpdateTimeAndLocation = ({ locationTile, location, currentLocation, updatedAt, classes }) => (
   <Grid noSpacing className={classes.wrapper}>
@@ -15,7 +16,7 @@ const UpdateTimeAndLocation = ({ locationTile, location, currentLocation, update
         <small>
           {
             (currentLocation && currentLocation.lnglat) &&
-            `(${humanizeLnglat(currentLocation.lnglat.latitude, currentLocation.lnglat.longitude, location.lnglat.latitude, location.lnglat.longitude)})`
+            `(${humanizeDistance(distance(currentLocation.lnglat, location.lnglat))})`
           }
         </small>
       </Cell>
