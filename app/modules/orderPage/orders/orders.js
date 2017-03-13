@@ -3,7 +3,7 @@ import _map from 'lodash/map';
 import injectSheet from 'react-jss';
 import Order from './order';
 
-const Orders = ({ orders, address, changeOrder, classes }) => (
+const Orders = ({ orders, address, changeServices, changeServicesFee, classes }) => (
   <div className={classes.orders}>
     {
       _map(orders, (order, i) => (
@@ -11,7 +11,8 @@ const Orders = ({ orders, address, changeOrder, classes }) => (
           key={i}
           order={order}
           address={address}
-          onChange={(o) => changeOrder(i, o)}
+          changeServices={(services) => changeServices(i, services)}
+          changeServicesFee={(fee) => changeServicesFee(i, fee)}
         />
       ))
     }
@@ -22,7 +23,8 @@ Orders.propTypes = {
   classes: PropTypes.object.isRequired,
   address: PropTypes.object.isRequired,
   orders: PropTypes.array.isRequired,
-  changeOrder: PropTypes.func.isRequired,
+  changeServices: PropTypes.func.isRequired,
+  changeServicesFee: PropTypes.func.isRequired,
 };
 
 export default injectSheet({

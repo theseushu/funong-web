@@ -1,5 +1,7 @@
-export { default as catalogs } from './catalogs';
-export { default as serviceTypes } from './services';
+export catalogs from './catalogs';
+export productTypes from './productTypes';
+export serviceTypes from './services';
+export orderFeeTypes from './orderFeeTypes';
 
 export const statusValues = {
   unverified: { value: 0, title: '待审核' },
@@ -15,13 +17,6 @@ export const statusValues = {
   finished: { value: 16, title: '完成' },
   cancelling: { value: 17, title: '取消中' },
   cancelled: { value: 18, title: '已取消' },
-};
-
-export const productTypes = {
-  supply: 'supply',
-  logistics: 'logistics',
-  trip: 'trip',
-  shop: 'shop',
 };
 
 export const availableValues = {

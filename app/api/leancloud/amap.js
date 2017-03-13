@@ -101,7 +101,7 @@ export default () => {
     let geolocation;
     const initMap = async ({ id, zoom = 10, onClick, center }) => {
       if (maps[id]) {
-        console.error(`You're creating map on dom element ${id} twice!`);
+        console.error(`You're creating map on dom element ${id} twice!`); // eslint-disable-line
         return;
       }
       const { Map, Geocoder } = await loadMapFunc();
@@ -136,7 +136,7 @@ export default () => {
 
     const centerMap = async ({ id, center }) => {
       if (!maps[id]) {
-        console.error(`Cannot find map on dom element ${id}!`);
+        console.error(`Cannot find map on dom element ${id}!`);// eslint-disable-line
         return;
       }
       const { Map } = await loadMapFunc();

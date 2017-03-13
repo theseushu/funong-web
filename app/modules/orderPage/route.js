@@ -1,7 +1,6 @@
 import _toPairs from 'lodash/toPairs';
 import _findIndex from 'lodash/findIndex';
 import { requireAuth } from 'utils/routerUtils';
-import { groupToOrder } from 'utils/orderUtils';
 import { currentUserSelector } from 'modules/data/ducks/selectors';
 
 export default ({ store, injectReducer, injectSagas, loadModule, errorLoading }) => ({ // eslint-disable-line no-unused-vars
@@ -40,22 +39,22 @@ export default ({ store, injectReducer, injectSagas, loadModule, errorLoading })
       });
       // set default address selection
       const { actions, selectors } = ducks;
-      const { selectAddress, setOrders } = actions;
+      const { selectAddress, createOrders } = actions;
+      const user = currentUserSelector(store.getState());
       let addressIndex = selectors.addressIndex(store.getState());
       if (addressIndex == null) {
-        const user = currentUserSelector(store.getState());
         addressIndex = _findIndex(user.addresses, (address) => address.default);
         if (addressIndex < 0) {
           addressIndex = 0;
         }
-        store.dispatch(selectAddress(addressIndex));
       }
+      store.dispatch(selectAddress(addressIndex));
+      const address = user.addresses[addressIndex];
       System.import('../cartPage/ducks').then((cartPageDucks) => {
         const itemsSelector = cartPageDucks.selectors.items;
         let items = itemsSelector(store.getState());
         items = require('./items').default; // eslint-disable-line
-        const allOrders = groupToOrder(items);
-        store.dispatch(setOrders(allOrders));
+        store.dispatch(createOrders(items, address));
         renderRoute(component);
       });
     });

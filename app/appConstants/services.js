@@ -1,18 +1,28 @@
+import productTypes from './productTypes';
+
 export default {
-  delivery: {
-    title: '送货',
-    value: 'delivery',
+  [productTypes.supply]: {
+    delivery: {
+      title: '送货',
+      value: 'delivery',
+    },
+    refrigeration: {
+      title: '货品打冷',
+      value: 'refrigeration',
+    },
+    cleaning: {
+      title: '清洗净品',
+      value: 'cleaning',
+    },
+    reports: {
+      title: '农残留检测',
+      value: 'reports',
+    },
   },
-  refrigeration: {
-    title: '货品打冷',
-    value: 'refrigeration',
+  [productTypes.shop]: {
   },
-  cleaning: {
-    title: '清洗净品',
-    value: 'cleaning',
+  [productTypes.logistics]: {
   },
-  reports: {
-    title: '农残留检测',
-    value: 'reports',
+  [productTypes.trip]: {
   },
 };

@@ -1,3 +1,4 @@
+import _find from 'lodash/find';
 import _filter from 'lodash/filter';
 import _groupBy from 'lodash/groupBy';
 import _map from 'lodash/map';
@@ -5,7 +6,7 @@ import _omitBy from 'lodash/omitBy';
 import _orderBy from 'lodash/orderBy';
 import _reduce from 'lodash/reduce';
 import _isUndefined from 'lodash/isUndefined';
-import { productTypes } from 'appConstants';
+import { productTypes, orderFeeTypes } from 'appConstants';
 import { distance } from 'utils/mapUtils';
 
 export const groupByOrder = (items) => {
@@ -38,24 +39,106 @@ const itemsToOrderProducts = (items, type) =>
     };
   });
 
+/**
+ * @param cartItems
+ * @return array of orders
+ * {
+ *  shop (if it's an order of shop products)
+ *  owner (if it's an order of other types)
+ *  type (the type of products in this order. all products shall be the same type)
+ *  items ( array of { quantity, createdAt (date added to cart), product snapshot }
+ * }
+ */
 export const groupToOrder = (cartItems) => {
   const result = [];
   Object.values(productTypes).forEach((type) => {
     const orderItems = Object.values(_filter(cartItems, (item) => !!item[`${type}Product`]));
     if (type === productTypes.shop) {
       const orders = _groupBy(orderItems, (item) => item[`${type}Product`].shop.objectId);
-      result.push(..._map(orders, (value) => {
-
-        return { shop: value[0][`${type}Product`].shop, items: itemsToOrderProducts(value, type), services: [] };
-      }));
+      result.push(..._map(orders, (value) => ({ shop: value[0][`${type}Product`].shop, type, items: itemsToOrderProducts(value, type), services: [], otherFees: {} })));
     } else {
       const orders = _groupBy(orderItems, (item) => item[`${type}Product`].owner.objectId);
-      result.push(..._map(orders, (value) => ({ owner: value[0][`${type}Product`].owner, items: itemsToOrderProducts(value, type), services: [] })));
+      result.push(..._map(orders, (value) => ({ user: value[0][`${type}Product`].owner, type, items: itemsToOrderProducts(value, type), services: [], otherFees: {} })));
     }
   });
   return _orderBy(result, (order) => -(_reduce(order.items, (r, item) => r > item.createdAt ? r : item.createdAt, 0)));
 };
 
+/**
+ * @param cartItems
+ * @return array of orders
+ * {
+ *  shop (if it's an order of shop products)
+ *  owner (if it's an order of other types)
+ *  type (the type of products in this order. all products shall be the same type)
+ *  items ( array of { quantity, createdAt (date added to cart), product snapshot }
+ * }
+ */
+export const createOrders = (cartItems, address) => {
+  const result = [];
+  Object.values(productTypes).forEach((type) => {
+    const itemsOfType = Object.values(_filter(cartItems, (item) => !!item[`${type}Product`]));
+    if (type === productTypes.shop) {
+      const groupedOrderItems = _groupBy(itemsOfType, (item) => item[`${type}Product`].shop.objectId);
+      result.push(..._map(groupedOrderItems, (orderItems) => {
+        const shop = orderItems[0][`${type}Product`].shop;
+        const items = itemsToOrderProducts(orderItems, type);
+        return calculateOrder({ type, items, shop, user: undefined, services: [], otherFees: {}, address });
+      }));
+    } else {
+      const groupedOrderItems = _groupBy(itemsOfType, (item) => item[`${type}Product`].owner.objectId);
+      result.push(..._map(groupedOrderItems, (orderItems) => {
+        const user = orderItems[0][`${type}Product`].owner;
+        const items = itemsToOrderProducts(orderItems, type);
+        return calculateOrder({ type, items, shop: undefined, user, services: [], otherFees: {}, address });
+      }));
+    }
+  });
+  return _orderBy(result, (order) => -(_reduce(order.items, (r, item) => r > item.createdAt ? r : item.createdAt, 0)));
+};
+
+export const calculateOrder = ({ type, items, shop, user, services, otherFees, address }) => {
+  if (type === productTypes.shop) {
+    const amount = _reduce(items, (sum, { quantity, product: { spec } }) => sum + (quantity * spec.price), 0);
+    const delivery = calculateDelivery(shop, address, amount);
+    return {
+      shop,
+      type,
+      items,
+      services,
+      delivery,
+      amount,
+      otherFees: _omitBy({
+        [orderFeeTypes.delivery.key]: delivery.fee != null ? delivery.fee : otherFees[orderFeeTypes.delivery.key],
+        [orderFeeTypes.service.key]: !chargedService ? undefined : otherFees[orderFeeTypes.service.key] || null,
+      }, _isUndefined),
+    };
+  }
+  const amount = _reduce(items, (sum, { quantity, product: { spec } }) => sum + (quantity * spec.price), 0);
+  const chargedService = _find(services, (s) => s.charge);
+  return {
+    user,
+    type,
+    items,
+    services,
+    amount,
+    otherFees: _omitBy({
+      [orderFeeTypes.service.key]: !chargedService ? undefined : otherFees[orderFeeTypes.service.key] || null,
+    }, _isUndefined),
+  };
+};
+/**
+ * @param shop
+ * @param delivery address
+ * @param amount of order's products
+ * @return
+ * {
+ *  inside (is the address inside areas the shop provides service)
+ *  fee (delivery fee if address is inside areas and amount meets minimum amount)
+ *  minimum (lowest minimum amount of areas address is in)
+ *  raise (to lower delivery fee, how much more shall be added to the order) array of { value (how much more shall be added), fee (delivery fee)}
+*  }
+ */
 export const calculateDelivery = ({ areas, location }, { address, lnglat }, amount) => { // eslint-disable-line
   const result = {
     inside: false,

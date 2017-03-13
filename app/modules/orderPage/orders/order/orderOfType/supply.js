@@ -1,65 +1,55 @@
 import React, { PureComponent, PropTypes } from 'react';
 import _find from 'lodash/find';
+import _reduce from 'lodash/reduce';
+import _filter from 'lodash/filter';
 import injectSheet from 'react-jss';
 import { Card, CardTitle } from 'react-mdl/lib/Card';
-import { productTypes, serviceTypes, orderFeeTypes } from 'appConstants';
+import { serviceTypes } from 'appConstants';
+import { calculateDelivery } from 'utils/orderUtils';
 import { colors } from 'modules/common/styles';
-import Owner from './components/owner';
-import Items from './components/items';
-import Services from './components/services';
-import Delivery from './components/delivery';
-import MessageAndAmount from './components/messageAndAmount';
+import Owner from '../components/owner';
+import Items from '../components/items';
+import Services from '../components/services';
+import Delivery from '../components/delivery';
+import MessageAndAmount from '../components/messageAndAmount';
 
 class Order extends PureComponent {
   static propTypes = {
     classes: PropTypes.object.isRequired,
     address: PropTypes.object.isRequired,
     order: PropTypes.object.isRequired,
-    changeServices: PropTypes.func.isRequired,
-    changeServicesFee: PropTypes.func.isRequired,
+    onChange: PropTypes.func.isRequired,
+  }
+  onChange = ({ ...params }) => {
+    const { order, onChange } = this.props;
+    onChange({ ...order, ...params });
   }
   render() {
-    const { order: { type, user, shop, items, amount, services, otherFees, message },
-      address, changeServices, changeServicesFee, classes } = this.props;
-    // services
-    const availableServices = serviceTypes[type];
-    let orderServices;
-    if (type === productTypes.shop) {
-      orderServices = shop.services || [];
-    } else {
-      orderServices = user.services[type] || [];
+    const { order: { owner, shop, items, services, addtionalFee, message }, address, classes } = this.props;
+    const amount = _reduce(items, (sum, { quantity, product: { spec } }) => sum + (quantity * spec.price), 0);
+    const addtionalFees = [];
+    if (owner) {
+      const ownerServices = (owner && owner.services) || (shop && shop.services);
+      const selectedServices = _filter(ownerServices, (service) => services.indexOf(service.value) > -1);
+      const chargedService = _filter(selectedServices, (service) => service.charge);
+      if (chargedService.length > 0) {
+        addtionalFees.push({ title: '附加费用', value: addtionalFee, desc: chargedService.map(({ value }) => _find(serviceTypes, (type) => type.value === value).title).join(',') });
+      }
     }
-    // there's no available service to chose
-    if (availableServices.length === 0 || orderServices.length === 0) {
-      return null;
+    if (shop) {
+      const { fee } = calculateDelivery(shop, address, amount);
+      addtionalFees.push({ title: '运费', value: fee || addtionalFee });
     }
-    orderServices = orderServices.map(({ value, charge }) => {
-      const service = _find(availableServices, (s) => value === s.value);
-      return { ...service, charge, checked: !!_find(services, (s) => s.value === service.value) };
-    });
-    const serviceFee = otherFees[orderFeeTypes.service.key];
     return (
       <Card shadow={0} className={classes.card}>
         <CardTitle>
-          <Owner user={user} shop={shop} />
+          <Owner user={owner} shop={shop} />
         </CardTitle>
         <div className={classes.content}>
           <Items items={items} classes={classes} />
-          <Services
-            services={orderServices}
-            serviceFee={serviceFee}
-            classes={classes}
-            onServiceChange={(checked, value, charge) => {
-              let newServices = [...services];
-              if (checked) {
-                newServices = [{ value, charge }, ...newServices];
-              } else {
-                newServices = newServices.filter((s) => s.value !== value);
-              }
-              changeServices(newServices);
-            }}
-            onServiceFeeChange={changeServicesFee}
-          />
+          { (owner && owner.services.length > 0) && (
+            <Services classes={classes} order={this.props.order} onChange={this.onChange} />
+          )}
           { shop && (
             <Delivery classes={classes} order={this.props.order} address={address} amount={amount} onChange={this.onChange} />
           )}
@@ -67,7 +57,7 @@ class Order extends PureComponent {
             message={message}
             onChange={this.onChange}
             productAmount={amount}
-            otherFees={otherFees}
+            addtionalFees={addtionalFees}
             classes={classes}
           />
         </div>

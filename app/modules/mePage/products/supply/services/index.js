@@ -20,8 +20,8 @@ const Services = ({ user: { services }, updateServices, classes }) => (
     <Cell col={12} tablet={8} phone={4}>
       <h6>提供服务：</h6>
     </Cell>
-    {_map(serviceTypes, ({ value, title }, key) => {
-      const userService = _find(services, (s) => s.value === value);
+    {_map(serviceTypes.supply, ({ value, title }, key) => {
+      const userService = _find(services.supply, (s) => s.value === value);
       return (
         <Cell key={key}>
           <Service value={value} title={title} checked={!!userService} charge={!userService ? false : userService.charge} onChange={updateServices} />
@@ -43,14 +43,16 @@ export default connect(
   (stateProps, dispatchProps, ownProps) => ({
     ...stateProps,
     updateServices: (value, checked, charge) => {
-      let services = [...stateProps.user.services];
+      const userServices = stateProps.user.services || {};
+      const userSupplySerivces = userServices.supply || [];
+      let supplyServices = [...userSupplySerivces];
       if (checked) {
-        services = _filter(services, (service) => service.value !== value);
-        services.push({ value, charge });
+        supplyServices = _filter(supplyServices, (service) => service.value !== value);
+        supplyServices.push({ value, charge });
       } else {
-        services = _filter(services, (service) => service.value !== value);
+        supplyServices = _filter(supplyServices, (service) => service.value !== value);
       }
-      return dispatchProps.updateProfile({ services });
+      return dispatchProps.updateProfile({ services: { ...userServices, supply: supplyServices } });
     },
     ...ownProps,
   })
