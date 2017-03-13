@@ -6,6 +6,7 @@ import styles from 'modules/common/styles';
 import { actions, selectors } from './ducks';
 import Addresses from './addresses';
 import Orders from './orders';
+import Summary from './sumary';
 
 const selectAddressAction = actions.selectAddress;
 const addressIndexSelector = selectors.addressIndex;
@@ -19,6 +20,7 @@ const OrderPage = ({ user, addressIndex, selectAddress }) => (
     />
     <h6 className={styles.colorSubTitle}>订单信息</h6>
     <Orders address={user.addresses[addressIndex]} />
+    <Summary />
   </div>
   );
 OrderPage.propTypes = {

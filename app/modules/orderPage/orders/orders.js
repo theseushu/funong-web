@@ -23,7 +23,7 @@ const Orders = ({ orders, address, changeMessage, changeServices, changeServices
 
 Orders.propTypes = {
   classes: PropTypes.object.isRequired,
-  address: PropTypes.object.isRequired,
+  address: PropTypes.object,
   orders: PropTypes.array.isRequired,
   changeMessage: PropTypes.func.isRequired,
   changeServices: PropTypes.func.isRequired,

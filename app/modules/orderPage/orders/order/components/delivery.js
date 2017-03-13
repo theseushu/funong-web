@@ -1,5 +1,4 @@
 import React, { Component, PropTypes } from 'react';
-import { calculateDelivery } from 'utils/orderUtils';
 import styles from 'modules/common/styles';
 import AddtionalFeeDialog from './additionalFeeDialog';
 
@@ -7,13 +6,13 @@ class Delivery extends Component {
   static propTypes = {
     classes: PropTypes.object.isRequired,
     delivery: PropTypes.object.isRequired,
-    amount: PropTypes.number.isRequired,
+    productAmount: PropTypes.number.isRequired,
     deliveryFee: PropTypes.number,
     onDeliveryFeeChange: PropTypes.func.isRequired,
   }
   state = { editing: false }
   render() {
-    const { delivery: { inside, fee, minimum, raise }, amount, deliveryFee, onDeliveryFeeChange, classes } = this.props;
+    const { delivery: { inside, fee, minimum, raise }, productAmount, deliveryFee, onDeliveryFeeChange, classes } = this.props;
     const editing = this.state.editing;
     return (
       <div className={`${classes.line} ${classes.services}`}>
@@ -24,7 +23,7 @@ class Delivery extends Component {
           <div className="_info">
             {fee == null && (
               <small className={styles.colorSubTitle}>
-                {inside ? `还差￥${minimum - amount}达到起送价格` : '您不在店铺的服务区内'}
+                {inside ? `还差￥${minimum - productAmount}达到起送价格` : '您不在店铺的服务区内'}
                 <br />
                 请与卖家商议运费
                 <br />

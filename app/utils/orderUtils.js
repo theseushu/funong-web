@@ -74,30 +74,36 @@ export const createOrders = (cartItems, address) => {
 
 export const calculateOrder = ({ type, items, shop, user, services, otherFees, address }) => {
   if (type === productTypes.shop) {
-    const amount = _reduce(items, (sum, { quantity, product: { spec } }) => sum + (quantity * spec.price), 0);
-    const delivery = calculateDelivery(shop, address, amount);
+    const productAmount = _reduce(items, (sum, { quantity, product: { spec } }) => sum + (quantity * spec.price), 0);
+    const delivery = calculateDelivery(shop, address, productAmount);
+    let deliveryFee;
+    if (!delivery) {
+      deliveryFee = undefined;
+    } else {
+      deliveryFee = delivery.fee != null ? delivery.fee : otherFees[orderFeeTypes.delivery.key] || null;
+    }
     return {
       shop,
       type,
       items,
       services,
       delivery,
-      amount,
+      productAmount,
       otherFees: _omitBy({
-        [orderFeeTypes.delivery.key]: delivery.fee != null ? undefined : otherFees[orderFeeTypes.delivery.key],
+        [orderFeeTypes.delivery.key]: deliveryFee,
         [orderFeeTypes.service.key]: !chargedService ? undefined : otherFees[orderFeeTypes.service.key] || null,
       }, _isUndefined),
       address,
     };
   }
-  const amount = _reduce(items, (sum, { quantity, product: { spec } }) => sum + (quantity * spec.price), 0);
+  const productAmount = _reduce(items, (sum, { quantity, product: { spec } }) => sum + (quantity * spec.price), 0);
   const chargedService = _find(services, (s) => s.charge);
   return {
     user,
     type,
     items,
     services,
-    amount,
+    productAmount,
     otherFees: _omitBy({
       [orderFeeTypes.service.key]: !chargedService ? undefined : otherFees[orderFeeTypes.service.key] || null,
     }, _isUndefined),
@@ -107,16 +113,19 @@ export const calculateOrder = ({ type, items, shop, user, services, otherFees, a
 /**
  * @param shop
  * @param delivery address
- * @param amount of order's products
+ * @param productAmount of order's products
  * @return
  * {
  *  inside (is the address inside areas the shop provides service)
- *  fee (delivery fee if address is inside areas and amount meets minimum amount)
- *  minimum (lowest minimum amount of areas address is in)
+ *  fee (delivery fee if address is inside areas and productAmount meets minimum amount)
+ *  minimum (lowest minimum productAmount of areas address is in)
  *  raise (to lower delivery fee, how much more shall be added to the order) array of { value (how much more shall be added), fee (delivery fee)}
 *  }
  */
-export const calculateDelivery = ({ areas, location }, { address, lnglat }, amount) => { // eslint-disable-line
+export const calculateDelivery = ({ areas, location }, address, productAmount) => {
+  if (!address) {
+    return null;
+  }
   const result = {
     inside: false,
     fee: null,
@@ -127,16 +136,16 @@ export const calculateDelivery = ({ areas, location }, { address, lnglat }, amou
     let district;
     switch (area.level) {
       case 'country':
-        district = address.province;
+        district = address.address.province;
         break;
       case 'province':
-        district = address.city;
+        district = address.address.city;
         break;
       case 'city':
-        district = address.district;
+        district = address.address.district;
         break;
       case 'district':
-        district = address.street;
+        district = address.address.street;
         break;
       default:
     }
@@ -144,14 +153,21 @@ export const calculateDelivery = ({ areas, location }, { address, lnglat }, amou
       return area.districts.indexOf(district) > -1;
     }
     // custom area
-    return (area.distance * 1000) > distance(lnglat, location.lnglat);
+    return (area.distance * 1000) > distance(address.lnglat, location.lnglat);
   });
   if (areasInclude.length > 0) {
     result.inside = true;
   }
-  result.fee = _reduce(areasInclude, (fee, area) => area.minimum <= amount ? Math.min(area.deliveryFee, fee) : fee, 99999999);
+  result.fee = _reduce(areasInclude, (fee, area) => area.minimum <= productAmount ? Math.min(area.deliveryFee, fee) : fee, 99999999);
   result.minimum = _reduce(areasInclude, (minimum, area) => Math.min(area.minimum, minimum), 99999999);
   result.fee = result.fee === 99999999 ? null : result.fee;
-  result.raise = _filter(areasInclude, (fee, area) => area.deliveryFee < result.fee).map((area) => ({ value: area.minimum - amount, fee: area.deliveryFee }));
+  result.raise = _filter(areasInclude, (fee, area) => area.deliveryFee < result.fee).map((area) => ({ value: area.minimum - productAmount, fee: area.deliveryFee }));
   return result;
+};
+
+export const calculateAmount = ({ otherFees, productAmount }) => {
+  if (_filter(otherFees, (value) => value == null).length > 0) {
+    return null;
+  }
+  return _reduce(otherFees, (sum, value) => sum + value, productAmount);
 };

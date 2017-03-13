@@ -20,7 +20,7 @@ class Order extends PureComponent {
     changeDeliveryFee: PropTypes.func.isRequired,
   }
   render() {
-    const { order: { type, user, shop, items, amount, services, delivery, otherFees, message },
+    const { order: { type, user, shop, items, productAmount, services, delivery, otherFees, message },
       changeServices, changeServicesFee, changeMessage, changeDeliveryFee, classes } = this.props;
     // services
     const availableServices = serviceTypes[type];
@@ -59,13 +59,12 @@ class Order extends PureComponent {
             onServiceFeeChange={changeServicesFee}
           />
           { delivery && (
-            <Delivery classes={classes} delivery={delivery} amount={amount} deliveryFee={deliveryFee} onDeliveryFeeChange={changeDeliveryFee} />
+            <Delivery classes={classes} delivery={delivery} productAmount={productAmount} deliveryFee={deliveryFee} onDeliveryFeeChange={changeDeliveryFee} />
           )}
           <MessageAndAmount
             message={message}
             onChange={changeMessage}
-            productAmount={amount}
-            otherFees={otherFees}
+            order={this.props.order}
             classes={classes}
           />
         </div>
