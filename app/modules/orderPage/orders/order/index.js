@@ -13,14 +13,15 @@ import MessageAndAmount from './components/messageAndAmount';
 class Order extends PureComponent {
   static propTypes = {
     classes: PropTypes.object.isRequired,
-    address: PropTypes.object.isRequired,
     order: PropTypes.object.isRequired,
+    changeMessage: PropTypes.func.isRequired,
     changeServices: PropTypes.func.isRequired,
     changeServicesFee: PropTypes.func.isRequired,
+    changeDeliveryFee: PropTypes.func.isRequired,
   }
   render() {
-    const { order: { type, user, shop, items, amount, services, otherFees, message },
-      address, changeServices, changeServicesFee, classes } = this.props;
+    const { order: { type, user, shop, items, amount, services, delivery, otherFees, message },
+      changeServices, changeServicesFee, changeMessage, changeDeliveryFee, classes } = this.props;
     // services
     const availableServices = serviceTypes[type];
     let orderServices;
@@ -29,15 +30,12 @@ class Order extends PureComponent {
     } else {
       orderServices = user.services[type] || [];
     }
-    // there's no available service to chose
-    if (availableServices.length === 0 || orderServices.length === 0) {
-      return null;
-    }
     orderServices = orderServices.map(({ value, charge }) => {
       const service = _find(availableServices, (s) => value === s.value);
       return { ...service, charge, checked: !!_find(services, (s) => s.value === service.value) };
     });
     const serviceFee = otherFees[orderFeeTypes.service.key];
+    const deliveryFee = otherFees[orderFeeTypes.delivery.key];
     return (
       <Card shadow={0} className={classes.card}>
         <CardTitle>
@@ -60,12 +58,12 @@ class Order extends PureComponent {
             }}
             onServiceFeeChange={changeServicesFee}
           />
-          { shop && (
-            <Delivery classes={classes} order={this.props.order} address={address} amount={amount} onChange={this.onChange} />
+          { delivery && (
+            <Delivery classes={classes} delivery={delivery} amount={amount} deliveryFee={deliveryFee} onDeliveryFeeChange={changeDeliveryFee} />
           )}
           <MessageAndAmount
             message={message}
-            onChange={this.onChange}
+            onChange={changeMessage}
             productAmount={amount}
             otherFees={otherFees}
             classes={classes}

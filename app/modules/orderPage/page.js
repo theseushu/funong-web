@@ -14,7 +14,7 @@ const OrderPage = ({ user, addressIndex, selectAddress }) => (
   <div className={styles.w100}>
     <h6 className={`${styles.mt0} ${styles.colorSubTitle}`}>收货地址</h6>
     <Addresses
-      onAddressSelected={(index) => selectAddress(index)}
+      onAddressSelected={(index, address) => selectAddress(index, address)}
       selectedIndex={addressIndex}
     />
     <h6 className={styles.colorSubTitle}>订单信息</h6>

@@ -49,31 +49,6 @@ const itemsToOrderProducts = (items, type) =>
  *  items ( array of { quantity, createdAt (date added to cart), product snapshot }
  * }
  */
-export const groupToOrder = (cartItems) => {
-  const result = [];
-  Object.values(productTypes).forEach((type) => {
-    const orderItems = Object.values(_filter(cartItems, (item) => !!item[`${type}Product`]));
-    if (type === productTypes.shop) {
-      const orders = _groupBy(orderItems, (item) => item[`${type}Product`].shop.objectId);
-      result.push(..._map(orders, (value) => ({ shop: value[0][`${type}Product`].shop, type, items: itemsToOrderProducts(value, type), services: [], otherFees: {} })));
-    } else {
-      const orders = _groupBy(orderItems, (item) => item[`${type}Product`].owner.objectId);
-      result.push(..._map(orders, (value) => ({ user: value[0][`${type}Product`].owner, type, items: itemsToOrderProducts(value, type), services: [], otherFees: {} })));
-    }
-  });
-  return _orderBy(result, (order) => -(_reduce(order.items, (r, item) => r > item.createdAt ? r : item.createdAt, 0)));
-};
-
-/**
- * @param cartItems
- * @return array of orders
- * {
- *  shop (if it's an order of shop products)
- *  owner (if it's an order of other types)
- *  type (the type of products in this order. all products shall be the same type)
- *  items ( array of { quantity, createdAt (date added to cart), product snapshot }
- * }
- */
 export const createOrders = (cartItems, address) => {
   const result = [];
   Object.values(productTypes).forEach((type) => {
@@ -109,9 +84,10 @@ export const calculateOrder = ({ type, items, shop, user, services, otherFees, a
       delivery,
       amount,
       otherFees: _omitBy({
-        [orderFeeTypes.delivery.key]: delivery.fee != null ? delivery.fee : otherFees[orderFeeTypes.delivery.key],
+        [orderFeeTypes.delivery.key]: delivery.fee != null ? undefined : otherFees[orderFeeTypes.delivery.key],
         [orderFeeTypes.service.key]: !chargedService ? undefined : otherFees[orderFeeTypes.service.key] || null,
       }, _isUndefined),
+      address,
     };
   }
   const amount = _reduce(items, (sum, { quantity, product: { spec } }) => sum + (quantity * spec.price), 0);
@@ -125,6 +101,7 @@ export const calculateOrder = ({ type, items, shop, user, services, otherFees, a
     otherFees: _omitBy({
       [orderFeeTypes.service.key]: !chargedService ? undefined : otherFees[orderFeeTypes.service.key] || null,
     }, _isUndefined),
+    address,
   };
 };
 /**

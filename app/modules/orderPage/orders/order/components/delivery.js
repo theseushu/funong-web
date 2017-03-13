@@ -6,20 +6,15 @@ import AddtionalFeeDialog from './additionalFeeDialog';
 class Delivery extends Component {
   static propTypes = {
     classes: PropTypes.object.isRequired,
-    order: PropTypes.object.isRequired,
-    address: PropTypes.object.isRequired,
+    delivery: PropTypes.object.isRequired,
     amount: PropTypes.number.isRequired,
-    onChange: PropTypes.func.isRequired,
+    deliveryFee: PropTypes.number,
+    onDeliveryFeeChange: PropTypes.func.isRequired,
   }
   state = { editing: false }
-  onChange = ({ ...params }) => {
-    const { onChange } = this.props;
-    onChange({ ...params });
-  }
   render() {
-    const { order: { shop, addtionalFee }, address, amount, classes } = this.props;
+    const { delivery: { inside, fee, minimum, raise }, amount, deliveryFee, onDeliveryFeeChange, classes } = this.props;
     const editing = this.state.editing;
-    const { inside, fee, minimum, raise } = calculateDelivery(shop, address, amount);
     return (
       <div className={`${classes.line} ${classes.services}`}>
         <div className="_left">
@@ -47,12 +42,12 @@ class Delivery extends Component {
               <small>运费：</small>
               <span>
                 { fee != null && `￥${fee}` }
-                { fee == null && (addtionalFee != null ? `￥${addtionalFee}` : '待议') }
+                { fee == null && (deliveryFee != null ? `￥${deliveryFee}` : '待议') }
                 <br />
                 { fee == null && (
                   <small>
                     <a href="#_non_existing" onClick={(e) => { e.preventDefault(); this.setState({ editing: true }); }}>
-                      { addtionalFee ? '修改' : '已经商议过了？' }
+                      { deliveryFee ? '修改' : '已经商议过了？' }
                     </a>
                   </small>
                 )}
@@ -62,8 +57,8 @@ class Delivery extends Component {
                   title="运费"
                   label="运费"
                   close={() => this.setState({ editing: false })}
-                  value={addtionalFee}
-                  onSubmit={(value) => this.onChange({ addtionalFee: value })}
+                  value={deliveryFee}
+                  onSubmit={onDeliveryFeeChange}
                 />
               )}
             </div>

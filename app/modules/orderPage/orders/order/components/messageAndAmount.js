@@ -13,7 +13,7 @@ const MessageAndAmount = ({ message, onChange, productAmount, otherFees, classes
         rows={3}
         className={classes.message}
         value={message || ''}
-        onChange={(e) => onChange({ message: e.target.value })}
+        onChange={(e) => onChange(e.target.value)}
       />
     </div>
     <div className="_right">
