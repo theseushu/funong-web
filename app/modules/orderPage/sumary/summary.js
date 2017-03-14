@@ -2,11 +2,11 @@ import React, { PropTypes } from 'react';
 import _filter from 'lodash/filter';
 import _reduce from 'lodash/reduce';
 import injectSheet from 'react-jss';
-import Button from 'react-mdl/lib/Button';
+import Button from 'modules/common/buttons/ApiButtonWithIcon';
 import styles from 'modules/common/styles';
 import { calculateAmount } from 'utils/orderUtils';
 
-const Summary = ({ orders, address, classes }) => {
+const Summary = ({ orders, address, createOrders, pending, classes }) => {
   if (!address) {
     return (
       <div className={classes.summary}>
@@ -17,7 +17,8 @@ const Summary = ({ orders, address, classes }) => {
           <Button
             accent
             raised
-            disabled={!address}
+            ripple
+            disabled
           >确认</Button>
         </div>
       </div>
@@ -43,6 +44,13 @@ const Summary = ({ orders, address, classes }) => {
         <Button
           accent
           raised
+          ripple
+          icon="save"
+          disabled={!address}
+          pending={pending}
+          onClick={() => {
+            createOrders({ orders });
+          }}
         >确认</Button>
       </div>
     </div>
@@ -53,6 +61,8 @@ Summary.propTypes = {
   address: PropTypes.object,
   classes: PropTypes.object.isRequired,
   orders: PropTypes.array.isRequired,
+  createOrders: PropTypes.func.isRequired,
+  pending: PropTypes.bool,
 };
 
 export default injectSheet({

@@ -54,5 +54,5 @@ export const sagas = [
   ...shop.sagas,
   ...comment.sagas,
   ...searchDistinct.sagas,
-  ...order.default,
+  ...order.sagas,
 ];

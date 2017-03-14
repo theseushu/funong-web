@@ -7,7 +7,7 @@ import Checkbox from 'react-mdl/lib/Checkbox';
 import { isPriceInvalid, isDistanceInvalid } from 'utils/validationUtils';
 import { formatArea } from 'utils/displayUtils';
 import { districtLevels } from 'appConstants';
-import { Dialog } from '../dialog';
+import { Dialog } from 'modules/common/dialog';
 import Types from './components/types';
 import Results from './components/results';
 import CustomDistrict from './components/customDistrict';

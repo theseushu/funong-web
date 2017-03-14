@@ -6,12 +6,12 @@ import rootSelector from './rootSelector';
 
 const ducks = createDucks({
   key: 'create',
-  apiName: 'createOrder',
+  apiName: 'createOrders',
   rootSelector: (state) => rootSelector(state),
   namespace: NAMESPACE,
   sagas: {
-    * beforeFulfilled(order) {
-      yield put(setOrders([order]));
+    * beforeFulfilled(orders) {
+      yield put(setOrders(orders));
     },
   },
 });

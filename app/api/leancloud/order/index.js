@@ -6,9 +6,11 @@
  * this object is mutable, deconstruction could cause latest value untouchable
  * wait until I figure out a better way
  */
-import _filter from 'lodash/filter';
+import _find from 'lodash/find';
 import _omitBy from 'lodash/omitBy';
 import _isUndefined from 'lodash/isUndefined';
+// import { calculateAmount } from 'utils/orderUtils';
+// import { statusValues } from 'appConstants';
 // import { orderToJSON } from '../converters';
 // const debug = require('debug')('app:api:order');
 
@@ -16,61 +18,61 @@ export default ({ AV, context }) => {
   class Order extends AV.Object {}
   AV.Object.register(Order);
 
-  const createOrder = async ({ cartItems, address }) => {
+  const createOrders = async ({ orders }) => {
     const { token: { sessionToken }, profile } = context;
-    const order = new Order();
-    order.set('owner', AV.Object.createWithoutData('Profile', profile.objectId));
-    order.set('address', address);
+    // const ordersToSave = orders.map(({ type, items, address, user, shop, otherFees, agent, message, services }) => {
+    //   const order = new Order();
+    //   order.set('type', type);
+    //   order.set('items', items);
+    //   order.set('owner', AV.Object.createWithoutData('Profile', profile.objectId));
+    //   order.set('address', address);
+    //   if (user) {
+    //     order.set('user', AV.Object.createWithoutData('Profile', user.objectId));
+    //   }
+    //   if (shop) {
+    //     order.set('shop', AV.Object.createWithoutData('Shop', shop.objectId));
+    //   }
+    //   if (agent) {
+    //     order.set('agent', AV.Object.createWithoutData('Shop', agent.objectId));
+    //   }
+    //   order.set('otherFees', otherFees);
+    //   order.set('message', message);
+    //   order.set('services', services);
+    //
+    //   const amount = calculateAmount({ items, otherFees });
+    //   const status = amount == null ? statusValues.unconfirmed.value : statusValues.unbilled.value;
+    //   order.set('status', status);
+    //   return order;
+    // });
 
-    let user;
-    let shop;
-    let products;
-    if (_filter(cartItems, (item) => !!item.supplyProduct).length === cartItems.length) {
-      user = cartItems[0].supplyProduct.owner;
-      cartItems.forEach((item) => {
-        if (item.supplyProduct.owner.objectId !== user.objectId) {
-          throw new Error('One order, one receiver');
+    const savedOrders = await AV.Cloud.rpc('createOrders', { orders }, { sessionToken });
+    // const savedOrders = await AV.Object.saveAll(ordersToSave, {
+    //   fetchWhenSave: true,
+    //   sessionToken,
+    // });
+    // console.log(orders)
+    // console.log(savedOrders)
+    return savedOrders.map((savedOrder) => {
+      const type = savedOrder.get('type');
+      const user = savedOrder.get('user') && savedOrder.get('user').toJSON();
+      const shop = savedOrder.get('shop') && savedOrder.get('shop').toJSON();
+      const order = _find(orders, (o) => {
+        if (o.type !== type) {
+          return false;
         }
-      });
-      products = cartItems.map((cartItem) => {
-        const product = cartItem.shopProduct;
-        return {
-          objectId: product.objectId,
-          thumbnail: product.thumbnail,
-          spec: product.specs[cartItem.specIndex],
-          quantity: cartItem.quantity,
-        };
-      });
-      order.set('user', AV.Object.createWithoutData('Profile', AV.Object.createWithoutData('Profile', user.objectId)));
-    } else if (_filter(cartItems, (item) => !!item.shopProduct).length === cartItems.length) {
-      shop = cartItems[0].shopProduct.shop;
-      cartItems.forEach((item) => {
-        if (item.shopProduct.shop.objectId !== shop.objectId) {
-          throw new Error('One order, one receiver');
+        if (user) {
+          return o.user && o.user.objectId === user.objectId;
         }
+        if (shop) {
+          return o.shop && o.shop.objectId === shop.objectId;
+        }
+        return false;
       });
-      products = cartItems.map((cartItem) => {
-        const product = cartItem.shopProduct;
-        return {
-          objectId: product.objectId,
-          thumbnail: product.thumbnail,
-          spec: product.specs[cartItem.specIndex],
-          quantity: cartItem.quantity,
-        };
-      });
-      order.set('shop', AV.Object.createWithoutData('Shop', AV.Object.createWithoutData('Shop', shop.objectId)));
-    } else {
-      throw new Error('One order, one type of product, one receiver');
-    }
-    order.set('products', products);
-    const savedOrder = await order.save(null, {
-      fetchWhenSave: true,
-      sessionToken,
+      return _omitBy({ ...savedOrder.toJSON(), user: order.user, shop: order.shop, owner: profile }, _isUndefined);
     });
-    return _omitBy({ ...savedOrder, products, user, shop, owner: profile }, _isUndefined);
   };
 
   return {
-    createOrder,
+    createOrders,
   };
 };

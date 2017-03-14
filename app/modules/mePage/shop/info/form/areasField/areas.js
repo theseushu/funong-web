@@ -3,8 +3,8 @@ import injectSheet from 'react-jss';
 import IconButton from 'react-mdl/lib/IconButton';
 import styles, { colors, shadows } from 'modules/common/styles';
 import { formatDeliveryFee, formatArea } from 'utils/displayUtils';
-import AreaEditorDialog from 'modules/common/areaEditorDialog';
 import { districtLevels } from 'appConstants';
+import AreaEditorDialog from './areaEditorDialog';
 
 class Areas extends Component {
   static propTypes = {

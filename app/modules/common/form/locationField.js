@@ -9,8 +9,8 @@ import ButtonWithIcon from 'modules/common/buttons/ButtonWithIcon';
 import { locationThumbnail } from 'utils/mapUtils';
 import { required } from './validations';
 
-const generateThumbnailDiv = (lnglat, className) => {
-  const { url, thumbnail } = locationThumbnail(lnglat);
+const generateThumbnailDiv = (lnglat, className, name) => {
+  const { url, thumbnail } = locationThumbnail(lnglat, name);
   return (
     <div className={className}>
       <a href={url} target="_blank">
@@ -20,7 +20,7 @@ const generateThumbnailDiv = (lnglat, className) => {
   );
 };
 
-const Location = ({ input: { value, onChange }, meta: { error }, openDialog, sheet: { classes } }) => (
+const Location = ({ input: { value, onChange }, meta: { error }, openDialog, name, sheet: { classes } }) => (
   <div className={styles.w100}>
     <div className={classes.title} style={{ color: error ? colors.colorError : undefined }}>
         地址
@@ -37,7 +37,7 @@ const Location = ({ input: { value, onChange }, meta: { error }, openDialog, she
         >{value === '' ? '点此选择' : '点此修改'}</ButtonWithIcon>
     </div>
     {
-        value.lnglat && generateThumbnailDiv(value.lnglat, classes.thumbnail)
+        value.lnglat && generateThumbnailDiv(value.lnglat, classes.thumbnail, name)
       }
     <p className={styles.colorSubTitle}>
       {value === '' ? '' : value.address.details}
@@ -50,6 +50,7 @@ Location.propTypes = {
   meta: PropTypes.object,
   openDialog: PropTypes.func.isRequired,
   sheet: PropTypes.object.isRequired,
+  name: PropTypes.string,
 };
 
 const LocationField = connect(

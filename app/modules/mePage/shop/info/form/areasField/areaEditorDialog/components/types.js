@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 import { districtLevels } from 'appConstants';
-import RaisingButton from '../../raisingButton';
+import RaisingButton from 'modules/common/raisingButton';
 
 const Types = ({ level, onButtonClick }) => (
   <div>

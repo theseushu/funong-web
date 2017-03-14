@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import Button from 'react-mdl/lib/Button';
 import injectSheet from 'react-jss';
-import Liner from '../../svgs/liner';
+import Liner from 'modules/common/svgs/liner';
 
 function renderButton(result, i, onClick) {
   return <Button key={i} onClick={(e) => { e.preventDefault(); onClick(result); }}>{result.name}</Button>;

@@ -7,6 +7,7 @@ function withProgressBar(WrappedComponent) {
       super(props);
       this.state = {
         progress: -1,
+        redefined: false,
         loadedRoutes: props.location && [props.location.pathname],
       };
       this.updateProgress = this.updateProgress.bind(this);
@@ -16,6 +17,11 @@ function withProgressBar(WrappedComponent) {
       // Store a reference to the listener.
       /* istanbul ignore next */
       this.unsubscribeHistory = this.props.router && this.props.router.listenBefore((location) => {
+          // Check if the route was redefined by a replace call
+        const { state } = location;
+        if (state && state.redefined) {
+          this.setState({ progress: -1, redefined: false });
+        }
         // Do not show progress bar for already loaded routes.
         if (this.state.loadedRoutes.indexOf(location.pathname) === -1) {
           this.updateProgress(0);

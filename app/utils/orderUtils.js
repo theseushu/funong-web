@@ -74,7 +74,7 @@ export const createOrders = (cartItems, address) => {
 
 export const calculateOrder = ({ type, items, shop, user, services, otherFees, address }) => {
   if (type === productTypes.shop) {
-    const productAmount = _reduce(items, (sum, { quantity, product: { spec } }) => sum + (quantity * spec.price), 0);
+    const productAmount = calculateProductAmount(items);
     const delivery = calculateDelivery(shop, address, productAmount);
     let deliveryFee;
     if (!delivery) {
@@ -165,9 +165,11 @@ export const calculateDelivery = ({ areas, location }, address, productAmount) =
   return result;
 };
 
-export const calculateAmount = ({ otherFees, productAmount }) => {
+export const calculateProductAmount = ({ items }) => _reduce(items, (sum, { quantity, product: { spec } }) => sum + (quantity * spec.price), 0);
+
+export const calculateAmount = ({ otherFees, items }) => {
   if (_filter(otherFees, (value) => value == null).length > 0) {
     return null;
   }
-  return _reduce(otherFees, (sum, value) => sum + value, productAmount);
+  return _reduce(otherFees, (sum, value) => sum + value, calculateProductAmount({ items }));
 };

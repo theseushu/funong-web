@@ -1,10 +1,24 @@
 import _toPairs from 'lodash/toPairs';
 import { myShopSelector } from 'modules/data/ducks/selectors';
+import info from 'modules/toastr/info';
 import { queryToSearch } from './queryUtils';
 
 export default ({ store, injectReducer, injectSagas, loadModule, errorLoading }) => ({
   path: 'products',
   name: 'myShopProducts',
+  onEnter: async ({ location }, replace, callback) => {
+    try {
+      const myShop = myShopSelector(store.getState());
+      if (!myShop) {
+        info({ title: '您还没有创建店铺', message: '创建店铺后就可以发布商品啦！' })
+        replace({ pathname: '/me/shop', state: { redefined: true } });
+        callback();
+      }
+    } catch (err) {
+      replace('/error');
+      callback();
+    }
+  },
   getComponent: async ({ location: { query } }, cb) => {
     const importModules = Promise.all([
       System.import('./index'),
