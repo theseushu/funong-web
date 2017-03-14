@@ -8,7 +8,7 @@ import { isPriceInvalid, isDistanceInvalid } from 'utils/validationUtils';
 import { formatArea } from 'utils/displayUtils';
 import { districtLevels } from 'appConstants';
 import { Dialog } from 'modules/common/dialog';
-import Types from './components/types';
+import Levels from './components/levels';
 import Results from './components/results';
 import CustomDistrict from './components/customDistrict';
 
@@ -176,7 +176,7 @@ class areaEditorDialog extends Component {
             } : {
               onSubmit: (e) => {
                 e.preventDefault();
-                onSubmit({ level, districts, minimum: Number(minimum), deliveryFee: Number(deliveryFee) });
+                onSubmit({ level: districtLevels[level].child, districts, minimum: Number(minimum), deliveryFee: Number(deliveryFee) });
               },
               disabled: !!deliveryFeeError || !!minimumError || districts.length === 0,
             }
@@ -190,7 +190,7 @@ class areaEditorDialog extends Component {
         onHide={close}
         onCancel={close}
         title={'服务区域'}
-        fixedContent={<Types level={level} onButtonClick={this.changeLevel} />}
+        fixedContent={<Levels level={level} onButtonClick={this.changeLevel} />}
         scrollableContent={
           level === districtLevels.custom.value ? (
             <CustomDistrict value={distance} error={distanceError} onChange={this.customDistrict} />

@@ -19,6 +19,6 @@ Editing.propTypes = {
 
 export default injectSheet({
   wrapper: {
-    maxWidth: 580, margin: '0 auto', padding: 16,
+    width: 580, maxWidth: '100%', margin: '0 auto', padding: 16,
   },
 })(Editing);

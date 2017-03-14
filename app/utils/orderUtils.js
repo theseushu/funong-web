@@ -133,23 +133,8 @@ export const calculateDelivery = ({ areas, location }, address, productAmount) =
     raise: null,
   };
   const areasInclude = _filter(areas, (area) => {
-    let district;
-    switch (area.level) {
-      case 'country':
-        district = address.address.province;
-        break;
-      case 'province':
-        district = address.address.city;
-        break;
-      case 'city':
-        district = address.address.district;
-        break;
-      case 'district':
-        district = address.address.street;
-        break;
-      default:
-    }
-    if (district) {
+    if (area.level !== 'custom') {
+      const district = address.address[area.level];
       return area.districts.indexOf(district) > -1;
     }
     // custom area

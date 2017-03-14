@@ -148,9 +148,9 @@ export const badges = {
 };
 
 export const districtLevels = {
-  country: { value: 'country', title: '全国范围' },
-  province: { value: 'province', title: '省内' },
-  city: { value: 'city', title: '市内' },
-  district: { value: 'district', title: '区县内' },
+  country: { value: 'country', title: '全国范围', child: 'province' },
+  province: { value: 'province', title: '省内', child: 'city' },
+  city: { value: 'city', title: '市内', child: 'district' },
+  district: { value: 'district', title: '区县内', child: 'street' },
   custom: { value: 'custom', title: '自定义' },
 };
