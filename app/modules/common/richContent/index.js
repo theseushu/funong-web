@@ -12,7 +12,8 @@ class RichContent extends Component {
     onImagesChange: PropTypes.func,
     onDescChange: PropTypes.func,
     editing: PropTypes.bool,
-    descLabel: PropTypes.string,
+    imageTitle: PropTypes.string,
+    descTitle: PropTypes.string,
     allowGallery: PropTypes.bool,
   }
   constructor(props) {
@@ -31,7 +32,7 @@ class RichContent extends Component {
     }
   }
   loadEditor = () => {
-    System.import('../editor').then((module) => {
+    System.import('modules/common/editor').then((module) => {
       if (!this.state.Editor) {
         this.setState({ Editor: module.default });
       }
@@ -39,7 +40,7 @@ class RichContent extends Component {
   }
   renderEditor = () => {
     // todo place holder using textLabel
-    const { richContent: { desc }, descLabel, onDescChange } = this.props; // eslint-disable-line
+    const { richContent: { desc }, onDescChange } = this.props;
     const { Editor } = this.state;
     if (Editor) {
       return <Editor ref={(editor) => { this.editorInstance = editor; }} onChange={onDescChange} content={desc} />;
@@ -49,21 +50,21 @@ class RichContent extends Component {
   render() {
     const {
       richContent: { desc, images }, sheet: { classes },
-      editing, onImagesChange, allowGallery,
+      descTitle, imageTitle, editing, onImagesChange, allowGallery,
     } = this.props;
     return (
       <div className={classes.richContent}>
         {
           (editing || images.length > 0) && (
             <div className={classes.marginTop}>
-              <Images editing={editing} images={images} onChange={onImagesChange} allowGallery={allowGallery} />
+              <Images title={imageTitle} editing={editing} images={images} onChange={onImagesChange} allowGallery={allowGallery} />
             </div>
           )
         }
         {
           editing && (
             <div className={classes.marginTop}>
-              <small>文字内容</small>
+              <small>{descTitle == null ? '介绍' : descTitle}</small>
             </div>
           )
         }

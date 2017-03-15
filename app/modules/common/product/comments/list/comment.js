@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import injectSheet from 'react-jss';
 import { colors } from 'modules/common/styles';
-import { Avatar } from 'modules/common/avatar';
+import { Avatar } from 'modules/common/user';
 import FilesUpload from 'modules/common/filesUpload';
 
 const Comment = ({ classes, comment }) => (

@@ -6,7 +6,7 @@ const descAndImagesField = ({ desc, images }) => (
     <RichContent
       richContent={{ desc: desc.input.value, images: images.input.value }}
       editing
-      descLabel={''}
+      descTitle={''}
       onImagesChange={(newImages) => { images.input.onChange(newImages); }}
       onDescChange={(newDesc) => desc.input.onChange(newDesc)}
       allowGallery

@@ -84,11 +84,6 @@ CartItem.propTypes = {
 };
 
 export default injectSheet({
-  avatar: {
-    width: 30,
-    height: 30,
-    margin: '0 16px',
-  },
   cartItem: {
     padding: 8,
     marginTop: 16,

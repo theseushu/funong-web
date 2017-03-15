@@ -76,7 +76,8 @@ class Desc extends Component {
         <RichContent
           richContent={{ desc, images }}
           editing={editing}
-          descLabel={''}
+          imageTitle="上传图片"
+          descTitle={''}
           onImagesChange={(newImages) => { this.setState({ images: newImages }); }}
           onDescChange={(newDesc) => this.setState({ desc: newDesc })}
           allowGallery

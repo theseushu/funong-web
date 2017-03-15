@@ -15,8 +15,8 @@ class Type extends Component {
     pending: PropTypes.bool,
   }
   updateProfile = (type) => {
-    const { profile, updateProfile } = this.props;
-    updateProfile({ profileId: profile.objectId, type });
+    const { updateProfile } = this.props;
+    updateProfile({ type });
   }
   render() {
     const { sheet: { classes }, pending, profile } = this.props;

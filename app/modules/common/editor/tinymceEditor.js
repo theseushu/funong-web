@@ -5,7 +5,7 @@ import injectSheet from 'react-jss';
 import TinyMCE from 'react-tinymce';
 import loadImage from 'blueimp-load-image';
 import { actions } from 'api/uploadFile/ducks';
-import styles from '../styles';
+import styles, { colors } from '../styles';
 import './zh_CN';
 
 function asyncLoadImage(file) {
@@ -123,6 +123,8 @@ class TinyMceEditor extends React.Component {
 export default injectSheet({
   wrapper: {
     width: '100%',
+    minHeight: 50,
+    border: `solid 1px ${colors.colorLightGrey}`,
     '& > .mce-tinymce.mce-container.mce-panel': { // it's wired that the right border of tinymce is overlapped by its innter iframe. I haven't dug deep enough, here's just a hack
       paddingRight: '1px !important',
     },

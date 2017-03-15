@@ -20,9 +20,9 @@ class Name extends Component {
   }
   updateProfile = (e) => {
     e.preventDefault();
-    const { profile, updateProfile } = this.props;
+    const { updateProfile } = this.props;
     const { name } = this.state;
-    updateProfile({ profileId: profile.objectId,
+    updateProfile({
       name,
       meta: {
         resolve: () => {

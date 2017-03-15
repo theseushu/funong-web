@@ -12,7 +12,6 @@ export default ({ store, injectReducer, injectSagas, loadModule, errorLoading })
       if (user.type) {
         replace(nextRoute(user.type));
         callback();
-        console.log('TODO: redirect'); // eslint-disable-line
       } else {
         callback();
       }

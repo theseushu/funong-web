@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import Link from 'react-router/lib/Link';
 import Button from 'react-mdl/lib/Button';
-import { Avatar } from 'modules/common/avatar';
+import Avatar from './avatar';
 import Label from '../label';
 import MediaLeftCard from '../cards/mediaLeftCard';
 import { colors } from '../styles';

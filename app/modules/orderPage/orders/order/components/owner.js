@@ -1,8 +1,8 @@
 import React, { PropTypes } from 'react';
 import injectSheet from 'react-jss';
 import { colors } from 'modules/common/styles';
-import { Avatar } from 'modules/common/avatar';
-import ShopAvatar from 'modules/common/shop/avatar';
+import { Avatar } from 'modules/common/user';
+import { Thumbnail as ShopThumbnail } from 'modules/common/shop';
 
 const Owner = ({ user, shop, classes }) => (
   <div className={classes.owner}>
@@ -12,7 +12,7 @@ const Owner = ({ user, shop, classes }) => (
     </div>
     <div className={classes.avatar}>
       { user && <Avatar user={user} /> }
-      { shop && <ShopAvatar shop={shop} /> }
+      { shop && <ShopThumbnail shop={shop} /> }
     </div>
     <div>{user && user.name}</div>
     <div>{shop && shop.name}</div>

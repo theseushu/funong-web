@@ -5,7 +5,7 @@ import Button from 'react-mdl/lib/Button';
 import IconButton from 'react-mdl/lib/IconButton';
 import Tooltip from 'react-mdl/lib/Tooltip';
 import styles, { breakpoints } from 'modules/common/styles';
-import { MyAvatar } from 'modules/common/avatar';
+import { Avatar } from 'modules/common/user';
 import Page from '../page';
 import AvatarCropper from '../avatarCropper';
 import Line from './line';
@@ -36,13 +36,13 @@ class Profile extends Component {
             </CardTitle>
             <CardMedia className={styles.contentCenter} style={{ background: 'none' }}>
               <div className={classes.avatar}>
-                <MyAvatar />
+                <Avatar user={this.props.user} className={classes.avatarImg} />
                 <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}>
                   <AvatarCropper />
                 </div>
               </div>
             </CardMedia>
-            <Line title="手机号" content={<Button colored>{mobilePhoneNumber}</Button>} />
+            <Line title="手机号" content={<Button colored disabled>{mobilePhoneNumber}</Button>} />
             <Name />
             <Type />
             <Line title="修改密码" content={<Button colored>验证手机号码后开始</Button>} />
@@ -66,5 +66,10 @@ export default injectSheet({
     width: 100,
     height: 100,
     position: 'relative',
+  },
+  avatarImg: {
+    '& > i': {
+      fontSize: 100,
+    },
   },
 })(Profile);
