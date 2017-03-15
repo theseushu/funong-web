@@ -65,26 +65,6 @@ const styles = {
     'align-items': 'center',
     'justify-content': 'center',
   },
-  container: {
-    width: '100%',
-    'max-width': '1200px',
-    padding: '0 8px',
-    margin: '0 auto',
-    'box-sizing': 'border-box',
-  },
-  [breakpoints.mediaTabletAbove]: {
-    container: {
-      padding: '0 16px',
-    },
-  },
-  [breakpoints.mediaBigScreen]: {
-    container: {
-      padding: '0 24px',
-    },
-  },
-  containerSmall: {
-    'max-width': '900px',
-  },
   colorError: {
     color: colors.colorError,
   },

@@ -10,8 +10,10 @@ export default ({ store, injectReducer, injectSagas, loadModule, errorLoading })
     try {
       const myShop = myShopSelector(store.getState());
       if (!myShop) {
-        info({ title: '您还没有创建店铺', message: '创建店铺后就可以发布商品啦！' })
+        info({ title: '您还没有创建店铺', message: '创建店铺后就可以发布商品啦！' });
         replace({ pathname: '/me/shop', state: { redefined: true } });
+        callback();
+      } else {
         callback();
       }
     } catch (err) {
@@ -64,7 +66,6 @@ export default ({ store, injectReducer, injectSagas, loadModule, errorLoading })
         }));
       }
     });
-
     renderRoute(component);
     importModules.catch(errorLoading);
   },

@@ -29,5 +29,6 @@ export default injectSheet({
   form: {
     width: '100%',
     maxWidth: 700,
+    margin: 'auto',
   },
 })(Form);

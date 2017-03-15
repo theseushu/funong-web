@@ -4,7 +4,7 @@ import blockLoading from 'assets/blockLoading.gif';
 import { required } from './validations';
 import styles from '../styles';
 
-class RichText extends Component {
+class RichTextField extends Component {
   static propTypes = {
     input: PropTypes.object.isRequired,
     meta: PropTypes.object.isRequired,
@@ -15,11 +15,16 @@ class RichText extends Component {
     this.state = { Editor: null };
   }
   componentDidMount() {
+    this.mounted = true;
     this.loadEditor();
   }
+  componentWillUnmount() {
+    this.mounted = false;
+    this.setState({ Editor: null });
+  }
   loadEditor = () => {
-    System.import('../editor').then((module) => {
-      if (!this.state.Editor) {
+    System.import('modules/common/editor').then((module) => {
+      if (this.mounted && !this.state.Editor) {
         this.setState({ Editor: module.default });
       }
     });
@@ -46,4 +51,4 @@ class RichText extends Component {
   }
 }
 
-export default ({ ...props }) => <Field name="desc" validate={[required]} component={RichText} props={{ ...props }} />;
+export default ({ ...props }) => <Field name="desc" validate={[required]} component={RichTextField} props={{ ...props }} />;

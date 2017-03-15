@@ -4,7 +4,7 @@ import Link from 'react-router/lib/Link';
 import { Header, HeaderRow, Navigation } from 'react-mdl/lib/Layout';
 import logoHorizontal from 'assets/logo-horizontal.png';
 import logoBig from 'assets/logo-big.png';
-import styles, { colors, breakpoints } from 'modules/common/styles';
+import { colors, breakpoints } from 'modules/common/styles';
 import background from './assets/header-bg.jpg';
 
 const routes = [
@@ -17,13 +17,13 @@ const routes = [
   { title: '微店', path: '/products' },
 ];
 
-const AppHeader = ({ sheet: { classes }, header }) => (
+const AppHeader = ({ classes, containerClass, header }) => (
   <Header waterfall hideTop={false} className={classes.header}>
     <HeaderRow className={classes.logoRow}>
       { header || <div className={classes.logo} /> }
     </HeaderRow>
     <HeaderRow className={classes.nav}>
-      <div className={styles.container}>
+      <div className={containerClass}>
         <Navigation className={classes.links}>
           { routes.map((route, i) => <Link key={i} activeClassName={classes.activeLink} to={route.path}>{route.title}</Link>) }
         </Navigation>
@@ -37,7 +37,8 @@ AppHeader.contextTypes = {
 };
 
 AppHeader.propTypes = {
-  sheet: PropTypes.object,
+  containerClass: PropTypes.string.isRequired,
+  classes: PropTypes.object,
   header: PropTypes.any,
 };
 
