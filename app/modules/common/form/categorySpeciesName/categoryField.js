@@ -13,6 +13,7 @@ class CategoryField extends Component {
   setCategory = (category) => {
     const { input: { onChange } } = this.props;
     onChange(category);
+    this.hideDialog();
   }
   showDialog = (e) => {
     e.preventDefault();
