@@ -58,6 +58,7 @@ export default connect(
   })
 )(injectSheet({
   grid: {
+    width: '100%',
     color: colors.colorSubTitle,
   },
 })(Services));

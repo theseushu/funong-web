@@ -28,7 +28,7 @@ class LayoutComponent extends Component {
         <AppDrawer />
         <Content>
           <div
-            className={smallContent ? [classes.container, classes.containerSmall].join(' ') : styles.container}
+            className={smallContent ? [classes.container, classes.containerSmall].join(' ') : classes.container}
             style={{ paddingTop: 16, paddingBottom: 16, display: 'flex', minHeight: 'calc(100vh - 163px)' }}
           >
             { sideMenu && <SideMenu routes={sideMenu} /> }
