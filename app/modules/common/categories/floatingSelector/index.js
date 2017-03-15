@@ -3,32 +3,31 @@ import injectSheet from 'react-jss';
 import { colors } from 'modules/common/styles';
 import Categories from './categories';
 
-class FloatingSelector extends Component {
+class CriteriaCategorySelector extends Component {
   static propTypes = {
-    category: PropTypes.shape({
+    selected: PropTypes.shape({
       name: PropTypes.string.isRequired,
       objectId: PropTypes.string.isRequired,
       catalog: PropTypes.string.isRequired,
     }),
     classes: PropTypes.object.isRequired,
     catalogGroups: PropTypes.array.isRequired,
-    hide: PropTypes.func,
+    onSelect: PropTypes.func.isRequired,
+    hide: PropTypes.func.isRequired,
   }
   state = { index: null };
+  onSelect = (category) => {
+    const { onSelect } = this.props;
+    onSelect(category);
+  }
   setSelection = (index) => {
     this.setState({ index });
   }
-  hide = () => {
-    this.setSelection(null);
-    if (this.props.hide) {
-      this.props.hide();
-    }
-  }
   render() {
-    const { category, catalogGroups, classes } = this.props;
+    const { selected, catalogGroups, classes, hide } = this.props;
     const { index } = this.state;
     return (
-      <div className={`${classes.wrapper} shadow--3 ${index != null ? ' full-width' : ''}`} onMouseLeave={this.hide}>
+      <div className={`${classes.wrapper} shadow--3 ${index != null ? ' full-width' : ''}`} onMouseLeave={hide}>
         <ul className={classes.catalogs}>
           {
             catalogGroups.map((group, i) => (
@@ -41,7 +40,7 @@ class FloatingSelector extends Component {
         {
           index != null && (
             <div className={classes.categories}>
-              <Categories category={category} catalogs={catalogGroups[index]} hide={this.hide} />
+              <Categories category={selected} catalogs={catalogGroups[index]} onSelect={this.onSelect} />
             </div>
           )
         }
@@ -86,9 +85,9 @@ export default injectSheet({
     minHeight: height,
     boxSizing: 'border-box',
     background: '#fafafa',
-    maxHeight: 600,
+    maxHeight: 500,
     overflowY: 'scroll',
     marginLeft: -1,
   },
-})(FloatingSelector);
+})(CriteriaCategorySelector);
 

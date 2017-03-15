@@ -2,7 +2,6 @@ import React, { Component, PropTypes } from 'react';
 import injectSheet from 'react-jss';
 import { Layout, Content } from 'react-mdl/lib/Layout';
 import { Footer, FooterLinkList, FooterSection } from 'react-mdl/lib/Footer';
-import styles from 'modules/common/styles';
 import moduleStyles from './styles';
 import SideMenu from './components/sideMenu';
 import AppHeader from './components/header';

@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { push } from 'react-router-redux';
+import { replace } from 'react-router-redux';
 import Criteria, { criteriaToQuery } from 'modules/common/criteria';
 
 export default (selectors, catalogGroups) => {
@@ -14,7 +14,7 @@ export default (selectors, catalogGroups) => {
     }),
     (dispatch, { location }) => bindActionCreators({ setCriteria: (criteria) => {
       const query = criteriaToQuery(criteria);
-      return push(`${location.pathname}${query ? '?' : ''}${query}`);
+      return replace(`${location.pathname}${query ? '?' : ''}${query}`);
     } }, dispatch),
   )(Criteria);
 };

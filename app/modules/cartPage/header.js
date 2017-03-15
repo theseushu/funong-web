@@ -67,6 +67,7 @@ export default injectSheet({
   empty: {
     display: 'flex',
     justifyContent: 'center',
+    marginTop: 32,
     '& > ._empty_image': {
       width: 100, height: 100, background: `url(${emptyCart})`, marginRight: 16,
     },

@@ -1,13 +1,14 @@
 import React, { PropTypes } from 'react';
+import _flatten from 'lodash/flatten';
 import injectSheet from 'react-jss';
 import { Buttons, CategorySpeciesNameCard, SpecsCard, ImagesCard, RichTextCard, LabelsCard } from 'modules/common/form';
-import { labels } from '../constants';
+import { labels, catalogGroups } from '../constants';
 
 const Form = (props) => {
   const { handleSubmit, pristine, submitting, invalid, sheet: { classes } } = props;
   return (
     <form className={classes.form}>
-      <CategorySpeciesNameCard />
+      <CategorySpeciesNameCard catalogs={_flatten(catalogGroups)} />
       <SpecsCard />
       <ImagesCard />
       <RichTextCard />

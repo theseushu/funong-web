@@ -25,7 +25,7 @@ class Categories extends Component {
     categories: PropTypes.array.isRequired,
     fetchCategories: PropTypes.func.isRequired,
     pending: PropTypes.bool,
-    hide: PropTypes.func,
+    onSelect: PropTypes.func,
   }
   componentDidMount() {
     const { catalogs } = this.props;
@@ -37,7 +37,7 @@ class Categories extends Component {
     }
   }
   render() {
-    const { categories, pending, classes, hide, category } = this.props;
+    const { categories, pending, classes, onSelect, category } = this.props;
     const groups = _groupBy(categories, (c) => c.group);
     return (
       <div className={classes.wrapper}>
@@ -57,10 +57,9 @@ class Categories extends Component {
                         key={j}
                         className={category && category.objectId === c.objectId ? '_active' : null}
                         to={`/supplies?category=${c.objectId}`}
-                        onClick={() => {
-                          if (typeof hide === 'function') {
-                            hide();
-                          }
+                        onClick={(e) => {
+                          e.preventDefault();
+                          onSelect(c);
                         }}
                       >{c.name}</Link>
                     ))}

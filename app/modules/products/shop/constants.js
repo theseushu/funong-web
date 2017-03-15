@@ -12,7 +12,7 @@ export Card from 'modules/common/product/cards/shop';
 
 export BriefCard from 'modules/common/product/cards/shopBrief';
 
-export const catalogGroups = catalogs.groupedFarm;
+export const catalogGroups = catalogs.groupedShop;
 
 
 // page for single product

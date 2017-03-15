@@ -14,7 +14,7 @@ const generateName = (category, species) => {
   return `${category.name} ${species.name}`;
 };
 
-const CategorySpeciesName = ({ category, species, name }) => {
+const CategorySpeciesName = ({ catalogs, category, species, name }) => {
   const onCategoryChange = (newCategory) => {
     category.input.onChange(newCategory);
     species.input.onChange(null);
@@ -40,7 +40,7 @@ const CategorySpeciesName = ({ category, species, name }) => {
   };
   return (
     <div>
-      <CategoryField {...category2} />
+      <CategoryField {...category2} catalogs={catalogs} />
       <SpeciesField category={category.input.value || null} {...species2} />
       <NameField {...name} />
     </div>
@@ -48,23 +48,25 @@ const CategorySpeciesName = ({ category, species, name }) => {
 };
 
 CategorySpeciesName.propTypes = {
+  catalogs: PropTypes.array.isRequired,
   category: PropTypes.object.isRequired,
   species: PropTypes.object.isRequired,
   name: PropTypes.object.isRequired,
 };
 
-const CategorySpeciesNameFields = ({ classes }) => (
+const CategorySpeciesNameFields = ({ catalogs, classes }) => (
   <Card shadow={1} className={classes.card}>
     <CardTitle>
       分类，品种和名称
     </CardTitle>
     <CardText>
-      <Fields names={['category', 'species', 'name']} component={CategorySpeciesName} />
+      <Fields names={['category', 'species', 'name']} component={CategorySpeciesName} props={{ catalogs }} />
     </CardText>
   </Card>
 );
 
 CategorySpeciesNameFields.propTypes = {
+  catalogs: PropTypes.array.isRequired,
   classes: PropTypes.object.isRequired,
 };
 
