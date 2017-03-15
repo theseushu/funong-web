@@ -48,7 +48,7 @@ export default ({ AV, context }) => {
         fetchWhenSave: true,
         sessionToken,
       });
-      return speciesToJSON({ ...savedSpecies, category });
+      return { ...savedSpecies.toJSON(), category };
     } catch (err) {
       debug(err);
       throw err;
