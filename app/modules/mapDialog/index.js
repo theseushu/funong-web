@@ -43,7 +43,7 @@ class mapDialog extends Component {
       }),
     }),
     initMap: PropTypes.func.isRequired,
-    centerMap: PropTypes.func.isRequired,
+    destroyMap: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
     // getCurrentLocationState: PropTypes.shape({
     //   pending: PropTypes.bool,
@@ -56,23 +56,14 @@ class mapDialog extends Component {
   componentWillMount() {
     this.initStateLocation(this.props);
   }
-  componentDidMount() {
-    const { location } = this.state;
-    this.props.initMap({
-      id: '_amap_container',
-      onClick: this.onMapClick,
-      center: location !== INITIAL_LOCATION ? location.lnglat : null,
-    });
-  }
   componentWillReceiveProps({ open, location, currentLocation }) {
-    if (open) {
+    if (open && !this.props.open) {
       this.initStateLocation({ location, currentLocation }, () => {
-        if (this.state.location !== INITIAL_LOCATION) {
-          this.props.centerMap({
-            id: '_amap_container',
-            center: this.state.location.lnglat,
-          });
-        }
+        this.props.initMap({
+          id: '_amap_container',
+          onClick: this.onMapClick,
+          center: this.state.location !== INITIAL_LOCATION ? this.state.location.lnglat : null,
+        });
       });
     }
   }
@@ -93,6 +84,7 @@ class mapDialog extends Component {
   }
   closeDialog = () => {
     this.setState({ location: INITIAL_LOCATION });
+    this.props.destroyMap({ id: '_amap_container' });
     this.props.closeDialog();
   }
   render() {
@@ -133,5 +125,5 @@ export default connect(
     ...selector(state),
     currentLocation: mapSelectors.getCurrentLocation(state).location,
   }),
-  (dispatch) => bindActionCreators({ ...actions, initMap: mapActions.init, centerMap: mapActions.center }, dispatch),
+  (dispatch) => bindActionCreators({ ...actions, initMap: mapActions.init, destroyMap: mapActions.destroy }, dispatch),
 )(injectSheet({})(mapDialog));

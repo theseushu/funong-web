@@ -248,6 +248,7 @@
     "react-jss": "^5.1.0",
     "react-mdl": "^1.9.0",
     "react-mdl-extra": "git+https://git@github.com/theseushu/react-mdl-extra.git",
+    "react-modal": "^1.7.3",
     "react-photoswipe": "^1.2.0",
     "react-redux": "4.4.6",
     "react-redux-toastr": "^4.4.2",

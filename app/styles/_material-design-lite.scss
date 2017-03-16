@@ -63,10 +63,14 @@ $svg-tick-mask-iamge: 'data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmN
 // hack to make react-mdl-extra work
 // see react-mdl dialog, layout is required to set zIndex = 100001
 // so if there's a dropdown, it must have a higher zIndex to show on top of layout
+// TODO since mdl-dialog is not used, maybe those zIndex can be ignored
 .mdl-dropdown {
   z-index: 100002 !important;
 }
 // hack to make photoSwipe work
 .pswp {
+  z-index: 100002 !important;
+}
+.ReactModal__Overlay.ReactModal__Overlay--after-open {
   z-index: 100002 !important;
 }

@@ -1,12 +1,8 @@
 import React, { Component, PropTypes } from 'react';
-import { findDOMNode } from 'react-dom';
-import { Dialog, DialogActions } from 'react-mdl/lib/Dialog';
-import Button from 'react-mdl/lib/Button';
-import dialogPolyfill from 'dialog-polyfill';
-import 'dialog-polyfill/dialog-polyfill.css';
 import Cropper from 'cropperjs';
 import 'cropperjs/dist/cropper.css';
 import injectSheet from 'react-jss';
+import { SimpleDialog } from 'modules/common/dialog';
 import { getRoundedScaledCanvas } from 'utils/canvasUtils';
 import { breakpoints } from 'modules/common/styles';
 
@@ -28,36 +24,15 @@ class CropperDialog extends Component {
     this.state = { open: true };
   }
 
-  componentDidMount() {
-    const dialog = findDOMNode(this);
-    if (!dialog.showModal) {   // avoid chrome warnings and update only on unsupported browsers
-      dialogPolyfill.registerDialog(dialog);
-    }
-    this.imageWrapper.appendChild(this.props.image);
-    this.cropper = new Cropper(this.props.image, {
-      viewMode: 1,
-      aspectRatio: 1,
-      autoCropArea: 1,
-      guides: false,
-      dragMode: 'move',
-      rotatable: false,
-      cropBoxMovable: false,
-      cropBoxResizable: false,
-      responsive: true,
-      background: false,
-    });
-  }
-
   componentWillUnmount() {
     this.cropper.destroy();
   }
 
   crop = () => {
-    this.setState({ open: false }, () => {
-      const croppedCanvas = this.cropper.getCroppedCanvas();
-      const roundedCanvas = getRoundedScaledCanvas(croppedCanvas, 160, 160);
-      this.props.onCrop(roundedCanvas.toDataURL());
-    });
+    const croppedCanvas = this.cropper.getCroppedCanvas();
+    const roundedCanvas = getRoundedScaledCanvas(croppedCanvas, 160, 160);
+    this.props.onCrop(roundedCanvas.toDataURL());
+    this.setState({ open: false });
   };
 
   close = () => {
@@ -70,25 +45,44 @@ class CropperDialog extends Component {
   render() {
     const { sheet: { classes }, image } = this.props;
     // if screenWidth > desktop width, let height be image height. if not, it will be a full screen dialog
-    let height = 0;
     const imageHeight = image.getAttribute('height');
-    const screenWidth = window.innerWidth
-      || document.documentElement.clientWidth
-      || document.body.clientWidth;
-    if (screenWidth >= breakpoints.desktop) {
-      height = `${imageHeight}px`;
-    } else {
-      height = 'calc(100vh - 68px)';
-    }
+    const imageWidth = image.getAttribute('width');
+    const height = imageHeight * (468 / imageWidth);
+    const content = (
+      <div
+        ref={(imageWrapper) => {
+          this.imageWrapper = imageWrapper;
+          if (imageWrapper) {
+            imageWrapper.appendChild(image);
+            this.cropper = new Cropper(this.props.image, {
+              viewMode: 1,
+              aspectRatio: 1,
+              autoCropArea: 1,
+              guides: false,
+              dragMode: 'move',
+              rotatable: false,
+              cropBoxMovable: false,
+              cropBoxResizable: false,
+              responsive: true,
+              background: false,
+            });
+          }
+        }}
+        className={classes.defaultCanvasWrapper} style={{ height, maxHeight: 'calc(100vh - 68px)' }}
+      />
+    );
     return (
-      <Dialog open={this.state.open} onCancel={this.close} className={classes.dialog}>
-        <div ref={(imageWrapper) => { this.imageWrapper = imageWrapper; }} className={classes.defaultCanvasWrapper} style={{ height, maxHeight: 'calc(100vh - 68px)' }}>
-        </div>
-        <DialogActions>
-          <Button onClick={this.close}>取消</Button>
-          <Button onClick={this.crop}>确定</Button>
-        </DialogActions>
-      </Dialog>
+      <SimpleDialog
+        show
+        close={this.close}
+        onCancel={this.close}
+        title="截取头像"
+        content={content}
+        submit={{
+          onSubmit: this.crop,
+          disabled: false,
+        }}
+      />
     );
   }
 }

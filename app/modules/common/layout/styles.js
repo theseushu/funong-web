@@ -44,7 +44,6 @@ export default {
     },
   },
   layout: {
-    zIndex: 10001,
     [breakpoints.mediaDestkopAbove]: {
       '& .mdl-layout__drawer-button': {
         display: 'none',

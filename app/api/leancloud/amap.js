@@ -133,6 +133,16 @@ export default () => {
         bindOnClick(Map, map, Geocoder, clickHandler);
       }
     };
+    const destroyMap = async ({ id }) => {
+      if (!maps[id]) {
+        console.error(`Map ${id} doesn't exist!`); // eslint-disable-line
+        return;
+      }
+      const map = maps[id].map;
+      map.clearMap();
+      map.destroy();
+      delete maps[id];
+    };
 
     const centerMap = async ({ id, center }) => {
       if (!maps[id]) {
@@ -213,6 +223,7 @@ export default () => {
 
     return {
       centerMap,
+      destroyMap,
       getCurrentLocation,
       searchDistrict,
       initMap,
