@@ -1,9 +1,9 @@
 import React, { PropTypes } from 'react';
 import { Card, CardTitle, CardText } from 'react-mdl/lib/Card';
 import injectSheet from 'react-jss';
-import moduleStyles from '../moduleStyles';
-import NameField from '../nameField';
-import LocationField from '../locationField';
+import moduleStyles from '../../moduleStyles';
+import NameField from '../../nameField';
+import LocationField from '../../locationField';
 
 
 const LocationNameCard = ({ title, classes }) => (

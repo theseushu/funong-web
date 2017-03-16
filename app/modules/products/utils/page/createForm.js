@@ -3,7 +3,6 @@ import { reduxForm } from 'redux-form';
 import { push } from 'react-router-redux';
 import success from 'modules/toastr/success';
 
-
 export default (FORM_NAME, actions, FormComponent) => {
   const { create, update } = actions;
   return reduxForm({

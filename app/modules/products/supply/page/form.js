@@ -5,10 +5,10 @@ import { Buttons, CategorySpeciesNameCard, SpecsCard, ImagesCard, RichTextCard, 
 import { labels, catalogGroups } from '../constants';
 
 const Form = (props) => {
-  const { handleSubmit, pristine, submitting, invalid, sheet: { classes } } = props;
+  const { handleSubmit, pristine, submitting, invalid, form, sheet: { classes } } = props;
   return (
     <form className={classes.form}>
-      <CategorySpeciesNameCard catalogs={_flatten(catalogGroups)} />
+      <CategorySpeciesNameCard form={form} catalogs={_flatten(catalogGroups)} />
       <SpecsCard />
       <LocationCard />
       <ImagesCard />
@@ -20,6 +20,7 @@ const Form = (props) => {
 };
 
 Form.propTypes = {
+  form: PropTypes.string.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   pristine: PropTypes.bool,
   submitting: PropTypes.bool,

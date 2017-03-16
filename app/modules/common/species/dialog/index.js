@@ -2,7 +2,6 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import injectSheet from 'react-jss';
-import Textfield from 'react-mdl/lib/Textfield';
 import Button from 'react-mdl/lib/Button';
 import { selectors, actions } from 'api/species';
 import { speciesSelector } from 'modules/data/ducks/selectors';

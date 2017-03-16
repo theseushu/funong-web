@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import { Fields } from 'redux-form';
 import { Card, CardTitle, CardText } from 'react-mdl/lib/Card';
 import injectSheet from 'react-jss';
-import moduleStyles from '../moduleStyles';
+import moduleStyles from '../../moduleStyles';
 import NameField from './nameField';
 import RangeField from './rangeField';
 

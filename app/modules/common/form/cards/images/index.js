@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import { Field } from 'redux-form';
 import FilesUpload from './filesUpload';
-import { required } from '../validations';
+import { required } from '../../validations';
 
 const Images = ({ input: { value, onChange }, meta: { error }, title }) => (
   <FilesUpload error={error} title={title} files={value || []} onChange={onChange} editing />

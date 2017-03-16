@@ -2,24 +2,23 @@ import React, { PropTypes } from 'react';
 import { Field } from 'redux-form';
 import { Card, CardTitle, CardText } from 'react-mdl/lib/Card';
 import injectSheet from 'react-jss';
-import moduleStyles from '../moduleStyles';
-import LocationField from '../locationField';
+import moduleStyles from '../../moduleStyles';
+import RichTextField from '../../richTextField';
 
 
-const LocationCard = ({ title, classes }) => (
+const RichTextCard = ({ classes }) => (
   <Card shadow={1} className={classes.card}>
     <CardTitle>
-      { title || '发货地址' }
+      详细描述
     </CardTitle>
     <CardText>
-      <Field name="location" component={LocationField} />
+      <Field name="desc" component={RichTextField} />
     </CardText>
   </Card>
 );
 
-LocationCard.propTypes = {
-  title: PropTypes.string,
+RichTextCard.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default injectSheet(moduleStyles)(LocationCard);
+export default injectSheet(moduleStyles)(RichTextCard);

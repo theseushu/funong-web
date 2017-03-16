@@ -7,8 +7,10 @@ const IDCardRegex = /(^\d{15}$)|(^\d{17}([0-9]|X|x)$)/;
 
 export const required = (value) => { // lodash isEmpty(number) = true. so I added number check before isEmpty
   let empty = false;
-  if (!isNaN(Number(value))) {
+  if (typeof value === 'number') {
     empty = false;
+  } else if (typeof value === 'string') {
+    empty = value.trim() === '';
   } else {
     empty = _isEmpty(value);
   }

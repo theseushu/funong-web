@@ -1,18 +1,24 @@
 import React, { Component, PropTypes } from 'react';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import { Field, formValueSelector, change } from 'redux-form';
 import FormButton from 'modules/common/formElements/button';
 import { Dialog } from 'modules/common/species';
 import styles from 'modules/common/styles';
+import { required } from '../../validations';
 
 class SpeciesField extends Component {
   static propTypes = {
     category: PropTypes.object,
     input: PropTypes.object.isRequired,
     meta: PropTypes.object,
+    setName: PropTypes.func.isRequired,
   };
   state = { showDialog: false }
   setSpecies = (s) => {
-    const { input: { onChange } } = this.props;
+    const { input: { onChange }, setName, category } = this.props;
     onChange(s);
+    setName(`${category.name} ${s.name}`);
     this.hideDialog();
   }
   showDialog = (e) => {
@@ -44,4 +50,7 @@ class SpeciesField extends Component {
   }
 }
 
-export default SpeciesField;
+export default connect(
+  (state, { form }) => ({ category: formValueSelector(form)(state, 'category') }),
+  (dispatch, { form }) => bindActionCreators({ setName: (value) => change(form, 'name', value) }, dispatch),
+)((props) => <Field name="species" component={SpeciesField} props={{ ...props }} validate={[required]} />);

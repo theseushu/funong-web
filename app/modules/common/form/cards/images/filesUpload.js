@@ -8,7 +8,7 @@ import { Card, CardTitle, CardText } from 'react-mdl/lib/Card';
 import { actions } from 'modules/fullScreenGallery/ducks';
 import Files from 'modules/common/filesUpload/files';
 import FormIconButton from 'modules/common/formElements/iconButton';
-import moduleStyles from '../moduleStyles';
+import moduleStyles from '../../moduleStyles';
 
 const debug = require('debug')('app:photosField');
 

@@ -4,7 +4,7 @@ import { Field } from 'redux-form';
 import { Card, CardTitle, CardText } from 'react-mdl/lib/Card';
 import Switch from 'react-mdl/lib/Switch';
 import injectSheet from 'react-jss';
-import moduleStyles from '../moduleStyles';
+import moduleStyles from '../../moduleStyles';
 
 const Labels = ({ classes, labels, input: { value, onChange } }) => (
   <div className={classes.labels}>

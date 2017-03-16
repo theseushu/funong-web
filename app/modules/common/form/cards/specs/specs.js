@@ -7,8 +7,8 @@ import { List, ListItem, ListItemContent, ListItemAction } from 'react-mdl/lib/L
 import FormIconButton from 'modules/common/formElements/iconButton';
 import SpecDialog from 'modules/common/specDialog';
 import { formatPrice } from 'utils/displayUtils';
-import { colors } from '../../styles';
-import moduleStyles from '../moduleStyles';
+import { colors } from 'modules/common/styles';
+import moduleStyles from '../../moduleStyles';
 
 class Specs extends Component {
   static propTypes = {
