@@ -1,8 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import { Field } from 'redux-form';
 import blockLoading from 'assets/blockLoading.gif';
+import styles from 'modules/common/styles';
 import { required } from './validations';
-import styles from '../styles';
 
 class RichTextField extends Component {
   static propTypes = {
@@ -46,6 +46,7 @@ class RichTextField extends Component {
           {label}
         </div>
         {this.renderEditor()}
+        { error && <div><small className={styles.colorError}>{error}</small></div>}
       </div>
     );
   }

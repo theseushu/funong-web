@@ -1,5 +1,4 @@
 import React, { PropTypes } from 'react';
-import { Field } from 'redux-form';
 import { Card, CardTitle, CardText } from 'react-mdl/lib/Card';
 import injectSheet from 'react-jss';
 import moduleStyles from '../../moduleStyles';
@@ -12,7 +11,7 @@ const RichTextCard = ({ classes }) => (
       详细描述
     </CardTitle>
     <CardText>
-      <Field name="desc" component={RichTextField} />
+      <RichTextField />
     </CardText>
   </Card>
 );

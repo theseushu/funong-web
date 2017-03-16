@@ -20,10 +20,9 @@ const generateThumbnailDiv = (lnglat, className, name) => {
   );
 };
 
-const Location = ({ input: { value, onChange }, meta: { error }, openDialog, name, sheet: { classes } }) => {
-  return (
-    <div className={styles.w100}>
-      <div className={classes.title} style={{ color: error ? colors.colorError : undefined }}>
+const Location = ({ input: { value, onChange }, meta: { error }, openDialog, name, sheet: { classes } }) => (
+  <div className={styles.w100}>
+    <div className={classes.title} style={{ color: error ? colors.colorError : undefined }}>
         地址
         <ButtonWithIcon
           colored icon="edit_location"
@@ -36,16 +35,15 @@ const Location = ({ input: { value, onChange }, meta: { error }, openDialog, nam
             });
           }}
         >{value === '' ? '点此选择' : '点此修改'}</ButtonWithIcon>
-      </div>
-      {
+    </div>
+    {
         value.lnglat && generateThumbnailDiv(value.lnglat, classes.thumbnail, name)
       }
-      <p className={styles.colorSubTitle}>
-        {value === '' ? '' : value.address.details}
-      </p>
-    </div>
+    <p className={styles.colorSubTitle}>
+      {value === '' ? '' : value.address.details}
+    </p>
+  </div>
   );
-}
 
 Location.propTypes = {
   input: PropTypes.object.isRequired,

@@ -8,7 +8,7 @@ import { Chip } from 'react-mdl/lib/Chip';
 import { units } from 'appConstants';
 import { isQuantityInvalid, isPriceInvalid } from 'utils/validationUtils';
 import { Dialog } from 'modules/common/dialog';
-import styles from '../styles';
+import styles from 'modules/common/styles';
 
 const EMPTY = {
   name: '',
@@ -23,6 +23,7 @@ class SpecsDialog extends Component {
     close: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
     spec: PropTypes.object,
+    useMinimum: PropTypes.bool,
     isDefault: PropTypes.bool.isRequired,
     classes: PropTypes.object.isRequired,
   }
@@ -47,9 +48,13 @@ class SpecsDialog extends Component {
     this.setState({ unit });
   }
   onSubmit = () => {
-    const { onSubmit } = this.props;
+    const { onSubmit, useMinimum } = this.props;
     const { name, params, price, unit, minimum } = this.state;
-    onSubmit({ name, params, price: Number(price), unit, minimum: Number(minimum) });
+    if (useMinimum) {
+      onSubmit({ name, params, price: Number(price), unit, minimum: Number(minimum) });
+    } else {
+      onSubmit({ name, params, price: Number(price), unit });
+    }
   }
   addSpecParam = (e) => {
     e.preventDefault();
@@ -62,14 +67,14 @@ class SpecsDialog extends Component {
     this.setState({ params: _without(params, param) });
   }
   render() {
-    const { close, isDefault, spec, classes } = this.props;
-    const { name, params, price, unit, minimum, newParam, showUnits } = this.state;
+    const { close, isDefault, spec, classes, useMinimum } = this.props;
+    const { name, params, price, unit, minimum, newParam } = this.state;
     const error = {
       name: name.trim() === '' && '必填',
       params: params.length === 0 && '必填',
       price: isPriceInvalid(price) || null,
       unit: unit.trim() === '' && '必填',
-      minimum: isQuantityInvalid(minimum) || null,
+      minimum: (useMinimum && isQuantityInvalid(minimum)) || null,
     };
     return (
       <Dialog
@@ -118,15 +123,17 @@ class SpecsDialog extends Component {
                 value={unit}
               />
             </div>
-            <div className={`material-transition ${classes.params}`} style={{ maxHeight: showUnits ? 108 : 0 }}>
+            <div className={`material-transition ${classes.params}`}>
               {units.map((u, i) => <Button key={i} colored onClick={(e) => { e.preventDefault(); this.setState({ unit: u }); }}>{u}</Button>)}
             </div>
-            <div className={classes.line}>
-              <Textfield
-                label="最小批发量" name="_priceMinCount" floatingLabel type="number" required
-                onChange={this.onMinimumChanged} value={minimum} error={minimum === '' ? null : error.minimum}
-              />
-            </div>
+            {useMinimum && (
+              <div className={classes.line}>
+                <Textfield
+                  label="最小批发量（金额）" name="_priceMinCount" floatingLabel type="number" required
+                  onChange={this.onMinimumChanged} value={minimum} error={minimum === '' ? null : error.minimum}
+                />
+              </div>
+            )}
           </div>
         }
         submit={{
@@ -152,8 +159,8 @@ export default injectSheet({
   line: {
     marginTop: layout.rowGutter,
     display: 'flex',
+    flexWrap: 'wrap',
     width: '100%',
-    justifyContent: 'center',
     alignItems: 'center',
     margin: '0 auto',
     maxWidth: layout.maxWidth,
@@ -170,7 +177,11 @@ export default injectSheet({
     maxWidth: layout.maxWidth,
   },
   params: {
+    maxWidth: layout.maxWidth,
     overflow: 'hidden',
+    display: 'flex',
+    flexWrap: 'wrap',
+    margin: '0 auto',
   },
   tableButtons: {
     width: 64,

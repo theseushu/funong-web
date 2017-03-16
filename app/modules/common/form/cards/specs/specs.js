@@ -5,10 +5,10 @@ import injectSheet from 'react-jss';
 import IconButton from 'react-mdl/lib/IconButton';
 import { List, ListItem, ListItemContent, ListItemAction } from 'react-mdl/lib/List';
 import FormIconButton from 'modules/common/formElements/iconButton';
-import SpecDialog from 'modules/common/specDialog';
 import { formatPrice } from 'utils/displayUtils';
 import { colors } from 'modules/common/styles';
 import moduleStyles from '../../moduleStyles';
+import SpecDialog from './dialog';
 
 class Specs extends Component {
   static propTypes = {
@@ -17,6 +17,7 @@ class Specs extends Component {
       onChange: PropTypes.func.isRequired,
     }).isRequired,
     meta: PropTypes.object,
+    useMinimum: PropTypes.bool,
     classes: PropTypes.object,
   }
   constructor(props) {
@@ -55,7 +56,7 @@ class Specs extends Component {
   }
 
   render() {
-    const { input: { value }, meta: { error }, classes } = this.props; // eslint-disable-line
+    const { input: { value }, meta: { error }, useMinimum, classes } = this.props; // eslint-disable-line
     const { editingIndex } = this.state;
     return (
       <Card shadow={1} className={classes.card}>
@@ -70,7 +71,7 @@ class Specs extends Component {
                   <ListItem key={i} threeLine>
                     <ListItemContent
                       subtitle={spec.params.join(', ')}
-                    ><span>{spec.name}<small> {formatPrice(spec)}</small></span></ListItemContent>
+                    ><span>{spec.name}<small> {formatPrice(spec, useMinimum)}</small></span></ListItemContent>
                     <ListItemAction>
                       <IconButton name="edit" onClick={(e) => { e.preventDefault(); this.editSpec(i); }} />
                       <IconButton name="delete_sweep" onClick={(e) => { e.preventDefault(); this.removeSpec(spec); }} />
@@ -93,6 +94,7 @@ class Specs extends Component {
               isDefault={editingIndex === 0}
               spec={value[editingIndex]}
               close={this.hideDialog}
+              useMinimum={useMinimum}
               onSubmit={this.saveSpec}
             />
           )
