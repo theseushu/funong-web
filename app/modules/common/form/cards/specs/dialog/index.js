@@ -29,8 +29,12 @@ class SpecsDialog extends Component {
   }
   constructor(props) {
     super(props);
-    const { spec = EMPTY } = this.props;
-    this.state = { name: props.isDefault ? '默认' : spec.name, params: spec.params, price: spec.price.toString(), unit: spec.unit, minimum: spec.minimum.toString(), newParam: '' };
+    const { spec = EMPTY, useMinimum } = this.props;
+    if (useMinimum) {
+      this.state = { name: props.isDefault ? '默认' : spec.name, params: spec.params, price: spec.price.toString(), unit: spec.unit, minimum: spec.minimum.toString(), newParam: '' };
+    } else {
+      this.state = { name: props.isDefault ? '默认' : spec.name, params: spec.params, price: spec.price.toString(), unit: spec.unit, newParam: '' };
+    }
   }
   onNewParamChanged = (e) => {
     this.setState({ newParam: e.target.value });

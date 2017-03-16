@@ -19,12 +19,6 @@ export const statusValues = {
   cancelled: { value: 18, title: '已取消' },
 };
 
-export const availableValues = {
-  all: { title: '全部', value: undefined },
-  on: { title: '已上架', value: true },
-  off: { title: '已下架', value: false },
-};
-
 export const userTypes = [
   { icon: 'shopping_basket', title: '逛逛再说', value: '一般用户', subtitle: '您可以稍候在个人信息里重新选择' },
   { icon: 'home', title: '我要开店', value: '微店店主' },
@@ -53,40 +47,32 @@ export const catalogTypes = {
   trip: {},
 };
 
-export const specificationTypes = {
-  length: { title: '长度', value: 'length' },
-  width: { title: '宽度', value: 'width' },
-  height: { title: '高度', value: 'height' },
-  weight: { title: '重量', value: 'weight' },
-  color: { title: '颜色', value: 'color' },
-  quality: { title: '质量', value: 'quality' },
-  size: { title: '大小', value: 'size' },
-  custom: { title: '自定义', value: 'custom' },
-};
-
 export const units = [
   '斤', '两', '公斤', '克', '袋', '盒', '箱', '包', '只', '条', '台',
 ];
+export const productLabels = {
+  available: { title: '上架', key: 'available', value: 'available' },
+};
 
 export const shopProductLabels = {
-  available: { title: '上架', key: 'available', value: 'available' },
+  ...productLabels,
   recommend: { title: '店长推荐', key: 'recommend', value: 'recommend' },
   agent: { title: '可代销', key: 'agent', value: 'agent' },
 };
 
 export const supplyLabels = {
-  available: { title: '上架', key: 'available', value: 'available' },
+  ...productLabels,
   includesTransportation: { title: '包运费', key: 'includesTransportation', value: 'includesTransportation' },
   supportsLogistics: { title: '协助找物流', key: 'supportsLogistics', value: 'supportsLogistics' },
   supportsDelivery: { title: '支持走快递', key: 'supportsDelivery', value: 'supportsDelivery' },
 };
 
 export const logisticsLabels = {
-  available: { title: '上架', key: 'available', value: 'available' },
+  ...productLabels,
 };
 
 export const tripLabels = {
-  available: { title: '上架', key: 'available', value: 'available' },
+  ...productLabels,
 };
 
 export const provinces = [

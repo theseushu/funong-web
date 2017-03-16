@@ -1,13 +1,13 @@
 import _toPairs from 'lodash/toPairs';
-import { requireAuth } from 'utils/routerUtils';
+import { requireAuth, requireShop } from 'utils/routerUtils';
 
-export default (path, name, actions, componentAndDucks) => ({ store, injectReducer, loadModule, errorLoading }) => {
+export default (path, name, actions, componentAndDucks, isShop) => ({ store, injectReducer, loadModule, errorLoading }) => {
   const fetchProduct = actions.fetch;
   return {
     path,
     name,
     onEnter: async ({ params: { id }, location: { pathname, search, query } }, replace, proceed) => {
-      if (id === 'new' || !query.edit) {
+      if (id === 'new' || query.edit) {
         const { login } = await requireAuth(store);
         if (!login) {
           const redirect = `${location.pathname}${location.search}`;
@@ -15,6 +15,14 @@ export default (path, name, actions, componentAndDucks) => ({ store, injectReduc
           replace(`/login?message=${message}&redirect=${redirect}`);
           proceed();
           return;
+        }
+        if (isShop) {
+          const { shop } = await requireShop(store);
+          if (!shop) {
+            replace('/me/shop');
+            proceed();
+            return;
+          }
         }
       }
       if (id !== 'new') {

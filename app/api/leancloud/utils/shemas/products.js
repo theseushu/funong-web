@@ -23,6 +23,11 @@ export const updatedAt = {
 };
 
 export const status = {
+  search: (AV, query, value) => {
+    if (value && value.length > 0) {
+      query.containedIn('status', value);
+    }
+  },
   converter: attrConverters.status,
 };
 
@@ -138,7 +143,11 @@ export const desc = {
 export const labels = {
   create: (AV, product, value) => setRequiredAttr(product, 'labels', value),
   update: (AV, product, value) => setRequiredAttr(product, 'labels', value),
-  search: undefined,
+  search: (AV, query, value) => {
+    if (value && value.length > 0) {
+      query.containsAll('labels', value);
+    }
+  },
   converter: attrConverters.labels,
 };
 

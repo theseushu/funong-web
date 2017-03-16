@@ -10,7 +10,7 @@ export const create = async (AV, Class, schema, params, context) => {
   const { table, attributes } = schema;
   const product = new Class();
   try {
-    const attrs = { ...params, owner: profile };
+    const attrs = schema.owner ? { ...params, owner: profile } : { ...params };
     _map(attrs, (value, key) => {
       const attrSchema = attributes[key];
       if (!attrSchema || !attrSchema.create) {

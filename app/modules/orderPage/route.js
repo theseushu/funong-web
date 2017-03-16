@@ -14,7 +14,7 @@ export default ({ store, injectReducer, injectSagas, loadModule, errorLoading })
       const items = itemsSelector(store.getState());
       if (items == null || items.length === 0) {
         // TODO uncomment
-        // replace('/cart');
+        replace('/cart');
       }
       callback();
     } else {
@@ -52,8 +52,8 @@ export default ({ store, injectReducer, injectSagas, loadModule, errorLoading })
       const address = user.addresses[addressIndex];
       System.import('../cartPage/ducks').then((cartPageDucks) => {
         const itemsSelector = cartPageDucks.selectors.items;
-        let items = itemsSelector(store.getState());
-        items = require('./items').default; // eslint-disable-line
+        const items = itemsSelector(store.getState());
+        // items = require('./items').default; // eslint-disable-line
         store.dispatch(createOrders(items, address));
         renderRoute(component);
       });

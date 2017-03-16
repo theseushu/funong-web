@@ -1,12 +1,10 @@
 import React, { PropTypes } from 'react';
-import _find from 'lodash/find';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import injectSheet from 'react-jss';
 import Button from 'react-mdl/lib/Button';
 import Menu from 'react-mdl-extra/lib/Menu';
 import MenuItem from 'react-mdl-extra/lib/MenuItem';
-import { availableValues } from 'appConstants';
 import { myShopSelector } from 'modules/data/ducks/selectors';
 import { actions, selectors } from './ducks';
 
@@ -15,20 +13,30 @@ const searchParamsSelector = selectors.searchParams;
 
 const Toolbar = ({ classes, searchParams, setSearchParams }) => {
   const { available } = searchParams;
-  const availableValue = _find(availableValues, (entry) => entry.value === available) || availableValues.all;
+  let avaiableTitle = '全部';
+  if (available != null) {
+    avaiableTitle = available ? '上架的' : '下架的';
+  }
   return (
     <div className={classes.toolbar}>
       <span>
       状态：
-      <Menu target={<Button colored>{availableValue.title}</Button>}>
-        {Object.values(availableValues).map((entry, i) => (
-          <MenuItem
-            key={i}
-            onClick={() => {
-              setSearchParams({ ...searchParams, available: entry.value });
-            }}
-          >{entry.title}</MenuItem>
-        ))}
+      <Menu target={<Button colored>{avaiableTitle}</Button>}>
+        <MenuItem
+          onClick={() => {
+            setSearchParams({ ...searchParams, available: undefined });
+          }}
+        >全部</MenuItem>
+        <MenuItem
+          onClick={() => {
+            setSearchParams({ ...searchParams, available: true });
+          }}
+        >上架的</MenuItem>
+        <MenuItem
+          onClick={() => {
+            setSearchParams({ ...searchParams, available: false });
+          }}
+        >下架的</MenuItem>
       </Menu>
       </span>
     </div>

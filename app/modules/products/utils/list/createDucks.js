@@ -5,6 +5,7 @@ import createDucks from 'api/utils/createDucks';
 import { createProductsSelector } from 'modules/data/ducks/selectors';
 import { setProducts } from 'modules/data/ducks/actions';
 import { createDucks as createCriteriaDucks } from 'modules/common/criteria';
+import { statusValues, productLabels } from 'appConstants';
 
 export default (type) => {
   const SLICE_NAME = `page_${type}_list`;
@@ -23,6 +24,12 @@ export default (type) => {
       },
     },
   });
+  const searchProducts = (params = {}) =>
+    searchProductsDucks.actions.searchProducts({
+      ...params,
+      status: [statusValues.unverified.value, statusValues.verified.value],
+      labels: [productLabels.available.value],
+    });
 
   const recommendProductsDucks = createDucks({
     key: 'recommendProducts',
@@ -36,6 +43,12 @@ export default (type) => {
       },
     },
   });
+  const recommendProducts = (params = {}) =>
+    recommendProductsDucks.actions.recommendProducts({
+      ...params,
+      status: [statusValues.unverified.value, statusValues.verified.value],
+      labels: [productLabels.available.value],
+    });
 
   const countProductsDucks = createDucks({
     key: 'countProducts',
@@ -48,6 +61,12 @@ export default (type) => {
       },
     },
   });
+  const countProducts = (params = {}) =>
+    countProductsDucks.actions.countProducts({
+      ...params,
+      status: [statusValues.unverified.value, statusValues.verified.value],
+      labels: [productLabels.available.value],
+    });
 
   const criteriaDucks = createCriteriaDucks({ namespace: SLICE_NAME, rootSelector });
 
@@ -61,9 +80,9 @@ export default (type) => {
       }),
     },
     actions: {
-      countProducts: countProductsDucks.actions.countProducts,
-      searchProducts: searchProductsDucks.actions.searchProducts,
-      recommendProducts: recommendProductsDucks.actions.recommendProducts,
+      countProducts,
+      searchProducts,
+      recommendProducts,
       ...criteriaDucks.actions, // setCriteria
     },
     selectors: {

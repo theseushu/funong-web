@@ -8,5 +8,6 @@ export default createRouteCreator(
   Promise.all([
     System.import('./index'),
     System.import('./ducks'),
-  ])
+  ]),
+  true,
 );

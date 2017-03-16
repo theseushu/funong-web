@@ -30,7 +30,6 @@ export const EMPTY_PRODUCT = {
   species: null,
   name: '',
   specs: [],
-  location: null,
   desc: '',
   images: [],
   labels: [],
