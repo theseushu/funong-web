@@ -1,9 +1,9 @@
 import React, { PropTypes } from 'react';
 import injectSheet from 'react-jss';
 import Link from 'react-router/lib/Link';
-import Icon from 'react-mdl/lib/Icon';
 import { Card, CardTitle, CardText, CardActions } from 'react-mdl/lib/Card';
 import { colors } from 'modules/common/styles';
+import Thumbnail from '../thumbnail';
 
 const LogisticsCard = ({ product, className, classes, actions }) => {
   const { thumbnail, name, price, range } = product;
@@ -13,7 +13,7 @@ const LogisticsCard = ({ product, className, classes, actions }) => {
         <div className={classes.title}>
           <Link to={`/logistics/${product.objectId}`}>
             <div className={classes.titleImage}>
-              {thumbnail ? <div style={{ backgroundImage: `url(${thumbnail.thumbnail_300_300})` }}></div> : <Icon name="local_shipping" />}
+              <Thumbnail type="logistics" thumbnail={thumbnail} />
             </div>
           </Link>
           <div className={classes.titleText}>
@@ -65,16 +65,8 @@ export default injectSheet({
     width: 72,
     height: 72,
     marginRight: 8,
-    '& > div': {
-      background: 'center',
-      backgroundSize: 'cover',
-      borderRadius: 4,
-      width: 72,
-      height: 72,
-    },
     '& > i': {
       fontSize: 72,
-      borderRadius: 4,
       color: colors.colorLightGrey,
     },
   },

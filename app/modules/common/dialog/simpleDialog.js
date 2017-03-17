@@ -4,7 +4,7 @@ import Modal from 'react-modal';
 import Button from 'react-mdl/lib/Button';
 import { colors, breakpoints } from '../styles';
 
-const SimpleDialog = ({ title, content, className, classes, show = true, onHide, onCancel, submit }) =>  (
+const SimpleDialog = ({ title, content, className, classes, show = true, onHide, onCancel, submit }) => (
   <Modal
     isOpen={show}
     onRequestClose={onHide}
@@ -19,8 +19,8 @@ const SimpleDialog = ({ title, content, className, classes, show = true, onHide,
       {content}
     </div>
     <div className={classes.actions}>
-      <Button colored onClick={(e) => { e.preventDefault(); onCancel(); }}>取消</Button>
       {submit && <Button colored onClick={submit.onSubmit} disabled={submit.disabled}>确定</Button>}
+      <Button colored onClick={(e) => { e.preventDefault(); onCancel(); }}>取消</Button>
     </div>
   </Modal>
 );

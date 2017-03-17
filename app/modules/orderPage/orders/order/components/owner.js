@@ -30,6 +30,7 @@ export default injectSheet({
     display: 'flex',
     alignItems: 'center',
     color: colors.colorSubTitle,
+    height: 32, // to align with cardMenu button
   },
   title: {
     marginRight: 16,

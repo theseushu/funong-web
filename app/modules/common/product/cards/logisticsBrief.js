@@ -3,12 +3,14 @@ import injectSheet from 'react-jss';
 import Link from 'react-router/lib/Link';
 import { Card } from 'react-mdl/lib/Card';
 import styles, { breakpoints, colors } from 'modules/common/styles';
+import Thumbnail from '../thumbnail';
 
 const LogisticsProductBriefCard = ({ product, sheet: { classes } }) => (
   <Card shadow={2} className={`${classes.card} ${styles.defaultTransition}`}>
     <Link to={`/logistics/${product.objectId}`} className={classes.title}>
       <div className={classes.image}>
-        <div className="_wrapper" style={{ backgroundImage: `url(${product.images[0].thumbnail_300_300})` }}>
+        <div className="_wrapper">
+          <Thumbnail type="logistics" thumbnail={product.thumbnail} />
         </div>
       </div>
       <div className={`${classes.priceAndName} ${styles.colorPrice}`}>
@@ -54,17 +56,27 @@ export default injectSheet({
     },
   },
   image: {
+    position: 'relative',
+    backgroundSize: 'cover',
     width: '100%',
+    paddingTop: '75%',
     '& > ._wrapper': {
-      position: 'relative',
-      backgroundSize: 'cover',
+      position: 'absolute',
+      top: 0,
+      left: 0,
       width: '100%',
-      paddingTop: '75%',
+      height: '100%',
+    },
+    '& i': {
+      fontSize: 100,
     },
     [breakpoints.mediaTabletBelow]: {
-      width: '60px',
-      '& > ._wrapper': {
-        paddingTop: '100%',
+      width: '48px',
+      margin: 8,
+      paddingTop: '48px',
+      '& i': {
+        fontSize: 40,
+        color: colors.colorLightGrey,
       },
     },
   },

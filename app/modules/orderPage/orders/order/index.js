@@ -1,9 +1,11 @@
 import React, { PureComponent, PropTypes } from 'react';
 import _find from 'lodash/find';
 import injectSheet from 'react-jss';
-import { Card, CardTitle } from 'react-mdl/lib/Card';
+import { Card, CardTitle, CardMenu } from 'react-mdl/lib/Card';
+import IconButton from 'react-mdl/lib/IconButton';
 import { productTypes, serviceTypes, orderFeeTypes } from 'appConstants';
-import { colors } from 'modules/common/styles';
+import styles, { colors } from 'modules/common/styles';
+import Compact from './components/compact';
 import Owner from './components/owner';
 import Items from './components/items';
 import Services from './components/services';
@@ -19,9 +21,11 @@ class Order extends PureComponent {
     changeServicesFee: PropTypes.func.isRequired,
     changeDeliveryFee: PropTypes.func.isRequired,
   }
+  state = { compact: false }
   render() {
     const { order: { type, user, shop, items, productAmount, services, delivery, otherFees, message },
       changeServices, changeServicesFee, changeMessage, changeDeliveryFee, classes } = this.props;
+    const { compact } = this.state;
     // services
     const availableServices = serviceTypes[type];
     let orderServices;
@@ -36,8 +40,23 @@ class Order extends PureComponent {
     });
     const serviceFee = otherFees[orderFeeTypes.service.key];
     const deliveryFee = otherFees[orderFeeTypes.delivery.key];
+    if (compact) {
+      return (
+        <Card shadow={0} className={`${classes.card} ${styles.defaultTransition}`}>
+          <CardMenu>
+            <IconButton name="vertical_align_bottom" onClick={() => this.setState({ compact: false })} />
+          </CardMenu>
+          <CardTitle>
+            <Compact order={this.props.order} />
+          </CardTitle>
+        </Card>
+      );
+    }
     return (
-      <Card shadow={0} className={classes.card}>
+      <Card shadow={0} className={`${classes.card} ${styles.defaultTransition}`}>
+        <CardMenu>
+          <IconButton name="vertical_align_top" onClick={() => this.setState({ compact: true })} />
+        </CardMenu>
         <CardTitle>
           <Owner user={user} shop={shop} />
         </CardTitle>
@@ -59,7 +78,10 @@ class Order extends PureComponent {
             onServiceFeeChange={changeServicesFee}
           />
           { delivery && (
-            <Delivery classes={classes} delivery={delivery} productAmount={productAmount} deliveryFee={deliveryFee} onDeliveryFeeChange={changeDeliveryFee} />
+            <Delivery
+              classes={classes} delivery={delivery} productAmount={productAmount} deliveryFee={deliveryFee}
+              onDeliveryFeeChange={changeDeliveryFee}
+            />
           )}
           <MessageAndAmount
             message={message}

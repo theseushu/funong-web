@@ -24,8 +24,8 @@ const DialogComponent = ({ title, fixedContent, scrollableContent, classes, show
       </div>}
     </div>
     <div className={classes.actions}>
-      <Button colored onClick={(e) => { e.preventDefault(); onCancel(); }}>取消</Button>
       {submit && <Button colored onClick={submit.onSubmit} disabled={submit.disabled}>确定</Button>}
+      <Button colored onClick={(e) => { e.preventDefault(); onCancel(); }}>取消</Button>
     </div>
   </Modal>
     );
