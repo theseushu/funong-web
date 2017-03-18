@@ -5,4 +5,3 @@ import Products from './products';
 export default connect(
   (state) => ({ user: currentUserSelector(state) }),
 )(Products);
-

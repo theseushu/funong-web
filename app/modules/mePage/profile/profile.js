@@ -25,7 +25,7 @@ class Profile extends Component {
   render() {
     const { user: { mobilePhoneNumber }, sheet: { classes } } = this.props;
     return (
-      <Page>
+      <Page >
         <div className={classes.content}>
           <Card shadow={2} style={{ width: '100%', margin: 'auto' }}>
             <CardTitle>

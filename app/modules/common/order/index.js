@@ -3,11 +3,12 @@ import _find from 'lodash/find';
 import injectSheet from 'react-jss';
 import { Card, CardTitle, CardMenu } from 'react-mdl/lib/Card';
 import IconButton from 'react-mdl/lib/IconButton';
-import { productTypes, serviceTypes, orderFeeTypes } from 'appConstants';
+import { statusValues, productTypes, serviceTypes, orderFeeTypes } from 'appConstants';
 import styles, { colors } from 'modules/common/styles';
 import Compact from './components/compact';
-import Owner from './components/owner';
-import Items from './components/items';
+import Menu from './menu';
+import Title from './title';
+import Items from './items';
 import Services from './components/services';
 import Delivery from './components/delivery';
 import MessageAndAmount from './components/messageAndAmount';
@@ -16,15 +17,28 @@ class Order extends PureComponent {
   static propTypes = {
     classes: PropTypes.object.isRequired,
     order: PropTypes.object.isRequired,
-    changeMessage: PropTypes.func.isRequired,
-    changeServices: PropTypes.func.isRequired,
-    changeServicesFee: PropTypes.func.isRequired,
-    changeDeliveryFee: PropTypes.func.isRequired,
+    editable: PropTypes.shape({
+      message: PropTypes.func,
+      services: PropTypes.func,
+      servicesFee: PropTypes.func,
+      deliveryFee: PropTypes.func,
+    }),
+    changeMessage: PropTypes.func,
+    changeServices: PropTypes.func,
+    changeServicesFee: PropTypes.func,
+    changeDeliveryFee: PropTypes.func,
+    compact: PropTypes.bool,
   }
-  state = { compact: false }
+  static defaultProps = {
+    compact: true,
+    editable: {},
+  }
+  componentWillMount() {
+    this.setState({ compact: this.props.compact });
+  }
   render() {
-    const { order: { type, user, shop, items, productAmount, services, delivery, otherFees, message },
-      changeServices, changeServicesFee, changeMessage, changeDeliveryFee, classes } = this.props;
+    const { order: { type, user, shop, items, productAmount, services, delivery, otherFees, message, status },
+      editable, classes } = this.props;
     const { compact } = this.state;
     // services
     const availableServices = serviceTypes[type];
@@ -44,7 +58,7 @@ class Order extends PureComponent {
       return (
         <Card shadow={0} className={`${classes.card} ${styles.defaultTransition}`}>
           <CardMenu>
-            <IconButton name="expand_more" onClick={() => this.setState({ compact: false })} />
+            <Menu onClick={() => this.setState({ compact: !compact })} status={status} isCompact={compact} />
           </CardMenu>
           <CardTitle>
             <Compact order={this.props.order} />
@@ -55,10 +69,10 @@ class Order extends PureComponent {
     return (
       <Card shadow={0} className={`${classes.card} ${styles.defaultTransition}`}>
         <CardMenu>
-          <IconButton name="expand_less" onClick={() => this.setState({ compact: true })} />
+          <Menu onClick={() => this.setState({ compact: !compact })} status={status} isCompact={compact} />
         </CardMenu>
         <CardTitle>
-          <Owner user={user} shop={shop} />
+          <Title user={user} shop={shop} />
         </CardTitle>
         <div className={classes.content}>
           <Items type={type} items={items} classes={classes} />
@@ -66,26 +80,26 @@ class Order extends PureComponent {
             services={orderServices}
             serviceFee={serviceFee}
             classes={classes}
-            onServiceChange={(checked, value, charge) => {
+            onServiceChange={editable.services ? (checked, value, charge) => {
               let newServices = [...services];
               if (checked) {
                 newServices = [{ value, charge }, ...newServices];
               } else {
                 newServices = newServices.filter((s) => s.value !== value);
               }
-              changeServices(newServices);
-            }}
-            onServiceFeeChange={changeServicesFee}
+              editable.services(newServices);
+            } : null}
+            onServiceFeeChange={editable.servicesFee}
           />
           { delivery && (
             <Delivery
               classes={classes} delivery={delivery} productAmount={productAmount} deliveryFee={deliveryFee}
-              onDeliveryFeeChange={changeDeliveryFee}
+              onDeliveryFeeChange={editable.deliveryFee}
             />
           )}
           <MessageAndAmount
             message={message}
-            onChange={changeMessage}
+            onChange={editable.message}
             order={this.props.order}
             classes={classes}
           />
@@ -168,18 +182,6 @@ export default injectSheet({
     '& ._amount': {
       color: colors.colorSubPrice,
       width: 140,
-    },
-  },
-  checkboxes: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    '& > div': {
-      display: 'flex',
-      alignItems: 'center',
-      marginRight: 16,
-      '& > .mdl-checkbox': {
-        width: 'auto',
-      },
     },
   },
   messages: {

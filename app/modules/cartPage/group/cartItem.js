@@ -8,11 +8,13 @@ import Textfield from 'react-mdl/lib/Textfield';
 import LabelWithBorder from 'modules/common/label/labelWithBorder';
 import { formatPrice } from 'utils/displayUtils';
 import { breakpoints, shadows, colors } from 'modules/common/styles';
+import { Thumbnail } from 'modules/common/product';
 import layout from '../layout';
 import RemoveItemsButton from '../removeItemsButton';
 
 const CartItem = ({ item, classes, checked, onChange, onItemChange, onItemsRemoved, error }) => {
   const product = item.shopProduct || item.supplyProduct;
+  const type = (item.shopProduct && 'shop') || (item.supplyProduct && 'supply');
   const spec = product.specs[item.specIndex || 0];
   return (
     <div className={`${classes.cartItem} ${shadows.shadow2}`}>
@@ -20,7 +22,9 @@ const CartItem = ({ item, classes, checked, onChange, onItemChange, onItemsRemov
         <div>
           <Checkbox ripple checked={checked} onChange={onChange} />
         </div>
-        <img role="presentation" className={classes.thumbnail} src={product.thumbnail.thumbnail_80_80} />
+        <div className="_thumbnail">
+          <Thumbnail className={classes.thumbnail} type={type} thumbnail={product.thumbnail} />
+        </div>
         <div className="_desc_name">{product.name}</div>
       </div>
       <div className={classes.spec}>
@@ -105,10 +109,13 @@ export default injectSheet({
     width: layout.desc.width,
     marginRight: layout.desc.marginRight,
     display: 'flex',
-    '& > img': {
+    '& > ._thumbnail': {
       marginRight: 16,
       width: 80,
       height: 80,
+      '& i': {
+        fontSize: 80,
+      },
     },
     '& > ._desc_name': {
       flex: 1,

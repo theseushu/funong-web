@@ -3,6 +3,7 @@ import { requireAuth } from 'utils/routerUtils';
 import createCertsRoute from './certs/route';
 import createProductsRoute from './products/route';
 import createShopRoute from './shop/route';
+import createOrdersRoute from './orders/route';
 
 export default ({ store, injectReducer, injectSagas, loadModule, errorLoading }) => ({ // eslint-disable-line no-unused-vars
   path: '/me',
@@ -38,5 +39,6 @@ export default ({ store, injectReducer, injectSagas, loadModule, errorLoading })
     createCertsRoute({ store, injectReducer, injectSagas, loadModule, errorLoading }),
     createProductsRoute({ store, injectReducer, injectSagas, loadModule, errorLoading }),
     createShopRoute({ store, injectReducer, injectSagas, loadModule, errorLoading }),
+    createOrdersRoute({ store, injectReducer, injectSagas, loadModule, errorLoading }),
   ],
 });

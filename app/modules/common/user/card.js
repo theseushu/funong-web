@@ -4,12 +4,13 @@ import Link from 'react-router/lib/Link';
 import { Card, CardTitle, CardText, CardActions } from 'react-mdl/lib/Card';
 import Button from 'react-mdl/lib/Button';
 import { colors } from '../styles';
+import Avatar from './avatar';
 
 const CardComponent = ({ user, sheet: { classes }, className }) => (
   <Card shadow={0} className={className ? `${classes.card} ${className}` : classes.card} >
     <CardTitle className={classes.priceAndName}>
-      <Link to={`/user/${user.objectId}`}>
-        <img role="presentation" src={user.avatar.url} />
+      <Link to={`/user/${user.objectId}`} className="_image" >
+        <Avatar user={user} />
       </Link>
       <h6>
         {user.name}
@@ -40,8 +41,11 @@ export default injectSheet({
     textAlign: 'center',
     flexDirection: 'column',
     color: colors.colorSubTitle,
-    '& img': {
+    '& ._image': {
       width: '50%',
+      '& i': {
+        fontSize: '40px',
+      },
     },
     '& h6': {
       margin: '16px 0 8px 0',
