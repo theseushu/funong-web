@@ -43,7 +43,7 @@ export default ({ AV, context }) => {
       const species = new Species();
       species.set('category', AV.Object.createWithoutData('Category', category.objectId));
       species.set('name', name);
-      species.set('creator', AV.Object.createWithoutData('Profile', profile.objectId));
+      species.set('creator', AV.Object.createWithoutData('_User', profile.objectId));
       const savedSpecies = await species.save(null, {
         fetchWhenSave: true,
         sessionToken,

@@ -9,7 +9,7 @@
 import _find from 'lodash/find';
 import _omitBy from 'lodash/omitBy';
 import _isUndefined from 'lodash/isUndefined';
-// import { orderToJSON } from '../converters';
+import { orderToJSON } from '../utils/converters';
 // const debug = require('debug')('app:api:order');
 
 export default ({ AV, context }) => {
@@ -40,7 +40,47 @@ export default ({ AV, context }) => {
     });
   };
 
+  const searchOrders = async ({ owner, user, shop, status, type, ascending, descending, skip, limit }) => {
+    const { token: { sessionToken } } = context;
+    const query = new AV.Query('Order');
+    if (owner) {
+      query.equalTo('owner', AV.Object.createWithoutData('Profile', owner.objectId));
+    }
+    if (user) {
+      query.equalTo('user', AV.Object.createWithoutData('Profile', user.objectId));
+    }
+    if (shop) {
+      query.equalTo('shop', AV.Object.createWithoutData('Shop', shop.objectId));
+    }
+    if (status && status.length > 0) {
+      query.containedIn('status', status);
+    }
+    if (type) {
+      query.equalTo('type', type);
+    }
+    query.include([
+      'shop', 'shop.thumbnail',
+      'owner', 'owner.avatar',
+      'user', 'user.avatar',
+      'agent', 'agent.avatar',
+    ]);
+    if (ascending) {
+      query.addAscending(ascending);
+    } else if (descending) {
+      query.addDescending(descending);
+    }
+    if (skip != null) {
+      query.skip(skip);
+    }
+    if (limit != null) {
+      query.limit(limit);
+    }
+    const orders = await query.find({ sessionToken });
+    return orders.map(orderToJSON);
+  };
+
   return {
     createOrders,
+    searchOrders,
   };
 };

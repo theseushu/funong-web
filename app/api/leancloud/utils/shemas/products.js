@@ -194,7 +194,7 @@ export const shop = {
 };
 
 export const owner = {
-  create: (AV, product, value) => setRequiredAttr(product, 'owner', AV.Object.createWithoutData('Profile', value.objectId)),
+  create: (AV, product, value) => setRequiredAttr(product, 'owner', AV.Object.createWithoutData('_User', value.objectId)),
   converter: attrConverters.owner,
   search: (AV, query, value) => {
     if (value) {

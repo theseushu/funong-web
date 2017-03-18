@@ -10,13 +10,15 @@ export const create = async (AV, Class, schema, params, context) => {
   const { table, attributes } = schema;
   const product = new Class();
   try {
-    const attrs = schema.owner ? { ...params, owner: profile } : { ...params };
+    const attrs = attributes.owner ? { ...params, owner: profile } : { ...params };
     _map(attrs, (value, key) => {
-      const attrSchema = attributes[key];
-      if (!attrSchema || !attrSchema.create) {
-        throw new Error(`Unsupported attr(${key}) in ${table} creating`);
+      if (!_isUndefined(value)) {
+        const attrSchema = attributes[key];
+        if (!attrSchema || !attrSchema.create) {
+          throw new Error(`Unsupported attr(${key}) in ${table} creating`);
+        }
+        attrSchema.create(AV, product, value);
       }
-      attrSchema.create(AV, product, value);
     });
     const savedProduct = await product.save(null, {
       fetchWhenSave: true,
@@ -39,11 +41,13 @@ export const update = async (AV, schema, { ...params }, context) => {
   const toSave = AV.Object.createWithoutData(table, product.objectId);
   try {
     _map(attrs, (value, key) => {
-      const attrSchema = attributes[key];
-      if (!attrSchema || !attrSchema.update) {
-        throw new Error(`Unsupported attr(${key}) in ${table} updating`);
+      if (!_isUndefined(value)) {
+        const attrSchema = attributes[key];
+        if (!attrSchema || !attrSchema.update) {
+          throw new Error(`Unsupported attr(${key}) in ${table} updating`);
+        }
+        attrSchema.update(AV, toSave, value);
       }
-      attrSchema.update(AV, toSave, value);
     });
     const savedProduct = await toSave.save(null, {
       fetchWhenSave: true,

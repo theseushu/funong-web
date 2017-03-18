@@ -10,30 +10,19 @@ import { userToJSON } from '../utils/converters';
 const debug = require('debug')('app:api:profile');
 
 export default ({ AV, context, updateContextProfile }) => {
-  class Profile extends AV.Object {}
-  AV.Object.register(Profile);
-
   const fetchProfile = async () => {
-    const { token: { objectId, sessionToken, mobilePhoneNumber } } = context;
+    const { token: { objectId, sessionToken } } = context;
     try {
-      const avProfile = await new AV.Query('Profile')
-        .equalTo('user', AV.Object.createWithoutData('_User', objectId))
-        .include(['avatar', 'images'])
-        .first();
-      let result;
-      if (!avProfile) {
-        const newProfile = new Profile();
-        newProfile.set('mobilePhoneNumber', mobilePhoneNumber);
-        const phone = mobilePhoneNumber.toString();
-        newProfile.set('name', `${phone.substring(0, 3)}**${phone.substring(phone.length - 2, phone.length)}`);
-        newProfile.set('user', AV.Object.createWithoutData('_User', objectId));
-        const savedProfile = await newProfile.save(null, { sessionToken });
-        result = userToJSON(savedProfile);
-      } else {
-        result = userToJSON(avProfile);
-      }
-      updateContextProfile(result);
-      return result;
+      const avProfile = await AV.Object.createWithoutData('_User', objectId)
+        .fetch({
+          include: ['avatar', 'images'],
+        }, {
+          sessionToken,
+        }
+        );
+      const profile = userToJSON(avProfile);
+      updateContextProfile(profile);
+      return profile;
     } catch (err) {
       debug(err);
       throw err;
@@ -43,7 +32,7 @@ export default ({ AV, context, updateContextProfile }) => {
   const updateProfile = async ({ images, ...attrs }) => {
     const { token: { sessionToken }, profile } = context;
     try {
-      const avProfile = AV.Object.createWithoutData('Profile', profile.objectId);
+      const avProfile = AV.Object.createWithoutData('_User', profile.objectId);
       const attributes = { ...attrs };
       if (images) {
         avProfile.set('images', images.map((image) => AV.Object.createWithoutData('_File', image.id)));
@@ -61,7 +50,7 @@ export default ({ AV, context, updateContextProfile }) => {
   const fetchAdmins = async () => {
     const { token: { sessionToken } } = context;
     try {
-      const adminUsers = await new AV.Query('Profile').containedIn('roles', ['admin', 'super']).find({ sessionToken });
+      const adminUsers = await new AV.Query('_User').containedIn('roles', ['admin', 'super']).find({ sessionToken });
       return adminUsers.map(userToJSON);
     } catch (err) {
       debug(err);
@@ -72,7 +61,7 @@ export default ({ AV, context, updateContextProfile }) => {
   const fetchUsers = async ({ mobilePhoneNumber, skip, limit }) => {
     const { token: { sessionToken } } = context;
     try {
-      const query = new AV.Query('Profile');
+      const query = new AV.Query('_User');
       if (mobilePhoneNumber) {
         query.contains('mobilePhoneNumber', mobilePhoneNumber);
       }
@@ -88,7 +77,7 @@ export default ({ AV, context, updateContextProfile }) => {
   const countAllUsers = async () => {
     const { token: { sessionToken } } = context;
     try {
-      const count = await new AV.Query('Profile').count({ sessionToken });
+      const count = await new AV.Query('_User').count({ sessionToken });
       return count;
     } catch (err) {
       debug(err);

@@ -23,3 +23,5 @@ export productToJSON from './product';
 export cartItemToJSON from './cartItem';
 
 export commentToJSON from './comment';
+
+export orderToJSON from './order';

@@ -35,7 +35,7 @@ export default ({ AV, context, updateContextProfile }) => {
     try {
       const metaData = { owner: profile.objectId, isAvatar: true };
       const uploadedFile = await uploadFile({ filename, file, onprogress, metaData });
-      await AV.Query.doCloudQuery('update Profile set avatar=pointer("_File", ?) where objectId=?', [uploadedFile.id, profile.objectId], {
+      await AV.Query.doCloudQuery('update _User set avatar=pointer("_File", ?) where objectId=?', [uploadedFile.id, profile.objectId], {
         sessionToken,
       });
       const updatedProfile = { ...profile, avatar: uploadedFile };

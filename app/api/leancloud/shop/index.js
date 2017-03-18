@@ -15,7 +15,7 @@ export default ({ AV, context }) => {
 
 // TODO deal with empty catalogType
   const fetchMyShop = () => new AV.Query('Shop')
-    .equalTo('owner', AV.Object.createWithoutData('Profile', context.profile.objectId))
+    .equalTo('owner', AV.Object.createWithoutData('_User', context.profile.objectId))
     .include(['images'])
     .first({ sessionToken: context.token.sessionToken })
     .then(shopToJSON);
@@ -31,7 +31,7 @@ export default ({ AV, context }) => {
       shop.set('desc', desc);
       shop.set('images', images.map((image) => AV.Object.createWithoutData('_File', image.id)));
       shop.set('thumbnail', AV.Object.createWithoutData('_File', images[0].id));
-      shop.set('owner', AV.Object.createWithoutData('Profile', profile.objectId));
+      shop.set('owner', AV.Object.createWithoutData('_User', profile.objectId));
       const savedShop = await shop.save(null, {
         fetchWhenSave: true,
         sessionToken,

@@ -29,7 +29,7 @@ export default ({ AV, context }) => {
         throw new AV.Error(AV.Error.OTHER_CAUSE, `无法处理此类商品: ${type}`);
       }
       cartItem.set('quantity', quantity);
-      cartItem.set('owner', AV.Object.createWithoutData('Profile', profile.objectId));
+      cartItem.set('owner', AV.Object.createWithoutData('_User', profile.objectId));
       const saved = await cartItem.save();
       return { ...saved.toJSON(), [type]: product };
     } catch (err) {
@@ -73,7 +73,7 @@ export default ({ AV, context }) => {
         'shopProduct', 'shopProduct.images', 'shopProduct.category', 'shopProduct.catalog', 'shopProduct.species', 'shopProduct.thumbnail', 'shopProduct.shop', 'shopProduct.shop.thumbnail',
         'supplyProduct', 'supplyProduct.images', 'supplyProduct.category', 'supplyProduct.category.catalog', 'supplyProduct.species', 'supplyProduct.thumbnail', 'supplyProduct.owner', 'supplyProduct.owner.avatar',
       ]);
-    query.equalTo('owner', AV.Object.createWithoutData('Profile', profile.objectId));
+    query.equalTo('owner', AV.Object.createWithoutData('_User', profile.objectId));
     query
       .limit(1000);
     const cartItems = await query.find();
