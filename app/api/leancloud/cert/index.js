@@ -41,7 +41,7 @@ export default ({ AV, context }) => {
       if (attrs.images) {
         attributes.images = attrs.images.map((image) => AV.Object.createWithoutData('_File', image.id));
       }
-      const { updateAt } = certs.save(attributes, { sessionToken });
+      const { updateAt } = await certs.save(attributes, { sessionToken });
       return { ...attrs, objectId, updateAt };
     } catch (err) {
       debug(err);

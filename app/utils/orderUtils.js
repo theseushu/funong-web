@@ -6,19 +6,58 @@ import _omitBy from 'lodash/omitBy';
 import _orderBy from 'lodash/orderBy';
 import _reduce from 'lodash/reduce';
 import _isUndefined from 'lodash/isUndefined';
-import { productTypes, orderFeeTypes } from 'appConstants';
+import { statusValues, productTypes, orderFeeTypes } from 'appConstants';
 import { distance } from 'utils/mapUtils';
 
-export const groupByOrder = (items) => {
-  const shopItems = Object.values(_filter(items, (item) => !!item.shopProduct));
-  const supplyItems = Object.values(_filter(items, (item) => !!item.supplyProduct));
-  const shopOrders = Object.values(_groupBy(shopItems, (item) => item.shopProduct.shop.objectId));
-  const supplyOrders = Object.values(_groupBy(supplyItems, (item) => item.supplyProduct.owner.objectId));
-  return {
-    shop: shopOrders,
-    supply: supplyOrders,
-  };
+export const isOwner = (order, user) => {
+  if (order.status == null) {
+    return true;
+  }
+  if (order.owner == null || user == null) {
+    console.warn(`Insane data: order.status=${order.status}, order.owner=${order.owner}, user=${user}`);
+    return false;
+  }
+  return order.owner.objectId === user.objectId;
 };
+
+export const requirementsEditable = (order, user) => {
+  const { status } = order;
+  if (status == null) {
+    return true;
+  } else if (status === statusValues.unconfirmed.value && isOwner(order, user)) {
+    return true;
+  }
+  return false;
+};
+
+
+export const amountEditable = (order, user) => {
+  const { status } = order;
+  if (status === statusValues.unconfirmed.value) {
+    const type = order.type;
+    if (type === productTypes.shop) {
+      return user.objectId === order.shop.owner.objectId;
+    }
+    return user.objectId === order.user.objectId;
+  }
+  return false;
+};
+
+export const otherFeesEditable = (order) => {
+  const { status } = order;
+  if (status == null) {
+    return true;
+  } else if (status === statusValues.unconfirmed.value) {
+    return true;
+  }
+  return false;
+};
+
+export const editableFields = (order, user) => ({
+  requirements: requirementsEditable(order, user),
+  otherFees: otherFeesEditable(order),
+  amount: amountEditable(order, user),
+});
 
 // select all useful attributes of supply/logistics/trip/shop products. omit undefined attributes
 const itemsToOrderProducts = (items, type) =>
@@ -58,55 +97,45 @@ export const createOrders = (cartItems, address) => {
       result.push(..._map(groupedOrderItems, (orderItems) => {
         const shop = orderItems[0][`${type}Product`].shop;
         const items = itemsToOrderProducts(orderItems, type);
-        return calculateOrder({ type, items, shop, user: undefined, services: [], otherFees: {}, address });
+        return createRawOrder({ type, items, shop, user: undefined, address });
       }));
     } else {
       const groupedOrderItems = _groupBy(itemsOfType, (item) => item[`${type}Product`].owner.objectId);
       result.push(..._map(groupedOrderItems, (orderItems) => {
         const user = orderItems[0][`${type}Product`].owner;
         const items = itemsToOrderProducts(orderItems, type);
-        return calculateOrder({ type, items, shop: undefined, user, services: [], otherFees: {}, address });
+        return createRawOrder({ type, items, shop: undefined, user, address });
       }));
     }
   });
   return _orderBy(result, (order) => -(_reduce(order.items, (r, item) => r > item.createdAt ? r : item.createdAt, 0)));
 };
 
+export const createRawOrder = ({ type, items, shop, user, address }) => ({
+  user,
+  shop,
+  type,
+  items,
+  services: [],
+  otherFees: {},
+  address,
+});
+
 export const calculateOrder = ({ type, items, shop, user, services, otherFees, address }) => {
-  if (type === productTypes.shop) {
-    const productAmount = calculateProductAmount(items);
-    const delivery = calculateDelivery(shop, address, productAmount);
-    let deliveryFee;
-    if (!delivery) {
-      deliveryFee = undefined;
-    } else {
-      deliveryFee = delivery.fee != null ? delivery.fee : otherFees[orderFeeTypes.delivery.key] || null;
-    }
-    return {
-      shop,
-      type,
-      items,
-      services,
-      delivery,
-      productAmount,
-      otherFees: _omitBy({
-        [orderFeeTypes.delivery.key]: deliveryFee,
-        [orderFeeTypes.service.key]: !chargedService ? undefined : otherFees[orderFeeTypes.service.key] || null,
-      }, _isUndefined),
-      address,
-    };
+  if (!address) {
+    return createRawOrder({ user, shop, type, items, address });
   }
-  const productAmount = _reduce(items, (sum, { quantity, product: { spec } }) => sum + (quantity * spec.price), 0);
-  const chargedService = _find(services, (s) => s.charge);
+  const calculatedFees = { ...otherFees };
+  if (!_find(services, ({ charge }) => charge)) { // no charged service
+    delete calculatedFees[orderFeeTypes.service.key];
+  }
   return {
     user,
+    shop,
     type,
     items,
     services,
-    productAmount,
-    otherFees: _omitBy({
-      [orderFeeTypes.service.key]: !chargedService ? undefined : otherFees[orderFeeTypes.service.key] || null,
-    }, _isUndefined),
+    otherFees: calculatedFees,
     address,
   };
 };

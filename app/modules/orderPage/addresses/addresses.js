@@ -38,7 +38,7 @@ const Addresses = ({ user: { addresses }, openDialog, createAddress, updateAddre
               createAddress(
                 address,
                 {
-                  resolve: () => onAddressSelected(addresses.length),
+                  resolve: () => onAddressSelected(addresses.length, address),
                 },
               );
             },

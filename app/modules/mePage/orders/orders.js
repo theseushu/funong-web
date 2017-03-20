@@ -5,13 +5,14 @@ import { breakpoints } from 'modules/common/styles';
 import Order from 'modules/common/order';
 import Page from '../page';
 
-const Orders = ({ orders, classes }) => (
+const Orders = ({ user, orders, classes }) => (
   <Page smallContent={false}>
     <div className={classes.content}>
       {
       _map(orders, (order, i) => (
         <Order
           key={i}
+          user={user}
           order={order}
         />
       ))
@@ -23,6 +24,7 @@ const Orders = ({ orders, classes }) => (
 Orders.propTypes = {
   classes: PropTypes.object.isRequired,
   orders: PropTypes.array.isRequired,
+  user: PropTypes.object.isRequired,
 };
 
 export default injectSheet({

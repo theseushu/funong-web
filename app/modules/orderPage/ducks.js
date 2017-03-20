@@ -1,4 +1,4 @@
-import { createOrders, calculateOrder } from 'utils/orderUtils';
+import { createOrders, createRawOrder, calculateOrder } from 'utils/orderUtils';
 import { orderFeeTypes } from 'appConstants';
 const SELECT_ADDRESS = 'order_page/select_address';
 const CREATE_ORDERS = 'order_page/create_orders';
@@ -10,7 +10,7 @@ const CHANGE_MESSAGE = 'order_page/change_message';
 const reducer = (state = { addressIndex: null, orders: [] }, action) => {
   if (action.type === SELECT_ADDRESS) {
     const { index, address } = action.payload;
-    return { ...state, orders: state.orders.map((order) => calculateOrder({ ...order, address })), addressIndex: index };
+    return { ...state, orders: state.orders.map((order) => createRawOrder({ ...order, address })), addressIndex: index };
   } else if (action.type === CREATE_ORDERS) {
     const { items, address } = action.payload;
     return { ...state, orders: createOrders(items, address) };

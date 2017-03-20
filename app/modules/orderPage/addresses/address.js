@@ -34,7 +34,7 @@ const Address = ({ address, openDialog, setDefaultAddress, updateAddress, active
           e.preventDefault();
           e.stopPropagation();
           openDialog({
-            onSubmit: updateAddress,
+            onSubmit: (addr) => (updateAddress({ ...addr, default: address.default })),
             postAddress: true,
             location: address,
           });

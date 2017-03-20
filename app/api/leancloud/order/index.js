@@ -9,8 +9,9 @@
 import _find from 'lodash/find';
 import _omitBy from 'lodash/omitBy';
 import _isUndefined from 'lodash/isUndefined';
+import { editableFields } from 'utils/orderUtils';
 import { orderToJSON } from '../utils/converters';
-// const debug = require('debug')('app:api:order');
+const debug = require('debug')('app:api:order');
 
 export default ({ AV, context }) => {
   class Order extends AV.Object {}
@@ -38,6 +39,46 @@ export default ({ AV, context }) => {
       });
       return _omitBy({ ...savedOrder.toJSON(), user: order.user, shop: order.shop, owner: profile }, _isUndefined);
     });
+  };
+
+  const updateOrder = async ({ order, services, message, otherFees, amount }) => {
+    const { token: { sessionToken }, profile } = context;
+
+    const avOrder = AV.Object.createWithoutData('Order', order.objectId);
+    const fields = editableFields(order, profile);
+    const attributes = {};
+    if (services || message != null) {
+      if (fields.requirements) {
+        if (services) {
+          attributes.services = services;
+        }
+        if (message != null) {
+          attributes.message = message;
+        }
+      } else {
+        debug('updating un-updatable fileds: (services || message)');
+      }
+    }
+    if (otherFees != null) {
+      if (fields.otherFees) {
+        if (otherFees) {
+          attributes.otherFees = otherFees;
+        }
+      } else {
+        debug('updating un-updatable fileds: (otherFees)');
+      }
+    }
+    if (amount != null) {
+      if (fields.amount) {
+        if (amount) {
+          attributes.amount = amount;
+        }
+      } else {
+        debug('updating un-updatable fileds: (amount)');
+      }
+    }
+    const { updateAt } = await avOrder.save(attributes, { sessionToken });
+    return { ...order, updateAt };
   };
 
   const searchOrders = async ({ owner, user, shop, status, type, ascending, descending, skip, limit }) => {
@@ -81,6 +122,7 @@ export default ({ AV, context }) => {
 
   return {
     createOrders,
+    updateOrder,
     searchOrders,
   };
 };

@@ -54,6 +54,7 @@ import FullScreenGallery from 'modules/fullScreenGallery';
 import MapDialog from 'modules/mapDialog';
 import { actions as mapActions } from 'api/map';
 
+import 'funong-common';
 const openSansObserver = new FontFaceObserver('Open Sans', {});
 
 // When Open Sans is loaded, add a font-family using Open Sans to the body

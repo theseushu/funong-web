@@ -44,16 +44,13 @@ export default ({ store, injectReducer, injectSagas, loadModule, errorLoading })
       let addressIndex = selectors.addressIndex(store.getState());
       if (addressIndex == null) {
         addressIndex = _findIndex(user.addresses, (address) => address.default);
-        if (addressIndex < 0) {
-          addressIndex = 0;
-        }
       }
       store.dispatch(selectAddress(addressIndex));
       const address = user.addresses[addressIndex];
       System.import('../cartPage/ducks').then((cartPageDucks) => {
         const itemsSelector = cartPageDucks.selectors.items;
         const items = itemsSelector(store.getState());
-        // items = require('./items').default; // eslint-disable-line
+        // const items = require('./items').default; // eslint-disable-line
         store.dispatch(createOrders(items, address));
         renderRoute(component);
       });
