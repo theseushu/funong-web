@@ -9,6 +9,17 @@ import _isUndefined from 'lodash/isUndefined';
 import { statusValues, productTypes, orderFeeTypes } from 'appConstants';
 import { distance } from 'utils/mapUtils';
 
+export const isReceiver = (order, user) => {
+  if (order == null || order.status == null || user == null) {
+    return false;
+  }
+  if (order.user == null && order.shop == null) {
+    console.warn(`Insane data: order.user=${order.user}, order.shop=${order.shop}, user=${user}`);
+    return false;
+  }
+  return (order.user && order.user.objectId) === user.objectId || (order.shop && order.shop.owner.objectId) === user.objectId;
+};
+
 export const isOwner = (order, user) => {
   if (order.status == null) {
     return true;
@@ -34,6 +45,9 @@ export const requirementsEditable = (order, user) => {
 export const amountEditable = (order, user) => {
   const { status } = order;
   if (status === statusValues.unconfirmed.value) {
+    if (_find(order.fees, (fee) => fee == null)) { // if some fee isn't decided
+      return false;
+    }
     const type = order.type;
     if (type === productTypes.shop) {
       return user.objectId === order.shop.owner.objectId;
@@ -43,7 +57,7 @@ export const amountEditable = (order, user) => {
   return false;
 };
 
-export const otherFeesEditable = (order) => {
+export const feesEditable = (order) => {
   const { status } = order;
   if (status == null) {
     return true;
@@ -55,7 +69,7 @@ export const otherFeesEditable = (order) => {
 
 export const editableFields = (order, user) => ({
   requirements: requirementsEditable(order, user),
-  otherFees: otherFeesEditable(order),
+  fees: feesEditable(order),
   amount: amountEditable(order, user),
 });
 
@@ -111,32 +125,46 @@ export const createOrders = (cartItems, address) => {
   return _orderBy(result, (order) => -(_reduce(order.items, (r, item) => r > item.createdAt ? r : item.createdAt, 0)));
 };
 
-export const createRawOrder = ({ type, items, shop, user, address }) => ({
-  user,
-  shop,
-  type,
-  items,
-  services: [],
-  otherFees: {},
-  address,
-});
+export const createRawOrder = ({ type, items, shop, user, address }) => {
+  const order = {
+    user,
+    shop,
+    type,
+    items,
+    services: [],
+    fees: {},
+    address,
+  };
+  return address ? calculateOrder(order) : order;
+}
 
-export const calculateOrder = ({ type, items, shop, user, services, otherFees, address }) => {
+export const calculateOrder = (params) => {
+  const { type, items, shop, user, services, fees, address, amount } = params;
   if (!address) {
     return createRawOrder({ user, shop, type, items, address });
   }
-  const calculatedFees = { ...otherFees };
+  const calculatedFees = { ...fees };
   if (!_find(services, ({ charge }) => charge)) { // no charged service
     delete calculatedFees[orderFeeTypes.service.key];
+  } else if (calculatedFees[orderFeeTypes.service.key] === undefined) {
+    calculatedFees[orderFeeTypes.service.key] = null;
   }
-  return {
+  const result = {
+    ...params,
     user,
     shop,
     type,
     items,
     services,
-    otherFees: calculatedFees,
+    fees: calculatedFees,
     address,
+  };
+  if (!_find(fees, (fee) => fee == null)) {
+    return result;
+  }
+  return {
+    ...result,
+    amount: amount != null ? amount : calculateAmount({ fees, items }),
   };
 };
 /**
@@ -181,9 +209,26 @@ export const calculateDelivery = ({ areas, location }, address, productAmount) =
 
 export const calculateProductAmount = ({ items }) => _reduce(items, (sum, { quantity, product: { spec } }) => sum + (quantity * spec.price), 0);
 
-export const calculateAmount = ({ otherFees, items }) => {
-  if (_filter(otherFees, (value) => value == null).length > 0) {
+export const calculateAmount = ({ fees, items }) => {
+  if (_filter(fees, (value) => value == null).length > 0) {
     return null;
   }
-  return _reduce(otherFees, (sum, value) => sum + value, calculateProductAmount({ items }));
+  return _reduce(fees, (sum, value) => sum + value, calculateProductAmount({ items }));
+};
+
+export const isOrderTobeConfirmed = (order, user) => {
+  if (order.status !== statusValues.unconfirmed.value || !isReceiver(order, user)) {
+    return false;
+  }
+  return true;
+};
+
+export const isOrderConfirmable = (order, user) => {
+  if (order.status !== statusValues.unconfirmed.value || !isReceiver(order, user)) {
+    return false;
+  }
+  if (_find(order.fees, (fee) => fee == null) || order.amount == null || order.amount < 0) {
+    return false;
+  }
+  return true;
 };

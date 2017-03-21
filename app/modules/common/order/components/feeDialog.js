@@ -15,7 +15,7 @@ class AdditionalFeeDialog extends Component {
   };
   constructor(props) {
     super(props);
-    const value = props.value || '';
+    const value = props.value != null ? props.value : '';
     this.state = { value };
   }
   submit = () => {

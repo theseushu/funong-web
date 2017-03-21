@@ -2,7 +2,7 @@ import React from 'react';
 import Layout from 'modules/common/layout';
 import Page from './page';
 
-const CartPage = () => (
+const OrderPage = () => (
   <Layout
     content={
       <Page />
@@ -12,4 +12,4 @@ const CartPage = () => (
   </Layout>
   );
 
-export default CartPage;
+export default OrderPage;

@@ -4,13 +4,10 @@ import { currentUserSelector } from 'modules/data/ducks/selectors';
 import { actions, selectors } from '../ducks';
 import Orders from './orders';
 
-const changeMessage = actions.changeMessage;
-const changeServices = actions.changeServices;
-const changeServicesFee = actions.changeServicesFee;
-const changeDeliveryFee = actions.changeDeliveryFee;
+const changeOrder = actions.changeOrder;
 const ordersSelector = selectors.orders;
 
 export default connect(
   (state) => ({ orders: ordersSelector(state), user: currentUserSelector(state) }),
-  (dispatch) => bindActionCreators({ changeMessage, changeServices, changeServicesFee, changeDeliveryFee }, dispatch),
+  (dispatch) => bindActionCreators({ changeOrder }, dispatch),
 )(Orders);

@@ -4,11 +4,11 @@ import _find from 'lodash/find';
 import Checkbox from 'react-mdl/lib/Checkbox';
 import styles, { breakpoints, colors } from 'modules/common/styles';
 import { productTypes, serviceTypes, orderFeeTypes } from 'appConstants';
-import { isOwner as isOrderOwner, requirementsEditable, otherFeesEditable } from 'utils/orderUtils';
+import { isOwner as isOrderOwner } from 'utils/orderUtils2';
 import { layouts } from '../styles';
 import FeeDialog from './feeDialog';
 
-class Serivces extends Component {
+class Services extends Component {
   static propTypes = {
     classes: PropTypes.object.isRequired,
     order: PropTypes.object.isRequired,
@@ -90,11 +90,11 @@ class Serivces extends Component {
     );
   }
   feeReadonly = (isOwner) => {
-    const { order: { services, otherFees } } = this.props;
+    const { order: { services, fees } } = this.props;
     if (services.length === 0) {
       return null;
     }
-    const serviceFee = otherFees[orderFeeTypes.service.key];
+    const fee = fees[orderFeeTypes.service.key];
     return (
       <div className="_right">
         <div className="_info">
@@ -103,18 +103,18 @@ class Serivces extends Component {
         <div className="_amount">
           <small>{orderFeeTypes.service.title}：</small>
           <span>
-            { serviceFee != null ? `￥${serviceFee}` : '待议' }
+            { fee !== -1 ? `￥${fee}` : '待议' }
           </span>
         </div>
       </div>
     );
   }
   feeEditable = (isOwner) => {
-    const { order: { services, otherFees }, onServiceFeeChange } = this.props;
+    const { order: { services, fees }, onServiceFeeChange } = this.props;
     if (services.length === 0) {
       return null;
     }
-    const serviceFee = otherFees[orderFeeTypes.service.key];
+    const fee = fees[orderFeeTypes.service.key];
     const { editing } = this.state;
     return (
       <div className="_right">
@@ -134,12 +134,12 @@ class Serivces extends Component {
         <div className="_amount">
           <small>{orderFeeTypes.service.title}：</small>
           <span>
-            { serviceFee != null ? `￥${serviceFee}` : '待议' }
+            { fee !== -1 ? `￥${fee}` : '待议' }
             <br className="_line_breaker" />
             <small>
               <a href="#_non_existing" onClick={(e) => { e.preventDefault(); this.setState({ editing: true }); }}>
-                { isOwner && (serviceFee != null ? ' 修改' : ' 已经商议过了？') }
-                { !isOwner && (serviceFee != null ? ' 修改' : ' 请定价') }
+                { isOwner && (fee !== -1 ? ' 修改' : ' 已经商议过了？') }
+                { !isOwner && (fee !== -1 ? ' 修改' : ' 确定服务费') }
               </a>
             </small>
           </span>
@@ -147,7 +147,7 @@ class Serivces extends Component {
             <FeeDialog
               title={orderFeeTypes.service.title}
               close={() => this.setState({ editing: false })}
-              value={serviceFee}
+              value={fee === -1 ? null : fee}
               onSubmit={onServiceFeeChange}
             />
           )}
@@ -157,16 +157,14 @@ class Serivces extends Component {
   }
   render() {
     const { user, order, classes } = this.props;
-    const { services } = order;
+    const { services, can } = order;
     const isOwner = isOrderOwner(order, user);
-    const editable = requirementsEditable(order, user);
-    const feeEditable = otherFeesEditable(order, user);
     const charged = _find(services, ({ charge }) => charge);
     return (
       <div className={classes.services}>
-        { editable ? this.servicesEditable() : this.servicesReadonly(isOwner)}
+        { can.requirements ? this.servicesEditable() : this.servicesReadonly(isOwner)}
         {
-          charged && (feeEditable ? this.feeEditable(isOwner) : this.feeReadonly(isOwner))
+          charged && (can.fees ? this.feeEditable(isOwner) : this.feeReadonly(isOwner))
         }
       </div>
     );
@@ -229,4 +227,4 @@ export default injectSheet({
       },
     },
   },
-})(Serivces);
+})(Services);

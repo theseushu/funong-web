@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import _find from 'lodash/find';
 import injectSheet from 'react-jss';
-import { Card, CardTitle, CardMenu } from 'react-mdl/lib/Card';
+import { Card, CardTitle, CardMenu, CardActions } from 'react-mdl/lib/Card';
 import IconButton from 'react-mdl/lib/IconButton';
 import { statusValues } from 'appConstants';
 import styles, { colors } from 'modules/common/styles';
@@ -16,6 +16,7 @@ class Layout extends Component {
     title: PropTypes.any.isRequired,
     titleCompact: PropTypes.any,
     content: PropTypes.any.isRequired,
+    actions: PropTypes.any,
   }
   state = { compact: false }
   componentWillMount() {
@@ -24,7 +25,7 @@ class Layout extends Component {
     }
   }
   render() {
-    const { classes, title, titleCompact, content, order, user } = this.props;
+    const { classes, title, titleCompact, content, order, user, actions } = this.props;
     const { compact } = this.state;
     const status = _find(statusValues, (s) => s.value === order.status);
     let accent = false;
@@ -47,6 +48,9 @@ class Layout extends Component {
           { compact ? titleCompact : title }
         </CardTitle>
         { !compact && content }
+        { !compact && actions && (
+          <CardActions>{actions}</CardActions>
+        )}
       </Card>
     );
   }

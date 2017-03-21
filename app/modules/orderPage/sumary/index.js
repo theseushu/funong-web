@@ -12,6 +12,11 @@ const createOrders = orderActions.create;
 const createStateSelector = orderApiSelectors.create;
 
 export default connect(
-  (state) => ({ orders: ordersSelector(state), address: currentUserSelector(state).addresses[addressIndexSelector(state)], ...createStateSelector(state) }),
+  (state) => ({
+    orders: ordersSelector(state),
+    user: currentUserSelector(state),
+    address: currentUserSelector(state).addresses[addressIndexSelector(state)],
+    ...createStateSelector(state),
+  }),
   (dispatch) => bindActionCreators({ createOrders }, dispatch),
 )(Summary);

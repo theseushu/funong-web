@@ -4,9 +4,9 @@ import injectSheet from 'react-jss';
 import Textfield from 'react-mdl/lib/Textfield';
 import { breakpoints, colors } from 'modules/common/styles';
 import { orderFeeTypes } from 'appConstants';
-import { isOwner as isOrderOwner, requirementsEditable, amountEditable, calculateAmount, calculateProductAmount } from 'utils/orderUtils';
+import { isOwner as isOrderOwner } from 'utils/orderUtils2';
 import { layouts } from '../styles';
-import FeeDialog from './feeDialog';
+// import FeeDialog from './feeDialog';
 
 class MessageAndAmount extends Component {
   static propTypes = {
@@ -46,41 +46,35 @@ class MessageAndAmount extends Component {
     );
   }
   amount = () => {
-    const { order, onAmountChange, classes } = this.props;
-    const { otherFees } = order;
-    const productAmount = calculateProductAmount(order);
-    const amount = calculateAmount(order);
+    const { order, onAmountChange, classes } = this.props; // eslint-disable-line
+    const { fees, amount } = order;
     return (
       <div className="_right">
         <div className={classes.amount}>
-          <div><small>商品总价：</small>￥{productAmount}</div>
-          { _map(otherFees, (value, key) => (
+          { _map(fees, (value, key) => (
             <div key={key}>
               <small>{orderFeeTypes[key].title}：</small>
-              {value == null ? '待议' : `￥${value}`}
+              {value === -1 ? '待议' : `￥${value}`}
             </div>
           ))}
-          <div><small>总价：</small>{amount == null ? '待议' : `￥${amount}`}</div>
+          <div><small>总价：</small>{amount === -1 ? '待议' : `￥${amount}`}</div>
         </div>
       </div>
     );
   }
   amountReadonly = () => {
     const { order, classes } = this.props;
-    const { otherFees } = order;
-    const productAmount = calculateProductAmount(order);
-    const amount = calculateAmount(order);
+    const { fees, amount } = order;
     return (
       <div className="_right">
         <div className={classes.amount}>
-          <div><small>商品总价：</small>￥{productAmount}</div>
-          { _map(otherFees, (value, key) => (
+          { _map(fees, (value, key) => (
             <div key={key}>
               <small>{orderFeeTypes[key].title}：</small>
-              {value == null ? '待议' : `￥${value}`}
+              {value === -1 ? '待议' : `￥${value}`}
             </div>
           ))}
-          <div><small>总价：</small>{amount == null ? '待议' : `￥${amount}`}</div>
+          <div><small>总价：</small>{amount === -1 ? '待议' : `￥${amount}`}</div>
         </div>
       </div>
     );
@@ -88,12 +82,10 @@ class MessageAndAmount extends Component {
   render() {
     const { user, order, classes } = this.props;
     const isOwner = isOrderOwner(order, user);
-    const isMessageEditable = requirementsEditable(order, user);
-    const isAmountEditable = amountEditable(order, user);
     return (
       <div className={classes.messageAndAmount}>
-        {isMessageEditable ? this.message() : this.messageReadonly(isOwner)}
-        {isAmountEditable ? this.amount() : this.amountReadonly()}
+        {order.can.requirements ? this.message() : this.messageReadonly(isOwner)}
+        {order.can.amount ? this.amount() : this.amountReadonly()}
       </div>
     );
   }
@@ -164,6 +156,7 @@ export default injectSheet({
     },
     [breakpoints.mediaDestkopBelow]: {
       flexDirection: 'row',
+      flexWrap: 'wrap',
       paddingTop: 0,
       paddingBottom: 24,
       '& > div': {

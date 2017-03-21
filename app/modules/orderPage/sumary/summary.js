@@ -2,11 +2,13 @@ import React, { PropTypes } from 'react';
 import _filter from 'lodash/filter';
 import _reduce from 'lodash/reduce';
 import injectSheet from 'react-jss';
+import { statusValues } from 'appConstants';
 import Button from 'modules/common/buttons/ApiButtonWithIcon';
 import styles from 'modules/common/styles';
-import { calculateAmount } from 'utils/orderUtils';
+import { calculateOrder } from 'utils/orderUtils2';
 
-const Summary = ({ orders, address, createOrders, pending, classes }) => {
+const Summary = (props) => {
+  const { user, address, createOrders, pending, classes } = props;
   if (!address) {
     return (
       <div className={classes.summary}>
@@ -24,12 +26,13 @@ const Summary = ({ orders, address, createOrders, pending, classes }) => {
       </div>
     );
   }
-  const ordersReady = _filter(orders, ({ otherFees }) => _filter(otherFees, (value) => value == null).length === 0);
+  const orders = props.orders.map((order) => calculateOrder(order, user));
+  const ordersReady = _filter(orders, ({ can }) => can.commit === statusValues.unbilled.value);
   const amount = _reduce(
     ordersReady,
-    (sum, order) => sum + calculateAmount(order),
+    (sum, order) => sum + order.amount,
   0);
-  const ordersNeedConfirm = _filter(orders, ({ otherFees }) => _filter(otherFees, (value) => value == null).length > 0);
+  const ordersNeedConfirm = _filter(orders, ({ can }) => can.commit === statusValues.unconfirmed.value);
   return (
     <div className={classes.summary}>
       <div className={classes.address}>
@@ -37,7 +40,7 @@ const Summary = ({ orders, address, createOrders, pending, classes }) => {
         <div><strong>收货人：</strong>{address.contact}(收) {address.phone}</div>
       </div>
       <div className={classes.orders}>
-        <div>{`${ordersReady.length}单合计`}<strong className={styles.colorPrice}>￥{amount}</strong></div>
+        {ordersReady.length > 0 && <div>{`${ordersReady.length}单，合计`}<strong className={styles.colorPrice}>￥{amount}</strong></div>}
         {ordersNeedConfirm.length > 0 && <div>{`${ordersNeedConfirm.length}单需卖家确认`}</div>}
       </div>
       <div>
@@ -60,6 +63,7 @@ const Summary = ({ orders, address, createOrders, pending, classes }) => {
 Summary.propTypes = {
   address: PropTypes.object,
   classes: PropTypes.object.isRequired,
+  user: PropTypes.object.isRequired,
   orders: PropTypes.array.isRequired,
   createOrders: PropTypes.func.isRequired,
   pending: PropTypes.bool,

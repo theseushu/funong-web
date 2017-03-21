@@ -6,7 +6,7 @@ export default (order) => {
   if (!order) {
     return null;
   }
-  const { objectId, amount, address, otherFees, type, status, items, message, services } = order.toJSON();
+  const { objectId, amount, address, fees, type, status, items, message, services } = order.toJSON();
 
   const owner = embeddedUserToJSON(order.get('owner'));
   const user = embeddedUserToJSON(order.get('user'));
@@ -17,7 +17,7 @@ export default (order) => {
   const updatedAt = order.get('updatedAt').getTime();
 
   return _omitBy({
-    objectId, amount, address, otherFees, type, status, items, message, services, owner, user, agent, shop, createdAt, updatedAt },
+    objectId, amount, address, fees, type, status, items, message, services, owner, user, agent, shop, createdAt, updatedAt },
     _isUndefined
   );
 };

@@ -5,8 +5,8 @@ import createDucks from '../utils/createDucks';
 import rootSelector from './rootSelector';
 
 const ducks = createDucks({
-  key: 'update',
-  apiName: 'updateOrder',
+  key: 'confirm',
+  apiName: 'confirmOrder',
   rootSelector: (state) => rootSelector(state),
   namespace: NAMESPACE,
   sagas: {

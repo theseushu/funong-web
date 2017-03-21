@@ -24,7 +24,7 @@ export default ({ store, injectReducer, injectSagas, loadModule, errorLoading })
       callback();
     }
   },
-  getComponent(nextState, cb) {
+  getComponent: async (nextState, cb) => {
     // TODO fetch product
     const importModules = Promise.all([
       System.import('./index'),
@@ -33,28 +33,33 @@ export default ({ store, injectReducer, injectSagas, loadModule, errorLoading })
 
     const renderRoute = loadModule(cb);
 
-    importModules.then(([component, ducks]) => {
-      _toPairs(ducks.default).forEach((pair) => {
-        injectReducer(pair[0], pair[1]);
-      });
-      // set default address selection
-      const { actions, selectors } = ducks;
-      const { selectAddress, createOrders } = actions;
-      const user = currentUserSelector(store.getState());
-      let addressIndex = selectors.addressIndex(store.getState());
-      if (addressIndex == null) {
-        addressIndex = _findIndex(user.addresses, (address) => address.default);
-      }
-      store.dispatch(selectAddress(addressIndex));
-      const address = user.addresses[addressIndex];
-      System.import('../cartPage/ducks').then((cartPageDucks) => {
-        const itemsSelector = cartPageDucks.selectors.items;
-        const items = itemsSelector(store.getState());
-        // const items = require('./items').default; // eslint-disable-line
-        store.dispatch(createOrders(items, address));
-        renderRoute(component);
-      });
+    const [component, ducks] = await importModules;
+
+    _toPairs(ducks.default).forEach((pair) => {
+      injectReducer(pair[0], pair[1]);
     });
+    // set items and default address selection
+    const { actions, selectors } = ducks;
+    const { setCartItems, selectAddress, createOrders } = actions;
+
+    // set items
+    const cartPageDucks = await System.import('../cartPage/ducks');
+    const itemsSelector = cartPageDucks.selectors.items;
+    const items = itemsSelector(store.getState());
+    store.dispatch(setCartItems(items));
+
+    // set default address
+    const user = currentUserSelector(store.getState());
+    let addressIndex = selectors.addressIndex(store.getState());
+    if (addressIndex == null) {
+      addressIndex = _findIndex(user.addresses, (address) => address.default);
+    }
+    store.dispatch(selectAddress(addressIndex));
+    const address = user.addresses[addressIndex];
+
+    // create orders
+    store.dispatch(createOrders(address));
+    renderRoute(component);
 
     importModules.catch(errorLoading);
   },

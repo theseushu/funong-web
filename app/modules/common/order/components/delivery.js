@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import injectSheet from 'react-jss';
 import styles, { breakpoints, colors } from 'modules/common/styles';
 import { orderFeeTypes } from 'appConstants';
-import { isOwner as isOrderOwner, otherFeesEditable, calculateProductAmount, calculateDelivery } from 'utils/orderUtils';
+import { isOwner as isOrderOwner, calculateProductAmount } from 'utils/orderUtils2';
 import { layouts } from '../styles';
 import FeeDialog from './feeDialog';
 
@@ -15,11 +15,11 @@ class Delivery extends Component {
   }
   state = { editing: false }
   renderMessage = ({ fee, inside, minimum }) =>
-    fee == null && <small className={styles.w100}>{inside ? `未达到起送价格(￥${minimum})` : '不在店铺的服务区内'}</small>
+    fee === -1 && <small className={styles.w100}>{inside ? `未达到起送价格(￥${minimum})` : '不在店铺的服务区内'}</small>
   renderMessageReadonly = () => null
   renderInstruction = ({ fee, inside, minimum, raise }, productAmount, isOwner) => (
     <div className="_info">
-      {fee == null && isOwner && (
+      {fee === -1 && isOwner && (
         <small className={styles.colorSubTitle}>
           {inside ? `还差￥${minimum - productAmount}达到起送价格` : '您不在店铺的服务区内'}
           <br />
@@ -28,7 +28,7 @@ class Delivery extends Component {
           您仍然可以直接提交订单，如卖家愿意送货，稍候会确认订单总价
         </small>
       )}
-      {fee == null && !isOwner && (
+      {fee === -1 && !isOwner && (
         <small className={styles.colorSubTitle}>
           {inside ? `还差￥${minimum - productAmount}达到起送价格` : '买家不在店铺的服务区内'}
           <br />
@@ -43,27 +43,24 @@ class Delivery extends Component {
     </div>
   )
   renderInstructionReadonly = () => null
-  renderFee = ({ fee, inside, minimum, raise }, deliveryFee, isOwner) => (
+  renderFee = (fee, isOwner) => (
     <div className="_amount">
       <small>运费：</small>
       <span>
-        { fee != null && `￥${fee}` }
-        { fee == null && (deliveryFee != null ? `￥${deliveryFee}` : '待议') }
+        { fee !== -1 ? `￥${fee}` : '待议' }
         <br className="_line_breaker" />
-        { fee == null && (
-          <small>
-            <a href="#_non_existing" onClick={(e) => { e.preventDefault(); this.setState({ editing: true }); }}>
-              { deliveryFee ? ' 修改' : ((isOwner && ' 已经商议过了？') || (!isOwner && '确定运费'))}
-            </a>
-          </small>
-        )}
+        <small>
+          <a href="#_non_existing" onClick={(e) => { e.preventDefault(); this.setState({ editing: true }); }}>
+            { fee !== -1 ? ' 修改' : ((isOwner && ' 已经商议过了？') || (!isOwner && ' 确定运费'))}
+          </a>
+        </small>
       </span>
       { this.state.editing && (
         <FeeDialog
           title="运费"
           label="运费"
           close={() => this.setState({ editing: false })}
-          value={deliveryFee}
+          value={fee === -1 ? null : fee}
           onSubmit={this.props.onChange}
         />
       )}
@@ -79,23 +76,21 @@ class Delivery extends Component {
   )
   render() {
     const { order, user, classes } = this.props;
-    const { shop, otherFees, address } = order;
+    const { shop, fees, can, deliveryFee } = order;
     const isOwner = isOrderOwner(order, user);
-    const editable = otherFeesEditable(order);
-    const deliveryFee = otherFees[orderFeeTypes.delivery.key];
-    if (!editable) {
+    const fee = fees[orderFeeTypes.delivery.key];
+    if (!shop || !can.fees) {
       return null;
     }
     const productAmount = calculateProductAmount(order);
-    const delivery = calculateDelivery(shop, address, productAmount);
     return (
       <div className={classes.delivery}>
         <div className="_left">
-          {this.renderMessage(delivery)}
+          {this.renderMessage(deliveryFee)}
         </div>
         <div className="_right">
-          {this.renderInstruction(delivery, productAmount, isOwner)}
-          {this.renderFee(delivery, deliveryFee, isOwner)}
+          {this.renderInstruction(deliveryFee, productAmount, isOwner)}
+          {this.renderFee(fee, isOwner)}
         </div>
       </div>
     );

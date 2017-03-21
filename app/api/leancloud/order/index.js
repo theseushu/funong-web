@@ -9,7 +9,8 @@
 import _find from 'lodash/find';
 import _omitBy from 'lodash/omitBy';
 import _isUndefined from 'lodash/isUndefined';
-import { editableFields } from 'utils/orderUtils';
+import { isOrderConfirmable, editableFields } from 'utils/orderUtils';
+import { statusValues } from 'appConstants';
 import { orderToJSON } from '../utils/converters';
 const debug = require('debug')('app:api:order');
 
@@ -41,7 +42,7 @@ export default ({ AV, context }) => {
     });
   };
 
-  const updateOrder = async ({ order, services, message, otherFees, amount }) => {
+  const updateOrder = async ({ order, services, message, fees, amount }) => {
     const { token: { sessionToken }, profile } = context;
 
     const avOrder = AV.Object.createWithoutData('Order', order.objectId);
@@ -59,13 +60,13 @@ export default ({ AV, context }) => {
         debug('updating un-updatable fileds: (services || message)');
       }
     }
-    if (otherFees != null) {
-      if (fields.otherFees) {
-        if (otherFees) {
-          attributes.otherFees = otherFees;
+    if (fees != null) {
+      if (fields.fees) {
+        if (fees) {
+          attributes.fees = fees;
         }
       } else {
-        debug('updating un-updatable fileds: (otherFees)');
+        debug('updating un-updatable fileds: (fees)');
       }
     }
     if (amount != null) {
@@ -78,7 +79,37 @@ export default ({ AV, context }) => {
       }
     }
     const { updateAt } = await avOrder.save(attributes, { sessionToken });
-    return { ...order, updateAt };
+    return { ...order, ...attributes, updateAt };
+  };
+
+  const confirmOrder = async ({ order, fees, amount }) => {
+    const { token: { sessionToken }, profile } = context;
+    if (!isOrderConfirmable({ ...order, fees, amount }, profile)) {
+      throw new Error('You can not confirm this order. This shouldn\'t happen, check out your UI component');
+    }
+    const avOrder = AV.Object.createWithoutData('Order', order.objectId);
+    const fields = editableFields(order, profile);
+    const attributes = { status: statusValues.unbilled.value };
+    if (fees != null) {
+      if (fields.fees) {
+        if (fees) {
+          attributes.fees = fees;
+        }
+      } else {
+        debug('updating un-updatable fileds: (fees)');
+      }
+    }
+    if (amount != null) {
+      if (fields.amount) {
+        if (amount) {
+          attributes.amount = amount;
+        }
+      } else {
+        debug('updating un-updatable fileds: (amount)');
+      }
+    }
+    const { updateAt } = await avOrder.save(attributes, { sessionToken });
+    return { ...order, ...attributes, updateAt };
   };
 
   const searchOrders = async ({ owner, user, shop, status, type, ascending, descending, skip, limit }) => {
@@ -121,6 +152,7 @@ export default ({ AV, context }) => {
   };
 
   return {
+    confirmOrder,
     createOrders,
     updateOrder,
     searchOrders,

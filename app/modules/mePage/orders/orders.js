@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import _map from 'lodash/map';
 import injectSheet from 'react-jss';
 import { breakpoints } from 'modules/common/styles';
-import Order from 'modules/common/order';
+import StatefulOrder from './order';
 import Page from '../page';
 
 const Orders = ({ user, orders, classes }) => (
@@ -10,7 +10,7 @@ const Orders = ({ user, orders, classes }) => (
     <div className={classes.content}>
       {
       _map(orders, (order, i) => (
-        <Order
+        <StatefulOrder
           key={i}
           user={user}
           order={order}

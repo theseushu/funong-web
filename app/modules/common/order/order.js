@@ -1,6 +1,7 @@
 import React, { PureComponent, PropTypes } from 'react';
 import injectSheet from 'react-jss';
-import { productTypes } from 'appConstants';
+import { orderFeeTypes } from 'appConstants';
+import { stripOrder, calculateOrder } from 'utils/orderUtils2';
 import Layout from './layout';
 import moduleStyles from './styles';
 import Compact from './components/compact';
@@ -15,39 +16,45 @@ class Order extends PureComponent {
     classes: PropTypes.object.isRequired,
     order: PropTypes.object.isRequired,
     user: PropTypes.object.isRequired,
-    changeMessage: PropTypes.func,
-    changeServices: PropTypes.func,
-    changeServicesFee: PropTypes.func,
-    changeDeliveryFee: PropTypes.func,
+    changeOrder: PropTypes.func,
+    actions: PropTypes.any,
+  }
+  changeOrder = (order) => {
+    const { changeOrder, user } = this.props;
+    changeOrder(stripOrder(calculateOrder(order, user)));
   }
   renderServices = () => {
-    const { order, user, changeServices, changeServicesFee } = this.props;
+    const { order, user } = this.props;
+    const { can, serviceFee } = order;
+    if (!serviceFee) {
+      return null;
+    }
     return (
       <Services
         order={order}
         user={user}
-        onServiceChange={changeServices}
-        onServiceFeeChange={changeServicesFee}
+        onServiceChange={can.requirements ? (services) => this.changeOrder({ ...order, services }) : undefined}
+        onServiceFeeChange={can.fees ? (fee) => this.changeOrder({ ...order, fees: { ...order.fees, [orderFeeTypes.service.key]: fee } }) : undefined}
       />
     );
   }
   renderDelivery = () => {
-    const { order, user, changeDeliveryFee } = this.props;
-    const { address, type } = order;
-    if (!address || type !== productTypes.shop) {
+    const { order, user } = this.props;
+    const { can, deliveryFee } = order;
+    if (!deliveryFee) {
       return null;
     }
     return (
       <Delivery
         order={order}
         user={user}
-        onChange={changeDeliveryFee}
+        onChange={can.fees ? (fee) => this.changeOrder({ ...order, fees: { ...order.fees, [orderFeeTypes.delivery.key]: fee } }) : undefined}
       />
     );
   }
   renderMessageAndAmount = () => {
-    const { order, user, changeMessage } = this.props;
-    const { address } = order;
+    const { order, user } = this.props;
+    const { address, can } = order;
     if (!address) {
       return null;
     }
@@ -55,12 +62,13 @@ class Order extends PureComponent {
       <MessageAndAmount
         order={order}
         user={user}
-        onMessageChange={changeMessage}
+        onMessageChange={can.requirements ? (message) => this.changeOrder({ ...order, message }) : undefined}
+        onAmountChange={can.amount ? (amount) => this.changeOrder({ ...order, amount }) : undefined}
       />
     );
   }
   render() {
-    const { order, user, classes } = this.props;
+    const { order, user, actions, classes } = this.props;
     const { type, items, address } = order;
     if (!address) {
       return (
@@ -78,6 +86,7 @@ class Order extends PureComponent {
               <Items type={type} items={items} />
             </div>
           }
+          actions={actions}
         />
       );
     }
@@ -99,9 +108,16 @@ class Order extends PureComponent {
             {this.renderMessageAndAmount()}
           </div>
         }
+        actions={actions}
       />
     );
   }
 }
 
-export default injectSheet(moduleStyles)(Order);
+const Wrapped = ({ order, user, ...props }) => <Order order={calculateOrder(order, user)} user={user} {...props} />;
+Wrapped.propTypes = {
+  order: PropTypes.object.isRequired,
+  user: PropTypes.object.isRequired,
+};
+
+export default injectSheet(moduleStyles)(Wrapped);
