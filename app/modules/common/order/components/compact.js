@@ -2,11 +2,11 @@ import React, { PropTypes } from 'react';
 import injectSheet from 'react-jss';
 import styles, { colors } from 'modules/common/styles';
 import { InlineThumbnail } from 'modules/common/product';
-import { calculateAmount, calculateProductAmount } from 'utils/orderUtils';
+// import { calculateAmount, calculateProductAmount } from 'utils/orderUtils';
 
 const Compact = ({ order, classes }) => {
-  const productAmount = calculateProductAmount(order);
-  const amount = calculateAmount(order);
+  const productAmount = 0;
+  const amount = 0;
   return (
     <div className={classes.compact}>
       <div className={classes.products}>

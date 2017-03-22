@@ -1,11 +1,10 @@
 import combineModules from '../utils/combineModules';
 import * as create from './create';
-import * as update from './update';
-import * as confirm from './confirm';
+import * as commit from './commit';
 import * as search from './search';
 import { SLICE_NAME } from './constants';
 
-const modules = { create, update, confirm, search };
+const modules = { create, commit, search };
 // todo leave this line here
 if (process.env.ADMIN) {} // eslint-disable-line
 

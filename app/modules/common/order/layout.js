@@ -48,7 +48,7 @@ class Layout extends Component {
           { compact ? titleCompact : title }
         </CardTitle>
         { !compact && content }
-        { !compact && actions && (
+        { actions && (
           <CardActions>{actions}</CardActions>
         )}
       </Card>

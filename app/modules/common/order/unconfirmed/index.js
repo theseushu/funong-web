@@ -1,7 +1,7 @@
 import React, { PureComponent, PropTypes } from 'react';
 import injectSheet from 'react-jss';
 import { orderFeeTypes } from 'appConstants';
-import { stripOrder, calculateOrder } from 'utils/orderUtils2';
+import { stripOrder, calculateOrder } from 'utils/orderUtils';
 import Layout from '../layout';
 import moduleStyles from '../styles';
 import Compact from '../components/compact';

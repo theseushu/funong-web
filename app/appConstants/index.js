@@ -4,8 +4,6 @@ export serviceTypes from './services';
 export orderFeeTypes from './orderFeeTypes';
 
 export const statusValues = {
-  new: { value: -1 },
-
   unverified: { value: 0, title: '待审核' },
   verified: { value: 1, title: '已通过' },
   rejected: { value: 2, title: '已拒绝' },

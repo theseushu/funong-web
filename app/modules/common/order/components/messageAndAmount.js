@@ -4,7 +4,7 @@ import injectSheet from 'react-jss';
 import Textfield from 'react-mdl/lib/Textfield';
 import { breakpoints, colors } from 'modules/common/styles';
 import { orderFeeTypes } from 'appConstants';
-import { isOwner as isOrderOwner } from 'utils/orderUtils2';
+import { isOwner as isOrderOwner } from 'utils/orderUtils';
 import { layouts } from '../styles';
 // import FeeDialog from './feeDialog';
 

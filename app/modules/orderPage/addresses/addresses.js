@@ -13,13 +13,19 @@ const Addresses = ({ user: { addresses }, openDialog, createAddress, updateAddre
         address={address}
         openDialog={openDialog}
         updateAddress={(addr) => {
-          updateAddress(i, addr);
+          updateAddress(
+            i,
+            addr,
+            {
+              resolve: () => onAddressSelected(i, addr),
+            }
+          );
         }}
         setDefaultAddress={() => {
           setDefaultAddress(
             i,
             {
-              resolve: () => onAddressSelected(i),
+              resolve: () => onAddressSelected(i, address),
             }
           );
         }}

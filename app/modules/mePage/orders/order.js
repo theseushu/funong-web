@@ -4,47 +4,42 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import Button from 'react-mdl/lib/Button';
 import ApiButtonWithIcon from 'modules/common/buttons/ApiButtonWithIcon';
-import { orderFeeTypes } from 'appConstants';
 import { actions, selectors } from 'api/order';
-import { editableFields, isOrderConfirmable, isOrderTobeConfirmed, calculateOrder } from 'utils/orderUtils';
+import { calculateOrder, stripOrder, commitButtonName } from 'utils/orderUtils';
 import Order from 'modules/common/order';
 
 class StatefulOrder extends Component {
   static propTypes = {
     order: PropTypes.object.isRequired,
     user: PropTypes.object.isRequired,
-    update: PropTypes.func.isRequired,
-    confirm: PropTypes.func.isRequired,
-    updateState: PropTypes.object,
-    confirmState: PropTypes.object,
+    commit: PropTypes.func.isRequired,
+    commitState: PropTypes.object,
   }
   componentWillMount() {
-    this.setState({ order: { ...this.props.order } });
+    const { order, user } = this.props;
+    this.setState({ order: calculateOrder(order, user) });
   }
-  updateButton = () => {
-    const { update, updateState } = this.props;
-    const changed = this.changed();
+  commitButton = () => {
+    const { commit, commitState } = this.props;
+    const { order: { can } } = this.state;
     return (
       <ApiButtonWithIcon
+        key={0}
         colored
         icon="save"
-        pending={updateState ? updateState.pending : false}
-        disabled={Object.keys(changed).length === 0}
-        onClick={() => update({ order: this.props.order, ...changed })}
-      >确定修改</ApiButtonWithIcon>
+        pending={commitState ? commitState.pending : false}
+        disabled={!can.commit.available}
+        onClick={() => commit({ order: stripOrder(this.state.order) })}
+      >{commitButtonName(can.commit.to)}</ApiButtonWithIcon>
     );
   }
-  confirmButton = () => {
-    const { user, confirm, confirmState } = this.props;
-    const changed = this.changed();
+  resetButton = () => {
+    const { order, user } = this.props;
     return (
-      <ApiButtonWithIcon
-        colored
-        icon="save"
-        pending={confirmState ? confirmState.pending : false}
-        disabled={isOrderConfirmable({ order: this.props.order, ...changed }, user)}
-        onClick={() => confirm({ order: this.props.order, ...changed })}
-      >确定订单</ApiButtonWithIcon>
+      <Button
+        key={1}
+        onClick={() => this.setState({ order: calculateOrder(order, user) })}
+      >重置</Button>
     );
   }
   changed = () => {
@@ -68,43 +63,29 @@ class StatefulOrder extends Component {
   render() {
     const { user } = this.props;
     const { order } = this.state;
-    const editable = editableFields(order, user);
-    const methods = {};
-    if (editable.requirements) {
-      methods.changeMessage = this.changeMessage;
-      methods.changeServices = this.changeServices;
+    const { can: { requirements, fees, amount, commit } } = order;
+    const buttons = [];
+    if (commit) {
+      buttons.push(this.commitButton());
     }
-    if (editable.fees) {
-      methods.changeServicesFee = this.changeServicesFee;
-      methods.changeDeliveryFee = this.changeDeliveryFee;
-    }
-    if (editable.amount) {
-      methods.changeAmount = this.changeAmount;
+    if (requirements || fees || amount) {
+      buttons.push(this.resetButton());
     }
     return (
       <Order
         order={order}
         user={user}
-        changeOrder={(o) => this.setState({ order: o })}
-        actions={
-          Object.keys(methods).length > 0 && (
-            <div style={{ width: '100%', textAlign: 'right' }}>
-              {isOrderTobeConfirmed(order, user) ? this.confirmButton() : this.updateButton()}
-              <Button colored onClick={() => this.setState({ order: this.props.order })}>取消</Button>
-            </div>
-          )
-        }
+        changeOrder={(o) => this.setState({ order: calculateOrder(o, user) })}
+        actions={buttons.length > 0 && buttons}
       />
     );
   }
 }
 
-const updateAction = actions.update;
-const updateSelector = selectors.update;
-const confirmAction = actions.confirm;
-const confirmSelector = selectors.confirm;
+const commitAction = actions.commit;
+const commitSelector = selectors.commit;
 
 export default connect(
-  (state) => ({ updateState: updateSelector(state), confirmState: confirmSelector(state) }),
-  (dispatch) => bindActionCreators({ update: updateAction, confirm: confirmAction }, dispatch),
+  (state) => ({ commitState: commitSelector(state) }),
+  (dispatch) => bindActionCreators({ commit: ({ order, meta = {} }) => commitAction({ order, meta: { ...meta, storeKey: order.objectId } }) }, dispatch),
 )(StatefulOrder);

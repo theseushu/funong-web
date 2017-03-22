@@ -5,7 +5,7 @@ import injectSheet from 'react-jss';
 import { statusValues } from 'appConstants';
 import Button from 'modules/common/buttons/ApiButtonWithIcon';
 import styles from 'modules/common/styles';
-import { calculateOrder } from 'utils/orderUtils2';
+import { calculateOrder } from 'utils/orderUtils';
 
 const Summary = (props) => {
   const { user, address, createOrders, pending, classes } = props;

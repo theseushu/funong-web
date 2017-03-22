@@ -2,24 +2,13 @@ import _find from 'lodash/find';
 import _filter from 'lodash/filter';
 import _groupBy from 'lodash/groupBy';
 import _map from 'lodash/map';
+import _omit from 'lodash/omit';
 import _omitBy from 'lodash/omitBy';
 import _orderBy from 'lodash/orderBy';
 import _reduce from 'lodash/reduce';
 import _isUndefined from 'lodash/isUndefined';
 import { statusValues, productTypes, orderFeeTypes } from 'appConstants';
 import { distance } from 'utils/mapUtils';
-
-export const isReceiver = (order, user) => {
-  if (order == null || order.status == null || user == null) {
-    return false;
-  }
-  if (order.user == null && order.shop == null) {
-    console.warn(`Insane data: order.user=${order.user}, order.shop=${order.shop}, user=${user}`);
-    return false;
-  }
-  return (order.user && order.user.objectId) === user.objectId || (order.shop && order.shop.owner.objectId) === user.objectId;
-};
-
 export const isOwner = (order, user) => {
   if (order.status == null) {
     return true;
@@ -31,49 +20,179 @@ export const isOwner = (order, user) => {
   return order.owner.objectId === user.objectId;
 };
 
-export const requirementsEditable = (order, user) => {
-  const { status } = order;
-  if (status == null) {
-    return true;
-  } else if (status === statusValues.unconfirmed.value && isOwner(order, user)) {
-    return true;
+export const calculateProductAmount = ({ items }) => _reduce(items, (sum, { quantity, product: { spec } }) => sum + (quantity * spec.price), 0);
+
+export const calculateServiceFee = ({ services }) => {
+  const result = { fee: 0 };
+  if (_find(services, ({ charge }) => charge)) {
+    result.fee = -1;
   }
-  return false;
+  return result;
 };
 
-
-export const amountEditable = (order, user) => {
-  const { status } = order;
-  if (status === statusValues.unconfirmed.value) {
-    if (_find(order.fees, (fee) => fee == null)) { // if some fee isn't decided
-      return false;
+export const calculateDeliveryFee = ({ items, shop, address }) => {
+  const { areas, location } = shop;
+  const productAmount = calculateProductAmount({ items });
+  const result = {
+    inside: false,
+    fee: 0,
+    minimum: null,
+    raise: null,
+  };
+  const areasInclude = _filter(areas, (area) => {
+    if (area.level !== 'custom') {
+      const district = address.address[area.level];
+      return area.districts.indexOf(district) > -1;
     }
-    const type = order.type;
-    if (type === productTypes.shop) {
-      return user.objectId === order.shop.owner.objectId;
+    // custom area
+    return (area.distance * 1000) > distance(address.lnglat, location.lnglat);
+  });
+  if (areasInclude.length > 0) {
+    result.inside = true;
+  }
+  result.fee = _reduce(areasInclude, (fee, area) => area.minimum <= productAmount ? Math.min(area.deliveryFee, fee) : fee, 99999999);
+  result.fee = result.fee === 99999999 ? -1 : result.fee;
+  result.minimum = _reduce(areasInclude, (minimum, area) => Math.min(area.minimum, minimum), 99999999);
+  result.raise = _filter(areasInclude, (fee, area) => area.deliveryFee < result.fee).map((area) => ({ value: area.minimum - productAmount, fee: area.deliveryFee }));
+  return result;
+};
+
+export const calculateFees = ({ type, items, shop, address, fees, services }) => {
+  const productAmount = calculateProductAmount({ items });
+  const result = { fees: { [orderFeeTypes.product.key]: productAmount } };
+  if (!address) {
+    return result;
+  }
+  if (type === productTypes.supply) {
+    const service = calculateServiceFee({ services });
+    result.service = service;
+    if (service.fee !== 0) {
+      result.fees[orderFeeTypes.service.key] = fees[orderFeeTypes.service.key] || service.fee;
+    } else {
+      result.fees[orderFeeTypes.service.key] = 0;
     }
-    return user.objectId === order.user.objectId;
+  } else if (type === productTypes.shop) {
+    const delivery = calculateDeliveryFee({ items, shop, address });
+    result.delivery = delivery;
+    if (delivery && delivery.fee !== 0) {
+      result.fees[orderFeeTypes.delivery.key] = fees[orderFeeTypes.delivery.key] || delivery.fee;
+    } else {
+      result.fees[orderFeeTypes.delivery.key] = 0;
+    }
   }
-  return false;
+  return result;
 };
 
-export const feesEditable = (order) => {
+export const calculateAmount = ({ fees }) => {
+  if (_filter(fees, (value) => value === -1).length > 0) {
+    return -1;
+  }
+  return _reduce(fees, (sum, value) => sum + value, 0);
+};
+
+/**
+ ** order is just like the one in database. after calculation, it gets 1 more attributes:
+ *  can: {
+ *    amount: (true|false|nil) whether the user can edit amount of the order
+ *    commit: {
+ *      to: (statusValues.value) the next status if user commit the order
+ *      available: (boolean or nill) whether the user can commit the order now
+ *    } or nil whether the order can be commited
+ *    cancel: (true|false) whether the user can cancel the order (NOT cancel editing)
+ *  }
+ *
+ *  if the order is new or unconfirmed or billed, this 'can' object may get more attributes:
+ *  requirements: (true|false|nil) whether the user can edit services&message of the order
+ *  serviceFee: {
+ *    fee: (-1|number) whether the service fee can be calculated automatically
+ *  }
+ *  deliveryFee: {
+ *    inside: (true|false) whether the target address is inside one of shop's areas
+ *    fee: (-1|number) whether the service fee can be calculated automatically
+ *    minimum: (null|number) the lowest amount to match shop's delivery policy
+ *    raise: (array) lower delivery fee
+ *  }
+ *  amount: (true|false|nil) whether the user can edit amount of the order
+ *
+ *  of course, fees & amount will be re-calculated according to services & address & fees user set
+ **/
+export const calculateOrder = (order, currentUser) => {
+  const isCurrentUserOwner = isOwner(order, currentUser);
   const { status } = order;
-  if (status == null) {
-    return true;
-  } else if (status === statusValues.unconfirmed.value) {
-    return true;
+  let can = {};
+  switch (status) {
+    case statusValues.finished.value: {
+      return { ...order, can: {} };
+    }
+    case statusValues.shipped.value: {
+      can = isCurrentUserOwner ? {
+        commit: { to: statusValues.finished.value, available: true },
+      } : {};
+      return { ...order, can };
+    }
+    case statusValues.payed.value: {
+      can = isCurrentUserOwner ? {} : {
+        commit: { to: statusValues.shipped.value, available: true },
+        cancel: true,
+      };
+      return { ...order, can };
+    }
+    case statusValues.billed.value: {
+      can = isCurrentUserOwner ? {
+        commit: { to: statusValues.payed.value, available: true },
+        cancel: true,
+      } : {
+        amount: true,
+        commit: { to: statusValues.billed.value, available: true },
+      };
+      return { ...order, can };
+    }
+    case statusValues.unconfirmed.value:
+    default: {
+      const { items, address } = order;
+      if (!address) {
+        return _omitBy({
+          type: order.type,
+          items,
+          shop: order.shop,
+          user: order.user,
+          services: [],
+          fees: {},
+          can: {},
+        }, _isUndefined);
+      }
+      const { fees, service, delivery } = calculateFees(order);
+      const amount = calculateAmount({ items, fees, amount: order.amount });
+      const result = {
+        ...order,
+        items,
+        fees,
+        amount,
+      };
+      can = isCurrentUserOwner ? {
+        requirements: true,
+        service,
+        delivery,
+        commit: { to: ((service && service.fee === -1) || (delivery && delivery.fee === -1)) ? statusValues.unconfirmed.value : statusValues.billed.value, available: true },
+        cancel: true,
+      } : {
+        service,
+        delivery,
+        amount: true,
+        commit: { to: statusValues.billed.value, available: amount !== -1 },
+      };
+      return _omitBy({
+        ...result,
+        can,
+      }, _isUndefined);
+    }
   }
-  return false;
 };
 
-export const editableFields = (order, user) => ({
-  requirements: requirementsEditable(order, user),
-  fees: feesEditable(order),
-  amount: amountEditable(order, user),
-});
+export const stripOrder = (order) => _omit(order, ['can', 'serviceFee', 'deliveryFee']);
 
-// select all useful attributes of supply/logistics/trip/shop products. omit undefined attributes
+const createOrder = ({ type, items, shop, user, address }) => ({ type, items, shop, user, address, services: [], fees: {} });
+
 const itemsToOrderProducts = (items, type) =>
   items.map((item) => {
     const product = item[`${type}Product`];
@@ -92,17 +211,7 @@ const itemsToOrderProducts = (items, type) =>
     };
   });
 
-/**
- * @param cartItems
- * @return array of orders
- * {
- *  shop (if it's an order of shop products)
- *  owner (if it's an order of other types)
- *  type (the type of products in this order. all products shall be the same type)
- *  items ( array of { quantity, createdAt (date added to cart), product snapshot }
- * }
- */
-export const createOrders = (cartItems, address) => {
+export const createOrdersFromCartItems = (cartItems, address) => {
   const result = [];
   Object.values(productTypes).forEach((type) => {
     const itemsOfType = Object.values(_filter(cartItems, (item) => !!item[`${type}Product`]));
@@ -111,124 +220,32 @@ export const createOrders = (cartItems, address) => {
       result.push(..._map(groupedOrderItems, (orderItems) => {
         const shop = orderItems[0][`${type}Product`].shop;
         const items = itemsToOrderProducts(orderItems, type);
-        return createRawOrder({ type, items, shop, user: undefined, address });
+        return createOrder({ type, items, shop, user: undefined, address });
       }));
     } else {
       const groupedOrderItems = _groupBy(itemsOfType, (item) => item[`${type}Product`].owner.objectId);
       result.push(..._map(groupedOrderItems, (orderItems) => {
         const user = orderItems[0][`${type}Product`].owner;
         const items = itemsToOrderProducts(orderItems, type);
-        return createRawOrder({ type, items, shop: undefined, user, address });
+        return createOrder({ type, items, shop: undefined, user, address });
       }));
     }
   });
   return _orderBy(result, (order) => -(_reduce(order.items, (r, item) => r > item.createdAt ? r : item.createdAt, 0)));
 };
 
-export const createRawOrder = ({ type, items, shop, user, address }) => {
-  const order = {
-    user,
-    shop,
-    type,
-    items,
-    services: [],
-    fees: {},
-    address,
-  };
-  return address ? calculateOrder(order) : order;
-};
-
-export const calculateOrder = (params) => {
-  const { type, items, shop, user, services, fees, address, amount } = params;
-  if (!address) {
-    return createRawOrder({ user, shop, type, items, address });
+export const commitButtonName = (nextStatus) => {
+  switch (nextStatus) {
+    case statusValues.finished.value:
+      return '确认收货';
+    case statusValues.shipped.value:
+      return '发货';
+    case statusValues.payed.value:
+      return '付款';
+    case statusValues.billed.value:
+      return '确认订单';
+    case statusValues.unconfirmed.value:
+    default:
+      return '保存修改';
   }
-  const calculatedFees = { ...fees };
-  if (!_find(services, ({ charge }) => charge)) { // no charged service
-    delete calculatedFees[orderFeeTypes.service.key];
-  } else if (calculatedFees[orderFeeTypes.service.key] === undefined) {
-    calculatedFees[orderFeeTypes.service.key] = null;
-  }
-  const result = {
-    ...params,
-    user,
-    shop,
-    type,
-    items,
-    services,
-    fees: calculatedFees,
-    address,
-  };
-  if (!_find(fees, (fee) => fee == null)) {
-    return result;
-  }
-  return {
-    ...result,
-    amount: amount != null ? amount : calculateAmount({ fees, items }),
-  };
-};
-/**
- * @param shop
- * @param delivery address
- * @param productAmount of order's products
- * @return
- * {
- *  inside (is the address inside areas the shop provides service)
- *  fee (delivery fee if address is inside areas and productAmount meets minimum amount)
- *  minimum (lowest minimum productAmount of areas address is in)
- *  raise (to lower delivery fee, how much more shall be added to the order) array of { value (how much more shall be added), fee (delivery fee)}
-*  }
- */
-export const calculateDelivery = ({ areas, location }, address, productAmount) => {
-  if (!address) {
-    return null;
-  }
-  const result = {
-    inside: false,
-    fee: null,
-    minimum: null,
-    raise: null,
-  };
-  const areasInclude = _filter(areas, (area) => {
-    if (area.level !== 'custom') {
-      const district = address.address[area.level];
-      return area.districts.indexOf(district) > -1;
-    }
-    // custom area
-    return (area.distance * 1000) > distance(address.lnglat, location.lnglat);
-  });
-  if (areasInclude.length > 0) {
-    result.inside = true;
-  }
-  result.fee = _reduce(areasInclude, (fee, area) => area.minimum <= productAmount ? Math.min(area.deliveryFee, fee) : fee, 99999999);
-  result.minimum = _reduce(areasInclude, (minimum, area) => Math.min(area.minimum, minimum), 99999999);
-  result.fee = result.fee === 99999999 ? null : result.fee;
-  result.raise = _filter(areasInclude, (fee, area) => area.deliveryFee < result.fee).map((area) => ({ value: area.minimum - productAmount, fee: area.deliveryFee }));
-  return result;
-};
-
-export const calculateProductAmount = ({ items }) => _reduce(items, (sum, { quantity, product: { spec } }) => sum + (quantity * spec.price), 0);
-
-export const calculateAmount = ({ fees, items }) => {
-  if (_filter(fees, (value) => value == null).length > 0) {
-    return null;
-  }
-  return _reduce(fees, (sum, value) => sum + value, calculateProductAmount({ items }));
-};
-
-export const isOrderTobeConfirmed = (order, user) => {
-  if (order.status !== statusValues.unconfirmed.value || !isReceiver(order, user)) {
-    return false;
-  }
-  return true;
-};
-
-export const isOrderConfirmable = (order, user) => {
-  if (order.status !== statusValues.unconfirmed.value || !isReceiver(order, user)) {
-    return false;
-  }
-  if (_find(order.fees, (fee) => fee == null) || order.amount == null || order.amount < 0) {
-    return false;
-  }
-  return true;
 };

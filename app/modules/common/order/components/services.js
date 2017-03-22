@@ -4,7 +4,7 @@ import _find from 'lodash/find';
 import Checkbox from 'react-mdl/lib/Checkbox';
 import styles, { breakpoints, colors } from 'modules/common/styles';
 import { productTypes, serviceTypes, orderFeeTypes } from 'appConstants';
-import { isOwner as isOrderOwner } from 'utils/orderUtils2';
+import { isOwner as isOrderOwner } from 'utils/orderUtils';
 import { layouts } from '../styles';
 import FeeDialog from './feeDialog';
 
