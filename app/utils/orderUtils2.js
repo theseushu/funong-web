@@ -2,6 +2,7 @@ import _find from 'lodash/find';
 import _filter from 'lodash/filter';
 import _groupBy from 'lodash/groupBy';
 import _map from 'lodash/map';
+import _omit from 'lodash/omit';
 import _omitBy from 'lodash/omitBy';
 import _orderBy from 'lodash/orderBy';
 import _reduce from 'lodash/reduce';
@@ -63,18 +64,18 @@ export const calculateFees = ({ type, items, shop, address, fees, services }) =>
     return result;
   }
   if (type === productTypes.supply) {
-    const serviceFee = calculateServiceFee({ services });
-    result.serviceFee = serviceFee;
-    if (serviceFee.fee !== 0) {
-      result.fees[orderFeeTypes.service.key] = fees[orderFeeTypes.service.key] || serviceFee.fee;
+    const service = calculateServiceFee({ services });
+    result.service = service;
+    if (service.fee !== 0) {
+      result.fees[orderFeeTypes.service.key] = fees[orderFeeTypes.service.key] || service.fee;
     } else {
       result.fees[orderFeeTypes.service.key] = 0;
     }
   } else if (type === productTypes.shop) {
-    const deliveryFee = calculateDeliveryFee({ items, shop, address });
-    result.deliveryFee = deliveryFee;
-    if (deliveryFee && deliveryFee.fee !== 0) {
-      result.fees[orderFeeTypes.delivery.key] = fees[orderFeeTypes.delivery.key] || deliveryFee.fee;
+    const delivery = calculateDeliveryFee({ items, shop, address });
+    result.delivery = delivery;
+    if (delivery && delivery.fee !== 0) {
+      result.fees[orderFeeTypes.delivery.key] = fees[orderFeeTypes.delivery.key] || delivery.fee;
     } else {
       result.fees[orderFeeTypes.delivery.key] = 0;
     }
@@ -90,75 +91,104 @@ export const calculateAmount = ({ fees }) => {
 };
 
 /**
- ** order is just like the one in database. after calculation, it gets one more attributes:
+ ** order is just like the one in database. after calculation, it gets 1 more attributes:
  *  can: {
- *    requirements: (true|false|nil) whether the user can edit services&message of the order
- *    fees: (true|false|nil) whether the user can edit fees of the order
  *    amount: (true|false|nil) whether the user can edit amount of the order
  *    commit: (statusValues.value or false or nil) what's the next status if user commit the order
  *    cancel: (true|false) whether the user can cancel the order (NOT cancel editing)
  *  }
+ *
+ *  if the order is new or unconfirmed or billed, this 'can' object may get more attributes:
+ *  requirements: (true|false|nil) whether the user can edit services&message of the order
+ *  serviceFee: {
+ *    fee: (-1|number) whether the service fee can be calculated automatically
+ *  }
+ *  deliveryFee: {
+ *    inside: (true|false) whether the target address is inside one of shop's areas
+ *    fee: (-1|number) whether the service fee can be calculated automatically
+ *    minimum: (null|number) the lowest amount to match shop's delivery policy
+ *    raise: (array) lower delivery fee
+ *  }
+ *  amount: (true|false|nil) whether the user can edit amount of the order
+ *
  *  of course, fees & amount will be re-calculated according to services & address & fees user set
  **/
 export const calculateOrder = (order, currentUser) => {
-  const { items, address, amount, status } = order;
-  if (!address) {
-    return _omitBy({ type: order.type, items, shop: order.shop, user: order.user, services: [], fees: {}, can: {} }, _isUndefined);
-  }
-  const { fees, serviceFee, deliveryFee } = calculateFees(order);
-  const result = {
-    ...order,
-    items,
-    fees,
-    serviceFee,
-    deliveryFee,
-    amount: calculateAmount({ items, fees, amount }),
-  };
   const isCurrentUserOwner = isOwner(order, currentUser);
+  const { status } = order;
   let can = {};
-  const feesEditable = (serviceFee && serviceFee.fee === -1) || (deliveryFee && deliveryFee.fee === -1);
   switch (status) {
-    case statusValues.shipped.value:
+    case statusValues.finished.value: {
+      return { ...order, can: {} };
+    }
+    case statusValues.shipped.value: {
       can = isCurrentUserOwner ? {
-        commit: statusValues.finished.value,
+        commit: { to: statusValues.finished.value, available: true },
       } : {};
-      break;
-    case statusValues.unshipped.value:
+      return { ...order, can };
+    }
+    case statusValues.payed.value: {
       can = isCurrentUserOwner ? {} : {
-        commit: statusValues.shipped.value,
+        commit: { to: statusValues.shipped.value, available: true },
         cancel: true,
       };
-      break;
-    case statusValues.unbilled.value:
+      return { ...order, can };
+    }
+    case statusValues.billed.value: {
       can = isCurrentUserOwner ? {
-        commit: statusValues.unshipped.value,
+        commit: { to: statusValues.payed.value, available: true },
         cancel: true,
       } : {
         amount: true,
+        commit: { to: statusValues.billed.value, available: true },
       };
-      break;
+      return { ...order, can };
+    }
     case statusValues.unconfirmed.value:
-    default:
+    default: {
+      const { items, address } = order;
+      if (!address) {
+        return _omitBy({
+          type: order.type,
+          items,
+          shop: order.shop,
+          user: order.user,
+          services: [],
+          fees: {},
+          can: {},
+        }, _isUndefined);
+      }
+      const { fees, service, delivery } = calculateFees(order);
+      const amount = calculateAmount({ items, fees, amount: order.amount });
+      const result = {
+        ...order,
+        items,
+        fees,
+        amount,
+      };
       can = isCurrentUserOwner ? {
         requirements: true,
-        fees: feesEditable,
-        commit: !feesEditable ? statusValues.unbilled.value : statusValues.unconfirmed.value,
+        service,
+        delivery,
+        commit: { to: amount !== -1 ? statusValues.billed.value : statusValues.unconfirmed.value, available: true },
         cancel: true,
       } : {
-        fees: feesEditable,
+        service,
+        delivery,
         amount: true,
-        commit: !feesEditable ? statusValues.unbilled.value : false,
+        commit: { to: statusValues.billed.value, available: amount !== -1 },
       };
+      return _omitBy({
+        ...result,
+        can,
+      }, _isUndefined);
+    }
   }
-  return _omitBy({
-    ...result,
-    can,
-  }, _isUndefined);
 };
 
-export const stripOrder = (order) => _omitBy(order, ['can', 'serviceFee', 'deliveryFee']);
+export const stripOrder = (order) => _omit(order, ['can', 'serviceFee', 'deliveryFee']);
 
-export const createOrder = ({ type, items, shop, user, address }) => stripOrder(calculateOrder({ type, items, shop, user, address, services: [], fees: {} }));
+const createOrder = ({ type, items, shop, user, address }) => ({ type, items, shop, user, address, services: [], fees: {} });
 
 const itemsToOrderProducts = (items, type) =>
   items.map((item) => {

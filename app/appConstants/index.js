@@ -12,8 +12,8 @@ export const statusValues = {
   removed: { value: 3, title: '已删除' },
 
   unconfirmed: { value: 11, title: '待确认' },
-  unbilled: { value: 12, title: '待付款' },
-  unshipped: { value: 13, title: '待发货' },
+  billed: { value: 12, title: '待付款' },
+  payed: { value: 13, title: '待发货' },
   shipping: { value: 14, title: '已发货' },
   shipped: { value: 15, title: '已收货' },
   finished: { value: 16, title: '完成' },

@@ -3,7 +3,7 @@ import _map from 'lodash/map';
 import injectSheet from 'react-jss';
 import Order from 'modules/common/order';
 
-const Orders = ({ user, orders, address, changeOrder, classes }) => (
+const Orders = ({ user, orders, changeOrder, classes }) => (
   <div className={classes.orders}>
     {
       _map(orders, (order, i) => (
@@ -11,7 +11,6 @@ const Orders = ({ user, orders, address, changeOrder, classes }) => (
           key={i}
           user={user}
           order={order}
-          address={address}
           changeOrder={(o) => changeOrder(i, o)}
         />
       ))
@@ -21,7 +20,6 @@ const Orders = ({ user, orders, address, changeOrder, classes }) => (
 
 Orders.propTypes = {
   classes: PropTypes.object.isRequired,
-  address: PropTypes.object,
   user: PropTypes.object.isRequired,
   orders: PropTypes.array.isRequired,
   changeOrder: PropTypes.func.isRequired,

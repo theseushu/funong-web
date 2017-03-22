@@ -32,8 +32,8 @@ class Layout extends Component {
     let statusAccent = false;
     if (status && (
       status.value === statusValues.unconfirmed.value ||
-      status.value === statusValues.unbilled.value ||
-      status.value === statusValues.unshipped.value)) {
+      status.value === statusValues.billed.value ||
+      status.value === statusValues.payed.value)) {
       statusAccent = true;
     }
     const isOwner = isOrderOwner(order, user);

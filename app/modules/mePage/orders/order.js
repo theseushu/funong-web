@@ -21,23 +21,6 @@ class StatefulOrder extends Component {
   componentWillMount() {
     this.setState({ order: { ...this.props.order } });
   }
-  changeMessage = (message) => {
-    this.setState({ order: { ...this.state.order, message } });
-  }
-  changeServices = (services) => {
-    this.setState({ order: calculateOrder({ ...this.state.order, services }) });
-  }
-  changeServicesFee = (serviceFee) => {
-    const fees = { ...this.state.order.fees, [orderFeeTypes.service.key]: serviceFee };
-    this.setState({ order: calculateOrder({ ...this.state.order, fees }) });
-  }
-  changeDeliveryFee = (deliveryFee) => {
-    const fees = { ...this.state.order.fees, [orderFeeTypes.delivery.key]: deliveryFee };
-    this.setState({ order: calculateOrder({ ...this.state.order, fees }) });
-  }
-  changeAmount = (amount) => {
-    this.setState({ order: calculateOrder({ ...this.state.order, amount }) });
-  }
   updateButton = () => {
     const { update, updateState } = this.props;
     const changed = this.changed();
@@ -102,7 +85,7 @@ class StatefulOrder extends Component {
       <Order
         order={order}
         user={user}
-        {...methods}
+        changeOrder={(o) => this.setState({ order: o })}
         actions={
           Object.keys(methods).length > 0 && (
             <div style={{ width: '100%', textAlign: 'right' }}>

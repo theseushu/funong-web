@@ -1,12 +1,15 @@
 import React, { PureComponent, PropTypes } from 'react';
 import injectSheet from 'react-jss';
+import { orderFeeTypes } from 'appConstants';
 import { stripOrder, calculateOrder } from 'utils/orderUtils2';
-import Layout from './layout';
-import moduleStyles from './styles';
-import Compact from './components/compact';
-import Owner from './components/owner';
-import Items from './components/items';
-import MessageAndAmount from './components/messageAndAmount';
+import Layout from '../layout';
+import moduleStyles from '../styles';
+import Compact from '../components/compact';
+import Owner from '../components/owner';
+import Services from '../components/services';
+import Delivery from '../components/delivery';
+import Items from '../components/items';
+import MessageAndAmount from '../components/messageAndAmount';
 
 class Order extends PureComponent {
   static propTypes = {
@@ -19,6 +22,35 @@ class Order extends PureComponent {
   changeOrder = (order) => {
     const { changeOrder, user } = this.props;
     changeOrder(stripOrder(calculateOrder(order, user)));
+  }
+  renderServices = () => {
+    const { order, user } = this.props;
+    const { can } = order;
+    if (!can.service) {
+      return null;
+    }
+    return (
+      <Services
+        order={order}
+        user={user}
+        onServiceChange={can.requirements ? (services) => this.changeOrder({ ...order, services }) : undefined}
+        onServiceFeeChange={(fee) => this.changeOrder({ ...order, fees: { ...order.fees, [orderFeeTypes.service.key]: fee } })}
+      />
+    );
+  }
+  renderDelivery = () => {
+    const { order, user } = this.props;
+    const { can } = order;
+    if (!can.delivery) {
+      return null;
+    }
+    return (
+      <Delivery
+        order={order}
+        user={user}
+        onChange={(fee) => this.changeOrder({ ...order, fees: { ...order.fees, [orderFeeTypes.delivery.key]: fee } })}
+      />
+    );
   }
   renderMessageAndAmount = () => {
     const { order, user } = this.props;
@@ -71,6 +103,8 @@ class Order extends PureComponent {
         content={
           <div className={classes.content}>
             <Items type={type} items={items} />
+            {this.renderServices()}
+            {this.renderDelivery()}
             {this.renderMessageAndAmount()}
           </div>
         }

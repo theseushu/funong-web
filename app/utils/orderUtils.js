@@ -136,7 +136,7 @@ export const createRawOrder = ({ type, items, shop, user, address }) => {
     address,
   };
   return address ? calculateOrder(order) : order;
-}
+};
 
 export const calculateOrder = (params) => {
   const { type, items, shop, user, services, fees, address, amount } = params;

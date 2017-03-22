@@ -157,14 +157,14 @@ class Services extends Component {
   }
   render() {
     const { user, order, classes } = this.props;
-    const { services, can } = order;
+    const { can } = order;
     const isOwner = isOrderOwner(order, user);
-    const charged = _find(services, ({ charge }) => charge);
+    const editable = can.service && can.service.fee === -1;
     return (
       <div className={classes.services}>
         { can.requirements ? this.servicesEditable() : this.servicesReadonly(isOwner)}
         {
-          charged && (can.fees ? this.feeEditable(isOwner) : this.feeReadonly(isOwner))
+          editable ? this.feeEditable(isOwner) : this.feeReadonly(isOwner)
         }
       </div>
     );

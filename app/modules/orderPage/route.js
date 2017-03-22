@@ -40,7 +40,7 @@ export default ({ store, injectReducer, injectSagas, loadModule, errorLoading })
     });
     // set items and default address selection
     const { actions, selectors } = ducks;
-    const { setCartItems, selectAddress, createOrders } = actions;
+    const { setCartItems, selectAddress } = actions;
 
     // set items
     const cartPageDucks = await System.import('../cartPage/ducks');
@@ -54,11 +54,9 @@ export default ({ store, injectReducer, injectSagas, loadModule, errorLoading })
     if (addressIndex == null) {
       addressIndex = _findIndex(user.addresses, (address) => address.default);
     }
-    store.dispatch(selectAddress(addressIndex));
     const address = user.addresses[addressIndex];
+    store.dispatch(selectAddress(addressIndex, address));
 
-    // create orders
-    store.dispatch(createOrders(address));
     renderRoute(component);
 
     importModules.catch(errorLoading);

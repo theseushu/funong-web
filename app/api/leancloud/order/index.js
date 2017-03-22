@@ -89,7 +89,7 @@ export default ({ AV, context }) => {
     }
     const avOrder = AV.Object.createWithoutData('Order', order.objectId);
     const fields = editableFields(order, profile);
-    const attributes = { status: statusValues.unbilled.value };
+    const attributes = { status: statusValues.billed.value };
     if (fees != null) {
       if (fields.fees) {
         if (fees) {

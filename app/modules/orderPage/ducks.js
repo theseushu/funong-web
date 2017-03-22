@@ -5,7 +5,6 @@ const CREATE_ORDERS = 'order_page/create_orders';
 const CHANGE_ORDER = 'order_page/change_order';
 
 const reducer = (state = { items: [], addressIndex: null, orders: [] }, action) => {
-  console.log(action.type === SET_CART_ITEMS)
   if (action.type === SET_CART_ITEMS) {
     const { items } = action.payload;
     return { ...state, items };

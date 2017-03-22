@@ -66,31 +66,32 @@ class Delivery extends Component {
       )}
     </div>
   )
-  renderFeeReadonly = (deliveryFee) => (
+  renderFeeReadonly = (fee) => (
     <div className="_amount">
       <small>运费：</small>
       <span>
-        { `￥${deliveryFee}`}
+        { `￥${fee}`}
       </span>
     </div>
   )
   render() {
     const { order, user, classes } = this.props;
-    const { shop, fees, can, deliveryFee } = order;
+    const { fees, can } = order;
     const isOwner = isOrderOwner(order, user);
     const fee = fees[orderFeeTypes.delivery.key];
-    if (!shop || !can.fees) {
+    if (!can.delivery) {
       return null;
     }
     const productAmount = calculateProductAmount(order);
+    const editable = can.delivery && can.delivery.fee === -1;
     return (
       <div className={classes.delivery}>
         <div className="_left">
-          {this.renderMessage(deliveryFee)}
+          {this.renderMessage(can.delivery)}
         </div>
         <div className="_right">
-          {this.renderInstruction(deliveryFee, productAmount, isOwner)}
-          {this.renderFee(fee, isOwner)}
+          {this.renderInstruction(can.delivery, productAmount, isOwner)}
+          {editable ? this.renderFee(fee, isOwner) : this.renderFeeReadonly(fee)}
         </div>
       </div>
     );

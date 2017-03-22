@@ -27,12 +27,12 @@ const Summary = (props) => {
     );
   }
   const orders = props.orders.map((order) => calculateOrder(order, user));
-  const ordersReady = _filter(orders, ({ can }) => can.commit === statusValues.unbilled.value);
+  const ordersReady = _filter(orders, ({ can }) => can.commit.to === statusValues.billed.value);
   const amount = _reduce(
     ordersReady,
     (sum, order) => sum + order.amount,
   0);
-  const ordersNeedConfirm = _filter(orders, ({ can }) => can.commit === statusValues.unconfirmed.value);
+  const ordersNeedConfirm = _filter(orders, ({ can }) => can.commit.to === statusValues.unconfirmed.value);
   return (
     <div className={classes.summary}>
       <div className={classes.address}>

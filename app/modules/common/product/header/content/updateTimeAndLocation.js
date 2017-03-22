@@ -8,21 +8,21 @@ import { distance } from 'utils/mapUtils';
 const UpdateTimeAndLocation = ({ locationTile, location, currentLocation, updatedAt, classes }) => (
   <Grid noSpacing className={classes.wrapper}>
     <Cell col={6} tablet={4} phone={4} className={classes.small}>
-      更新时间： {humanizeTime(updatedAt)}
+        更新时间： {humanizeTime(updatedAt)}
     </Cell>
     { location && (
-      <Cell col={6} tablet={4} phone={4} className={classes.small}>
-        {locationTile || '发货地'}： {formatAddress(location.address)}
-        <small>
-          {
-            (currentLocation && currentLocation.lnglat) &&
-            `(${humanizeDistance(distance(currentLocation.lnglat, location.lnglat))})`
-          }
-        </small>
-      </Cell>
-    )}
+    <Cell col={6} tablet={4} phone={4} className={classes.small}>
+      {locationTile || '发货地'}： {formatAddress(location.address)}
+      <small>
+        {
+              (currentLocation && currentLocation.lnglat) &&
+              `(${humanizeDistance(distance(currentLocation.lnglat, location.lnglat))})`
+            }
+      </small>
+    </Cell>
+      )}
   </Grid>
-);
+  );
 
 UpdateTimeAndLocation.propTypes = {
   locationTile: PropTypes.string,
