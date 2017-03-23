@@ -70,12 +70,13 @@ class MessageAndAmount extends Component {
         </div>
         { this.state.editing && (
           <FeeDialog
-            title="运费"
-            label="运费"
+            title="总价"
+            label="总价"
             close={() => this.setState({ editing: false })}
             value={amount === -1 ? null : amount}
             onSubmit={(newAmount) => {
-              const discount = newAmount - amount;
+              const oldDiscount = fees[orderFeeTypes.discount.key] || 0;
+              const discount = newAmount - (amount - oldDiscount);
               if (discount > 0) {
                 confirm({
                   title: '您设置的总价高于商品价格和服务费之和，确定吗？',
