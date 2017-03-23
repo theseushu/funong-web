@@ -63,7 +63,9 @@ class Order extends PureComponent {
         order={order}
         user={user}
         onMessageChange={can.requirements ? (message) => this.changeOrder({ ...order, message }) : undefined}
-        onAmountChange={can.amount ? (amount) => this.changeOrder({ ...order, amount }) : undefined}
+        onDiscountChange={(discount) => {
+          this.changeOrder({ ...order, fees: { ...order.fees, [orderFeeTypes.discount.key]: discount } });
+        }}
       />
     );
   }

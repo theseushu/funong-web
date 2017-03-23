@@ -5,8 +5,9 @@ import Textfield from 'react-mdl/lib/Textfield';
 import { breakpoints, colors } from 'modules/common/styles';
 import { orderFeeTypes } from 'appConstants';
 import { isOwner as isOrderOwner } from 'utils/orderUtils';
+import confirm from 'modules/toastr/confirm';
 import { layouts } from '../styles';
-// import FeeDialog from './feeDialog';
+import FeeDialog from './feeDialog';
 
 class MessageAndAmount extends Component {
   static propTypes = {
@@ -14,7 +15,7 @@ class MessageAndAmount extends Component {
     order: PropTypes.object.isRequired,
     user: PropTypes.object.isRequired,
     onMessageChange: PropTypes.func,
-    onAmountChange: PropTypes.func,
+    onDiscountChange: PropTypes.func,
   }
   state = { editing: false }
   message = () => {
@@ -46,7 +47,7 @@ class MessageAndAmount extends Component {
     );
   }
   amount = () => {
-    const { order, onAmountChange, classes } = this.props; // eslint-disable-line
+    const { order, onDiscountChange, classes } = this.props; // eslint-disable-line
     const { fees, amount } = order;
     return (
       <div className="_right">
@@ -57,8 +58,38 @@ class MessageAndAmount extends Component {
               {value === -1 ? '待议' : `￥${value}`}
             </div>
           ))}
-          <div><small>总价：</small>{amount === -1 ? '待议' : `￥${amount}`}</div>
+          <div>
+            <small>总价：</small>{amount === -1 ? '待议' : `￥${amount}`}
+            <br className="_line_breaker" />
+            <small>
+              <a href="#_non_existing" disabled={amount === -1} onClick={(e) => { e.preventDefault(); this.setState({ editing: true }); }}>
+                {amount === -1 ? '请先设置其它费用' : ' 修改总价'}
+              </a>
+            </small>
+          </div>
         </div>
+        { this.state.editing && (
+          <FeeDialog
+            title="运费"
+            label="运费"
+            close={() => this.setState({ editing: false })}
+            value={amount === -1 ? null : amount}
+            onSubmit={(newAmount) => {
+              const discount = newAmount - amount;
+              if (discount > 0) {
+                confirm({
+                  title: '您设置的总价高于商品价格和服务费之和，确定吗？',
+                  ok: () => {
+                    onDiscountChange(discount);
+                  },
+                  cancel: () => {},
+                });
+              } else {
+                onDiscountChange(discount);
+              }
+            }}
+          />
+        )}
       </div>
     );
   }
@@ -85,7 +116,7 @@ class MessageAndAmount extends Component {
     return (
       <div className={classes.messageAndAmount}>
         {order.can.requirements ? this.message() : this.messageReadonly(isOwner)}
-        {order.can.amount ? this.amount() : this.amountReadonly()}
+        {order.can.discount ? this.amount() : this.amountReadonly()}
       </div>
     );
   }

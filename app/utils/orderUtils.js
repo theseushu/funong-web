@@ -112,7 +112,7 @@ export const calculateAmount = ({ fees }) => {
  *    minimum: (null|number) the lowest amount to match shop's delivery policy
  *    raise: (array) lower delivery fee
  *  }
- *  amount: (true|false|nil) whether the user can edit amount of the order
+ *  discount: (true|false|nil) whether the user can add discount to the order
  *
  *  of course, fees & amount will be re-calculated according to services & address & fees user set
  **/
@@ -142,10 +142,10 @@ export const calculateOrder = (order, currentUser) => {
         commit: { to: statusValues.payed.value, available: true },
         cancel: true,
       } : {
-        amount: true,
+        discount: true,
         commit: { to: statusValues.billed.value, available: true },
       };
-      return { ...order, can };
+      return { ...order, amount: calculateAmount({ fees: order.fees }), can };
     }
     case statusValues.unconfirmed.value:
     default: {
@@ -162,7 +162,7 @@ export const calculateOrder = (order, currentUser) => {
         }, _isUndefined);
       }
       const { fees, service, delivery } = calculateFees(order);
-      const amount = calculateAmount({ items, fees, amount: order.amount });
+      const amount = calculateAmount({ fees });
       const result = {
         ...order,
         items,
@@ -178,7 +178,7 @@ export const calculateOrder = (order, currentUser) => {
       } : {
         service,
         delivery,
-        amount: true,
+        discount: true,
         commit: { to: statusValues.billed.value, available: amount !== -1 },
       };
       return _omitBy({
