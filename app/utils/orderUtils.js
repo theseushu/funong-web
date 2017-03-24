@@ -130,9 +130,16 @@ export const calculateOrder = (order, currentUser) => {
       } : {};
       return { ...order, can };
     }
+    case statusValues.shipping.value: {
+      can = isCurrentUserOwner ? {
+        commit: { to: statusValues.shipped.value, available: true },
+      } : {
+      };
+      return { ...order, can };
+    }
     case statusValues.payed.value: {
       can = isCurrentUserOwner ? {} : {
-        commit: { to: statusValues.shipped.value, available: true },
+        commit: { to: statusValues.shipping.value, available: true },
         cancel: true,
       };
       return { ...order, can };
@@ -237,8 +244,10 @@ export const createOrdersFromCartItems = (cartItems, address) => {
 export const commitButtonName = (nextStatus) => {
   switch (nextStatus) {
     case statusValues.finished.value:
-      return '确认收货';
+      return '完成订单';
     case statusValues.shipped.value:
+      return '确认收货';
+    case statusValues.shipping.value:
       return '发货';
     case statusValues.payed.value:
       return '付款';

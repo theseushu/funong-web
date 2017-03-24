@@ -15,12 +15,16 @@ class StatefulOrder extends Component {
     this.setState({ order: calculateOrder(order, user) });
   }
   commitButton = () => {
+    const { user } = this.props;
     const { order } = this.state;
     return (
       <CommitButton
         key={0}
         order={order}
         changed={this.changed()}
+        onSuccess={(o) => {
+          this.setState({ order: calculateOrder(o, user) });
+        }}
       />
     );
   }
