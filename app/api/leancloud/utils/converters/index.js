@@ -25,3 +25,8 @@ export cartItemToJSON from './cartItem';
 export commentToJSON from './comment';
 
 export orderToJSON from './order';
+
+export inquiryToJSON from './inquiry';
+
+export bidToJSON from './bid';
+

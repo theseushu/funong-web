@@ -4,7 +4,7 @@ import { denormalize } from 'denormalizr';
 
 import { SpeciesArraySchema, CertsSchema, ProductSchemas, ShopProductsSchema,
   LogisticsProductsSchema, TripProductsSchema, CartItemsSchema,
-  ShopsSchema, CommentsSchema, OrdersSchema } from './schemas';
+  ShopsSchema, CommentsSchema, OrdersSchema, InquiriesSchema, BidsSchema } from './schemas';
 
 const rootSelector = (state) => state.data;
 
@@ -235,5 +235,50 @@ export const ordersSelector = createSelector(
       return [];
     }
     return denormalize(Object.values(orders), data.entities, OrdersSchema);
+  },
+);
+
+export const inquiriesSelector = createSelector(
+  rootSelector,
+  (data) => {
+    const { inquiries } = data.entities;
+    if (!inquiries || Object.values(inquiries) === 0) {
+      return [];
+    }
+    return denormalize(Object.values(inquiries), data.entities, InquiriesSchema);
+  },
+);
+
+export const createUserInquiriesSelector = (userId) => createSelector(
+  inquiriesSelector,
+  (inquiries) => {
+    if (!inquiries) {
+      return [];
+    }
+    const result = inquiries.filter((p) => p.owner.objectId === userId);
+    return result;
+  },
+);
+
+
+export const bidsSelector = createSelector(
+  rootSelector,
+  (data) => {
+    const { bids } = data.entities;
+    if (!bids || Object.values(bids) === 0) {
+      return [];
+    }
+    return denormalize(Object.values(bids), data.entities, BidsSchema);
+  },
+);
+
+export const createUserBidsSelector = (userId) => createSelector(
+  bidsSelector,
+  (bids) => {
+    if (!bids) {
+      return [];
+    }
+    const result = bids.filter((p) => p.owner.objectId === userId);
+    return result;
   },
 );

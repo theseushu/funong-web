@@ -11,7 +11,7 @@ import Species from './species';
 import Provinces from './provinces';
 import SortAndpaging from './sortAndpaging';
 
-const Criteria = ({ setCriteria, catalogGroups, category, species = [], provinces = [], sort, disabled = [], page, pageSize, countingState, classes }) => {
+const Criteria = ({ setCriteria, catalogGroups, category, species = [], provinces = [], sort, sorts, disabled = [], page, pageSize, result, classes }) => {
   const criteria = { category, species, provinces, sort, page, pageSize };
   return (
     <div className={classes.wrapper}>
@@ -60,7 +60,8 @@ const Criteria = ({ setCriteria, catalogGroups, category, species = [], province
           selected={sort}
           page={page}
           pageSize={pageSize}
-          countingState={countingState}
+          result={result}
+          sorts={sorts}
           onSelect={(s) => {
             setCriteria(_omitBy({ ...criteria, sort: s }, _isUndefined));
           }}
@@ -86,14 +87,16 @@ Criteria.propTypes = {
   species: PropTypes.array,
   provinces: PropTypes.array,
   sort: PropTypes.object,
+  sorts: PropTypes.object, // available sort attributes. see ./sorts.js
   disabled: PropTypes.array,
-  countingState: PropTypes.object,
+  result: PropTypes.object,
 };
 
 export default injectSheet({
   wrapper: {
     width: '100%',
     position: 'relative',
+    zIndex: 1000,
   },
 })(connect(
   (state, { category }) => ({ // convert id to real object

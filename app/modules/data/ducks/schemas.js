@@ -130,3 +130,24 @@ OrderSchema.define({
   agent: ShopSchema,
 });
 export const OrdersSchema = arrayOf(OrderSchema);
+
+export const InquirySchema = new Schema('inquiries', {
+  idAttribute: 'objectId',
+});
+InquirySchema.define({
+  owner: UserSchema,
+  category: CategorySchema,
+  species: SpeciesSchema,
+  agent: ShopSchema,
+});
+export const InquiriesSchema = arrayOf(InquirySchema);
+
+export const BidSchema = new Schema('bids', {
+  idAttribute: 'objectId',
+});
+BidSchema.define({
+  owner: UserSchema,
+  inquiry: InquirySchema,
+  product: SupplyProductSchema,
+});
+export const BidsSchema = arrayOf(BidSchema);

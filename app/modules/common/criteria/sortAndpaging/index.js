@@ -5,21 +5,22 @@ import Sort from './sort';
 import Paging from './paging';
 import moduleStyles from '../styles';
 
-const SortAndPaging = ({ classes, selected, onSelect, onClear, onPageSelected, page, pageSize, countingState }) => (
+const SortAndPaging = ({ classes, sorts, selected, onSelect, onClear, onPageSelected, page, pageSize, result }) => (
   <div className={classes.line}>
     <div className={classes.content}>
       <Sort
+        sorts={sorts}
         onSelect={onSelect}
         onClear={onClear}
         selected={selected}
       />
-      <Paging
-        page={page}
-        pageSize={pageSize}
-        countingState={countingState}
-        classes={classes}
-        onSelect={onPageSelected}
-      />
+      {result && (
+        <Paging
+          result={result}
+          classes={classes}
+          onSelect={onPageSelected}
+        />
+      )}
     </div>
   </div>
   );
@@ -27,19 +28,21 @@ const SortAndPaging = ({ classes, selected, onSelect, onClear, onPageSelected, p
 SortAndPaging.propTypes = {
   classes: PropTypes.object.isRequired,
   selected: PropTypes.object,
-  countingState: PropTypes.object,
+  result: PropTypes.object,
   onSelect: PropTypes.func.isRequired,
   onPageSelected: PropTypes.func.isRequired,
   onClear: PropTypes.func.isRequired,
   page: PropTypes.number.isRequired,
   pageSize: PropTypes.number.isRequired,
+  sorts: PropTypes.object,
 };
 
 export default injectSheet({
   paging: {
     flex: 1,
     display: 'flex',
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
+    marginLeft: 24,
     alignItems: 'center',
     color: colors.colorSubTitle,
   },

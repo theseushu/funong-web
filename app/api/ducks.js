@@ -16,6 +16,8 @@ import * as shop from './shop';
 import * as comment from './comment';
 import * as searchDistinct from './searchDistrict/ducks';
 import * as order from './order';
+import * as inquiry from './inquiry';
+import * as bid from './bid';
 
 export default {
   [namespace]: combineReducers({
@@ -35,6 +37,8 @@ export default {
     ...comment.default,
     ...searchDistinct.default,
     ...order.default,
+    ...inquiry.default,
+    ...bid.default,
   }),
 };
 
@@ -55,4 +59,6 @@ export const sagas = [
   ...comment.sagas,
   ...searchDistinct.sagas,
   ...order.sagas,
+  ...inquiry.sagas,
+  ...bid.sagas,
 ];

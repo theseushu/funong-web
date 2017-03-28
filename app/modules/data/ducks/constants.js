@@ -19,3 +19,7 @@ export const SET_COMMENTS = 'data/set_comments';
 export const REMOVE_COMMENTS = 'data/remove_comments';
 export const SET_ORDERS = 'data/set_orders';
 export const REMOVE_ORDERS = 'data/remove_orders';
+export const SET_INQUIRIES = 'data/set_inquiries';
+export const REMOVE_INQUIRIES = 'data/remove_inquiries';
+export const SET_BIDS = 'data/set_bids';
+export const REMOVE_BIDS = 'data/remove_bids';

@@ -116,11 +116,11 @@ class SpecsDialog extends Component {
             </div>
             <div className={classes.priceLine}>
               <Textfield
-                label="价格" name="_price" floatingLabel type="number" required
+                label="价格" name="_price" floatingLabel type="number" required style={{ flex: 1 }}
                 onChange={this.onPriceChanged} value={price} error={price === '' ? null : error.price}
               />
               <Textfield
-                label="单位" name="_unit" floatingLabel required style={{ marginLeft: 8, width: 80 }}
+                label="单位" name="_unit" floatingLabel required style={{ marginLeft: 16, width: 80 }}
                 onChange={(e) => { e.preventDefault(); this.onUnitChanged(e.target.value); }}
                 onFocus={(e) => { e.preventDefault(); this.setState({ showUnits: true }); }}
                 onBlur={(e) => { e.preventDefault(); this.setState({ showUnits: false }); }}
@@ -150,7 +150,7 @@ class SpecsDialog extends Component {
 }
 
 const layout = {
-  maxWidth: 350,
+  maxWidth: '100%',
   rowGutter: 24,
 };
 export default injectSheet({

@@ -42,7 +42,7 @@ export default (FORM_NAME, actions, FormComponent) => {
                   title: '创建成功',
                   message: product.name,
                   onHideComplete: () => {
-                    dispatch(push('/me/products'));
+                    dispatch(push('/me/published'));
                   },
                 });
                 resolve();

@@ -4,11 +4,10 @@ import injectSheet from 'react-jss';
 import Layout from 'modules/common/layout';
 import { MainRight as ContentMainRight } from 'modules/common/layout/content';
 import { breakpoints } from 'modules/common/styles';
-import { catalogTypes } from 'appConstants/index';
 import createCriteria from './createCriteria';
 import createRecommends from './createRecommends';
 
-export default ({ type, ducks, Card, BriefCard, catalogGroups, horizontal }) => {
+export default ({ ducks, Card, BriefCard, catalogGroups, horizontal }) => {
   const { actions, selectors } = ducks;
   const Criteria = createCriteria(selectors, catalogGroups);
   const Recommends = createRecommends(actions, selectors, BriefCard);
@@ -18,10 +17,7 @@ export default ({ type, ducks, Card, BriefCard, catalogGroups, horizontal }) => 
     <Layout
       content={
         <div className={classes.page}>
-          <Criteria
-            location={location}
-            types={Object.values(catalogTypes[type]).map((t) => t.value)}
-          />
+          <Criteria location={location} />
           <ContentMainRight
             main={
               <div>

@@ -15,3 +15,4 @@ export LocationCard from './cards/location';
 export CapacityCountPriceCard from './cards/capacityCountPrice';
 export RangeNameCard from './cards/rangeName';
 export LocationNameCard from './cards/locationName';
+export RangePriceEndAtCard from './cards/rangePriceEndAt';

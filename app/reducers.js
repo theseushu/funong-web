@@ -12,6 +12,7 @@ import api from 'api/ducks';
 import data from 'modules/data/ducks';
 import fullScreenGallery from 'modules/fullScreenGallery/ducks';
 import mapDialog from 'modules/mapDialog/ducks';
+import productSelector from 'modules/productSelector/ducks';
 
 
 /*
@@ -55,6 +56,7 @@ export default function createReducer(asyncReducers) {
     ...data,
     ...fullScreenGallery,
     ...mapDialog,
+    ...productSelector,
     ...asyncReducers,
   });
 }

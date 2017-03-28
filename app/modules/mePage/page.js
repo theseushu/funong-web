@@ -23,7 +23,22 @@ const sideRoutes = () => [
     },
     ],
   },
-  { title: '我发布的', path: '/me/products' },
+  { title: '我发布的',
+    path: '/me/published/supply',
+    routes: [{
+      title: '供应',
+      path: '/me/published/supply',
+    }, {
+      title: '采购',
+      path: '/me/published/inquiry',
+    }, {
+      title: '物流',
+      path: '/me/published/logistics',
+    }, {
+      title: '乡村游',
+      path: '/me/published/trip',
+    }],
+  },
   { title: '我的微店',
     path: '/me/shop',
     routes: [{
@@ -41,11 +56,11 @@ const sideRoutes = () => [
 
 const MePage = ({ user: { avatar, type }, sheet: { classes }, children, smallContent = true }, { router }) => {
   const routes = sideRoutes(type).map((route) => {
-    if (route.path !== '/me/products') {
+    if (route.path !== '/me/published') {
       const active = router.isActive(route.path, true);
       return { ...route, active };
     }
-    const active = router.isActive('/me/products', true) || router.isActive('/me/products/supply', true) || router.isActive('/me/products/shop', true);
+    const active = router.isActive('/me/published', true) || router.isActive('/me/published/supply', true) || router.isActive('/me/published/shop', true);
     return { ...route, active };
   });
   return (

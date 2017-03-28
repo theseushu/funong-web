@@ -8,42 +8,6 @@ import FloatingSelector from './floatingSelector';
 import Label from './label';
 import Dialog from './dialog';
 
-// class SelectorButton extends Component {
-//   static propTypes = {
-//     selected: PropTypes.shape({
-//       name: PropTypes.string.isRequired,
-//       objectId: PropTypes.string.isRequired,
-//       catalog: PropTypes.string.isRequired,
-//     }),
-//     catalogGroups: PropTypes.array.isRequired,
-//     onSelect: PropTypes.func.isRequired,
-//     classes: PropTypes.object.isRequired,
-//   }
-//   state = { show: false }
-//   onSelect = (category) => {
-//     const { onSelect } = this.props;
-//     this.hide();
-//     onSelect(category);
-//   }
-//   hide = () => {
-//     this.setState({ show: false });
-//   }
-//   render() {
-//     const { classes, catalogGroups, selected } = this.props;
-//     const { show } = this.state;
-//     return (
-//      <div className={classes.wrapper}>
-//       <Button colored onClick={() => this.setState({ show: true })}>全部分类</Button>
-//       { selected && '>'}
-//       { selected && <span className={classes.label}><LabelWithBorder onClick={() => this.onSelect(null)}>不限</LabelWithBorder></span>}
-//      { selected && <span className={classes.label}><Label category={selected} /></span>}
-//      { show && (
-//        <Dialog selected={selected} catalogs={_flatten(catalogGroups)} onSelect={this.onSelect} onHide={this.hide} />
-//      )}
-//    </div>
-//     );
-//   }
-// }
 class SelectorButton extends Component {
   static propTypes = {
     selected: PropTypes.shape({

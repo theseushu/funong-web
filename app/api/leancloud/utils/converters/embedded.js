@@ -31,5 +31,15 @@ export const embeddedProductToJSON = (product) => {
     return undefined;
   }
   const { objectId } = product.toJSON();
+  const thumbnail = fileToJSON(product.get('thumbnail'));
+  return _omitBy({ objectId, thumbnail }, _isUndefined);
+};
+
+
+export const embeddedInquiryToJSON = (inquiry) => {
+  if (!inquiry) {
+    return undefined;
+  }
+  const { objectId } = inquiry.toJSON();
   return { objectId };
 };

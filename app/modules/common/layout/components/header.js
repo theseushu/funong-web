@@ -10,7 +10,7 @@ import background from './assets/header-bg.jpg';
 const routes = [
   { title: '首页', path: '/' },
   { title: '供应', path: '/supplies' },
-  { title: '采购', path: '/' },
+  { title: '采购', path: '/inquiries' },
   { title: '乡村游', path: '/trips' },
   { title: '我的富农', path: '/me' },
   { title: '物流', path: '/logisticsList' },

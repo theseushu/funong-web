@@ -43,9 +43,6 @@ export default (path, name, actions, componentAndDucks, isShop) => ({ store, inj
       proceed();
     },
     getComponent: async (nextState, cb) => {
-      // TODO fetch product
-      const { location: { query } } = nextState; // eslint-disable-line no-unused-vars
-
       const renderRoute = loadModule(cb);
       const [component, ducks] = await componentAndDucks;
       if (!this.injected) {

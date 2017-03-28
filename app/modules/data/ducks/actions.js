@@ -16,6 +16,10 @@ import {
   REMOVE_COMMENTS,
   SET_ORDERS,
   REMOVE_ORDERS,
+  SET_INQUIRIES,
+  REMOVE_INQUIRIES,
+  SET_BIDS,
+  REMOVE_BIDS,
 } from './constants';
 
 export const setCurrentUser = (user) => ({
@@ -91,3 +95,20 @@ export const removeOrders = (ids) => ({
   payload: { ids },
 });
 
+export const setInquiries = (inquiries) => ({
+  type: SET_INQUIRIES,
+  payload: { inquiries },
+});
+export const removeInquiries = (ids) => ({
+  type: REMOVE_INQUIRIES,
+  payload: { ids },
+});
+
+export const setBids = (bids) => ({
+  type: SET_BIDS,
+  payload: { bids },
+});
+export const removeBids = (ids) => ({
+  type: REMOVE_BIDS,
+  payload: { ids },
+});

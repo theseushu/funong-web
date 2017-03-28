@@ -46,7 +46,7 @@ export const criteriaToApiParams = ({ category, species, provinces, sort = {}, p
   const query = {
     category: category ? { objectId: category } : undefined,
     species: species ? species.map((s) => ({ objectId: s })) : undefined,
-    location: { address: { provinces } },
+    provinces: (provinces && provinces.length > 0) ? provinces : undefined,
     sort,
     page: page || undefined,
     pageSize: pageSize || undefined,

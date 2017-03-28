@@ -8,12 +8,14 @@ import { UPDATE_DATA, REMOVE_ENTITIES, SET_USERS, SET_CURRENT_USER,
   SET_LOGISTICS_PRODUCTS, SET_CERTS,
   SET_CART_ITEMS, REMOVE_CART_ITEMS, SET_SHOPS,
   SET_COMMENTS, REMOVE_COMMENTS,
-  SET_ORDERS, REMOVE_ORDERS } from './constants';
+  SET_ORDERS, REMOVE_ORDERS,
+  SET_INQUIRIES, REMOVE_INQUIRIES,
+  SET_BIDS, REMOVE_BIDS } from './constants';
 import { UserSchema, UsersSchema,
   CategoriesSchema, SpeciesArraySchema,
   ProductSchemas, ShopProductsSchema, LogisticsProductsSchema, TripProductsSchema,
   CertsSchema, CartItemsSchema, ShopsSchema,
-  CommentsSchema, OrdersSchema } from './schemas';
+  CommentsSchema, OrdersSchema, InquiriesSchema, BidsSchema } from './schemas';
 
 function* setUsersSaga(action) {
   const { users } = action.payload;
@@ -129,6 +131,30 @@ function* removeOrdersSaga(action) {
   yield put({ type: REMOVE_ENTITIES, payload: { entities: { [OrdersSchema.getItemSchema().getKey()]: { ...ids.map((id) => ({ [id]: null })) } } } });
 }
 
+function* setInquiriesSaga(action) {
+  const { inquiries } = action.payload;
+  const data = normalize(inquiries, InquiriesSchema);
+  const payload = Object.assign({}, data);
+  yield put({ type: UPDATE_DATA, payload });
+}
+
+function* removeInquriesSaga(action) {
+  const { ids } = action.payload;
+  yield put({ type: REMOVE_ENTITIES, payload: { entities: { [InquiriesSchema.getItemSchema().getKey()]: { ...ids.map((id) => ({ [id]: null })) } } } });
+}
+
+function* setBidsSaga(action) {
+  const { bids } = action.payload;
+  const data = normalize(bids, BidsSchema);
+  const payload = Object.assign({}, data);
+  yield put({ type: UPDATE_DATA, payload });
+}
+
+function* removeBidsSaga(action) {
+  const { ids } = action.payload;
+  yield put({ type: REMOVE_ENTITIES, payload: { entities: { [BidsSchema.getItemSchema().getKey()]: { ...ids.map((id) => ({ [id]: null })) } } } });
+}
+
 // watcher Saga:
 function* rootSaga(api) {
   yield takeEvery(SET_CURRENT_USER, function* saga(action) {
@@ -150,6 +176,10 @@ function* rootSaga(api) {
   yield takeEvery(REMOVE_COMMENTS, removeCommentsSaga);
   yield takeEvery(SET_ORDERS, setOrdersSaga);
   yield takeEvery(REMOVE_ORDERS, removeOrdersSaga);
+  yield takeEvery(SET_INQUIRIES, setInquiriesSaga);
+  yield takeEvery(REMOVE_INQUIRIES, removeInquriesSaga);
+  yield takeEvery(SET_BIDS, setBidsSaga);
+  yield takeEvery(REMOVE_BIDS, removeBidsSaga);
 }
 
 export default [rootSaga];

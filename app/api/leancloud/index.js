@@ -17,6 +17,8 @@ import createCartApi from './cart';
 import createShopApi from './shop';
 import createCommentApi from './comment';
 import createOrderApi from './order';
+import createInquiryApi from './inquiry';
+import createBidApi from './bid';
 
 const debug = require('debug')('app:api'); // eslint-disable-line no-unused-vars
 
@@ -58,5 +60,7 @@ export default () => {
     ...createShopApi({ AV, context }),
     ...createCommentApi({ AV, context }),
     ...createOrderApi({ AV, context }),
+    ...createInquiryApi({ AV, context }),
+    ...createBidApi({ AV, context }),
   };
 };

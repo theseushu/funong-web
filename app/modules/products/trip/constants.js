@@ -27,7 +27,7 @@ export const FORM_NAME = 'trip';
 
 export const EMPTY_PRODUCT = {
   name: '',
-  specs: [{ name: '默认', params: ['123 rfdqf'], minimum: 1, unit: '斤', price: 1 }],
+  specs: [],
   location: null,
   desc: '',
   images: [],

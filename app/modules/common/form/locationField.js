@@ -20,21 +20,22 @@ const generateThumbnailDiv = (lnglat, className, name) => {
   );
 };
 
-const Location = ({ input: { value, onChange }, meta: { error }, openDialog, name, sheet: { classes } }) => (
+const Location = ({ title, dialogTitle, input: { value, onChange }, meta: { error }, openDialog, name, sheet: { classes } }) => (
   <div className={styles.w100}>
     <div className={classes.title} style={{ color: error ? colors.colorError : undefined }}>
-        地址
-        <ButtonWithIcon
-          colored icon="edit_location"
-          onClick={(e) => {
-            e.preventDefault();
-            openDialog({
-              onSubmit: onChange,
-              detailsEditable: true,
-              location: value === '' ? null : value,
-            });
-          }}
-        >{value === '' ? '点此选择' : '点此修改'}</ButtonWithIcon>
+      {title || '地址'}
+      <ButtonWithIcon
+        colored icon="edit_location"
+        onClick={(e) => {
+          e.preventDefault();
+          openDialog({
+            title: dialogTitle,
+            onSubmit: onChange,
+            detailsEditable: true,
+            location: value === '' ? null : value,
+          });
+        }}
+      >{value === '' ? '点此选择' : '点此修改'}</ButtonWithIcon>
     </div>
     {
         value.lnglat && generateThumbnailDiv(value.lnglat, classes.thumbnail, name)
@@ -46,6 +47,8 @@ const Location = ({ input: { value, onChange }, meta: { error }, openDialog, nam
   );
 
 Location.propTypes = {
+  title: PropTypes.string,
+  dialogTitle: PropTypes.string,
   input: PropTypes.object.isRequired,
   meta: PropTypes.object,
   openDialog: PropTypes.func.isRequired,

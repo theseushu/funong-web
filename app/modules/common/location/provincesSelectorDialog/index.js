@@ -11,11 +11,15 @@ class ProvincesSelectorDialog extends Component {
     show: PropTypes.bool.isRequired,
     onSubmit: PropTypes.func.isRequired,
     provinces: PropTypes.array.isRequired,
+    title: PropTypes.string,
   };
   constructor(props) {
     super(props);
     const { provinces } = props;
     this.state = { provinces: [...provinces] };
+  }
+  all = () => {
+    this.setState({ provinces: [] });
   }
   select = (province) => {
     this.setState({ provinces: [...this.state.provinces, province] });
@@ -27,18 +31,25 @@ class ProvincesSelectorDialog extends Component {
     this.props.onSubmit(this.state.provinces);
   }
   render() {
-    const { close, show } = this.props;
+    const { title, close, show } = this.props;
     const { provinces } = this.state;
     return (
       <Dialog
         show={show}
         onHide={close}
         onCancel={close}
-        title={'选择服务区域'}
+        title={title || '选择服务区域'}
         scrollableContent={
           <div>
+            <Button
+              colored={provinces.length === 0}
+              onClick={(e) => {
+                e.preventDefault();
+                this.all();
+              }}
+            >全国</Button>
             {allProvinces.map((p, i) => {
-              const selected = !!_find(provinces, (province) => province.value === p.value);
+              const selected = !!_find(provinces, (province) => province === p.value);
               return (
                 <Button
                   key={i}
@@ -46,9 +57,9 @@ class ProvincesSelectorDialog extends Component {
                   onClick={(e) => {
                     e.preventDefault();
                     if (selected) {
-                      this.deselect(p);
+                      this.deselect(p.value);
                     } else {
-                      this.select(p);
+                      this.select(p.value);
                     }
                   }}
                 >{p.title}</Button>
@@ -58,7 +69,6 @@ class ProvincesSelectorDialog extends Component {
         }
         submit={{
           onSubmit: (e) => { e.preventDefault(); this.submit(); },
-          disabled: provinces.length === 0,
         }}
       />
     );

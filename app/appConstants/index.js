@@ -35,20 +35,8 @@ export const certTypes = {
   expert: { value: 'expert', title: '专家认证' },
 };
 
-export const catalogTypes = {
-  supply: {
-    farm: { title: '农产品', value: '农产品' },
-  },
-  shop: {
-    shop: { title: '商品分类', value: '商品分类' },
-    farm: { title: '农产品', value: '农产品' },
-  },
-  logistics: {},
-  trip: {},
-};
-
 export const units = [
-  '斤', '两', '公斤', '克', '袋', '盒', '箱', '包', '只', '条', '台',
+  '斤', '两', '公斤', '克', '袋', '盒', '箱', '包', '只', '条', '台', '本', '张',
 ];
 export const productLabels = {
   available: { title: '上架', key: 'available', value: 'available' },

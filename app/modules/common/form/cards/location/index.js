@@ -5,13 +5,13 @@ import moduleStyles from '../../moduleStyles';
 import LocationField from '../../locationField';
 
 
-const LocationCard = ({ title, classes }) => (
+const LocationCard = ({ locationTitle, locationDialogTitle, title, classes }) => (
   <Card shadow={1} className={classes.card}>
     <CardTitle>
       { title || '发货地址' }
     </CardTitle>
     <CardText>
-      <LocationField />
+      <LocationField title={locationTitle} dialogTitle={locationDialogTitle} />
     </CardText>
   </Card>
 );
@@ -19,6 +19,8 @@ const LocationCard = ({ title, classes }) => (
 LocationCard.propTypes = {
   title: PropTypes.string,
   classes: PropTypes.object.isRequired,
+  locationTitle: PropTypes.string,
+  locationDialogTitle: PropTypes.string,
 };
 
 export default injectSheet(moduleStyles)(LocationCard);

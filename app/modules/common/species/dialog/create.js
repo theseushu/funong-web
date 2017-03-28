@@ -6,6 +6,7 @@ import injectSheet from 'react-jss';
 import Textfield from 'react-mdl/lib/Textfield';
 import ApiButtonWithIcon from 'modules/common/buttons/ApiButtonWithIcon';
 import { selectors, actions } from 'api/species';
+import styles from 'modules/common/styles';
 
 const createSpeciesAction = actions.create;
 const createSpeciesSelector = selectors.create;
@@ -32,8 +33,8 @@ class CreateSpecies extends Component {
     }
     return (
       <div>
-        <div>没有您想要的？创建一个新的吧</div>
-        <div className={classes.wrapper}>
+        <div className={styles.mt24}>没有您想要的？创建一个新的吧</div>
+        <div className={classes.input}>
           <Textfield
             label={'新品种名称'}
             floatingLabel
@@ -67,7 +68,7 @@ class CreateSpecies extends Component {
 }
 
 export default injectSheet({
-  wrapper: {
+  input: {
     display: 'flex',
     alignItems: 'center',
     '& > .mdl-textfield': {

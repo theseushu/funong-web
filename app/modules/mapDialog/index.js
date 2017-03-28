@@ -14,6 +14,7 @@ class mapDialog extends Component {
   static propTypes = {
     open: PropTypes.bool.isRequired,
     detailsEditable: PropTypes.bool.isRequired,
+    title: PropTypes.string,
     closeDialog: PropTypes.func.isRequired,
     postAddress: PropTypes.bool.isRequired,
     location: PropTypes.shape({
@@ -88,17 +89,17 @@ class mapDialog extends Component {
     this.props.closeDialog();
   }
   render() {
-    const { open, onSubmit, detailsEditable, postAddress } = this.props;
+    const { title, open, onSubmit, detailsEditable, postAddress } = this.props;
     const { location } = this.state;
     return (
       <SimpleDialog
         show={open}
         close={this.closeDialog}
         onCancel={this.closeDialog}
-        title="选择发货地点"
+        title={title || '选择发货地点'}
         content={
           <div>
-            <div id="_amap_container" style={{ width: '100%', height: 200, marginBottom: 16 }}></div>
+            <div id="_amap_container" style={{ width: '100%', height: '60vw', maxHeight: 500, minHeight: 200, marginBottom: 16 }}></div>
             { !postAddress && <Location detailsEditable={detailsEditable} location={location} onChange={this.onLocationChange} />}
             { postAddress && <PostAddress location={location} onChange={this.onLocationChange} />}
           </div>

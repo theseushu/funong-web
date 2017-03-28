@@ -74,3 +74,8 @@ $svg-tick-mask-iamge: 'data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmN
 .ReactModal__Overlay.ReactModal__Overlay--after-open {
   z-index: 100002 !important;
 }
+
+a {
+  color: $text-color-primary;
+  text-decoration: none;
+}

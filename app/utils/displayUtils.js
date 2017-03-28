@@ -3,9 +3,13 @@ import _reduce from 'lodash/reduce';
 import _find from 'lodash/find';
 import _union from 'lodash/union';
 import _endsWith from 'lodash/endsWith';
-import { statusValues, districtLevels, badges } from 'appConstants';
+import moment from 'moment';
+import { statusValues, districtLevels, badges, provinces as allProvinces } from 'appConstants';
 import styles from 'modules/common/styles';
 import { ImageBadge } from 'modules/common/badge';
+
+export const formatProvinces = (provinces) =>
+  (provinces && provinces.length > 0) ? provinces.map((province) => _find(allProvinces, (p) => p.value === province).title).join(' ') : '全国';
 
 export const formatAddress = ({ country = '', province = '', city = '', district = '' }) =>
   `${country === '中国' ? '' : country}${province}${city}${district}`;
@@ -117,6 +121,11 @@ export const humanizeTime = (time) => {
     return '今年';
   }
   return `${years}年前`;
+};
+
+export const formatTime = (time) => {
+  const m = moment(time);
+  return m.format('YYYY-MM-DD');
 };
 
 // 计算距离，参数分别为第一点的纬度，经度；第二点的纬度，经度
