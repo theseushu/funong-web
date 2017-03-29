@@ -1,7 +1,7 @@
 import { setProducts } from 'modules/data/ducks/actions';
 import { currentUserSelector, createUserProductsSelector } from 'modules/data/ducks/selectors';
 
-const type = 'supply'
+const type = 'supply';
 
 export const path = type;
 export const name = 'me_supplies_page';
@@ -12,7 +12,7 @@ export const setData = (products) => setProducts(type, products);
 export const selector = (state) => {
   const user = currentUserSelector(state);
   return { products: createUserProductsSelector(type, user.objectId)(state) };
-}
+};
 
 export const editPath = type;
 

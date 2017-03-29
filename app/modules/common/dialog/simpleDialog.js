@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import injectSheet from 'react-jss';
 import Modal from 'react-modal';
 import Button from 'react-mdl/lib/Button';
-import { colors, breakpoints } from '../styles';
+import { colors } from '../styles';
 
 const SimpleDialog = ({ title, content, className, classes, show = true, onHide, onCancel, submit }) => (
   <Modal

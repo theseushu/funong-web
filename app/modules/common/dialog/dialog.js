@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import injectSheet from 'react-jss';
 import SimpleDialog from './simpleDialog';
 
-const DialogComponent = ({ title, fixedContent, scrollableContent, classes, show = true, onHide, onCancel, submit, fixedHeight = true }) => (
+const DialogComponent = ({ title, fixedContent, scrollableContent, classes, show = true, onHide, onCancel, submit }) => (
   <SimpleDialog
     show={show}
     onHide={onHide}
@@ -36,7 +36,6 @@ DialogComponent.propTypes = {
   onHide: PropTypes.func,
   onCancel: PropTypes.func,
   show: PropTypes.bool,
-  fixedHeight: PropTypes.bool,
   submit: PropTypes.shape({
     onSubmit: PropTypes.func,
     disabled: PropTypes.bool,

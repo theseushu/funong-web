@@ -3,33 +3,40 @@ import injectSheet from 'react-jss';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Page } from 'modules/common/bid';
-import BlockLoading from 'modules/common/glossary/blockLoading';
+import { currentUserSelector } from 'modules/data/ducks/selectors';
+import styles from 'modules/common/styles';
+import LoadingDiv from 'modules/common/glossary/loadingDiv';
 import { actions, selectors } from '../ducks';
 
+const pageSize = 10;
 class Bids extends Component {
   static propTypes = {
     search: PropTypes.func.isRequired,
     inquiry: PropTypes.object.isRequired,
+    user: PropTypes.object,
     pending: PropTypes.bool,
     result: PropTypes.object,
   }
   componentDidMount() {
+    this.search(1);
+  }
+  search(page) {
     const { inquiry, search } = this.props;
-    search({ inquiry });
+    search({ inquiry, page, pageSize });
   }
   render() {
-    const { pending, result } = this.props;
-    if (pending) {
-      return <BlockLoading />;
-    }
-    if (!result) {
-      return null;
-    }
+    const { user, inquiry, pending, result } = this.props;
     return (
-      <div>
-        <h6>已有{result.total}个报价</h6>
-        <Page page={result} hideContent />
-      </div>
+      <LoadingDiv pending={pending} className={styles.mt24}>
+        {
+          result && (
+            <div>
+              <h6>已有{result.total}个报价</h6>
+              <Page page={result} hideContent={!user || user.objectId !== inquiry.owner.objectId} onPageChange={(page) => this.search(page)} />
+            </div>
+          )
+        }
+      </LoadingDiv>
     );
   }
 }
@@ -39,6 +46,6 @@ const pageBidsSelector = selectors.pageBids;
 
 export default injectSheet({
 })(connect(
-  (state) => ({ ...pageBidsSelector(state) }),
+  (state) => ({ ...pageBidsSelector(state), user: currentUserSelector(state) }),
   (dispatch) => bindActionCreators({ search: pageBids }, dispatch),
 )(Bids));

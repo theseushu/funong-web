@@ -51,9 +51,14 @@ const BidList = ({ hideContent, hideUser, classes, bids, actions }) => {
               ) : (
                 <div className={classes.subTitle}>
                   <small>{bid.owner.name}</small>
+                  {bid.product && (
+                    <small> 推荐产品：
+                      <Link className={styles.colorAccent} to={`/supply/${bid.product.objectId}`}>{bid.product.name}</Link>
+                    </small>
+                  )}
                   <span style={{ float: 'right' }}> {humanizeTime(bid.updatedAt)}</span>
                   <br />
-                  <small>{bid.message}</small>
+                  <small title={bid.message}>{bid.message}</small>
                 </div>
               )
             }

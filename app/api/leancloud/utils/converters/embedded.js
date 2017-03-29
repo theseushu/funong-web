@@ -30,9 +30,9 @@ export const embeddedProductToJSON = (product) => {
   if (!product) {
     return undefined;
   }
-  const { objectId } = product.toJSON();
+  const { objectId, name } = product.toJSON();
   const thumbnail = fileToJSON(product.get('thumbnail'));
-  return _omitBy({ objectId, thumbnail }, _isUndefined);
+  return _omitBy({ objectId, name, thumbnail }, _isUndefined);
 };
 
 

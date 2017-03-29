@@ -45,7 +45,8 @@ export const createActionCreators = ({ actionConstant, action }) => ({
 export const restCallStateReducerCreator = (ACTION_TYPE) => (state = {}, action) => {
   if (action.type === ACTION_TYPE) {
     const { meta: { storeKey }, payload } = action;
-    return { ...state, [storeKey]: payload };
+    const current = state[storeKey] || {};
+    return { ...state, [storeKey]: { ...current, ...payload } };
   }
   return state;
 };
@@ -70,22 +71,22 @@ export const createSaga = ({ apiName, actionConstant, stateActionConstant }, bef
     if (!storeKey) {
       throw new Error('You must include storeKey in action.meta.');
     }
-    yield put({ type: stateActionConstant, payload: { pending: true }, meta: { storeKey } });
+    yield put({ type: stateActionConstant, payload: { pending: true, fulfilled: false, rejected: false, error: null }, meta: { storeKey } });
     try {
       // if you need to do other stuff rather than simply call the api, use apiSaga
       // a sample usage would be cache result in api state after 1st call, use the cached results later
       const result = apiSaga ? yield* apiSaga(api, payload) : yield call(_get(api, (apiName)), payload);
       if (beforeFulfilledSaga) {
         const beforeResult = yield* beforeFulfilledSaga(result, { payload, meta: { resolve, reject } });
-        yield put({ type: stateActionConstant, payload: { fulfilled: true, ...beforeResult }, meta: { storeKey } });
+        yield put({ type: stateActionConstant, payload: { pending: false, fulfilled: true, error: null, rejected: false, ...beforeResult }, meta: { storeKey } });
       } else {
-        yield put({ type: stateActionConstant, payload: { fulfilled: true }, meta: { storeKey } });
+        yield put({ type: stateActionConstant, payload: { pending: false, fulfilled: true, error: null, rejected: false }, meta: { storeKey } });
       }
       if (typeof resolve === 'function') {
         resolve(result);
       }
     } catch (error) {
-      yield put({ type: stateActionConstant, payload: { rejected: true, error }, meta: { storeKey } });
+      yield put({ type: stateActionConstant, payload: { pending: false, fulfilled: false, rejected: true, error }, meta: { storeKey } });
       if (typeof reject === 'function') {
         reject(error);
       }

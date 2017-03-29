@@ -1,7 +1,6 @@
 import React, { PropTypes } from 'react';
 import IconButton from 'react-mdl/lib/IconButton';
 import styles from 'modules/common/styles';
-import iconButtonLoading from 'assets/iconButtonLoading.gif';
 
 const Paging = ({ result: { page, totalPages, first, last }, onSelect, classes }) => {
   if (totalPages === 0) {

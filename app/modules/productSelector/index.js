@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import injectSheet from 'react-jss';
-import BlockLoading from 'modules/common/glossary/blockLoading';
+import BlockLoading from 'modules/common/glossary/loading';
 import NoResult from 'modules/common/glossary/noResult';
 import * as ProductLists from 'modules/common/product/lists';
 import { actions, selectors } from './ducks';

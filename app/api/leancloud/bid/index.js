@@ -22,9 +22,9 @@ export default ({ AV, context }) => {
 //     }
 //   };
 //
-  const pageBids = async ({ inquiry, owner, page, pageSize }) => {
+  const pageBids = async ({ inquiry, mine, page, pageSize }) => {
     const { token: { sessionToken } } = context;
-    const result = await AV.Cloud.rpc('pageBids', { inquiry, owner, page, pageSize }, { sessionToken });
+    const result = await AV.Cloud.rpc('pageBids', { inquiry, mine, page, pageSize }, { sessionToken });
     return {
       ...result,
       results: result.results.map(bidToJSON),

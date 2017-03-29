@@ -23,7 +23,7 @@ export const createActionCreators = ({ actionConstant, action }) => ({
 
 // reducer
 // a simple default one. it just replace states with action.payload
-export const restCallStateReducerCreator = (ACTION_TYPE) => (state = {}, action) => (action.type === ACTION_TYPE ? action.payload : state);
+export const restCallStateReducerCreator = (ACTION_TYPE) => (state = {}, action) => (action.type === ACTION_TYPE ? { ...state, ...action.payload } : state);
 
 export const createReducer = ({ slice, stateActionConstant }, reducerCreator) => {
   if (typeof reducerCreator === 'function') {
@@ -42,16 +42,16 @@ export const createStateSelector = (rootSelector, { slice }) => createSelector(r
 // sagas
 export const createSaga = ({ apiName, actionConstant, stateActionConstant }, beforeFulfilledSaga, apiSaga) => {
   const actionSaga = function* ({ payload, meta: { resolve, reject } }, api) {
-    yield put({ type: stateActionConstant, payload: { pending: true } });
+    yield put({ type: stateActionConstant, payload: { pending: true, fulfilled: false, rejected: false, error: null } });
     try {
       // if you need to do other stuff rather than simply call the api, use apiSaga
       // a sample usage would be cache result in api state after 1st call, use the cached results later
       const result = apiSaga ? yield* apiSaga(api, payload) : yield call(_get(api, (apiName)), payload);
       if (beforeFulfilledSaga) {
         const beforeResult = yield* beforeFulfilledSaga(result, { payload, meta: { resolve, reject } });
-        yield put({ type: stateActionConstant, payload: { fulfilled: true, ...beforeResult } });
+        yield put({ type: stateActionConstant, payload: { pending: false, fulfilled: true, error: null, rejected: false, ...beforeResult } });
       } else {
-        yield put({ type: stateActionConstant, payload: { fulfilled: true } });
+        yield put({ type: stateActionConstant, payload: { pending: false, fulfilled: true, error: null, rejected: false } });
       }
       if (typeof resolve === 'function') {
         resolve(result);
@@ -60,7 +60,7 @@ export const createSaga = ({ apiName, actionConstant, stateActionConstant }, bef
       if (process.env.NODE_ENV !== 'production') {
         console.log(error);
       }
-      yield put({ type: stateActionConstant, payload: { rejected: true, error } });
+      yield put({ type: stateActionConstant, payload: { pending: false, fulfilled: false, rejected: true, error } });
       if (typeof reject === 'function') {
         reject(error);
       }

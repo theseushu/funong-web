@@ -5,7 +5,7 @@ import Layout from 'modules/common/layout';
 import { MainRight as ContentMainRight } from 'modules/common/layout/content';
 import { breakpoints } from 'modules/common/styles';
 import { List } from 'modules/common/inquiry';
-import BlockLoading from 'modules/common/glossary/blockLoading';
+import BlockLoading from 'modules/common/glossary/loading';
 import NoResult from 'modules/common/glossary/noResult';
 import Criteria from './criteria';
 import { selectors } from './ducks';
@@ -15,7 +15,7 @@ const Page = ({ location, pending, result, sheet: { classes } }) => (
   <Layout
     content={
       <div className={classes.page}>
-        <Criteria location={location} result={pending ? null : result} sorts={null}/>
+        <Criteria location={location} result={pending ? null : result} sorts={null} />
         <ContentMainRight
           main={
               pending ? (<BlockLoading />) : (

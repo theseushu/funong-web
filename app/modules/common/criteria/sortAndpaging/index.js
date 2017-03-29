@@ -5,7 +5,7 @@ import Sort from './sort';
 import Paging from './paging';
 import moduleStyles from '../styles';
 
-const SortAndPaging = ({ classes, sorts, selected, onSelect, onClear, onPageSelected, page, pageSize, result }) => (
+const SortAndPaging = ({ classes, sorts, selected, onSelect, onClear, onPageSelected, result }) => (
   <div className={classes.line}>
     <div className={classes.content}>
       <Sort
@@ -32,8 +32,6 @@ SortAndPaging.propTypes = {
   onSelect: PropTypes.func.isRequired,
   onPageSelected: PropTypes.func.isRequired,
   onClear: PropTypes.func.isRequired,
-  page: PropTypes.number.isRequired,
-  pageSize: PropTypes.number.isRequired,
   sorts: PropTypes.object,
 };
 
