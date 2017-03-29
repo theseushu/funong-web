@@ -45,7 +45,7 @@ class Name extends Component {
                 autoFocus
                 name="_user_name"
                 label="名称"
-                maxLength={20}
+                maxLength={10}
                 onChange={(e) => this.setState({ name: e.target.value })}
                 value={name}
                 className={classes.input}

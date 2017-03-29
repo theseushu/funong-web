@@ -98,7 +98,6 @@ const styles = {
   textNowrap: {
     'white-space': 'nowrap',
     overflow: 'hidden',
-    'text-overflow': 'ellipsis',
   },
   w100: {
     width: '100%',
@@ -114,6 +113,12 @@ const styles = {
   },
   mt0: {
     'margin-top': '0px',
+  },
+  mr16: {
+    'margin-right': '16px',
+  },
+  ml16: {
+    'margin-left': '16px',
   },
 };
 
