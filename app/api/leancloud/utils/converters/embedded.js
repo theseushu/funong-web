@@ -1,6 +1,5 @@
 import _isUndefined from 'lodash/isUndefined';
 import _omitBy from 'lodash/omitBy';
-import speciesToJSON from './species';
 import fileToJSON from './file';
 import lnglatToJSON from './lnglat';
 

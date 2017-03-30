@@ -13,13 +13,14 @@ class Bid extends Component {
     location: PropTypes.object.isRequired,
     pending: PropTypes.bool,
     create: PropTypes.func.isRequired,
+    onCreated: PropTypes.func,
   }
   static contextTypes = {
     router: PropTypes.object.isRequired,
   }
   state = { bidding: false }
   render() {
-    const { inquiry, user, location, create, pending } = this.props;
+    const { inquiry, user, location, create, onCreated, pending } = this.props;
     const { router } = this.context;
     if (user && inquiry.owner.objectId === user.objectId) {
       return null;
@@ -47,7 +48,17 @@ class Bid extends Component {
             user={user}
             onSubmit={(bid) => {
               this.setState({ bidding: false });
-              create({ ...bid, inquiry });
+              create({
+                ...bid,
+                inquiry,
+                meta: {
+                  resolve: () => {
+                    if (onCreated) {
+                      onCreated();
+                    }
+                  },
+                },
+              });
             }}
           />
         )}

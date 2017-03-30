@@ -25,8 +25,8 @@ const BidItem = ({ classes, bid }) => (
       </Cell>
       <Cell col={7} tablet={8} phone={4}>
         <div className={classes.product}>
-          {bid.product && <Link className={styles.colorAccent} to={`/supply/${bid.product.objectId}`}><Text title={false}>{bid.product.name}</Text></Link>}
-          {!bid.product && '无'}
+          {bid.product && <Link className={`${styles.colorAccent} ${classes.productName}`} to={`/supply/${bid.product.objectId}`}><Text title={false}>{bid.product.name}</Text></Link>}
+          {!bid.product && <span className={classes.productName}>无</span>}
           <small>{humanizeTime(bid.updatedAt)}</small>
         </div>
       </Cell>
@@ -77,9 +77,8 @@ export default injectSheet({
   product: {
     display: 'flex',
     width: '100%',
-    '& > a': {
-      flex: 1,
-      overflow: 'hidden',
-    },
+  },
+  productName: {
+    flex: 1,
   },
 })(BidItem);

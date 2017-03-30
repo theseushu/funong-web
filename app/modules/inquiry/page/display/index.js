@@ -1,4 +1,6 @@
 import React, { PropTypes } from 'react';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 import injectSheet from 'react-jss';
 import { Card, CardTitle, CardText, CardActions } from 'react-mdl/lib/Card';
 import styles, { breakpoints } from 'modules/common/styles';
@@ -6,12 +8,13 @@ import { MainRight } from 'modules/common/layout/content';
 import UserCard from 'modules/common/user/card';
 import MediaLeftUserCard from 'modules/common/user/mediaLeftCard';
 import DescCard from 'modules/common/desc/card';
+import { actions } from '../ducks';
 import Info from './info';
 import BidButton from './bidButton';
 import MyBids from './myBids';
 import Bids from './bids';
 
-const Display = ({ inquiry, location, classes }) => (
+const Display = ({ inquiry, location, refresh, classes }) => (
   <MainRight
     main={
       <div>
@@ -24,12 +27,12 @@ const Display = ({ inquiry, location, classes }) => (
               </CardText>
               <CardActions>
                 <div className={classes.actions}>
-                  <BidButton inquiry={inquiry} location={location} />
+                  <BidButton inquiry={inquiry} location={location} onCreated={refresh} />
                 </div>
               </CardActions>
             </Card>
             <MediaLeftUserCard className={`${styles.mt24} ${classes.mobileUser}`} user={inquiry.owner} />
-            <MyBids inquiry={inquiry} />
+            <MyBids inquiry={inquiry} onWithdrawn={refresh} />
             <Bids inquiry={inquiry} />
             <DescCard desc={inquiry.desc} />
           </div>
@@ -45,7 +48,11 @@ Display.propTypes = {
   inquiry: PropTypes.object.isRequired,
   classes: PropTypes.object.isRequired,
   location: PropTypes.object.isRequired,
+  refresh: PropTypes.func.isRequired,
 };
+
+const pageBids = actions.pageBids;
+const pageMyBids = actions.pageMyBids;
 
 export default injectSheet({
   header: {
@@ -67,4 +74,15 @@ export default injectSheet({
   bid: {
     width: 100,
   },
-})(Display);
+})(connect(
+  null,
+  (dispatch, { inquiry }) => {
+    const bindActions = bindActionCreators({ pageBids, pageMyBids }, dispatch);
+    return {
+      refresh: () => {
+        bindActions.pageBids({ inquiry, page: 1, pageSize: 10 });
+        bindActions.pageMyBids({ inquiry, mine: true, page: 1, pageSize: 10 });
+      },
+    };
+  },
+)(Display));

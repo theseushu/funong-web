@@ -7,13 +7,14 @@ import MyInquiryItem from './myInquiryItem';
 import InquiryItem from './inquiryItem';
 import MyItem from './myItem';
 
-const BidList = ({ mine, hideContent, hideUser, classes, bids }) => {
+const BidList = ({ mine, hideContent, hideUser, classes, bids, onWithdrawn }) => {
+  const filteredBids = bids.filter((bid) => !!bid);
   if (hideContent) {
     return (
       <div>
         <Title />
         <List className={classes.list}>
-          {bids.map((bid, i) => (
+          {filteredBids.map((bid, i) => (
             <Item key={i} bid={bid} />
           ))}
         </List>
@@ -23,8 +24,8 @@ const BidList = ({ mine, hideContent, hideUser, classes, bids }) => {
     return (
       <div>
         <List className={classes.list}>
-          {bids.map((bid, i) => (
-            <MyInquiryItem key={i} bid={bid} />
+          {filteredBids.map((bid, i) => (
+            <MyInquiryItem key={i} bid={bid} onWithdrawn={onWithdrawn} />
           ))}
         </List>
       </div>
@@ -33,8 +34,8 @@ const BidList = ({ mine, hideContent, hideUser, classes, bids }) => {
     return (
       <div>
         <List className={classes.list}>
-          {bids.map((bid, i) => (
-            <MyItem key={i} bid={bid} />
+          {filteredBids.map((bid, i) => (
+            <MyItem key={i} bid={bid} onWithdrawn={onWithdrawn} />
           ))}
         </List>
       </div>
@@ -43,7 +44,7 @@ const BidList = ({ mine, hideContent, hideUser, classes, bids }) => {
   return (
     <div>
       <List className={classes.list}>
-        {bids.map((bid, i) => (
+        {filteredBids.map((bid, i) => (
           <InquiryItem key={i} bid={bid} />
         ))}
       </List>
@@ -57,6 +58,7 @@ BidList.propTypes = {
   hideUser: PropTypes.bool,
   classes: PropTypes.object.isRequired,
   bids: PropTypes.array.isRequired,
+  onWithdrawn: PropTypes.func,
 };
 
 export default injectSheet({

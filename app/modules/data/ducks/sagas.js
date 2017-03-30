@@ -1,3 +1,4 @@
+import _zipObject from 'lodash/zipObject';
 import { normalize } from 'normalizr';
 import { takeEvery } from 'redux-saga';
 import { put } from 'redux-saga/effects';
@@ -97,7 +98,7 @@ function* setCartItemsSaga(action) {
 
 function* removeCartItemsSaga(action) {
   const { ids } = action.payload;
-  yield put({ type: REMOVE_ENTITIES, payload: { entities: { [CartItemsSchema.getItemSchema().getKey()]: { ...ids.map((id) => ({ [id]: null })) } } } });
+  yield put({ type: REMOVE_ENTITIES, payload: { entities: { [CartItemsSchema.getItemSchema().getKey()]: _zipObject(ids, ids.map(() => null)) } } });
 }
 
 function* setShopsSaga(action) {
@@ -116,7 +117,7 @@ function* setCommentsSaga(action) {
 
 function* removeCommentsSaga(action) {
   const { ids } = action.payload;
-  yield put({ type: REMOVE_ENTITIES, payload: { entities: { [CommentsSchema.getItemSchema().getKey()]: { ...ids.map((id) => ({ [id]: null })) } } } });
+  yield put({ type: REMOVE_ENTITIES, payload: { entities: { [CommentsSchema.getItemSchema().getKey()]: _zipObject(ids, ids.map(() => null)) } } });
 }
 
 function* setOrdersSaga(action) {
@@ -128,7 +129,7 @@ function* setOrdersSaga(action) {
 
 function* removeOrdersSaga(action) {
   const { ids } = action.payload;
-  yield put({ type: REMOVE_ENTITIES, payload: { entities: { [OrdersSchema.getItemSchema().getKey()]: { ...ids.map((id) => ({ [id]: null })) } } } });
+  yield put({ type: REMOVE_ENTITIES, payload: { entities: { [OrdersSchema.getItemSchema().getKey()]: _zipObject(ids, ids.map(() => null)) } } });
 }
 
 function* setInquiriesSaga(action) {
@@ -140,7 +141,7 @@ function* setInquiriesSaga(action) {
 
 function* removeInquriesSaga(action) {
   const { ids } = action.payload;
-  yield put({ type: REMOVE_ENTITIES, payload: { entities: { [InquiriesSchema.getItemSchema().getKey()]: { ...ids.map((id) => ({ [id]: null })) } } } });
+  yield put({ type: REMOVE_ENTITIES, payload: { entities: { [InquiriesSchema.getItemSchema().getKey()]: _zipObject(ids, ids.map(() => null)) } } });
 }
 
 function* setBidsSaga(action) {
@@ -152,7 +153,7 @@ function* setBidsSaga(action) {
 
 function* removeBidsSaga(action) {
   const { ids } = action.payload;
-  yield put({ type: REMOVE_ENTITIES, payload: { entities: { [BidsSchema.getItemSchema().getKey()]: { ...ids.map((id) => ({ [id]: null })) } } } });
+  yield put({ type: REMOVE_ENTITIES, payload: { entities: { [BidsSchema.getItemSchema().getKey()]: _zipObject(ids, ids.map(() => null)) } } });
 }
 
 // watcher Saga:

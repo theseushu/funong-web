@@ -8,7 +8,7 @@ import styles from 'modules/common/styles';
 import LoadingDiv from 'modules/common/glossary/loadingDiv';
 import { actions, selectors } from '../ducks';
 
-const pageSize = 1;
+const pageSize = 10;
 class Bids extends Component {
   static propTypes = {
     search: PropTypes.func.isRequired,
@@ -16,6 +16,7 @@ class Bids extends Component {
     user: PropTypes.object,
     pending: PropTypes.bool,
     result: PropTypes.object,
+    onWithdrawn: PropTypes.func,
   }
   componentDidMount() {
     this.search(1);
@@ -27,7 +28,7 @@ class Bids extends Component {
     }
   }
   render() {
-    const { user, inquiry, pending, result } = this.props;
+    const { user, inquiry, pending, result, onWithdrawn } = this.props;
     if (!user || user.objectId === inquiry.owner.objectId) {
       return null;
     }
@@ -37,7 +38,7 @@ class Bids extends Component {
           result && (
             <div>
               <h6>我的报价</h6>
-              <Page page={result} hideUser actions={['edit', 'withdraw']} onPageChange={(page) => this.search(page)} />
+              <Page page={result} hideUser actions={['edit', 'withdraw']} onPageChange={(page) => this.search(page)} onWithdrawn={onWithdrawn} />
             </div>
           )
         }

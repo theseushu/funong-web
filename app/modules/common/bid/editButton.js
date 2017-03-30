@@ -37,7 +37,13 @@ class Bid extends Component {
             user={user}
             onSubmit={(b) => {
               this.setState({ bidding: false });
-              update({ bid, ...b });
+              update({
+                bid,
+                ...b,
+                meta: {
+                  storeKey: bid.objectId,
+                },
+              });
             }}
           />
         )}
@@ -50,6 +56,6 @@ const update = actions.update;
 const updateSelector = selectors.update;
 
 export default connect(
-  (state) => ({ user: currentUserSelector(state), ...updateSelector(state) }),
+  (state, { bid }) => ({ user: currentUserSelector(state), ...updateSelector(state)[bid.objectId] }),
   (dispatch) => bindActionCreators({ update }, dispatch),
 )(Bid);

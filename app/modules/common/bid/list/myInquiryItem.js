@@ -1,7 +1,6 @@
 import React, { PropTypes } from 'react';
 import injectSheet from 'react-jss';
 import { ListItem, ListItemContent, ListItemAction } from 'react-mdl/lib/List';
-import Button from 'react-mdl/lib/Button';
 import IconButton from 'react-mdl/lib/IconButton';
 import Menu from 'react-mdl/lib/Menu';
 import { Grid, Cell } from 'react-mdl/lib/Grid';
@@ -11,8 +10,9 @@ import { Thumbnail } from 'modules/common/product';
 import Text from 'modules/common/text';
 import { humanizeTime } from 'utils/displayUtils';
 import EditButton from '../editButton';
+import WithdrawButton from '../withdrawButton';
 
-const BidItem = ({ classes, bid }) => (
+const BidItem = ({ classes, bid, onWithdrawn }) => (
   <ListItem twoLine>
     <ListItemContent
       avatar={bid.product ? <div>
@@ -40,13 +40,13 @@ const BidItem = ({ classes, bid }) => (
     <ListItemAction className={classes.actions}>
       <div className={classes.buttonsDesktop}>
         <EditButton bid={bid} />
-        <Button>撤销</Button>
+        <WithdrawButton bid={bid} onWithdrawn={onWithdrawn} />
       </div>
       <div className={classes.buttonsTouch}>
         <IconButton name="more_vert" id={`bid_${bid.objectId}_menu`} />
         <Menu target={`bid_${bid.objectId}_menu`} align="right">
           <EditButton bid={bid} />
-          <Button>撤销</Button>
+          <WithdrawButton bid={bid} onWithdrawn={onWithdrawn} />
         </Menu>
       </div>
     </ListItemAction>
@@ -56,6 +56,7 @@ const BidItem = ({ classes, bid }) => (
 BidItem.propTypes = {
   classes: PropTypes.object.isRequired,
   bid: PropTypes.object.isRequired,
+  onWithdrawn: PropTypes.func,
 };
 
 export default injectSheet({
