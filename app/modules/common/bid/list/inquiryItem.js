@@ -18,7 +18,7 @@ const BidItem = ({ classes, bid }) => (
       subtitle={
         <div className={classes.subTitle}>
           <div className={classes.secondTitle}>
-            <Link className={`${styles.colorAccent} ${classes.product}`} to={`/supply/${bid.product.objectId}`}><Text title={false}>dsafdsafdasfsdaf ds fd dfs </Text></Link>
+            <Link className={`${styles.colorAccent} ${classes.product}`} to={`/supply/${bid.product.objectId}`}><Text title={false}>{bid.product.name}</Text></Link>
             <Text className={classes.name}>{bid.owner.name}</Text>
           </div>
           <div className={classes.thirdTitle}>

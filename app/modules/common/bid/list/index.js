@@ -5,8 +5,9 @@ import { colors, breakpoints } from 'modules/common/styles';
 import Item, { Title } from './item';
 import MyInquiryItem from './myInquiryItem';
 import InquiryItem from './inquiryItem';
+import MyItem from './myItem';
 
-const BidList = ({ hideContent, hideUser, classes, bids }) => {
+const BidList = ({ mine, hideContent, hideUser, classes, bids }) => {
   if (hideContent) {
     return (
       <div>
@@ -28,6 +29,16 @@ const BidList = ({ hideContent, hideUser, classes, bids }) => {
         </List>
       </div>
     );
+  } else if (mine) {
+    return (
+      <div>
+        <List className={classes.list}>
+          {bids.map((bid, i) => (
+            <MyItem key={i} bid={bid} />
+          ))}
+        </List>
+      </div>
+    );
   }
   return (
     <div>
@@ -41,11 +52,11 @@ const BidList = ({ hideContent, hideUser, classes, bids }) => {
 };
 
 BidList.propTypes = {
+  mine: PropTypes.bool,
   hideContent: PropTypes.bool,
   hideUser: PropTypes.bool,
   classes: PropTypes.object.isRequired,
   bids: PropTypes.array.isRequired,
-  actions: PropTypes.array,
 };
 
 export default injectSheet({

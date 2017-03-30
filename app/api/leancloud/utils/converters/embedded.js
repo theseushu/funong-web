@@ -1,5 +1,6 @@
 import _isUndefined from 'lodash/isUndefined';
 import _omitBy from 'lodash/omitBy';
+import speciesToJSON from './species';
 import fileToJSON from './file';
 import lnglatToJSON from './lnglat';
 
@@ -33,13 +34,4 @@ export const embeddedProductToJSON = (product) => {
   const { objectId, name } = product.toJSON();
   const thumbnail = fileToJSON(product.get('thumbnail'));
   return _omitBy({ objectId, name, thumbnail }, _isUndefined);
-};
-
-
-export const embeddedInquiryToJSON = (inquiry) => {
-  if (!inquiry) {
-    return undefined;
-  }
-  const { objectId } = inquiry.toJSON();
-  return { objectId };
 };

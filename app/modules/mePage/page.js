@@ -1,10 +1,8 @@
 import React, { PropTypes } from 'react';
-import injectSheet from 'react-jss';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { currentUserSelector } from 'modules/data/ducks/selectors';
 import Layout from 'modules/common/layout';
-import { colors } from 'modules/common/styles';
 import { actions as pageActions } from './ducks';
 
 const sideRoutes = () => [
@@ -32,6 +30,9 @@ const sideRoutes = () => [
       title: '采购',
       path: '/me/published/inquiry',
     }, {
+      title: '报价',
+      path: '/me/published/bid',
+    }, {
       title: '物流',
       path: '/me/published/logistics',
     }, {
@@ -54,7 +55,7 @@ const sideRoutes = () => [
   { title: '我的收藏', path: '/me/bookmarks' },
 ];
 
-const MePage = ({ user: { avatar, type }, sheet: { classes }, children, smallContent = true }, { router }) => {
+const MePage = ({ user: { type }, children, smallContent = true }, { router }) => {
   const routes = sideRoutes(type).map((route) => {
     if (route.path !== '/me/published') {
       const active = router.isActive(route.path, true);
@@ -77,7 +78,6 @@ MePage.contextTypes = {
   router: PropTypes.object.isRequired,
 };
 MePage.propTypes = {
-  sheet: PropTypes.object.isRequired,
   children: PropTypes.any.isRequired,
   user: PropTypes.object.isRequired,
   smallContent: PropTypes.bool,
@@ -86,24 +86,4 @@ MePage.propTypes = {
 export default connect(
   (state) => ({ ...state.profilePage, user: currentUserSelector(state) }),
   (dispatch) => ({ actions: bindActionCreators(pageActions, dispatch) }),
-)(injectSheet({
-  avatar: {
-    width: 160,
-    height: 160,
-    marginTop: -95, // padding 15 of panel
-    marginLeft: 'auto',
-    marginRight: 'auto',
-    position: 'relative',
-  },
-  headerAvatar: {
-    height: 150,
-    width: 150,
-    padding: 2,
-    borderRadius: '50%',
-    border: `solid 1px ${colors.colorPrimary}`,
-    '.is-compact &': {
-      height: 50,
-      width: 50,
-    },
-  },
-})(MePage));
+)(MePage);

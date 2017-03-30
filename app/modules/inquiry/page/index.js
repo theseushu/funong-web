@@ -16,16 +16,19 @@ const EMPTY = {
   price: '面议',
   range: [],
 };
-const Page = ({ inquiry, params: { id }, location: { query } }) => (
-  <Layout
-    content={
+const Page = ({ inquiry, params: { id }, location }) => {
+  const { query } = location;
+  return (
+    <Layout
+      content={
         (id === 'new' || query.edit) ?
-          <Form initialValues={inquiry || EMPTY} /> : <Display inquiry={inquiry} />
+          <Form initialValues={inquiry || EMPTY} /> : <Display inquiry={inquiry} location={location} />
       }
-    smallContent={id === 'new' || !!query.edit}
-  >
-  </Layout>
+      smallContent={id === 'new' || !!query.edit}
+    >
+    </Layout>
   );
+};
 
 Page.propTypes = {
   location: PropTypes.object.isRequired,

@@ -12,15 +12,16 @@ class Page extends Component { // eslint-disable-line
     content: PropTypes.object.isRequired,
     title: PropTypes.object,
     editPath: PropTypes.string.isRequired,
+    create: PropTypes.bool,
   }
   render() {
-    const { content, title, editPath, sheet: { classes } } = this.props;
+    const { content, create = true, title, editPath, sheet: { classes } } = this.props;
     return (
       <PageComponent smallContent={false}>
         <div className={classes.content}>
           { title }
           <div className={classes.entries}>
-            <div className={classes.createButton}><Link to={`/${editPath}/new`}><FABButton accent><Icon name="add" /></FABButton></Link></div>
+            { create && <div className={classes.createButton}><Link to={`/${editPath}/new`}><FABButton accent><Icon name="add" /></FABButton></Link></div> }
             { content }
           </div>
         </div>

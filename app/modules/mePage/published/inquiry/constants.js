@@ -6,8 +6,8 @@ const type = 'inquiry';
 export const path = type;
 export const name = 'me_inquiries_page';
 export const SLICE_NAME = `page_me_published_${type}`;
-export const apiName = 'searchInquiries';
-export const setData = (inquiries) => setInquiries(inquiries);
+export const apiName = 'pageInquiries';
+export const setData = ({ results }) => setInquiries(results);
 
 export const selector = (state) => {
   const user = currentUserSelector(state);

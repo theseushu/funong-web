@@ -10,12 +10,20 @@ class Bid extends Component {
   static propTypes = {
     user: PropTypes.object,
     inquiry: PropTypes.object.isRequired,
+    location: PropTypes.object.isRequired,
     pending: PropTypes.bool,
     create: PropTypes.func.isRequired,
   }
+  static contextTypes = {
+    router: PropTypes.object.isRequired,
+  }
   state = { bidding: false }
   render() {
-    const { inquiry, user, create, pending } = this.props;
+    const { inquiry, user, location, create, pending } = this.props;
+    const { router } = this.context;
+    if (user && inquiry.owner.objectId === user.objectId) {
+      return null;
+    }
     return (
       <div>
         <ApiButton
@@ -25,9 +33,10 @@ class Bid extends Component {
           disabled={pending}
           onClick={() => {
             if (!user) {
-              // todo redirect to login
+              router.push(`/login?redirect=${location.pathname}${location.query}`);
+            } else {
+              this.setState({ bidding: true });
             }
-            this.setState({ bidding: true });
           }}
         >报 价</ApiButton>
         { this.state.bidding && (

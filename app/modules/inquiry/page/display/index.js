@@ -11,7 +11,7 @@ import BidButton from './bidButton';
 import MyBids from './myBids';
 import Bids from './bids';
 
-const Display = ({ inquiry, classes }) => (
+const Display = ({ inquiry, location, classes }) => (
   <MainRight
     main={
       <div>
@@ -24,7 +24,7 @@ const Display = ({ inquiry, classes }) => (
               </CardText>
               <CardActions>
                 <div className={classes.actions}>
-                  <BidButton inquiry={inquiry} />
+                  <BidButton inquiry={inquiry} location={location} />
                 </div>
               </CardActions>
             </Card>
@@ -44,6 +44,7 @@ const Display = ({ inquiry, classes }) => (
 Display.propTypes = {
   inquiry: PropTypes.object.isRequired,
   classes: PropTypes.object.isRequired,
+  location: PropTypes.object.isRequired,
 };
 
 export default injectSheet({
