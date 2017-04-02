@@ -1,8 +1,6 @@
 export default ({ AV, updateContextToken }) => {
   const success = (user) => {
-    const sessionToken = user.getSessionToken();
-    const objectId = user.get('objectId');
-    const mobilePhoneNumber = user.get('mobilePhoneNumber');
+    const { sessionToken, objectId, mobilePhoneNumber } = user;
     updateContextToken({ objectId, sessionToken, mobilePhoneNumber });
     return ({
       sessionToken,

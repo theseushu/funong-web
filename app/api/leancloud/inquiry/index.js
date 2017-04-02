@@ -24,12 +24,25 @@ export default ({ AV, context }) => {
   };
 
   const pageInquiries = async ({ category, species, keyword, provinces, sort, page, pageSize }) => {
-    const { token: { sessionToken } } = context;
-    const result = await AV.Cloud.rpc('pageInquiries', { category, species, keyword, provinces, sort, page, pageSize }, { sessionToken });
-    return {
-      ...result,
-      results: result.results.map(inquiryToJSON),
-    };
+    try {
+      const { token: { sessionToken } } = context;
+      const result = await AV.Cloud.rpc('pageInquiries', {
+        category,
+        species,
+        keyword,
+        provinces,
+        sort,
+        page,
+        pageSize,
+      }, { sessionToken });
+      return {
+        ...result,
+        results: result.results.map(inquiryToJSON),
+      };
+    } catch (err) {
+      debug(err);
+      throw err;
+    }
   };
 
   const createInquiry = async ({ desc, price, quantity, name, range, location, category, species, endAt }) => {
