@@ -5,6 +5,7 @@ import { Card, CardTitle, CardText, CardActions } from 'react-mdl/lib/Card';
 import Button from 'react-mdl/lib/Button';
 import { colors } from '../styles';
 import Avatar from './avatar';
+import ChatButton from './chatButton';
 
 const CardComponent = ({ user, sheet: { classes }, className }) => (
   <Card shadow={0} className={className ? `${classes.card} ${className}` : classes.card} >
@@ -20,8 +21,8 @@ const CardComponent = ({ user, sheet: { classes }, className }) => (
         认证信息
       </CardText>
     <CardActions className={classes.cardActions} border>
-      <Button colored>关注</Button>
-      <Button colored>拨打电话</Button>
+      <Button colored ripple>关注</Button>
+      <ChatButton colored ripple user={user}>联系我</ChatButton>
     </CardActions>
   </Card>
   );

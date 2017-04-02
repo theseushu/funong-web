@@ -41,6 +41,7 @@ import createRoutes from 'routes';
 import createApi from 'createApi';
 import FullScreenGallery from 'modules/fullScreenGallery';
 import MapDialog from 'modules/mapDialog';
+import Chat from 'modules/chat';
 import { actions as mapActions } from 'api/map';
 import { actions as chatActions } from 'modules/chat/ducks';
 
@@ -135,6 +136,17 @@ const render = (messages) => {
         </LanguageProvider>
       </Provider>,
       mapDialogEl
+    );
+    const chatDialogEl = document.createElement('div');
+    chatDialogEl.setAttribute('id', '_chat_dialog_');
+    document.body.appendChild(chatDialogEl);
+    ReactDOM.render(
+      <Provider store={store}>
+        <LanguageProvider messages={messages}>
+          <Chat />
+        </LanguageProvider>
+      </Provider>,
+      chatDialogEl
     );
   }
 };

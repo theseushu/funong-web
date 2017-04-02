@@ -7,7 +7,6 @@ const debug = require('debug')('funongweb:chat:connection');
 
 function start(user) {
   return eventChannel((emitter) => {
-    emitter({ connecting: true, connected: false });
     connect(user, {
       connected: () => {
         debug(`Connected at ${new Date()}`);
@@ -55,7 +54,7 @@ export default {
 };
 
 export const actions = {
-  start: (user) => ({ type: LOGIN, payload: { user } }),
+  start: ({ user }) => ({ type: LOGIN, payload: { user } }),
   stop: () => ({ type: LOGOUT }),
   retry: () => ({ type: RETRY }),
 };
@@ -64,6 +63,7 @@ export const selector = (state) => rootSelector(state).connection;
 
 // sagas
 const loginSaga = function* ({ payload: { user } }) {
+  yield put({ type: UPDATE_CONNECTION_STATE, payload: { connecting: true, connected: false } });
   const chan = yield call(start, user);
   try {
     while (true) {

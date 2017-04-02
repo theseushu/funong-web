@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import injectSheet from 'react-jss';
 import { Grid, Cell } from 'react-mdl/lib/Grid';
 import { Card, CardMenu, CardActions } from 'react-mdl/lib/Card';
-import Button from 'react-mdl/lib/Button';
+import ChatButton from 'modules/common/user/chatButton';
 import styles, { breakpoints, colors } from 'modules/common/styles';
 import Share from 'modules/common/share';
 import Carousel from '../components/carousel';
@@ -20,7 +20,7 @@ class ProductDetails extends Component {
   }
   state = { specIndex: 0 }
   render() {
-    const { product: { name, images, category, species, specs, location: { address, lnglat }, updatedAt }, location, classes } = this.props;
+    const { product: { name, images, category, species, specs, location: { address, lnglat }, owner, updatedAt }, location, classes } = this.props;
     const { specIndex } = this.state;
     return (
       <Grid noSpacing className={styles.w100}>
@@ -42,7 +42,7 @@ class ProductDetails extends Component {
               <Badges />
             </div>
             <CardActions border className={classes.buttons}>
-              <Button raised accent ripple>在线联系</Button>
+              <ChatButton raised accent ripple user={owner}>在线联系</ChatButton>
               <AddToCartButton type="supply" product={this.props.product} specIndex={specIndex} quantity={specs[specIndex].minimum}>加入购物车</AddToCartButton>
             </CardActions>
           </Card>
