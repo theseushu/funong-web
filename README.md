@@ -6,6 +6,13 @@ localhost:3000
 
 current pages: 
 
-localhost:3000/login
+logging:
+export DEBUG=funongweb*,funongbackend*,funongcommon*
+browser logging
+  app.js:
 
-localhost:3000/profile
+  if (process.env.NODE_ENV !== 'production' && !document.getElementById('_dev_tools_')) {
+    if (localStorage) {
+      localStorage.debug = 'funongweb*,funongcommon*';
+    }
+  ......

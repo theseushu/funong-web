@@ -28,7 +28,6 @@ const BidItem = ({ classes, bid, onWithdrawn }) => (
           </Grid>
           <div className={classes.thirdTitle}>
             {bid.product && <Link className={`${styles.colorAccent} ${classes.product}`} to={`/supply/${bid.product.objectId}`}><Text title={false}>{bid.product.name}</Text></Link>}
-            {!bid.product && <span className={classes.product}>无</span>}
             <span>{humanizeTime(bid.updatedAt)}</span>
           </div>
         </div>

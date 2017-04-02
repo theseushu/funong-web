@@ -1,5 +1,5 @@
 import { bidToJSON } from '../utils/converters';
-const debug = require('debug')('app:api:bid');
+const debug = require('debug')('funong-web:api:bid');
 
 export default ({ AV, context }) => {
   class Bid extends AV.Object {}

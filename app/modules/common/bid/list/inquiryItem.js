@@ -19,7 +19,6 @@ const BidItem = ({ classes, bid }) => (
         <div className={classes.subTitle}>
           <div className={classes.secondTitle}>
             {bid.product && <Link className={`${styles.colorAccent} ${classes.product}`} to={`/supply/${bid.product.objectId}`}><Text title={false}>{bid.product.name}</Text></Link>}
-            {!bid.product && <span className={classes.product}>无</span>}
             <Text className={classes.name}>{bid.owner.name}</Text>
           </div>
           <div className={classes.thirdTitle}>

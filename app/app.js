@@ -164,17 +164,22 @@ if (!window.Intl) {
   render(translationMessages);
 }
 
-if (process.env.NODE_ENV !== 'production' && !document.getElementById('_dev_tools_')) {
-  System.import('./DevTools').then((DevToolsModule) => {
-    const DevTools = DevToolsModule.default;
-    const devToolsEl = document.createElement('div');
-    devToolsEl.setAttribute('id', '_dev_tools_');
-    document.body.appendChild(devToolsEl);
-    ReactDOM.render(
-      <DevTools store={store} />
-      , devToolsEl
-    );
-  });
+if (process.env.NODE_ENV !== 'production') {
+  if (localStorage) {
+    localStorage.debug = 'funongweb*,funongbackend*,funongcommon*';
+  }
+  if (!document.getElementById('_dev_tools_')) {
+    System.import('./DevTools').then((DevToolsModule) => {
+      const DevTools = DevToolsModule.default;
+      const devToolsEl = document.createElement('div');
+      devToolsEl.setAttribute('id', '_dev_tools_');
+      document.body.appendChild(devToolsEl);
+      ReactDOM.render(
+        <DevTools store={store} />
+        , devToolsEl
+      );
+    });
+  }
 }
 
 // Install ServiceWorker and AppCache in the end since

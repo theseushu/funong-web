@@ -4,15 +4,16 @@ import Icon from 'react-mdl/lib/Icon';
 import { colors, breakpoints } from 'modules/common/styles';
 
 
-const NoResult = ({ classes, title }) => (
+const NoResult = ({ title, icon, classes }) => (
   <div className={classes.noResult}>
-    <Icon name="sentiment_dissatisfied" />
-    <span>{title || '没有结果，请更换查询条件'}</span>
+    <Icon name={icon} />
+    <span>{title}</span>
   </div>
 );
 
 NoResult.propTypes = {
-  title: PropTypes.string,
+  icon: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
   classes: PropTypes.object.isRequired,
 };
 

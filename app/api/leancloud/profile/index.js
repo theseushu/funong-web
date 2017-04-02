@@ -10,10 +10,11 @@ import { userToJSON } from '../utils/converters';
 const debug = require('debug')('app:api:profile');
 
 export default ({ AV, context, updateContextProfile }) => {
-  const fetchProfile = async () => {
-    const { token: { objectId, sessionToken } } = context;
+  const fetchProfile = async ({ objectId }) => { // if its not for specific user, fetch currentUser then.
+    const { token: { sessionToken } } = context;
+    const userId = objectId || context.token.objectId;
     try {
-      const avProfile = await AV.Object.createWithoutData('_User', objectId)
+      const avProfile = await AV.Object.createWithoutData('_User', userId)
         .fetch({
           include: ['avatar', 'images'],
         }, {
@@ -21,7 +22,9 @@ export default ({ AV, context, updateContextProfile }) => {
         }
         );
       const profile = userToJSON(avProfile);
-      updateContextProfile(profile);
+      if (userId === context.token.objectId) {
+        updateContextProfile(profile);
+      }
       return profile;
     } catch (err) {
       debug(err);

@@ -1,6 +1,8 @@
 import { getAsyncInjectors } from 'utils/asyncInjectors';
+import createHomePageRoute from 'modules/homePage/route';
 import createWelcomePageRoute from 'modules/welcomePage/route';
 import createMePageRoute from 'modules/mePage/route';
+import createUserRoute from 'modules/userPage/route';
 import createSupplyRoute from 'modules/products/supply/page/route';
 import createSuppliesRoute from 'modules/products/supply/list/route';
 import createLogisticsRoute from 'modules/products/logistics/page/route';
@@ -27,23 +29,8 @@ export default function createRoutes(store) {
   const { injectReducer, injectSagas } = getAsyncInjectors(store); // eslint-disable-line no-unused-vars
 
   return [
+    createHomePageRoute({ store, injectReducer, injectSagas, loadModule, errorLoading }),
     {
-      path: '/',
-      name: 'home',
-      getComponent(nextState, cb) {
-        const importModules = Promise.all([
-          System.import('containers/HomePage'),
-        ]);
-
-        const renderRoute = loadModule(cb);
-
-        importModules.then(([component]) => {
-          renderRoute(component);
-        });
-
-        importModules.catch(errorLoading);
-      },
-    }, {
       path: '/login',
       name: 'singupOrLogin',
       getComponent(nextState, cb) {
@@ -72,6 +59,7 @@ export default function createRoutes(store) {
     },
     createWelcomePageRoute({ store, injectReducer, injectSagas, loadModule, errorLoading }),
     createMePageRoute({ store, injectReducer, injectSagas, loadModule, errorLoading }),
+    createUserRoute({ store, injectReducer, injectSagas, loadModule, errorLoading }),
     createSuppliesRoute({ store, injectReducer, injectSagas, loadModule, errorLoading }),
     createSupplyRoute({ store, injectReducer, injectSagas, loadModule, errorLoading }),
     createLogisticsRoute({ store, injectReducer, injectSagas, loadModule, errorLoading }),

@@ -107,6 +107,15 @@ export const search = async (AV, schema, params, context) => {
   return products.map((product) => converter(schema, product));
 };
 
+export const page = async (AV, schema, params, context) => {
+  const { token: { sessionToken } } = context;
+  const result = await AV.Cloud.rpc('pageProducts', { type: schema.type, ...params }, { sessionToken });
+  return {
+    ...result,
+    results: result.results.map((product) => converter(schema, product)),
+  };
+};
+
 export const recommend = async (AV, schema, params, context) => {
   const { token: { sessionToken } } = context;
   const query = createQuery(AV, schema, params);
@@ -127,6 +136,7 @@ export default (AV, Class, type, context) => {
     update: (params) => update(AV, schema, params, context),
     fetch: (params) => fetch(AV, schema, params, context),
     search: (params) => search(AV, schema, params, context),
+    page: (params) => page(AV, schema, params, context),
     recommend: (params) => recommend(AV, schema, params, context),
     count: (params) => count(AV, schema, params, context),
   });

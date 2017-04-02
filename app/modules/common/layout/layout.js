@@ -9,25 +9,33 @@ import AppDrawer from './components/drawer';
 
 class LayoutComponent extends Component {
   static propTypes = {
-    sheet: PropTypes.object,
+    classes: PropTypes.object,
     sideMenu: PropTypes.array,
     content: PropTypes.any,
     header: PropTypes.any,
+    container: PropTypes.bool,
     smallContent: PropTypes.bool,
+  }
+  static defaultProps = {
+    container: true,
   }
   constructor(props) {
     super(props);
     this.state = { activeTab: 0 };
   }
   render() {
-    const { sheet: { classes }, content, sideMenu, header, smallContent } = this.props;
+    const { classes, container, content, sideMenu, header, smallContent } = this.props;
+    let className = null;
+    if (container) {
+      className = smallContent ? [classes.container, classes.containerSmall].join(' ') : classes.container;
+    }
     return (
       <Layout fixedHeader fixedTabs className={classes.layout}>
         <AppHeader header={header} containerClass={classes.container} />
         <AppDrawer />
         <Content>
           <div
-            className={smallContent ? [classes.container, classes.containerSmall].join(' ') : classes.container}
+            className={className}
             style={{ paddingTop: 16, paddingBottom: 16, display: 'flex', minHeight: 'calc(100vh - 163px)' }}
           >
             { sideMenu && <SideMenu routes={sideMenu} /> }
