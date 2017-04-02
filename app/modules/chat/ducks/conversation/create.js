@@ -28,7 +28,7 @@ export const selector = (state) => rootSelector(state).create;
 
 // sagas
 const { setCurrentConversation, appendConversations } = listActions;
-const createSaga = function* ({ payload: { currentUser, user }, meta: { resolve, reject } }) {
+function* createSaga({ payload: { currentUser, user }, meta: { resolve, reject } }) {
   yield put({ type: CREATE_STATE, payload: { pending: true } });
   try {
     const conversation = yield call(createConversation, currentUser, user);
@@ -45,12 +45,12 @@ const createSaga = function* ({ payload: { currentUser, user }, meta: { resolve,
     }
     yield put({ type: CREATE_STATE, payload: { rejected: true, error: err } });
   }
-};
+}
 
-const watcher = function* () {
+function* watcher() {
   yield takeEvery(START, function* saga(action) {
     yield* createSaga(action);
   });
-};
+}
 
 export const sagas = [watcher];

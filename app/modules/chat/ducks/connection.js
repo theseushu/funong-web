@@ -62,30 +62,29 @@ export const actions = {
 export const selector = (state) => rootSelector(state).connection;
 
 // sagas
-const loginSaga = function* ({ payload: { user } }) {
+function* loginSaga({ payload: { user } }) {
   yield put({ type: UPDATE_CONNECTION_STATE, payload: { connecting: true, connected: false } });
   const chan = yield call(start, user);
   try {
-    while (true) {
+    while (true) { // eslint-disable-line
       // take(END) will cause the saga to terminate by jumping to the finally block
       const state = yield take(chan);
       yield put({ type: UPDATE_CONNECTION_STATE, payload: state });
     }
   } finally {
     yield put({ type: UPDATE_CONNECTION_STATE, payload: {} });
-    console.log('countdown terminated');
   }
-};
+}
 
-const logoutSaga = function* () {
+function* logoutSaga() {
   yield call(disconnect);
-};
+}
 
-const retrySaga = function* () {
+function* retrySaga() {
   yield call(disconnect);
-};
+}
 
-const watcher = function* () {
+function* watcher() {
   yield takeEvery(LOGIN, function* saga(action) {
     yield* loginSaga(action);
   });
@@ -95,6 +94,6 @@ const watcher = function* () {
   yield takeEvery(RETRY, function* saga(action) {
     yield* retrySaga(action);
   });
-};
+}
 
 export const sagas = [watcher];

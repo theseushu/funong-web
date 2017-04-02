@@ -2,7 +2,7 @@ import React, { PropTypes, Component } from 'react';
 import injectSheet from 'react-jss';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { Layout, Header, Drawer, Content, Navigation } from 'react-mdl/lib/Layout';
+import { Layout, Header, Drawer, Content } from 'react-mdl/lib/Layout';
 import IconButton from 'react-mdl/lib/IconButton';
 import { breakpoints } from 'modules/common/styles';
 import { actions, selectors } from './ducks';

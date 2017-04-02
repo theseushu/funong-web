@@ -28,7 +28,8 @@ export const selector = (state) => rootSelector(state).quit;
 
 // sagas
 const { setCurrentConversation, removeConversation } = listActions;
-const quitSaga = function* ({ payload: { objectId }, meta: { resolve, reject } }) {
+
+function* quitSaga({ payload: { objectId }, meta: { resolve, reject } }) {
   yield put({ type: QUIT_STATE, payload: { pending: true } });
   try {
     yield call(quitConversation, objectId);
@@ -45,12 +46,12 @@ const quitSaga = function* ({ payload: { objectId }, meta: { resolve, reject } }
     }
     yield put({ type: QUIT_STATE, payload: { rejected: true, error: err } });
   }
-};
+}
 
-const watcher = function* () {
+function* watcher() {
   yield takeEvery(QUIT, function* saga(action) {
     yield* quitSaga(action);
   });
-};
+}
 
 export const sagas = [watcher];
