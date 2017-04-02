@@ -6,6 +6,7 @@ import logoHorizontal from 'assets/logo-horizontal.png';
 import logoBig from 'assets/logo-big.png';
 import { colors, breakpoints } from 'modules/common/styles';
 import background from './assets/header-bg.jpg';
+import Account from './account';
 
 const routes = [
   { title: '首页', path: '/' },
@@ -21,6 +22,7 @@ const AppHeader = ({ classes, containerClass, header }) => (
   <Header waterfall hideTop={false} className={classes.header}>
     <HeaderRow className={classes.logoRow}>
       { header || <div className={classes.logo} /> }
+      <Account className={classes.account} />
     </HeaderRow>
     <HeaderRow className={classes.nav}>
       <div className={containerClass}>
@@ -47,6 +49,7 @@ export default injectSheet({
     background: `url(${background})`,
   },
   logoRow: {
+    position: 'relative',
     justifyContent: 'center',
     padding: 0,
     minHeight: 100,
@@ -63,6 +66,11 @@ export default injectSheet({
       height: 40,
       width: 166,
     },
+  },
+  account: {
+    position: 'absolute',
+    height: '100%',
+    right: 16,
   },
   nav: {
     height: 45,

@@ -3,6 +3,7 @@ import namespace from './namespace';
 import * as map from './map';
 import * as requestSmsCode from './requestSmsCode/ducks';
 import * as signupOrLoginWithMobilePhone from './signupOrLogin/ducks';
+import * as logout from './logout/ducks';
 import * as category from './category';
 import * as species from './species';
 import * as role from './role';
@@ -24,6 +25,7 @@ export default {
     ...map.default,
     ...requestSmsCode.default,
     ...signupOrLoginWithMobilePhone.default,
+    ...logout.default,
     ...category.default,
     ...species.default,
     ...profile.default,
@@ -46,6 +48,7 @@ export const sagas = [
   ...map.sagas,
   ...requestSmsCode.sagas,
   ...signupOrLoginWithMobilePhone.sagas,
+  ...logout.sagas,
   ...category.sagas,
   ...species.sagas,
   ...profile.sagas,

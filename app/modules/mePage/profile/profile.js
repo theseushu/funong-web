@@ -15,15 +15,16 @@ import Desc from './desc';
 
 class Profile extends Component {
   static propTypes = {
-    sheet: PropTypes.object,
+    classes: PropTypes.object,
     user: PropTypes.object.isRequired,
+    logout: PropTypes.func.isRequired,
   }
   constructor(props) {
     super(props);
     this.state = { activeTab: 0 };
   }
   render() {
-    const { user: { mobilePhoneNumber }, sheet: { classes } } = this.props;
+    const { user: { mobilePhoneNumber }, logout, classes } = this.props;
     return (
       <Page >
         <div className={classes.content}>
@@ -33,6 +34,7 @@ class Profile extends Component {
               <Tooltip label={<span>点击条目内容即可开始修改<br />您也可以点击图像更换新的头像</span>}>
                 <IconButton colored name="help_outline"></IconButton>
               </Tooltip>
+              <Button accent onClick={logout}>退出登录</Button>
             </CardTitle>
             <CardMedia className={styles.contentCenter} style={{ background: 'none' }}>
               <div className={classes.avatar}>

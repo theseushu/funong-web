@@ -20,6 +20,15 @@ export const loadFromCookie = () => {
   return {};
 };
 
+export const clearInCookie = () => {
+  if (typeof window === 'object') {
+    const Cookies = require('js-cookie'); // eslint-disable-line global-require
+    Cookies.remove('sessionToken');
+    Cookies.remove('objectId');
+    Cookies.remove('mobilePhoneNumber');
+  }
+  return {};
+};
 export const loadTokenInRequest = (req) => ({ sessionToken: req.cookies.sessionToken, objectId: req.cookies.objectId, mobilePhoneNumber: req.cookies.mobilePhoneNumber });
 
 export const clearTokenInResponse = (resp) => {

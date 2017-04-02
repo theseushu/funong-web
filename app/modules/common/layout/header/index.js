@@ -1,1 +1,0 @@
-export LogoLeft from './logoLeft';

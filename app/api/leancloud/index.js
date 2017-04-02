@@ -3,7 +3,7 @@
  */
 
 import AV from 'leancloud-storage';
-import { saveToCookie, loadFromCookie } from './contextStorage';
+import { saveToCookie, loadFromCookie, clearInCookie } from './contextStorage';
 import createRequestSmsCodeApi from './requestSmsCode';
 import createFileApi from './file';
 import createSignupOrLoginApis from './signupOrLogin';
@@ -44,9 +44,16 @@ export default () => {
     context.profile = newProfile;
   };
 
+  const logout = () => {
+    clearInCookie();
+    context.token = undefined;
+    context.profile = undefined;
+  };
+
   const tokenExists = () => !!context.token.sessionToken;
   return {
     tokenExists,
+    logout,
     ...createAMapApi(),
     requestSmsCode: createRequestSmsCodeApi({ AV }),
     ...createSignupOrLoginApis({ AV, context, updateContextToken }),
