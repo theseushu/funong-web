@@ -1,9 +1,15 @@
 import { takeEvery, eventChannel, END } from 'redux-saga';
 import { call, take, put } from 'redux-saga/effects';
 import { connect, disconnect } from '../api/leancloud';
-import rootSelector from './rootSelector';
+import { selector as rootSelector, namespace as rootNamespace } from './constants';
 
 const debug = require('debug')('funongweb:chat:connection');
+
+const namespace = `${rootNamespace}/connection`;
+const UPDATE_CONNECTION_STATE = `${namespace}/update_connection_state`;
+const LOGIN = `${namespace}/login`;
+const RETRY = `${namespace}/retry`;
+const LOGOUT = `${namespace}/logout`;
 
 function start(user) {
   return eventChannel((emitter) => {
@@ -38,12 +44,6 @@ function start(user) {
   });
 }
 
-const namespace = 'chat/connection';
-const UPDATE_CONNECTION_STATE = `${namespace}/update_connection_state`;
-const LOGIN = `${namespace}/login`;
-const RETRY = `${namespace}/retry`;
-const LOGOUT = `${namespace}/logout`;
-
 export default {
   connection: (state = {}, action) => {
     if (action.type === UPDATE_CONNECTION_STATE) {
@@ -59,7 +59,7 @@ export const actions = {
   retry: () => ({ type: RETRY }),
 };
 
-export const selector = (state) => rootSelector(state).connection;
+export const selectors = { connection: (state) => rootSelector(state).connection };
 
 // sagas
 function* loginSaga({ payload: { user } }) {

@@ -1,56 +1,24 @@
-import { takeEvery } from 'redux-saga';
 import { call, put } from 'redux-saga/effects';
-import { actions as listActions } from './list';
+import createDucks from 'api/utils/createDucks';
+import { actions as dataActions } from '../data';
+import { namespace, selector as rootSelector } from './constants';
 import { createConversation } from '../../api/leancloud';
-import rootSelector from './rootSelector';
-import sliceName from './sliceName';
 
-const debug = require('debug')('funongweb:chat:conversation:create');
+const { setCurrentConversation, appendConversations } = dataActions;
 
-const namespace = `${sliceName}/create`;
-const CREATE_STATE = `${namespace}/state`;
-const START = `${namespace}/start`;
-
-export default {
-  create: (state = {}, action) => {
-    if (action.type === CREATE_STATE) {
-      return action.payload;
-    }
-    return state;
+const ducks = createDucks({
+  key: 'create',
+  apiName: null,
+  rootSelector: (state) => rootSelector(state),
+  namespace,
+  sagas: {
+    * api(api, { currentUser, user }) {
+      return yield call(createConversation, currentUser, user);
+    },
+    * beforeFulfilled(conversation) {
+      yield put(appendConversations([conversation]));
+      yield put(setCurrentConversation(conversation.objectId));
+    },
   },
-};
-
-export const actions = {
-  createConversation: ({ currentUser, user, meta = {} }) => ({ type: START, payload: { currentUser, user }, meta }),
-};
-
-export const selector = (state) => rootSelector(state).create;
-
-// sagas
-const { setCurrentConversation, appendConversations } = listActions;
-function* createSaga({ payload: { currentUser, user }, meta: { resolve, reject } }) {
-  yield put({ type: CREATE_STATE, payload: { pending: true } });
-  try {
-    const conversation = yield call(createConversation, currentUser, user);
-    yield put(appendConversations([conversation]));
-    yield put(setCurrentConversation(conversation.objectId));
-    yield put({ type: CREATE_STATE, payload: { fulfilled: true } });
-    if (resolve) {
-      resolve(conversation);
-    }
-  } catch (err) {
-    debug(err);
-    if (reject) {
-      reject(err);
-    }
-    yield put({ type: CREATE_STATE, payload: { rejected: true, error: err } });
-  }
-}
-
-function* watcher() {
-  yield takeEvery(START, function* saga(action) {
-    yield* createSaga(action);
-  });
-}
-
-export const sagas = [watcher];
+});
+module.exports = ducks;

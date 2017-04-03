@@ -1,6 +1,6 @@
-import rootSelector from './rootSelector';
+import { selector as rootSelector, namespace as rootNamespace } from './constants';
 
-const namespace = 'chat/dialog';
+const namespace = `${rootNamespace}/dialog`;
 const OPEN = `${namespace}/open`;
 const CLOSE = `${namespace}/close`;
 
@@ -20,6 +20,6 @@ export const actions = {
   closeDialog: () => ({ type: CLOSE }),
 };
 
-export const selector = (state) => rootSelector(state).dialog;
+export const selectors = { dialog: (state) => rootSelector(state).dialog };
 
 export const sagas = [];

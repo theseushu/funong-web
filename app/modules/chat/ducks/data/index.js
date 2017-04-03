@@ -1,10 +1,9 @@
 import combineModules from 'api/utils/combineModules';
-import * as create from './create';
-import * as quit from './quit';
-import * as loadRecent from './loadRecent';
+import * as conversations from './conversations';
+import * as currentConversation from './currentConversation';
 import { SLICE_NAME } from './constants';
 
-const modules = { create, quit, loadRecent };
+const modules = { conversations, currentConversation };
 // todo leave this line here
 if (process.env.ADMIN) {} // eslint-disable-line
 

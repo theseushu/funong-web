@@ -3,7 +3,7 @@
  */
 import _find from 'lodash/find';
 import _without from 'lodash/without';
-import { Realtime } from 'leancloud-realtime';
+import { TextMessage, Realtime } from 'leancloud-realtime';
 const debug = require('debug')('funongweb:api:realtime'); // eslint-disable-line no-unused-vars
 
 // TODO put these in configuration file
@@ -44,6 +44,9 @@ export const connect = async (user, listeners) => {
   });
   imClient.on('reconnect', () => {
     _listeners.reconnect();
+  });
+  imClient.on('message', (message, conversation) => {
+    debug(message);
   });
   return imClient;
 };
@@ -108,4 +111,32 @@ export const quitConversation = async (id) => {
   await conversation.quit();
   delete conversations[conversation.id];
   return id;
+};
+
+let loaded = false;
+export const loadRecentConversations = async (currentUser) => {
+  if (!imClient) {
+    debug('Connection isnot created. check your code.');
+  }
+  if (loaded) {
+    return Object.values(conversations).map((conversation) => conversationToObject(conversation, currentUser));
+  }
+  const fetched = await imClient.getQuery().containsMembers([currentUser.objectId]).limit(50).find();
+  fetched.forEach((conversation) => {
+    conversations[conversation.id] = conversation;
+  });
+  loaded = true;
+  return Object.values(conversations).map((conversation) => conversationToObject(conversation, currentUser));
+};
+
+export const sendTextMessage = async (id, message) => {
+  if (!imClient) {
+    debug('Connection isnot created. check your code.');
+  }
+  const conversation = conversations[id];
+  if (!conversation) {
+    debug(`Conversation ${id} is missing. check your code.`);
+  }
+  const avMessage = await conversation.send(new TextMessage(message));
+  console.log(avMessage);
 };

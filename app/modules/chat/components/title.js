@@ -6,7 +6,8 @@ import Button from 'react-mdl/lib/Button';
 import { colors } from 'modules/common/styles';
 import { currentUserSelector } from 'modules/data/ducks/selectors';
 import Avatar from 'modules/common/user/avatar';
-import { actions, selectors } from '../ducks';
+import { actions, selectors } from '../ducks/conversation';
+import { selectors as dataSelectors } from '../ducks/data';
 
 const ChatTitle = ({ conversation, user, currentUser, createState, createConversation, classes }) => {
   if (conversation) {
@@ -46,9 +47,9 @@ ChatTitle.propTypes = {
   createState: PropTypes.object,
 };
 
-const createConversationAction = actions.createConversation;
-const createConversationStateSelector = selectors.createConversation;
-const currentConversationSelector = selectors.currentConversation;
+const createConversationAction = actions.create;
+const createConversationStateSelector = selectors.create;
+const currentConversationSelector = dataSelectors.currentConversation;
 
 export default injectSheet({
   current: {

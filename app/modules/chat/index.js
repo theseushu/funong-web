@@ -8,6 +8,8 @@ import { breakpoints } from 'modules/common/styles';
 import { actions, selectors } from './ducks';
 import List from './components/list';
 import Title from './components/title';
+import Messages from './components/messages';
+import Input from './components/input';
 
 class Chat extends Component {
   static propTypes = {
@@ -20,13 +22,19 @@ class Chat extends Component {
     return open ? (
       <div className={`${classes.chat} shadow--3 material-transition`}>
         <Layout fixedHeader fixedDrawer>
-          <Header title={<Title user={user} />}>
+          <Header
+            className={classes.header}
+            title={<Title user={user} />}
+          >
             <IconButton name="close" onClick={closeDialog} />
           </Header>
           <Drawer title={<span>联系人</span>}>
             <List />
           </Drawer>
-          <Content />
+          <Content className={classes.content}>
+            <Messages />
+            <Input />
+          </Content>
         </Layout>
       </div>
     ) : null;
@@ -37,8 +45,6 @@ const closeDialogAction = actions.closeDialog;
 const dialogStateSelector = selectors.dialog;
 
 export default injectSheet({
-  wrapper: {
-  },
   chat: {
     top: '50%',
     left: '50%',
@@ -57,6 +63,11 @@ export default injectSheet({
       width: '100vw',
       height: '100vh',
     },
+  },
+  content: {
+    display: 'flex',
+    flexDirection: 'column',
+    height: '100%',
   },
 })(connect(
   (state) => ({ dialog: dialogStateSelector(state) }),

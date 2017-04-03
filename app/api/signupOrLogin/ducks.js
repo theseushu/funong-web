@@ -12,6 +12,9 @@ const ducks = createDucks({
     * api({ loginWithPassword, signupOrLoginWithMobilePhone }, { phone, smsCode, password }) {
       if (smsCode) {
         const attributes = password ? { password } : {};
+        if (smsCode && password) { // its signup
+          attributes.name = `${phone.substring(0, 3)}**${phone.substring(phone.length - 2, phone.length)}`;
+        }
         yield call(signupOrLoginWithMobilePhone, phone, smsCode, attributes);
       } else if (password) {
         yield call(loginWithPassword, phone, password);
