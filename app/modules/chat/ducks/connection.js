@@ -2,6 +2,7 @@ import { takeEvery, eventChannel, END } from 'redux-saga';
 import { call, take, put } from 'redux-saga/effects';
 import { connect, disconnect } from '../api/leancloud';
 import { selector as rootSelector, namespace as rootNamespace } from './constants';
+import { actions as dataActions } from './data';
 
 const debug = require('debug')('funongweb:chat:connection');
 
@@ -11,6 +12,7 @@ const LOGIN = `${namespace}/login`;
 const RETRY = `${namespace}/retry`;
 const LOGOUT = `${namespace}/logout`;
 
+const { appendConversations, appendMessages } = dataActions;
 function start(user) {
   return eventChannel((emitter) => {
     connect(user, {
@@ -38,6 +40,10 @@ function start(user) {
       stopped: () => {
         debug('Stoped');
         emitter(END);
+      },
+      message: (message, conversation) => {
+        debug(message);
+        emitter({ message, conversation });
       },
     });
     return disconnect;
@@ -68,8 +74,13 @@ function* loginSaga({ payload: { user } }) {
   try {
     while (true) { // eslint-disable-line
       // take(END) will cause the saga to terminate by jumping to the finally block
-      const state = yield take(chan);
-      yield put({ type: UPDATE_CONNECTION_STATE, payload: state });
+      const event = yield take(chan);
+      if (event.message) {
+        yield put(appendConversations([event.conversation]));
+        yield put(appendMessages([event.message]));
+      } else {
+        yield put({ type: UPDATE_CONNECTION_STATE, payload: event });
+      }
     }
   } finally {
     yield put({ type: UPDATE_CONNECTION_STATE, payload: {} });

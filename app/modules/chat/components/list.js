@@ -3,11 +3,12 @@ import injectSheet from 'react-jss';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { List, ListItem, ListItemContent, ListItemAction } from 'react-mdl/lib/List';
-import IconButton from 'react-mdl/lib/IconButton';
+// import IconButton from 'react-mdl/lib/IconButton';
 import { currentUserSelector } from 'modules/data/ducks/selectors';
 import { colors } from 'modules/common/styles';
 import Avatar from 'modules/common/user/avatar';
 import LoadingDiv from 'modules/common/glossary/loadingDiv';
+import { messageTypes } from '../constants';
 import { actions as dataActions, selectors as dataSelectors } from '../ducks/data';
 import { actions as conversationActions, selectors as conversationSelectors } from '../ducks/conversation';
 
@@ -27,13 +28,37 @@ class ChatList extends Component {
     loadRecentConversations({ currentUser: user });
   }
   render() {
-    const { current, loadRecentState: { pending }, conversations, setCurrentConversation, quitConversation, classes } = this.props;
+    const { current, loadRecentState: { pending }, conversations, setCurrentConversation, quitConversation, classes } = this.props; // eslint-disable-line no-unused-vars
     return (
       <LoadingDiv pending={pending}>
         <List className={classes.list}>
           {
             conversations.map((conversation, i) => {
               const isCurrent = current && current.objectId === conversation.objectId;
+              let lastMessage;
+              if (!isCurrent && conversation.lastMessage) {
+                switch (conversation.lastMessage.type) {
+                  case messageTypes.text:
+                    lastMessage = conversation.lastMessage.text;
+                    break;
+                  case messageTypes.image:
+                    lastMessage = '[图片]';
+                    break;
+                  case messageTypes.audio:
+                    lastMessage = '[音频]';
+                    break;
+                  case messageTypes.video:
+                    lastMessage = '[视频]';
+                    break;
+                  case messageTypes.location:
+                    lastMessage = '[地址]';
+                    break;
+                  case messageTypes.file:
+                    lastMessage = '[文件]';
+                    break;
+                  default:
+                }
+              }
               return (
                 <ListItem
                   key={i}
@@ -47,7 +72,7 @@ class ChatList extends Component {
                         <Avatar user={conversation.user} className={classes.avatar} />
                       </div>
                     }
-                    subtitle={isCurrent ? undefined : conversation.lastMessage}
+                    subtitle={lastMessage}
                   >{conversation.user.name}</ListItemContent>
                   <ListItemAction>
                     <div style={{ width: 10, height: 10, borderRadius: '50%', background: 'red' }}></div>

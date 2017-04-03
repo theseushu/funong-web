@@ -4,9 +4,11 @@ import { connect } from 'react-redux';
 import injectSheet from 'react-jss';
 import Button from 'react-mdl/lib/Button';
 import { colors } from 'modules/common/styles';
-import { actions } from '../ducks';
+import { messageTypes } from '../constants';
+import { actions as messageActions } from '../ducks/message';
 import { selectors } from '../ducks/data';
 
+let messageKey = 0;
 class Input extends Component {
   static propTypes = {
     classes: PropTypes.object.isRequired,
@@ -14,8 +16,25 @@ class Input extends Component {
     sendTextMessage: PropTypes.func.isRequired,
   }
   state = { value: '' }
+  handleKeyPress = (e) => {
+    if (e.nativeEvent.keyCode === 13) {
+      if (e.nativeEvent.shiftKey) {
+        e.preventDefault();
+        this.send();
+      }
+    }
+  }
+  send = () => {
+    const { conversation, sendTextMessage } = this.props;
+    const { value } = this.state;
+    if (conversation && value) {
+      messageKey += 1;
+      sendTextMessage({ conversation, message: { type: messageTypes.text, text: value }, meta: { storeKey: messageKey } });
+      this.setState({ value: '' });
+    }
+  }
   render() {
-    const { conversation, sendTextMessage, classes } = this.props;
+    const { conversation, classes } = this.props;
     const { value } = this.state;
     return (
       <div className={classes.wrapper}>
@@ -24,16 +43,14 @@ class Input extends Component {
           className={classes.input}
           value={value}
           onChange={(e) => this.setState({ value: e.target.value })}
+          onKeyDown={this.handleKeyPress}
         ></textarea>
         <div className={classes.send}>
+          <small>(Shift+Enter)</small>
           <Button
             colored
-            disabled={!conversation}
-            onClick={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
-              sendTextMessage({ message: value });
-            }}
+            disabled={!conversation || !value}
+            onClick={this.send}
           >发送</Button>
         </div>
       </div>
@@ -53,6 +70,7 @@ export default injectSheet({
     height: 100,
     resize: 'none',
     outline: 'none',
+    padding: 8,
     borderBottom: `solid 1px ${colors.colorLightGrey}`,
   },
   send: {
@@ -61,5 +79,5 @@ export default injectSheet({
   },
 })(connect(
   (state) => ({ conversation: selectors.currentConversation(state) }),
-  (dispatch) => bindActionCreators({ sendTextMessage: actions.sendTextMessage }, dispatch),
+  (dispatch) => bindActionCreators({ sendTextMessage: messageActions.send }, dispatch),
 )(Input));

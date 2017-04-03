@@ -5,7 +5,8 @@ import { connect } from 'react-redux';
 import { Layout, Header, Drawer, Content } from 'react-mdl/lib/Layout';
 import IconButton from 'react-mdl/lib/IconButton';
 import { breakpoints } from 'modules/common/styles';
-import { actions, selectors } from './ducks';
+import { actions as dialogActions, selectors as dialogSelectors } from './ducks/dialog';
+import { actions as dataActions } from './ducks/data';
 import List from './components/list';
 import Title from './components/title';
 import Messages from './components/messages';
@@ -15,10 +16,10 @@ class Chat extends Component {
   static propTypes = {
     classes: PropTypes.object.isRequired,
     dialog: PropTypes.object.isRequired,
-    closeDialog: PropTypes.func.isRequired,
+    onClose: PropTypes.func.isRequired,
   }
   render() {
-    const { dialog: { open, user }, closeDialog, classes } = this.props;
+    const { dialog: { open, user }, onClose, classes } = this.props;
     return open ? (
       <div className={`${classes.chat} shadow--3 material-transition`}>
         <Layout fixedHeader fixedDrawer>
@@ -26,7 +27,7 @@ class Chat extends Component {
             className={classes.header}
             title={<Title user={user} />}
           >
-            <IconButton name="close" onClick={closeDialog} />
+            <IconButton name="close" onClick={onClose} />
           </Header>
           <Drawer title={<span>联系人</span>}>
             <List />
@@ -41,8 +42,9 @@ class Chat extends Component {
   }
 }
 
-const closeDialogAction = actions.closeDialog;
-const dialogStateSelector = selectors.dialog;
+const setCurrentConversation = dataActions.setCurrentConversation;
+const closeDialogAction = dialogActions.closeDialog;
+const dialogStateSelector = dialogSelectors.dialog;
 
 export default injectSheet({
   chat: {
@@ -71,5 +73,13 @@ export default injectSheet({
   },
 })(connect(
   (state) => ({ dialog: dialogStateSelector(state) }),
-  (dispatch) => bindActionCreators({ closeDialog: closeDialogAction }, dispatch),
+  (dispatch) => {
+    const actions = bindActionCreators({ closeDialog: closeDialogAction, setCurrentConversation }, dispatch);
+    return {
+      onClose: () => {
+        actions.closeDialog();
+        actions.setCurrentConversation(null);
+      },
+    };
+  },
 )(Chat));

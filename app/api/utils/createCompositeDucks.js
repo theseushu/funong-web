@@ -75,9 +75,9 @@ export const createSaga = ({ apiName, actionConstant, stateActionConstant }, bef
     try {
       // if you need to do other stuff rather than simply call the api, use apiSaga
       // a sample usage would be cache result in api state after 1st call, use the cached results later
-      const result = apiSaga ? yield* apiSaga(api, payload) : yield call(_get(api, (apiName)), payload);
+      const result = apiSaga ? yield* apiSaga(api, payload, { storeKey }) : yield call(_get(api, (apiName)), payload);
       if (beforeFulfilledSaga) {
-        const beforeResult = yield* beforeFulfilledSaga(result, { payload, meta: { resolve, reject } });
+        const beforeResult = yield* beforeFulfilledSaga(result, { payload, meta: { storeKey, resolve, reject } });
         yield put({ type: stateActionConstant, payload: { pending: false, fulfilled: true, error: null, rejected: false, ...beforeResult }, meta: { storeKey } });
       } else {
         yield put({ type: stateActionConstant, payload: { pending: false, fulfilled: true, error: null, rejected: false }, meta: { storeKey } });
