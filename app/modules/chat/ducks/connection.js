@@ -45,6 +45,9 @@ function start(user) {
         debug(message);
         emitter({ message, conversation });
       },
+      unreadmessages: (count, conversation) => {
+        emitter({ count, conversation });
+      },
     });
     return disconnect;
   });
@@ -78,6 +81,11 @@ function* loginSaga({ payload: { user } }) {
       if (event.message) {
         yield put(appendConversations([event.conversation]));
         yield put(appendMessages([event.message]));
+      } else if (event.count != null) {
+        yield put(appendConversations([event.conversation]));
+        if (event.conversation.lastMessage) {
+          yield put(appendMessages(event.conversation.lastMessage));
+        }
       } else {
         yield put({ type: UPDATE_CONNECTION_STATE, payload: event });
       }

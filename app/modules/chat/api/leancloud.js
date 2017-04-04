@@ -73,12 +73,16 @@ export const connect = async (user, listeners) => {
     _listeners.reconnect();
   });
   imClient.on('message', (message, conversation) => { // eslint-disable-line no-unused-vars
-    debug(message);
+    debug('message');
     try {
       _listeners.message(messageToObject(message), conversationToObject(conversation, _user));
     } catch (err) {
       debug(err);
     }
+  });
+  imClient.on('unreadmessages', (payload, conversation) => {
+    debug('unreadmessages');
+    _listeners.unreadmessages(payload.count, conversationToObject(conversation, _user));
   });
   return imClient;
 };
@@ -123,6 +127,18 @@ export const createConversation = async (currentUser, user) => {
   return conversationToObject(conversation, currentUser);
 };
 
+export const markConversationAsRead = async (id) => {
+  if (!imClient) {
+    debug('Connection isnot created. check your code.');
+  }
+  const conversation = conversations[id];
+  if (!conversation) {
+    debug(`There's not conversation ${id}.. check your code.`);
+  }
+  await conversation.markAsRead();
+  return conversationToObject(conversation, _user);
+};
+
 export const quitConversation = async (id) => {
   if (!imClient) {
     debug('Connection isnot created. check your code.');
@@ -144,7 +160,7 @@ export const loadRecentConversations = async (currentUser) => {
   if (loaded) {
     return Object.values(conversations).map((conversation) => conversationToObject(conversation, currentUser));
   }
-  const fetched = await imClient.getQuery().containsMembers([currentUser.objectId]).limit(50).find();
+  const fetched = await imClient.getQuery().withLastMessagesRefreshed(true).containsMembers([currentUser.objectId]).limit(50).find();
   fetched.forEach((conversation) => {
     conversations[conversation.id] = conversation;
   });
@@ -172,7 +188,7 @@ export const queryMessages = async (conversationId, firstMessage) => {
   if (!conversation) {
     debug(`Conversation ${conversationId} is missing. check your code.`);
   }
-  const params = { limit: 5 };
+  const params = { limit: 20 };
   if (firstMessage) {
     params.beforeTime = new Date(firstMessage.timestamp);
     params.beforeMessageId = firstMessage.objectId;

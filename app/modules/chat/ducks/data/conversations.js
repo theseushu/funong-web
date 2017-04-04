@@ -1,7 +1,10 @@
 import _sortBy from 'lodash/sortBy';
 import _uniqBy from 'lodash/uniqBy';
 import _findIndex from 'lodash/findIndex';
+import _find from 'lodash/find';
+import _last from 'lodash/last';
 import { selector as rootSelector, namespace as rootNamespace } from './constants';
+import { selector as messagesSelector } from './messages';
 // const debug = require('debug')('funongweb:chat:conversation:list');
 
 const SLICE_NAME = 'conversations';
@@ -39,6 +42,13 @@ export const actions = {
   setConversationHistoryLoaded: (id) => ({ type: HISTORY_LOADED, payload: id }),
 };
 
-export const selector = (state) => rootSelector(state)[SLICE_NAME];
+export const selector = (state) => {
+  const conversations = rootSelector(state)[SLICE_NAME];
+  return conversations.map((conversation) => {
+    const messages = messagesSelector(state).filter((m) => m.cid === conversation.objectId);
+    const lastMessage = _last(messages) || conversation.lastMessage;
+    return { ...conversation, lastMessage, lastMessageAt: lastMessage ? lastMessage.timestamp : conversation.lastMessageAt };
+  });
+};
 
 export const sagas = [];

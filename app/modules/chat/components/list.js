@@ -2,15 +2,16 @@ import React, { Component, PropTypes } from 'react';
 import injectSheet from 'react-jss';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { List, ListItem, ListItemContent, ListItemAction } from 'react-mdl/lib/List';
-// import IconButton from 'react-mdl/lib/IconButton';
+import { List, ListItem, ListItemContent } from 'react-mdl/lib/List';
 import { currentUserSelector } from 'modules/data/ducks/selectors';
 import { colors } from 'modules/common/styles';
 import Avatar from 'modules/common/user/avatar';
 import LoadingDiv from 'modules/common/glossary/loadingDiv';
+import { humanizeTime } from 'utils/displayUtils';
 import { messageTypes } from '../constants';
 import { actions as dataActions, selectors as dataSelectors } from '../ducks/data';
 import { actions as conversationActions, selectors as conversationSelectors } from '../ducks/conversation';
+import Badge from './badge';
 
 class ChatList extends Component {
   static propTypes = {
@@ -36,7 +37,7 @@ class ChatList extends Component {
             conversations.map((conversation, i) => {
               const isCurrent = current && current.objectId === conversation.objectId;
               let lastMessage;
-              if (!isCurrent && conversation.lastMessage) {
+              if (conversation.lastMessage) {
                 switch (conversation.lastMessage.type) {
                   case messageTypes.text:
                     lastMessage = conversation.lastMessage.text;
@@ -62,7 +63,7 @@ class ChatList extends Component {
               return (
                 <ListItem
                   key={i}
-                  twoLine={!isCurrent}
+                  twoLine
                   className={`${classes.item} ${isCurrent ? classes.current : ''} material-transition`}
                   onClick={() => setCurrentConversation(conversation.objectId)}
                 >
@@ -70,13 +71,11 @@ class ChatList extends Component {
                     avatar={
                       <div>
                         <Avatar user={conversation.user} className={classes.avatar} />
+                        { conversation.unreadMessagesCount > 0 && <Badge className={classes.unread} /> }
                       </div>
                     }
                     subtitle={lastMessage}
-                  >{conversation.user.name}</ListItemContent>
-                  <ListItemAction>
-                    <div style={{ width: 10, height: 10, borderRadius: '50%', background: 'red' }}></div>
-                  </ListItemAction>
+                  >{conversation.user.name}{conversation.lastMessageAt && <small className={classes.lastMessageAt}>{humanizeTime(conversation.lastMessageAt)}</small>}</ListItemContent>
                 </ListItem>
               );
             })
@@ -97,8 +96,11 @@ const loadRecentConversationsSelector = conversationSelectors.loadRecent;
 export default injectSheet({
   list: {
     width: '100%',
+    margin: 0,
+    padding: 0,
   },
   item: {
+    position: 'relative',
     '& > .mdl-list__item-primary-content': {
       overflow: 'hidden',
       whiteSpace: 'nowrap',
@@ -114,6 +116,15 @@ export default injectSheet({
   avatar: {
     width: 36,
     height: 36,
+  },
+  lastMessageAt: {
+    float: 'right',
+    color: colors.colorSubTitle,
+  },
+  unread: {
+    position: 'absolute',
+    top: 44,
+    left: 50,
   },
 })(connect(
   (state) => ({

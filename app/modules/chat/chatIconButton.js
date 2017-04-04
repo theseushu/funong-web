@@ -1,4 +1,5 @@
 import React, { PropTypes } from 'react';
+import _find from 'lodash/find';
 import injectSheet from 'react-jss';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -6,10 +7,12 @@ import IconButton from 'react-mdl/lib/IconButton';
 import Tooltip from 'react-mdl/lib/Tooltip';
 import { currentUserSelector } from 'modules/data/ducks/selectors';
 import { colors } from 'modules/common/styles';
-import { actions as dialogActions } from './ducks/dialog';
+import { selectors as dataSelectors } from './ducks/data';
+import { actions as dialogActions, selectors as dialogSelectors } from './ducks/dialog';
 import { selectors } from './ducks/connection';
+import Badge from './components/badge';
 
-const Chat = ({ openDialog, connection, user, classes }) => {
+const Chat = ({ open, openDialog, connection, unread, user, classes }) => {
   const { connecting, connected } = connection;
   return (
     user ? (
@@ -36,11 +39,14 @@ const Chat = ({ openDialog, connection, user, classes }) => {
               onClick={(e) => {
                 e.preventDefault();
                 e.stopPropagation();
-                openDialog();
+                if (!open) {
+                  openDialog();
+                }
               }}
             />
           )
         }
+        {connected && !open && unread && <Badge className={classes.unread} />}
       </div>
     ) : null
   );
@@ -49,13 +55,17 @@ Chat.propTypes = {
   classes: PropTypes.object.isRequired,
   user: PropTypes.object,
   connection: PropTypes.object,
+  open: PropTypes.bool.isRequired,
   openDialog: PropTypes.func.isRequired,
+  unread: PropTypes.bool.isRequired,
 };
 
 const connectStateSelector = selectors.connection;
+const conversationsSelecotr = dataSelectors.conversations;
 
 export default injectSheet({
   chat: {
+    position: 'relative',
     '& button': {
       color: colors.colorSubTitle,
     },
@@ -67,7 +77,17 @@ export default injectSheet({
     from: { opacity: 0.1 },
     to: { opacity: 0.8 },
   },
+  unread: {
+    position: 'absolute',
+    top: 2,
+    right: 2,
+  },
 })(connect(
-  (state) => ({ user: currentUserSelector(state), connection: connectStateSelector(state) }),
+  (state) => ({
+    user: currentUserSelector(state),
+    connection: connectStateSelector(state),
+    unread: !!_find(conversationsSelecotr(state), (conversation) => conversation.unreadMessagesCount > 0),
+    open: dialogSelectors.dialog(state).open,
+  }),
   (dispatch) => bindActionCreators({ openDialog: dialogActions.openDialog }, dispatch),
 )(Chat));
