@@ -10,5 +10,3 @@ const modules = { create, quit, markAsRead, loadRecent };
 if (process.env.ADMIN) {} // eslint-disable-line
 
 module.exports = combineModules(modules, SLICE_NAME);
-
-console.log(combineModules(modules, SLICE_NAME))

@@ -1,7 +1,6 @@
 import _sortBy from 'lodash/sortBy';
 import _uniqBy from 'lodash/uniqBy';
 import _findIndex from 'lodash/findIndex';
-import _find from 'lodash/find';
 import _last from 'lodash/last';
 import { selector as rootSelector, namespace as rootNamespace } from './constants';
 import { selector as messagesSelector } from './messages';

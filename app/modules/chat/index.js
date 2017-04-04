@@ -1,4 +1,5 @@
 import React, { PropTypes, Component } from 'react';
+import { findDOMNode } from 'react-dom';
 import injectSheet from 'react-jss';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -18,10 +19,26 @@ class Chat extends Component {
     dialog: PropTypes.object.isRequired,
     onClose: PropTypes.func.isRequired,
   }
+  componentWillReceiveProps({ dialog: { open, user } }) {
+    // if the dialog was closed, to be opened, there's no user (no conversation) to be entered, and screen width is small
+    if (!this.props.dialog.open && open && !user && window.matchMedia(('(max-width: 1023px)')).matches) {
+      this.shallOpenDrawer = true;
+    } else {
+      this.shallOpenDrawer = false;
+    }
+  }
+  componentDidUpdate() {
+    if (this.shallOpenDrawer) {
+      const drawerButton = findDOMNode(this.node).getElementsByClassName('mdl-layout__drawer-button')[0]; // eslint-disable-line
+      drawerButton.click();
+    }
+  }
   render() {
     const { dialog: { open, user }, onClose, classes } = this.props;
     return open ? (
-      <div className={`${classes.chat} shadow--3 material-transition`}>
+      <div
+        ref={(node) => this.node = node}
+        className={`${classes.chat} shadow--3 material-transition`}>
         <Layout fixedHeader fixedDrawer>
           <Header
             className={classes.header}
