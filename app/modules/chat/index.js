@@ -37,8 +37,9 @@ class Chat extends Component {
     const { dialog: { open, user }, onClose, classes } = this.props;
     return open ? (
       <div
-        ref={(node) => this.node = node}
-        className={`${classes.chat} shadow--3 material-transition`}>
+        ref={(node) => { this.node = node; }}
+        className={`${classes.chat} shadow--3 material-transition`}
+      >
         <Layout fixedHeader fixedDrawer>
           <Header
             className={classes.header}
@@ -82,6 +83,9 @@ export default injectSheet({
       width: '100vw',
       height: '100vh',
     },
+  },
+  header: {
+    background: 'rgba(76,175,80, 0.08)',
   },
   content: {
     display: 'flex',
