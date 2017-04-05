@@ -16,11 +16,12 @@ class Page extends Component { // eslint-disable-line
     create: PropTypes.bool,
   }
   render() {
-    const { content, create = true, title, editPath, sheet: { classes } } = this.props;
+    const { content, create = true, title, editPath, sheet: { classes }, ...props } = this.props;
     return (
       <PageComponent
         header={<Header />}
         smallContent={false}
+        {...props}
       >
         <div className={classes.content}>
           { title }

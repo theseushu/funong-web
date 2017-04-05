@@ -7,7 +7,7 @@ import Page from '../page';
 import Header from '../header';
 
 const Orders = ({ user, orders, classes }) => (
-  <Page header={<Header />} smallContent={false}>
+  <Page helmet={{ title: '富农商城-历史订单' }} header={<Header />} smallContent={false}>
     <div className={classes.content}>
       {
       _map(orders, (order, i) => (

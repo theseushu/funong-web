@@ -11,6 +11,7 @@ const Content = connect(
 )(Inquiries);
 
 export default () => (<Page
+  helmet={{ title: '富农商城-我的采购' }}
   editPath={editPath}
   content={<Content />}
 />);

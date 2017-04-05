@@ -6,7 +6,8 @@ import { Tabs, Tab } from 'react-mdl/lib/Tabs';
 import { replace } from 'react-router-redux/lib/actions';
 import { currentUserSelector, usersSelector } from 'modules/data/ducks/selectors';
 import styles from 'modules/common/styles';
-import Layout, { MainLeft } from 'modules/common/layout';
+import { Layout } from 'modules/common/layouts';
+import { MainLeft } from 'modules/common/layout';
 import UserCard from 'modules/common/user/card';
 import ProductsPage from 'modules/common/product/page';
 import InquiriesPage from 'modules/common/inquiry/page';
@@ -17,9 +18,15 @@ import types from './tabTypes';
 
 const typeToTabIndex = (type) => types.indexOf(type);
 
-const UserPage = ({ user, pagingState, type, onTabChange }) => (
+const UserPage = ({ user, pagingState, type, onTabChange }, { router }) => (
   <Layout
-    content={
+    helmet={{ title: `富农商城-${user.name}` }}
+    smallContent={false}
+    onReturn={() => {
+      router.goBack();
+    }}
+  >
+    {
       <MainLeft
         left={<UserCard user={user} />}
         main={
@@ -37,14 +44,15 @@ const UserPage = ({ user, pagingState, type, onTabChange }) => (
               </LoadingDiv>
             </section>
           </div>
-          }
+        }
       />
-      }
-    smallContent={false}
-  >
+    }
   </Layout>
-  );
+);
 
+UserPage.contextTypes = {
+  router: PropTypes.object.isRequired,
+};
 UserPage.propTypes = {
   pagingState: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired,

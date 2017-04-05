@@ -9,6 +9,7 @@ const Products = connect(
 )((props) => <List editPath={editPath} Card={Card} {...props} />);
 
 export default () => (<Page
+  helmet={{ title: '富农商城-我的乡村游' }}
   editPath={editPath}
   content={<Products />}
 />);

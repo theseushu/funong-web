@@ -3,6 +3,7 @@ import injectSheet from 'react-jss';
 import { Layout, Content, Drawer } from 'react-mdl/lib/Layout';
 import { Footer, FooterLinkList, FooterSection } from 'react-mdl/lib/Footer';
 import { shadows, breakpoints } from 'modules/common/styles';
+import Helmet from 'modules/common/helmet';
 import Container from './container';
 import Header from './header';
 import BottomNav from './bottomNav';
@@ -12,24 +13,31 @@ class LayoutComponent extends Component {
   static propTypes = {
     children: PropTypes.object.isRequired,
     classes: PropTypes.object,
+    helmet: PropTypes.object,
     header: PropTypes.any,
     container: PropTypes.bool,
     small: PropTypes.bool,
     sideMenu: PropTypes.array,
-    onReturn: PropTypes.func,
+    onReturn: PropTypes.oneOfType([
+      PropTypes.func,
+      PropTypes.string,
+      PropTypes.object,
+    ]),
     onSearch: PropTypes.func,
   }
   static defaultProps = {
     container: true,
+    helmet: {},
   }
   constructor(props) {
     super(props);
     this.state = { activeTab: 0 };
   }
   render() {
-    const { header, container, small, children, sideMenu = [], onSearch, onReturn, classes } = this.props;
+    const { helmet, header, container, small, children, sideMenu, onSearch, onReturn, classes } = this.props;
     return (
       <Layout fixedHeader fixedTabs className={classes.layout}>
+        <Helmet {...helmet} />
         <Header header={header} sideMenu={sideMenu} onSearch={onSearch} onReturn={onReturn} />
         {sideMenu && <Drawer title="Title">
           <div><SideMenu routes={sideMenu} /></div>

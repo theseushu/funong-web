@@ -26,7 +26,7 @@ class Profile extends Component {
   render() {
     const { user: { mobilePhoneNumber }, logout, classes } = this.props;
     return (
-      <Page>
+      <Page helmet={{ title: '富农商城-个人信息' }}>
         <div className={classes.content}>
           <Card shadow={2} style={{ width: '100%', margin: 'auto' }}>
             <CardTitle>

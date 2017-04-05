@@ -4,7 +4,7 @@ import Header from '../header';
 import Cart from './cart';
 
 const CartPage = () => (
-  <Page header={<Header />} smallContent={false}>
+  <Page header={<Header />} helmet={{ title: '富农商城-购物车' }} smallContent={false}>
     <Cart />
   </Page>
 );

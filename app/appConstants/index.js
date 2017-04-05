@@ -1,5 +1,6 @@
 export catalogs from './catalogs';
 export productTypes from './productTypes';
+export { productNames } from './productTypes';
 export serviceTypes from './services';
 export orderFeeTypes from './orderFeeTypes';
 

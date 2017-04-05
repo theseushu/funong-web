@@ -35,7 +35,16 @@ const AppHeader = ({ classes, header, onSearch, sideMenu, onReturn }, { router }
         </Container>
         {onReturn && (
           <div className={classes.returnButton} style={{ left: sideMenu ? 56 : 0 }}>
-            <IconButton name="keyboard_backspace" onClick={onReturn} />
+            <IconButton
+              name="keyboard_backspace"
+              onClick={() => {
+                if (typeof onReturn === 'function') {
+                  onReturn();
+                } else {
+                  router.push(onReturn);
+                }
+              }}
+            />
           </div>
         )}
       </HeaderRow>
@@ -59,7 +68,11 @@ AppHeader.propTypes = {
   header: PropTypes.any,
   onSearch: PropTypes.func,
   sideMenu: PropTypes.array,
-  onReturn: PropTypes.func,
+  onReturn: PropTypes.oneOfType([
+    PropTypes.func,
+    PropTypes.string,
+    PropTypes.object,
+  ]),
 };
 
 export default injectSheet({

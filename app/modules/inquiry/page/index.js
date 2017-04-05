@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import _find from 'lodash/find';
-import Layout from 'modules/common/layout';
+import { Layout } from 'modules/common/layouts';
 import { inquiriesSelector } from 'modules/data/ducks/selectors';
 import Form from './form';
 import Display from './display';
@@ -20,12 +20,14 @@ const Page = ({ inquiry, params: { id }, location }) => {
   const { query } = location;
   return (
     <Layout
-      content={
+      helmet={{ title: `富农商城-${(id === 'new' || query.edit) ? '编辑' : ''}采购 ${inquiry ? inquiry.name : ''}` }}
+      onReturn={'/inquiries'}
+      smallContent={id === 'new' || !!query.edit}
+    >
+      {
         (id === 'new' || query.edit) ?
           <Form initialValues={inquiry || EMPTY} /> : <Display inquiry={inquiry} location={location} />
       }
-      smallContent={id === 'new' || !!query.edit}
-    >
     </Layout>
   );
 };

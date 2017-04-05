@@ -1,14 +1,14 @@
 import React, { PropTypes } from 'react';
-import Helmet from 'react-helmet';
 import injectSheet from 'react-jss';
 import { Card, CardTitle, CardText, CardMedia } from 'react-mdl/lib/Card';
 import { Tabs, Tab } from 'react-mdl/lib/Tabs';
+import logo from 'assets/logo.png';
+import styles, { layouts, breakpoints } from 'modules/common/styles';
+import Helmet from 'modules/common/helmet';
 import RequestSmsCodeButton from './requestSmsCodeButton/requestSmsCodeButtonContainer';
 import Form from './signupOrLoginForm/signupOrLoginFormContainer';
-import styles, { layouts, breakpoints } from '../common/styles';
 import mediaBg from './assets/media-bg.jpg';
 import backgroundImg from './assets/bg.jpg';
-import logo from '../../assets/logo.png';
 
 
 export class SignupOrLogin extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
@@ -29,10 +29,7 @@ export class SignupOrLogin extends React.PureComponent { // eslint-disable-line 
     return (
       <div className={classes.background}>
         <Helmet
-          title="登录/注册"
-          meta={[
-            { name: '登录/注册', content: '登录 注册' },
-          ]}
+          title="富农商城 登录/注册"
         />
         <div className={styles.contentCenter}>
           <Card shadow={4} className={classes.formWrapper}>

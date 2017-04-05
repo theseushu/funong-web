@@ -25,6 +25,7 @@ class Products extends Component { // eslint-disable-line
       <Page
         header={<Header />}
         smallContent={false}
+        helmet={{ title: '富农商城-我的商品' }}
       >
         <div className={classes.content}>
           <Toolbar query={query} />

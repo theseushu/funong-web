@@ -11,6 +11,7 @@ const Products = connect(
 
 export default () => (
   <Page
+    helmet={{ title: '富农商城-我的供应' }}
     editPath={editPath}
     title={<Services />}
     content={<Products />}

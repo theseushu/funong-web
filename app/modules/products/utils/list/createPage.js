@@ -1,13 +1,14 @@
 import { connect } from 'react-redux';
 import React, { PropTypes } from 'react';
 import injectSheet from 'react-jss';
-import Layout from 'modules/common/layout';
+import { productNames } from 'appConstants';
+import { Layout } from 'modules/common/layouts';
 import { MainRight as ContentMainRight } from 'modules/common/layout/content';
 import { breakpoints } from 'modules/common/styles';
 import createCriteria from './createCriteria';
 import createRecommends from './createRecommends';
 
-export default ({ ducks, Card, BriefCard, catalogGroups, horizontal }) => {
+export default ({ type, ducks, Card, BriefCard, catalogGroups, horizontal }) => {
   const { actions, selectors } = ducks;
   const Criteria = createCriteria(selectors, catalogGroups);
   const Recommends = createRecommends(actions, selectors, BriefCard);
@@ -15,7 +16,9 @@ export default ({ ducks, Card, BriefCard, catalogGroups, horizontal }) => {
   // location is a react-router param passed here
   const Page = ({ location, products, sheet: { classes } }) => (
     <Layout
-      content={
+      helmet={{ title: `富农商城-${productNames[type]}` }}
+    >
+      {
         <div className={classes.page}>
           <Criteria location={location} />
           <ContentMainRight
@@ -38,7 +41,6 @@ export default ({ ducks, Card, BriefCard, catalogGroups, horizontal }) => {
           />
         </div>
       }
-    >
     </Layout>
   );
 

@@ -55,7 +55,7 @@ const sideRoutes = () => [
   { title: '我的收藏', path: '/me/bookmarks' },
 ];
 
-const MePage = ({ user: { type }, header, children, smallContent = true }, { router }) => {
+const MePage = ({ helmet, user: { type }, header, children, smallContent = true }, { router }) => {
   const routes = sideRoutes(type).map((route) => {
     if (route.path !== '/me/published') {
       const active = router.isActive(route.path, true);
@@ -66,8 +66,8 @@ const MePage = ({ user: { type }, header, children, smallContent = true }, { rou
   });
   return (
     <Layout
+      helmet={helmet || { title: '富农商城-个人信息' }}
       sideMenu={routes}
-      content={children}
       small={smallContent}
       header={header}
     >
@@ -81,6 +81,7 @@ MePage.contextTypes = {
 };
 MePage.propTypes = {
   children: PropTypes.any.isRequired,
+  helmet: PropTypes.object,
   header: PropTypes.object,
   user: PropTypes.object.isRequired,
   smallContent: PropTypes.bool,

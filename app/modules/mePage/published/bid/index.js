@@ -11,6 +11,7 @@ const Content = connect(
 )(Bids);
 
 export default () => (<Page
+  helmet={{ title: '富农商城-我的报价' }}
   editPath={editPath}
   create={false}
   content={<Content />}
