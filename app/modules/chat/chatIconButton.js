@@ -35,7 +35,7 @@ const Chat = ({ open, openDialog, connection, unread, user, classes }) => {
         {
           connected && (
             <IconButton
-              name="goat"
+              name="chat"
               onClick={(e) => {
                 e.preventDefault();
                 e.stopPropagation();

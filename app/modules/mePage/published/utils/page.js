@@ -5,6 +5,7 @@ import FABButton from 'react-mdl/lib/FABButton';
 import Icon from 'react-mdl/lib/Icon';
 import { colors, breakpoints } from 'modules/common/styles';
 import PageComponent from '../../page';
+import Header from '../../header';
 
 class Page extends Component { // eslint-disable-line
   static propTypes = {
@@ -17,7 +18,10 @@ class Page extends Component { // eslint-disable-line
   render() {
     const { content, create = true, title, editPath, sheet: { classes } } = this.props;
     return (
-      <PageComponent smallContent={false}>
+      <PageComponent
+        header={<Header />}
+        smallContent={false}
+      >
         <div className={classes.content}>
           { title }
           <div className={classes.entries}>

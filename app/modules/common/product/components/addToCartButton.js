@@ -10,7 +10,7 @@ import { actions, selectors } from 'api/cart';
 const { addItem } = actions;
 const addCartItemStateSelector = selectors.addItem;
 
-const ToastrLink = () => <Link to="/cart">去购物车</Link>;
+const ToastrLink = () => <Link to="/me/cart">去购物车</Link>;
 
 const AddToCartButton = ({ currentUser, pending, addCartItem, type, product, specIndex, quantity }) => (
   <Button

@@ -10,6 +10,7 @@ import { colors, breakpoints } from 'modules/common/styles';
 import { createShopProductsSelector } from 'modules/data/ducks/selectors';
 import ShopProductCard from 'modules/common/cards/shopProduct';
 import Page from '../../page';
+import Header from '../header';
 import Toolbar from './toolbar';
 
 class Products extends Component { // eslint-disable-line
@@ -21,7 +22,10 @@ class Products extends Component { // eslint-disable-line
   render() {
     const { location: { query }, products, classes } = this.props;
     return (
-      <Page smallContent={false}>
+      <Page
+        header={<Header />}
+        smallContent={false}
+      >
         <div className={classes.content}>
           <Toolbar query={query} />
           <div className={classes.products}>

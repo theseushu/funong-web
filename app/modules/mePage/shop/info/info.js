@@ -10,6 +10,7 @@ import styles, { breakpoints } from 'modules/common/styles';
 import { createShopAuthorized } from 'utils/authUtils';
 import { createBadgesForUser } from 'utils/displayUtils';
 import Page from '../../page';
+import Header from '../header';
 import Editing from './editing';
 
 const style = {
@@ -115,7 +116,7 @@ class Info extends Component {
       );
     }
     return (
-      <Page>
+      <Page header={<Header />}>
         <div className={classes.content}>
           {content}
         </div>

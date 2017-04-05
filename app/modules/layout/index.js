@@ -59,7 +59,7 @@ const sideRoutes = () => [
       path: '/me/shop/products',
     }],
   },
-  { title: '购物车', path: '/cart' },
+  { title: '购物车', path: '/me/cart' },
   { title: '历史订单', path: '/me/orders' },
   { title: '我的收藏', path: '/me/bookmarks' },
 ];

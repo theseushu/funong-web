@@ -4,6 +4,7 @@ import createCertsRoute from './certs/route';
 import createPublishedRoute from './published/route';
 import createShopRoute from './shop/route';
 import createOrdersRoute from './orders/route';
+import createCartRoute from './cart/route';
 
 export default ({ store, injectReducer, injectSagas, loadModule, errorLoading }) => ({ // eslint-disable-line no-unused-vars
   path: '/me',
@@ -40,5 +41,6 @@ export default ({ store, injectReducer, injectSagas, loadModule, errorLoading })
     createPublishedRoute({ store, injectReducer, injectSagas, loadModule, errorLoading }),
     createShopRoute({ store, injectReducer, injectSagas, loadModule, errorLoading }),
     createOrdersRoute({ store, injectReducer, injectSagas, loadModule, errorLoading }),
+    createCartRoute({ store, injectReducer, injectSagas, loadModule, errorLoading }),
   ],
 });

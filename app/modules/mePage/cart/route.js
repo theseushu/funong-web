@@ -20,7 +20,7 @@ const fetchData = async (store) => {
 };
 
 export default ({ store, injectReducer, injectSagas, loadModule, errorLoading }) => ({ // eslint-disable-line no-unused-vars
-  path: '/cart',
+  path: 'cart',
   name: 'cart',
   onEnter: async ({ location }, replace, callback) => {
     const { login } = await requireAuth(store);

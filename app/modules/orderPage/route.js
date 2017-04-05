@@ -9,12 +9,12 @@ export default ({ store, injectReducer, injectSagas, loadModule, errorLoading })
   onEnter: async ({ location }, replace, callback) => {
     const { login } = await requireAuth(store);
     if (login) {
-      const cartPageDucks = await System.import('../cartPage/ducks');
+      const cartPageDucks = await System.import('../mePage/cart/ducks');
       const itemsSelector = cartPageDucks.selectors.items;
       const items = itemsSelector(store.getState());
       if (items == null || items.length === 0) {
         // TODO uncomment
-        replace('/cart');
+        replace('/me/cart');
       }
       callback();
     } else {
@@ -43,7 +43,7 @@ export default ({ store, injectReducer, injectSagas, loadModule, errorLoading })
     const { setCartItems, selectAddress } = actions;
 
     // set items
-    const cartPageDucks = await System.import('../cartPage/ducks');
+    const cartPageDucks = await System.import('../mePage/cart/ducks');
     const itemsSelector = cartPageDucks.selectors.items;
     const items = itemsSelector(store.getState());
     store.dispatch(setCartItems(items));

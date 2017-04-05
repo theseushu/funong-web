@@ -6,6 +6,7 @@ import Icon from 'react-mdl/lib/Icon';
 import { Tabs, Tab } from 'react-mdl/lib/Tabs';
 import styles, { breakpoints } from 'modules/common/styles';
 import { statusValues, certTypes } from 'appConstants';
+import Header from '../header';
 import Page from '../page';
 import Personal from './personal';
 import Company from './company';
@@ -93,7 +94,7 @@ class Certs extends Component {
     const { personal, company, expert, sheet: { classes } } = this.props;
     const { activeTab } = this.state;
     return (
-      <Page>
+      <Page header={<Header />}>
         <div className={classes.content}>
           <Card shadow={2} style={{ width: '100%', margin: 'auto' }}>
             <CardTitle>

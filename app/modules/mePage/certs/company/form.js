@@ -110,6 +110,6 @@ export default injectSheet({
     display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap',
   },
   input: {
-    flex: 1, minWidth: 300,
+    flex: 1,
   },
 })(companyCertForm);

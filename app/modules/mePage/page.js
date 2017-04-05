@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { currentUserSelector } from 'modules/data/ducks/selectors';
-import Layout from 'modules/common/layout';
+import { Layout } from 'modules/common/layouts';
 import { actions as pageActions } from './ducks';
 
 const sideRoutes = () => [
@@ -50,12 +50,12 @@ const sideRoutes = () => [
       path: '/me/shop/products',
     }],
   },
-  { title: '购物车', path: '/cart' },
+  { title: '购物车', path: '/me/cart' },
   { title: '历史订单', path: '/me/orders' },
   { title: '我的收藏', path: '/me/bookmarks' },
 ];
 
-const MePage = ({ user: { type }, children, smallContent = true }, { router }) => {
+const MePage = ({ user: { type }, header, children, smallContent = true }, { router }) => {
   const routes = sideRoutes(type).map((route) => {
     if (route.path !== '/me/published') {
       const active = router.isActive(route.path, true);
@@ -68,8 +68,10 @@ const MePage = ({ user: { type }, children, smallContent = true }, { router }) =
     <Layout
       sideMenu={routes}
       content={children}
-      smallContent={smallContent}
+      small={smallContent}
+      header={header}
     >
+      {children}
     </Layout>
   );
 };
@@ -79,6 +81,7 @@ MePage.contextTypes = {
 };
 MePage.propTypes = {
   children: PropTypes.any.isRequired,
+  header: PropTypes.object,
   user: PropTypes.object.isRequired,
   smallContent: PropTypes.bool,
 };

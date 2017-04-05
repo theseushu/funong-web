@@ -11,7 +11,6 @@ import createTripRoute from 'modules/products/trip/page/route';
 import createTripsRoute from 'modules/products/trip/list/route';
 import createShopProductRoute from 'modules/products/shop/page/route';
 import createShopProductsRoute from 'modules/products/shop/list/route';
-import createCartPageRoute from 'modules/cartPage/route';
 import createOrderPageRoute from 'modules/orderPage/route';
 import createInquiryRoute from 'modules/inquiry/page/route';
 import createInquiriesRoute from 'modules/inquiry/list/route';
@@ -70,7 +69,6 @@ export default function createRoutes(store) {
     createTripsRoute({ store, injectReducer, injectSagas, loadModule, errorLoading }),
     createShopProductRoute({ store, injectReducer, injectSagas, loadModule, errorLoading }),
     createShopProductsRoute({ store, injectReducer, injectSagas, loadModule, errorLoading }),
-    createCartPageRoute({ store, injectReducer, injectSagas, loadModule, errorLoading }),
     createOrderPageRoute({ store, injectReducer, injectSagas, loadModule, errorLoading }),
     createInquiryRoute({ store, injectReducer, injectSagas, loadModule, errorLoading }),
     createInquiriesRoute({ store, injectReducer, injectSagas, loadModule, errorLoading }),

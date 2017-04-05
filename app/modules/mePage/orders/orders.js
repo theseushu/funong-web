@@ -4,9 +4,10 @@ import injectSheet from 'react-jss';
 import { breakpoints } from 'modules/common/styles';
 import StatefulOrder from './order';
 import Page from '../page';
+import Header from '../header';
 
 const Orders = ({ user, orders, classes }) => (
-  <Page smallContent={false}>
+  <Page header={<Header />} smallContent={false}>
     <div className={classes.content}>
       {
       _map(orders, (order, i) => (

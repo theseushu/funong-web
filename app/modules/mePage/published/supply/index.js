@@ -9,8 +9,10 @@ const Products = connect(
   selector,
 )((props) => <List editPath={editPath} Card={Card} {...props} />);
 
-export default () => (<Page
-  editPath={editPath}
-  title={<Services />}
-  content={<Products />}
-/>);
+export default () => (
+  <Page
+    editPath={editPath}
+    title={<Services />}
+    content={<Products />}
+  />
+);
