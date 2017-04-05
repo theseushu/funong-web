@@ -15,6 +15,7 @@ import createCartPageRoute from 'modules/cartPage/route';
 import createOrderPageRoute from 'modules/orderPage/route';
 import createInquiryRoute from 'modules/inquiry/page/route';
 import createInquiriesRoute from 'modules/inquiry/list/route';
+import createLayoutRoute from 'modules/layout/route';
 
 const errorLoading = (err) => {
   console.error('Dynamic page loading failed', err); // eslint-disable-line no-console
@@ -29,6 +30,7 @@ export default function createRoutes(store) {
   const { injectReducer, injectSagas } = getAsyncInjectors(store); // eslint-disable-line no-unused-vars
 
   return [
+    createLayoutRoute({ store, injectReducer, injectSagas, loadModule, errorLoading }),
     createHomePageRoute({ store, injectReducer, injectSagas, loadModule, errorLoading }),
     {
       path: '/login',

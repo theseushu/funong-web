@@ -35,7 +35,7 @@ module.exports = (options) => ({
       loader: 'file-loader',
     }, {
       test: /\.(jpg|png|gif)$/,
-      loaders: 'url-loader?limit=10000!img-loader?progressive=true',
+      loaders: 'url-loader?limit=1000!img-loader?progressive=true',
     }, {
       test: /\.html$/,
       loader: 'html-loader',
