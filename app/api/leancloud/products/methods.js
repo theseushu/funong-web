@@ -1,15 +1,22 @@
 import _map from 'lodash/map';
 import _union from 'lodash/union';
 import _isUndefined from 'lodash/isUndefined';
+import AV from 'leancloud-storage';
 import { generateKeywords } from 'utils/productUtils';
 import { productToJSON as converter } from '../utils/converters';
 import { products as shemas } from '../utils/shemas';
 const debug = require('debug')('app:api:product:methods');
 
-export const create = async (AV, Class, schema, params, context) => {
+export const create = async (schema, params, context) => {
+  // const { token: { sessionToken } } = context;
+  // const result = await AV.Cloud.rpc('createProduct', { type: schema.type, ...params }, { sessionToken });
+  // return {
+  //   ...result,
+  //   results: result.results.map((product) => converter(schema, product)),
+  // };
   const { token: { sessionToken }, profile } = context;
   const { table, attributes } = schema;
-  const product = new Class();
+  const product = new schema.Class();
   try {
     const attrs = attributes.owner ? { ...params, owner: profile } : { ...params };
     _map(attrs, (value, key) => {
@@ -18,7 +25,7 @@ export const create = async (AV, Class, schema, params, context) => {
         if (!attrSchema || !attrSchema.create) {
           throw new Error(`Unsupported attr(${key}) in ${table} creating`);
         }
-        attrSchema.create(AV, product, value);
+        attrSchema.create(product, value);
       }
     });
     product.set('keywords', generateKeywords(schema.type, params));
@@ -33,7 +40,7 @@ export const create = async (AV, Class, schema, params, context) => {
   }
 };
 
-export const update = async (AV, schema, { ...params }, context) => {
+export const update = async (schema, { ...params }, context) => {
   const { token: { sessionToken } } = context;
   const { table, attributes } = schema;
   const { product, ...attrs } = params;
@@ -48,7 +55,7 @@ export const update = async (AV, schema, { ...params }, context) => {
         if (!attrSchema || !attrSchema.update) {
           throw new Error(`Unsupported attr(${key}) in ${table} updating`);
         }
-        attrSchema.update(AV, toSave, value);
+        attrSchema.update(toSave, value);
       }
     });
     toSave.set('keywords', generateKeywords(schema.type, params));
@@ -63,7 +70,7 @@ export const update = async (AV, schema, { ...params }, context) => {
   }
 };
 
-export const fetch = async (AV, schema, { objectId }, context) => {
+export const fetch = async (schema, { objectId }, context) => {
   const { table, attributes } = schema;
   const { token: { sessionToken } } = context;
   const product = await AV.Object.createWithoutData(table, objectId)
@@ -75,7 +82,7 @@ export const fetch = async (AV, schema, { objectId }, context) => {
   return converter(schema, product);
 };
 
-const createQuery = (AV, schema, { sort, page, pageSize, ...params }) => {
+const createQuery = (schema, { sort, page, pageSize, ...params }) => {
   const { table, attributes } = schema;
   const query = new AV.Query(table)
     .include(_union(..._map(attributes, (attr) => attr.include)));
@@ -85,7 +92,7 @@ const createQuery = (AV, schema, { sort, page, pageSize, ...params }) => {
       if (!attrSchema || !attrSchema.search) {
         throw new Error(`Unsupported attr(${key}) in ${table} searching`);
       }
-      attrSchema.search(AV, query, value);
+      attrSchema.search(query, value);
     }
   });
   if (sort && sort.sort) {
@@ -103,14 +110,14 @@ const createQuery = (AV, schema, { sort, page, pageSize, ...params }) => {
   return query;
 };
 
-export const search = async (AV, schema, params, context) => {
+export const search = async (schema, params, context) => {
   const { token: { sessionToken } } = context;
-  const query = createQuery(AV, schema, params);
+  const query = createQuery(schema, params);
   const products = await query.find({ sessionToken });
   return products.map((product) => converter(schema, product));
 };
 
-export const page = async (AV, schema, params, context) => {
+export const page = async (schema, params, context) => {
   const { token: { sessionToken } } = context;
   const result = await AV.Cloud.rpc('pageProducts', { type: schema.type, ...params }, { sessionToken });
   return {
@@ -119,29 +126,29 @@ export const page = async (AV, schema, params, context) => {
   };
 };
 
-export const recommend = async (AV, schema, params, context) => {
+export const recommend = async (schema, params, context) => {
   const { token: { sessionToken } } = context;
-  const query = createQuery(AV, schema, params);
+  const query = createQuery(schema, params);
   const products = await query.find({ sessionToken });
   return products.map((product) => converter(schema, product));
 };
 
-export const count = async (AV, schema, params, context) => {
+export const count = async (schema, params, context) => {
   const { token: { sessionToken } } = context;
-  const query = createQuery(AV, schema, params);
+  const query = createQuery(schema, params);
   return await query.count({ sessionToken });
 };
 
-export default (AV, Class, type, context) => {
+export default (type, context) => {
   const schema = shemas[type];
   return ({
-    create: (params) => create(AV, Class, schema, params, context),
-    update: (params) => update(AV, schema, params, context),
-    fetch: (params) => fetch(AV, schema, params, context),
-    search: (params) => search(AV, schema, params, context),
-    page: (params) => page(AV, schema, params, context),
-    recommend: (params) => recommend(AV, schema, params, context),
-    count: (params) => count(AV, schema, params, context),
+    create: (params) => create(schema, params, context),
+    update: (params) => update(schema, params, context),
+    fetch: (params) => fetch(schema, params, context),
+    search: (params) => search(schema, params, context),
+    page: (params) => page(schema, params, context),
+    recommend: (params) => recommend(schema, params, context),
+    count: (params) => count(schema, params, context),
   });
 };
 

@@ -6,10 +6,11 @@
  * this object is mutable, deconstruction could cause latest value untouchable
  * wait until I figure out a better way
  */
+import AV from 'leancloud-storage';
 import { categoryToJSON, speciesToJSON } from '../utils/converters';
 const debug = require('debug')('app:api:catalogCategorySpecies');
 
-export default ({ AV, context }) => {
+export default ({ context }) => {
   class Species extends AV.Object {}
   AV.Object.register(Species);
 

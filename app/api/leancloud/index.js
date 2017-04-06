@@ -33,6 +33,15 @@ AV.init({
   appKey: APP_KEY,
 });
 
+const query = new AV.SearchQuery('SupplyProduct');
+query.queryString('(大傻瓜 OR 山药) AND status: [0 1]').include(['owner']).find().then((results) => {
+  console.log('Found %d objects', query.hits());
+  //Process results
+  console.log(results);
+  console.log(query.hits());
+  console.log(query.hasMore());
+});
+
 export default () => {
   // { token: { sessionToken, objectId, mobilePhoneNumber }, profile: {} }
   const context = loadFromCookie();
@@ -55,19 +64,19 @@ export default () => {
     tokenExists,
     logout,
     ...createAMapApi(),
-    requestSmsCode: createRequestSmsCodeApi({ AV }),
-    ...createSignupOrLoginApis({ AV, context, updateContextToken }),
-    ...createProfileApis({ AV, context, updateContextProfile }),
-    ...createRoleApis({ AV, context }),
-    ...createFileApi({ AV, context, updateContextProfile }),
-    ...createCertApis({ AV, context }),
-    ...createProductsApis({ AV, context }),
-    ...createCatalogCategorySpeciesApis({ AV, context }),
-    ...createCartApi({ AV, context }),
-    ...createShopApi({ AV, context }),
-    ...createCommentApi({ AV, context }),
-    ...createOrderApi({ AV, context }),
-    ...createInquiryApi({ AV, context }),
-    ...createBidApi({ AV, context }),
+    requestSmsCode: createRequestSmsCodeApi({}),
+    ...createSignupOrLoginApis({ context, updateContextToken }),
+    ...createProfileApis({ context, updateContextProfile }),
+    ...createRoleApis({ context }),
+    ...createFileApi({ context, updateContextProfile }),
+    ...createCertApis({ context }),
+    ...createProductsApis({ context }),
+    ...createCatalogCategorySpeciesApis({ context }),
+    ...createCartApi({ context }),
+    ...createShopApi({ context }),
+    ...createCommentApi({ context }),
+    ...createOrderApi({ context }),
+    ...createInquiryApi({ context }),
+    ...createBidApi({ context }),
   };
 };

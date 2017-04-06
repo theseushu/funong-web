@@ -10,7 +10,7 @@ export CategorySpeciesNameCard from './cards/categorySpeciesName';
 export SpecsCard from './cards/specs';
 export ImagesCard from './cards/images';
 export RichTextCard from './cards/richText';
-export LabelsCard from './cards/labels';
+export AvailableLabelsCard from './cards/availableAndLabels';
 export LocationCard from './cards/location';
 export CapacityCountPriceCard from './cards/capacityCountPrice';
 export RangeNameCard from './cards/rangeName';

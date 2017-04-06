@@ -6,13 +6,14 @@
  * this object is mutable, deconstruction could cause latest value untouchable
  * wait until I figure out a better way
  */
+import AV from 'leancloud-storage';
 import _find from 'lodash/find';
 import _omitBy from 'lodash/omitBy';
 import _isUndefined from 'lodash/isUndefined';
 import { orderToJSON } from '../utils/converters';
 // const debug = require('debug')('app:api:order');
 
-export default ({ AV, context }) => {
+export default ({ context }) => {
   class Order extends AV.Object {}
   AV.Object.register(Order);
 

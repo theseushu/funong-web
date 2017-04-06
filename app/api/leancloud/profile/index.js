@@ -6,10 +6,11 @@
  * this object is mutable, deconstruction could cause latest value untouchable
  * wait until I figure out a better way
  */
+import AV from 'leancloud-storage';
 import { userToJSON } from '../utils/converters';
 const debug = require('debug')('app:api:profile');
 
-export default ({ AV, context, updateContextProfile }) => {
+export default ({ context, updateContextProfile }) => {
   const fetchProfile = async ({ objectId }) => { // if its not for specific user, fetch currentUser then.
     const { token: { sessionToken } } = context;
     const userId = objectId || context.token.objectId;

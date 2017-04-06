@@ -1,8 +1,9 @@
+import AV from 'leancloud-storage';
 import { statusValues } from 'appConstants';
 import { inquiryToJSON } from '../utils/converters';
 const debug = require('debug')('app:api:inquiry');
 
-export default ({ AV, context }) => {
+export default ({ context }) => {
   class Inquiry extends AV.Object {}
   AV.Object.register(Inquiry);
 

@@ -1,3 +1,5 @@
+import AV from 'leancloud-storage';
+
 const userToResult = (user) => {
   const sessionToken = user.getSessionToken();
   const objectId = user.get('objectId');
@@ -5,7 +7,7 @@ const userToResult = (user) => {
   return { sessionToken, objectId, mobilePhoneNumber };
 };
 
-export default ({ AV, updateContextToken }) => {
+export default ({ updateContextToken }) => {
   const success = (user) => {
     const { sessionToken, objectId, mobilePhoneNumber } = user;
     updateContextToken({ objectId, sessionToken, mobilePhoneNumber });

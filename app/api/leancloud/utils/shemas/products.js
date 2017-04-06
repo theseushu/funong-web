@@ -1,4 +1,5 @@
 import _reduce from 'lodash/reduce';
+import AV from 'leancloud-storage';
 import { productTypes } from 'appConstants';
 import { productTables } from '../../constants';
 import { attributes as attrConverters } from '../converters/product';
@@ -23,7 +24,7 @@ export const updatedAt = {
 };
 
 export const status = {
-  search: (AV, query, value) => {
+  search: (query, value) => {
     if (value && value.length > 0) {
       query.containedIn('status', value);
     }
@@ -32,11 +33,11 @@ export const status = {
 };
 
 export const images = {
-  create: (AV, product, value) => {
+  create: (product, value) => {
     setRequiredAttr(product, 'images', value.map((image) => AV.Object.createWithoutData('_File', image.id)));
     setRequiredAttr(product, 'thumbnail', AV.Object.createWithoutData('_File', value[0].id));
   },
-  update: (AV, product, value) => {
+  update: (product, value) => {
     setRequiredAttr(product, 'images', value.map((image) => AV.Object.createWithoutData('_File', image.id)));
     setRequiredAttr(product, 'thumbnail', AV.Object.createWithoutData('_File', value[0].id));
   },
@@ -54,12 +55,12 @@ export const thumbnail = {
 };
 
 export const category = {
-  create: (AV, product, value) => setRequiredAttr(product, 'category', AV.Object.createWithoutData('Category', value.objectId)),
-  update: (AV, product, value) => {
+  create: (product, value) => setRequiredAttr(product, 'category', AV.Object.createWithoutData('Category', value.objectId)),
+  update: (product, value) => {
     setRequiredAttr(product, 'category', AV.Object.createWithoutData('Category', value.objectId));
   },
   include: ['category'],
-  search: (AV, query, value) => {
+  search: (query, value) => {
     if (value) {
       query.equalTo('category', AV.Object.createWithoutData('Category', value.objectId));
     }
@@ -68,12 +69,12 @@ export const category = {
 };
 
 export const species = {
-  create: (AV, product, value) => setRequiredAttr(product, 'species', AV.Object.createWithoutData('Species', value.objectId)),
-  update: (AV, product, value) => {
+  create: (product, value) => setRequiredAttr(product, 'species', AV.Object.createWithoutData('Species', value.objectId)),
+  update: (product, value) => {
     setRequiredAttr(product, 'species', AV.Object.createWithoutData('Species', value.objectId));
   },
   include: ['species'],
-  search: (AV, query, value) => {
+  search: (query, value) => {
     if (value) {
       query.containedIn('species', value.map((s) => AV.Object.createWithoutData('Species', s.objectId)));
     }
@@ -82,18 +83,18 @@ export const species = {
 };
 
 export const name = {
-  create: (AV, product, value) => setRequiredAttr(product, 'name', value),
-  update: (AV, product, value) => setRequiredAttr(product, 'name', value),
+  create: (product, value) => setRequiredAttr(product, 'name', value),
+  update: (product, value) => setRequiredAttr(product, 'name', value),
   search: undefined,
   converter: attrConverters.name,
 };
 
 export const specs = {
-  create: (AV, product, value) => {
+  create: (product, value) => {
     setRequiredAttr(product, 'specs', value);
     setRequiredAttr(product, 'minPrice', _reduce(value, (min, { price }) => Math.min(min, price), 999999));
   },
-  update: (AV, product, value) => {
+  update: (product, value) => {
     setRequiredAttr(product, 'specs', value);
     setRequiredAttr(product, 'minPrice', _reduce(value, (min, { price }) => Math.min(min, price), 999999));
   },
@@ -106,44 +107,44 @@ export const minPrice = {
 };
 
 export const capacity = {
-  create: (AV, product, value) => setRequiredAttr(product, 'capacity', value),
-  update: (AV, product, value) => setRequiredAttr(product, 'capacity', value),
+  create: (product, value) => setRequiredAttr(product, 'capacity', value),
+  update: (product, value) => setRequiredAttr(product, 'capacity', value),
   search: undefined,
   converter: attrConverters.capacity,
 };
 
 export const count = {
-  create: (AV, product, value) => setRequiredAttr(product, 'count', value),
-  update: (AV, product, value) => setRequiredAttr(product, 'count', value),
+  create: (product, value) => setRequiredAttr(product, 'count', value),
+  update: (product, value) => setRequiredAttr(product, 'count', value),
   search: undefined,
   converter: attrConverters.count,
 };
 
 export const price = {
-  create: (AV, product, value) => setRequiredAttr(product, 'price', value),
-  update: (AV, product, value) => setRequiredAttr(product, 'price', value),
+  create: (product, value) => setRequiredAttr(product, 'price', value),
+  update: (product, value) => setRequiredAttr(product, 'price', value),
   search: undefined,
   converter: attrConverters.price,
 };
 
 export const range = {
-  create: (AV, product, value) => setRequiredAttr(product, 'range', value),
-  update: (AV, product, value) => setRequiredAttr(product, 'range', value),
+  create: (product, value) => setRequiredAttr(product, 'range', value),
+  update: (product, value) => setRequiredAttr(product, 'range', value),
   search: undefined,
   converter: attrConverters.range,
 };
 
 export const desc = {
-  create: (AV, product, value) => setRequiredAttr(product, 'desc', value),
-  update: (AV, product, value) => setRequiredAttr(product, 'desc', value),
+  create: (product, value) => setRequiredAttr(product, 'desc', value),
+  update: (product, value) => setRequiredAttr(product, 'desc', value),
   search: undefined,
   converter: attrConverters.desc,
 };
 
 export const labels = {
-  create: (AV, product, value) => setRequiredAttr(product, 'labels', value),
-  update: (AV, product, value) => setRequiredAttr(product, 'labels', value),
-  search: (AV, query, value) => {
+  create: (product, value) => setRequiredAttr(product, 'labels', value),
+  update: (product, value) => setRequiredAttr(product, 'labels', value),
+  search: (query, value) => {
     if (value && value.length > 0) {
       query.containsAll('labels', value);
     }
@@ -152,17 +153,17 @@ export const labels = {
 };
 
 export const location = {
-  create: (AV, product, value) => {
+  create: (product, value) => {
     const { address, lnglat } = value;
     setRequiredAttr(product, 'address', address);
     setRequiredAttr(product, 'lnglat', new AV.GeoPoint(lnglat));
   },
-  update: (AV, product, value) => {
+  update: (product, value) => {
     const { address, lnglat } = value;
     setRequiredAttr(product, 'address', address);
     setRequiredAttr(product, 'lnglat', new AV.GeoPoint(lnglat));
   },
-  search: (AV, query, value) => {
+  search: (query, value) => {
     if (value && value.address && value.address.provinces) {
       query.containedIn('address.province', value.address.provinces);
     }
@@ -171,7 +172,7 @@ export const location = {
 };
 
 export const shopLocation = {
-  search: (AV, query, value) => {
+  search: (query, value) => {
     if (value && value.address && value.address.provinces) {
       const innerQuery = new AV.Query('Shop');
       innerQuery.containedIn('address.province', value.address.provinces);
@@ -183,9 +184,9 @@ export const shopLocation = {
 
 
 export const shop = {
-  create: (AV, product, value) => setRequiredAttr(product, 'shop', AV.Object.createWithoutData('Shop', value.objectId)),
+  create: (product, value) => setRequiredAttr(product, 'shop', AV.Object.createWithoutData('Shop', value.objectId)),
   converter: attrConverters.shop,
-  search: (AV, query, value) => {
+  search: (query, value) => {
     if (value) {
       query.equalTo('shop', AV.Object.createWithoutData('Shop', value.objectId));
     }
@@ -194,9 +195,9 @@ export const shop = {
 };
 
 export const owner = {
-  create: (AV, product, value) => setRequiredAttr(product, 'owner', AV.Object.createWithoutData('_User', value.objectId)),
+  create: (product, value) => setRequiredAttr(product, 'owner', AV.Object.createWithoutData('_User', value.objectId)),
   converter: attrConverters.owner,
-  search: (AV, query, value) => {
+  search: (query, value) => {
     if (value) {
       query.equalTo('owner', AV.Object.createWithoutData('_User', value.objectId));
     }
@@ -204,10 +205,20 @@ export const owner = {
   include: ['owner', 'owner.avatar'],
 };
 
+class SupplyProduct extends AV.Object {}
+AV.Object.register(SupplyProduct);
+class TripProduct extends AV.Object {}
+AV.Object.register(TripProduct);
+class ShopProduct extends AV.Object {}
+AV.Object.register(ShopProduct);
+class LogisticsProduct extends AV.Object {}
+AV.Object.register(LogisticsProduct);
+
 export default {
   [productTypes.supply]: {
     type: productTypes.supply,
     table: productTables[productTypes.supply],
+    Class: SupplyProduct,
     attributes: {
       objectId,
       status,
@@ -229,6 +240,7 @@ export default {
   [productTypes.trip]: {
     type: productTypes.trip,
     table: productTables[productTypes.trip],
+    Class: TripProduct,
     attributes: {
       objectId,
       status,
@@ -248,6 +260,7 @@ export default {
   [productTypes.logistics]: {
     type: productTypes.logistics,
     table: productTables[productTypes.logistics],
+    Class: LogisticsProduct,
     attributes: {
       objectId,
       status,
@@ -269,6 +282,7 @@ export default {
   [productTypes.shop]: {
     type: productTypes.shop,
     table: productTables[productTypes.shop],
+    Class: ShopProduct,
     attributes: {
       objectId,
       status,

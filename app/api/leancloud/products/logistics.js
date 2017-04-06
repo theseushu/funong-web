@@ -11,11 +11,6 @@ import createMethods from './methods';
 
 const type = productTypes.logistics;
 
-export default ({ AV, context }) => {
-  class LogisticsProduct extends AV.Object {}
-  AV.Object.register(LogisticsProduct);
-
-  return {
-    [type]: createMethods(AV, LogisticsProduct, type, context),
-  };
-};
+export default ({ context }) => ({
+  [type]: createMethods(type, context),
+});

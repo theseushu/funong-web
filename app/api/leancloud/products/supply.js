@@ -1,6 +1,6 @@
 /*
  * important! do not deconstruct context. eg:
- * export default ({ AV, { token, profile }, updateContextProfile }) => {
+ * export default ({ { token, profile }, updateContextProfile }) => {
  * ...
  * }
  * this object is mutable, deconstruction could cause latest value untouchable
@@ -11,10 +11,6 @@ import createMethods from './methods';
 
 const type = productTypes.supply;
 
-export default ({ AV, context }) => {
-  class SupplyProduct extends AV.Object {}
-  AV.Object.register(SupplyProduct);
-  return {
-    [type]: createMethods(AV, SupplyProduct, type, context),
-  };
-};
+export default ({ context }) => ({
+  [type]: createMethods(type, context),
+});

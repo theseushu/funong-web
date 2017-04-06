@@ -5,10 +5,11 @@ export serviceTypes from './services';
 export orderFeeTypes from './orderFeeTypes';
 
 export const statusValues = {
-  unverified: { value: 0, title: '待审核' },
-  verified: { value: 1, title: '已通过' },
-  rejected: { value: 2, title: '已拒绝' },
-  removed: { value: 3, title: '已删除' },
+  rejected: { value: -2, title: '审核失败' },
+  removed: { value: -1, title: '已删除' },
+  unavailable: { value: 0, title: '未上架' },
+  unverified: { value: 1, title: '待审核' },
+  verified: { value: 2, title: '已通过' },
 
   unconfirmed: { value: 11, title: '待确认' },
   billed: { value: 12, title: '待付款' },

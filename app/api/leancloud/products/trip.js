@@ -11,10 +11,6 @@ import createMethods from './methods';
 
 const type = productTypes.trip;
 
-export default ({ AV, context }) => {
-  class TripProduct extends AV.Object {}
-  AV.Object.register(TripProduct);
-  return {
-    [type]: createMethods(AV, TripProduct, type, context),
-  };
-};
+export default ({ context }) => ({
+  [type]: createMethods(type, context),
+});

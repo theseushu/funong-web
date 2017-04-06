@@ -1,15 +1,16 @@
 /*
  * important! do not deconstruct context. eg:
- * export default ({ AV, { token, profile }, updateContextProfile }) => {
+ * export default ({ { token, profile }, updateContextProfile }) => {
  * ...
  * }
  * this object is mutable, deconstruction could cause latest value untouchable
  * wait until I figure out a better way
  */
+import AV from 'leancloud-storage';
 import { fileToJSON } from '../utils/converters';
 const debug = require('debug')('app:api:file');
 
-export default ({ AV, context, updateContextProfile }) => {
+export default ({ context, updateContextProfile }) => {
   const uploadFile = async ({ filename, file, onprogress, metaData = {} }) => {
     const { token: { sessionToken }, profile } = context;
     try {

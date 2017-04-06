@@ -1,7 +1,8 @@
+import AV from 'leancloud-storage';
 import { bidToJSON } from '../utils/converters';
 const debug = require('debug')('funong-web:api:bid');
 
-export default ({ AV, context }) => {
+export default ({ context }) => {
   class Bid extends AV.Object {}
   AV.Object.register(Bid);
 //

@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import _flatten from 'lodash/flatten';
 import injectSheet from 'react-jss';
-import { Buttons, CategorySpeciesNameCard, SpecsCard, ImagesCard, RichTextCard, LabelsCard, createKeywords } from 'modules/common/form';
+import { Buttons, CategorySpeciesNameCard, SpecsCard, ImagesCard, RichTextCard, AvailableLabelsCard, createKeywords } from 'modules/common/form';
 import type, { labels, catalogGroups, FORM_NAME } from '../constants';
 
 const Keywords = createKeywords(type, FORM_NAME);
@@ -14,7 +14,7 @@ const Form = (props) => {
       <SpecsCard useMinimum={false} />
       <ImagesCard />
       <RichTextCard />
-      <LabelsCard labels={Object.values(labels)} />
+      <AvailableLabelsCard labels={Object.values(labels)} />
       <Keywords />
       <Buttons handleSubmit={handleSubmit} pristine={pristine} submitting={submitting} invalid={invalid} />
     </form>
