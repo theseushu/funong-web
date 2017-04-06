@@ -41,20 +41,14 @@ export const units = [
   '斤', '两', '公斤', '克', '袋', '盒', '箱', '包', '只', '条', '台', '本', '张',
 ];
 export const productLabels = {
-  available: { title: '上架', key: 'available', value: 'available' },
 };
 
 export const shopProductLabels = {
   ...productLabels,
-  recommend: { title: '店长推荐', key: 'recommend', value: 'recommend' },
-  agent: { title: '可代销', key: 'agent', value: 'agent' },
 };
 
 export const supplyLabels = {
   ...productLabels,
-  includesTransportation: { title: '包运费', key: 'includesTransportation', value: 'includesTransportation' },
-  supportsLogistics: { title: '协助找物流', key: 'supportsLogistics', value: 'supportsLogistics' },
-  supportsDelivery: { title: '支持走快递', key: 'supportsDelivery', value: 'supportsDelivery' },
 };
 
 export const logisticsLabels = {

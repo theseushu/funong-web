@@ -1,4 +1,4 @@
-import { catalogs, shopProductLabels } from 'appConstants';
+import { catalogs, statusValues } from 'appConstants';
 
 export default 'shop';
 
@@ -33,6 +33,7 @@ export const FORM_NAME = 'shopProduct';
 //   desc: '',
 //   images: [],
 //   labels: [],
+// status: statusValues.unavailable.value,
 // };
 
 export const EMPTY_PRODUCT = {
@@ -71,7 +72,8 @@ export const EMPTY_PRODUCT = {
   ],
   desc: '<p>少年儿童的最爱！</p>\n<p>精装本，适合收藏!</p>',
   images: [{ name: '1487560701655.png', url: 'http://ac-ouy08OrF.clouddn.com/fd7ac04e143381e86e8d.png', metaData: { owner: '587e7bb28d6d810058dea970', width: 1024, height: 312 }, base64: '', mime_type: 'image/png', objectId: '58aa5ffd128fe1006a477b8e', __type: 'File', id: '58aa5ffd128fe1006a477b8e', thumbnail_80_80: 'http://ac-ouy08OrF.clouddn.com/fd7ac04e143381e86e8d.png?imageView/1/w/80/h/80/q/100/format/png', thumbnail_160_160: 'http://ac-ouy08OrF.clouddn.com/fd7ac04e143381e86e8d.png?imageView/1/w/160/h/160/q/100/format/png', thumbnail_300_300: 'http://ac-ouy08OrF.clouddn.com/fd7ac04e143381e86e8d.png?imageView/1/w/300/h/300/q/100/format/png', thumbnail_600_600: 'http://ac-ouy08OrF.clouddn.com/fd7ac04e143381e86e8d.png?imageView/1/w/600/h/600/q/100/format/png' }],
-  labels: [shopProductLabels.available.value],
+  status: statusValues.unavailable.value,
+  labels: [],
 };
 
 

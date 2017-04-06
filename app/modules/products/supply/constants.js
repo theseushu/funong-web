@@ -1,4 +1,4 @@
-import { catalogs, supplyLabels } from 'appConstants';
+import { catalogs, statusValues } from 'appConstants';
 
 export default 'supply';
 
@@ -34,6 +34,7 @@ export const EMPTY_PRODUCT = {
   desc: '',
   images: [],
   labels: [],
+  status: statusValues.unavailable.value,
 };
 
 export const TEST_PRODUCT = {
@@ -44,7 +45,8 @@ export const TEST_PRODUCT = {
   location: null,
   desc: '',
   images: [],
-  labels: [supplyLabels.available.value],
+  labels: [],
+  status: statusValues.unavailable.value,
 };
 
 export { supplyLabels as labels } from 'appConstants';

@@ -33,14 +33,14 @@ AV.init({
   appKey: APP_KEY,
 });
 
-const query = new AV.SearchQuery('SupplyProduct');
-query.queryString('(大傻瓜 OR 山药) AND status: [0 1]').include(['owner']).find().then((results) => {
-  console.log('Found %d objects', query.hits());
-  //Process results
-  console.log(results);
-  console.log(query.hits());
-  console.log(query.hasMore());
-});
+// const query = new AV.SearchQuery('SupplyProduct');
+// query.queryString('(大傻瓜 OR 山药) AND status: [0 1]').include(['owner']).find().then((results) => {
+//   console.log('Found %d objects', query.hits());
+//   //Process results
+//   console.log(results);
+//   console.log(query.hits());
+//   console.log(query.hasMore());
+// });
 
 export default () => {
   // { token: { sessionToken, objectId, mobilePhoneNumber }, profile: {} }

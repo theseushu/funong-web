@@ -1,4 +1,4 @@
-import { catalogs, tripLabels } from 'appConstants';
+import { catalogs, statusValues } from 'appConstants';
 
 export default 'trip';
 
@@ -31,7 +31,8 @@ export const EMPTY_PRODUCT = {
   location: null,
   desc: '',
   images: [],
-  labels: [tripLabels.available.value],
+  labels: [],
+  status: statusValues.unavailable.value,
 };
 
 export const TEST_PRODUCT = EMPTY_PRODUCT;
