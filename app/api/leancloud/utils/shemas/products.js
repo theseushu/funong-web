@@ -24,6 +24,8 @@ export const updatedAt = {
 };
 
 export const status = {
+  create: (product, value) => setRequiredAttr(product, 'status', value),
+  update: (product, value) => setRequiredAttr(product, 'status', value),
   search: (query, value) => {
     if (value && value.length > 0) {
       query.containedIn('status', value);

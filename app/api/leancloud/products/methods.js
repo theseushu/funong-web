@@ -8,66 +8,25 @@ import { products as shemas } from '../utils/shemas';
 const debug = require('debug')('app:api:product:methods');
 
 export const create = async (schema, params, context) => {
-  // const { token: { sessionToken } } = context;
-  // const result = await AV.Cloud.rpc('createProduct', { type: schema.type, ...params }, { sessionToken });
-  // return {
-  //   ...result,
-  //   results: result.results.map((product) => converter(schema, product)),
-  // };
   const { token: { sessionToken }, profile } = context;
-  const { table, attributes } = schema;
-  const product = new schema.Class();
-  try {
-    const attrs = attributes.owner ? { ...params, owner: profile } : { ...params };
-    _map(attrs, (value, key) => {
-      if (!_isUndefined(value)) {
-        const attrSchema = attributes[key];
-        if (!attrSchema || !attrSchema.create) {
-          throw new Error(`Unsupported attr(${key}) in ${table} creating`);
-        }
-        attrSchema.create(product, value);
-      }
-    });
-    product.set('keywords', generateKeywords(schema.type, params));
-    const savedProduct = await product.save(null, {
-      fetchWhenSave: true,
-      sessionToken,
-    });
-    return { ...savedProduct.toJSON(), ...attrs };
-  } catch (err) {
-    debug(err);
-    throw err;
-  }
+  const result = await AV.Cloud.rpc('createProduct', { type: schema.type, ...params }, { sessionToken });
+  return {
+    ...result.toJSON(),
+    ...params,
+    owner: profile,
+  };
 };
 
-export const update = async (schema, { ...params }, context) => {
-  const { token: { sessionToken } } = context;
-  const { table, attributes } = schema;
+export const update = async (schema, params, context) => {
+  const { token: { sessionToken }, profile } = context;
   const { product, ...attrs } = params;
-  if (!product || !product.objectId) {
-    throw new Error('objectId is empty');
-  }
-  const toSave = AV.Object.createWithoutData(table, product.objectId);
-  try {
-    _map(attrs, (value, key) => {
-      if (!_isUndefined(value)) {
-        const attrSchema = attributes[key];
-        if (!attrSchema || !attrSchema.update) {
-          throw new Error(`Unsupported attr(${key}) in ${table} updating`);
-        }
-        attrSchema.update(toSave, value);
-      }
-    });
-    toSave.set('keywords', generateKeywords(schema.type, params));
-    const savedProduct = await toSave.save(null, {
-      fetchWhenSave: true,
-      sessionToken,
-    });
-    return { ...product, ...savedProduct.toJSON(), ...attrs };
-  } catch (err) {
-    debug(err);
-    throw err;
-  }
+  const result = await AV.Cloud.rpc('updateProduct', { type: schema.type, objectId: product.objectId, ...attrs }, { sessionToken });
+  return {
+    ...product,
+    ...result.toJSON(),
+    ...attrs,
+    owner: profile,
+  };
 };
 
 export const fetch = async (schema, { objectId }, context) => {

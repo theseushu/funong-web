@@ -8,7 +8,7 @@ export default (FORM_NAME, actions, FormComponent) => {
   const { create, update } = actions;
   return reduxForm({
     form: FORM_NAME,  // a unique identifier for this form
-    onSubmit: ({ objectId, status, createdAt, minPrice, owner, thumbnail, updatedAt, ...params }, dispatch, { initialValues, shop }) => (
+    onSubmit: ({ objectId, createdAt, minPrice, owner, thumbnail, updatedAt, ...params }, dispatch, { initialValues, shop }) => (
       initialValues.objectId ?
         new Promise((resolve, reject) => {
           dispatch(update(_omitBy({

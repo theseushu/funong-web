@@ -61,7 +61,7 @@ export default ({ context }) => {
       endAt: new Date(endAt),
       category: AV.Object.createWithoutData('Category', category.objectId),
       species: AV.Object.createWithoutData('Species', species.objectId),
-      status: statusValues.unconfirmed.value,
+      status: statusValues.unverified.value,
     }, {
       fetchWhenSave: true,
       sessionToken,

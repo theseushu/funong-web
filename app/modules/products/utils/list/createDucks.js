@@ -28,7 +28,6 @@ export default (type) => {
     searchProductsDucks.actions.searchProducts({
       ...params,
       status: [statusValues.unverified.value, statusValues.verified.value],
-      labels: [productLabels.available.value],
     });
 
   const recommendProductsDucks = createDucks({
@@ -47,7 +46,6 @@ export default (type) => {
     recommendProductsDucks.actions.recommendProducts({
       ...params,
       status: [statusValues.unverified.value, statusValues.verified.value],
-      labels: [productLabels.available.value],
     });
 
   const countProductsDucks = createDucks({
@@ -65,7 +63,6 @@ export default (type) => {
     countProductsDucks.actions.countProducts({
       ...params,
       status: [statusValues.unverified.value, statusValues.verified.value],
-      labels: [productLabels.available.value],
     });
 
   const criteriaDucks = createCriteriaDucks({ namespace: SLICE_NAME, rootSelector });
