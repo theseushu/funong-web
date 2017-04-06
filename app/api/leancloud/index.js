@@ -34,7 +34,7 @@ AV.init({
 });
 
 // const query = new AV.SearchQuery('SupplyProduct');
-// query.queryString('(大傻瓜 OR 山药) AND status: [0 1]').include(['owner']).find().then((results) => {
+// query.queryString('湖北省').include(['owner']).find().then((results) => {
 //   console.log('Found %d objects', query.hits());
 //   //Process results
 //   console.log(results);
@@ -59,6 +59,8 @@ export default () => {
     context.profile = undefined;
   };
 
+  // const productApis = createProductsApis({ context });
+  // productApis.products.supply.page({}).then((result) => console.log(result));
   const tokenExists = () => !!context.token.sessionToken;
   return {
     tokenExists,

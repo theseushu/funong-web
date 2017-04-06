@@ -1,5 +1,6 @@
 import AV from 'leancloud-storage';
 import { statusValues } from 'appConstants';
+import { generateKeywords } from 'utils/productUtils';
 import { inquiryToJSON } from '../utils/converters';
 const debug = require('debug')('app:api:inquiry');
 
@@ -24,18 +25,64 @@ export default ({ context }) => {
     }
   };
 
-  const pageInquiries = async ({ category, species, keyword, provinces, sort, page, pageSize }) => {
+  const createTextQuery = ({ sort, page, pageSize, category, species, provinces, keywords }) => {
+    const query = new AV.SearchQuery('Inquiry')
+      .include(['category', 'species', 'owner', 'owner.avatar']);
+    let queryString = `${keywords.split(' ').join(' OR ')}`;
+    if (category) {
+      queryString += ` AND ${category.objectId}`;
+    }
+    if (species) {
+      queryString += ` AND ${species.objectId}`;
+    }
+    if (provinces && provinces.length > 0) {
+      queryString += ` AND (${provinces.join(' OR ')})`;
+    }
+    query.queryString(`${queryString} AND status: (${statusValues.unverified.value} OR ${statusValues.verified.value})`);
+    if (sort && sort.sort) {
+      const builder = new AV.SearchSortBuilder();
+      if (sort.order === 'asc') {
+        builder.ascending(sort.sort);
+      } else {
+        builder.descending(sort.sort);
+      }
+      query.sortBy(builder);
+    }
+    if (page && pageSize) {
+      query
+        .skip((page - 1) * pageSize)
+        .limit(pageSize);
+    }
+    return query;
+  };
+
+  const pageInquiries = async ({ category, species, keywords, provinces, sort, page, pageSize }) => {
     try {
       const { token: { sessionToken } } = context;
-      const result = await AV.Cloud.rpc('pageInquiries', {
-        category,
-        species,
-        keyword,
-        provinces,
-        sort,
-        page,
-        pageSize,
-      }, { sessionToken });
+      let result;
+      if (keywords) {
+        const query = createTextQuery({ category, species, keywords, provinces, sort, page, pageSize });
+        const results = await query.find({ sessionToken });
+        const count = query.hits();
+        result = {
+          total: count,
+          totalPages: Math.ceil(count / page),
+          page,
+          pageSize,
+          first: page === 1,
+          last: count <= page * pageSize,
+          results,
+        };
+      } else {
+        result = await AV.Cloud.rpc('pageInquiries', {
+          category,
+          species,
+          provinces,
+          sort,
+          page,
+          pageSize,
+        }, { sessionToken });
+      }
       return {
         ...result,
         results: result.results.map(inquiryToJSON),
@@ -62,6 +109,7 @@ export default ({ context }) => {
       category: AV.Object.createWithoutData('Category', category.objectId),
       species: AV.Object.createWithoutData('Species', species.objectId),
       status: statusValues.unverified.value,
+      keywords: generateKeywords({ desc, price, quantity, name, range, location, category, species, endAt }),
     }, {
       fetchWhenSave: true,
       sessionToken,
@@ -69,9 +117,9 @@ export default ({ context }) => {
     return { ...saved.toJSON(), desc, price, name, range, location, category, species, endAt };
   };
 
-  const updateInquiry = async ({ inquiry: { objectId }, desc, price, quantity, name, range, location, category, species, endAt }) => {
+  const updateInquiry = async ({ inquiry, desc, price, quantity, name, range, location, category, species, endAt }) => {
     const { token: { sessionToken } } = context;
-    const inquiry = AV.Object.createWithoutData('Inquiry', objectId);
+    const toSave = AV.Object.createWithoutData('Inquiry', inquiry.objectId);
     const attrs = {};
     if (desc != null) {
       attrs.desc = desc;
@@ -101,11 +149,12 @@ export default ({ context }) => {
     if (endAt != null) {
       attrs.endAt = new Date(endAt);
     }
-    const saved = await inquiry.save(attrs, {
+    attrs.keywords = generateKeywords({ ...inquiry, desc, price, quantity, name, range, location, category, species, endAt });
+    const saved = await toSave.save(attrs, {
       fetchWhenSave: true,
       sessionToken,
     });
-    return { ...saved.toJSON(), ...attrs };
+    return { ...inquiry, ...saved.toJSON(), desc, price, quantity, name, range, location, category, species, endAt };
   };
 
   return {

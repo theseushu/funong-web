@@ -1,7 +1,7 @@
 import _toPairs from 'lodash/toPairs';
 import { actions } from 'api/species';
 import { actions as categoryActions } from 'api/category';
-import { queryToCriteria, criteriaToApiParams } from 'modules/common/criteria';
+import { queryToCriteria, criteriaToApiParams } from 'utils/criteriaUtils';
 
 const fetchSpecies = actions.fetchSpecies;
 const fetchCategory = categoryActions.fetch;
@@ -30,10 +30,7 @@ export default ({ store, injectReducer, injectSagas, loadModule, errorLoading })
         }
 
         // set criteria according to url params
-        const { setCriteria } = ducks.actions;
         const criteria = queryToCriteria(query);
-        store.dispatch(setCriteria(criteria));
-
         const toFetch = [];
         toFetch.push(new Promise((resolve, reject) => {
           const { actions: { pageInquiries }, selectors } = ducks;

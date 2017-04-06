@@ -9,43 +9,46 @@ const { create, update } = actions;
 
 export default reduxForm({
   form: 'inquiry',  // a unique identifier for this form
-  onSubmit: ({ objectId, status, createdAt, owner, updatedAt, ...params }, dispatch, { initialValues }) => (
-    initialValues.objectId ?
-      new Promise((resolve, reject) => {
-        dispatch(update(_omitBy({
-          inquiry: initialValues,
-          ...params,
-          meta: {
-            resolve: (product) => {
-              success({
-                title: '保存完毕',
-                message: product.name,
-                onHideComplete: () => {
-                },
-              });
-              resolve();
+  onSubmit: ({ objectId, status, createdAt, owner, updatedAt, ...params }, dispatch, { initialValues }) => {
+    console.log(params);
+    return (
+      initialValues.objectId ?
+        new Promise((resolve, reject) => {
+          dispatch(update(_omitBy({
+            inquiry: initialValues,
+            ...params,
+            meta: {
+              resolve: (product) => {
+                success({
+                  title: '保存完毕',
+                  message: product.name,
+                  onHideComplete: () => {
+                  },
+                });
+                resolve();
+              },
+              reject,
             },
-            reject,
-          },
-        }, (value, key) => key === 'shop'))); // we don't update shop in any case. so omit it
-      }) :
-      new Promise((resolve, reject) => {
-        dispatch(create({
-          ...params,
-          meta: {
-            resolve: (product) => {
-              success({
-                title: '创建成功',
-                message: product.name,
-                onHideComplete: () => {
-                  dispatch(push('/me/inquiries'));
-                },
-              });
-              resolve();
+          }, (value, key) => key === 'shop'))); // we don't update shop in any case. so omit it
+        }) :
+        new Promise((resolve, reject) => {
+          dispatch(create({
+            ...params,
+            meta: {
+              resolve: (product) => {
+                success({
+                  title: '创建成功',
+                  message: product.name,
+                  onHideComplete: () => {
+                    dispatch(push('/me/inquiries'));
+                  },
+                });
+                resolve();
+              },
+              reject,
             },
-            reject,
-          },
-        }));
-      })
-  ),
+          }));
+        })
+    );
+  },
 })(Form);

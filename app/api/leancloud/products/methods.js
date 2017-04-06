@@ -2,10 +2,10 @@ import _map from 'lodash/map';
 import _union from 'lodash/union';
 import _isUndefined from 'lodash/isUndefined';
 import AV from 'leancloud-storage';
-import { generateKeywords } from 'utils/productUtils';
+import { statusValues } from 'appConstants';
 import { productToJSON as converter } from '../utils/converters';
 import { products as shemas } from '../utils/shemas';
-const debug = require('debug')('app:api:product:methods');
+// const debug = require('debug')('app:api:product:methods');
 
 export const create = async (schema, params, context) => {
   const { token: { sessionToken }, profile } = context;
@@ -76,9 +76,57 @@ export const search = async (schema, params, context) => {
   return products.map((product) => converter(schema, product));
 };
 
-export const page = async (schema, params, context) => {
+const createTextQuery = (schema, { sort, page, pageSize, category, species, location, keywords }) => {
+  const { table, attributes } = schema;
+  const query = new AV.SearchQuery(table)
+    .include(_union(..._map(attributes, (attr) => attr.include)));
+  let queryString = `${keywords.split(' ').join(' OR ')}`;
+  if (category) {
+    queryString += ` AND ${category.name}`;
+  }
+  if (species) {
+    queryString += ` AND ${species.name}`;
+  }
+  if (location && location.provinces && location.provinces.length > 0) {
+    queryString += ` AND (${location.provinces.join(' OR ')})`;
+  }
+  query.queryString(`${queryString} AND status: (${statusValues.unverified.value} OR ${statusValues.verified.value})`);
+  if (sort && sort.sort) {
+    const builder = new AV.SearchSortBuilder();
+    if (sort.order === 'asc') {
+      builder.ascending(sort.sort);
+    } else {
+      builder.descending(sort.sort);
+    }
+    query.sortBy(builder);
+  }
+  if (page && pageSize) {
+    query
+      .skip((page - 1) * pageSize)
+      .limit(pageSize);
+  }
+  return query;
+};
+
+export const pageFunc = async (schema, { ...params, page = 1, pageSize = 20 }, context) => {
   const { token: { sessionToken } } = context;
-  const result = await AV.Cloud.rpc('pageProducts', { type: schema.type, ...params }, { sessionToken });
+  let result;
+  if (params.keywords) {
+    const query = createTextQuery(schema, { ...params, page, pageSize });
+    const results = await query.find({ sessionToken });
+    const count = query.hits();
+    result = {
+      total: count,
+      totalPages: Math.ceil(count / page),
+      page,
+      pageSize,
+      first: page === 1,
+      last: count <= page * pageSize,
+      results,
+    };
+  } else {
+    result = await AV.Cloud.rpc('pageProducts', { type: schema.type, ...params, page, pageSize }, { sessionToken });
+  }
   return {
     ...result,
     results: result.results.map((product) => converter(schema, product)),
@@ -105,7 +153,7 @@ export default (type, context) => {
     update: (params) => update(schema, params, context),
     fetch: (params) => fetch(schema, params, context),
     search: (params) => search(schema, params, context),
-    page: (params) => page(schema, params, context),
+    page: (params) => pageFunc(schema, params, context),
     recommend: (params) => recommend(schema, params, context),
     count: (params) => count(schema, params, context),
   });

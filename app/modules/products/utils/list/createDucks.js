@@ -5,7 +5,7 @@ import createDucks from 'api/utils/createDucks';
 import { createProductsSelector } from 'modules/data/ducks/selectors';
 import { setProducts } from 'modules/data/ducks/actions';
 import { createDucks as createCriteriaDucks } from 'modules/common/criteria';
-import { statusValues, productLabels } from 'appConstants';
+import { statusValues } from 'appConstants';
 
 export default (type) => {
   const SLICE_NAME = `page_${type}_list`;

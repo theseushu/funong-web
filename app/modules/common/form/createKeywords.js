@@ -2,10 +2,10 @@ import React, { PropTypes } from 'react';
 import injectSheet from 'react-jss';
 import { connect } from 'react-redux';
 import { getFormValues, isValid } from 'redux-form';
-import { generateKeywords } from 'utils/productUtils';
+import { generateDisplayName } from 'utils/productUtils';
 
 const Keywords = ({ className, classes, type, values, valid }) => valid ? (
-  <div className={className ? `${classes.keywords} ${className}` : classes.keywords}>{generateKeywords(values, type)}</div>
+  <div className={className ? `${classes.keywords} ${className}` : classes.keywords}>{generateDisplayName(values, type)}</div>
 ) : null;
 
 Keywords.propTypes = {

@@ -30,17 +30,13 @@ const pageInquiries = (params = {}) =>
   });
 
 
-const criteriaDucks = createCriteriaDucks({ namespace: SLICE_NAME, rootSelector });
-
 export default {
   [SLICE_NAME]: combineReducers({
     ...pageInquiriesDucks.default,
-    ...criteriaDucks.default,
   }),
 };
 export const actions = {
   pageInquiries,
-  ...criteriaDucks.actions, // setCriteria
 };
 export const selectors = {
   pageInquiries: (state) => {
@@ -51,7 +47,6 @@ export const selectors = {
     }
     return { ...other };
   },
-  criteria: criteriaDucks.selector,
 };
 export const sagas = [
   ...pageInquiriesDucks.sagas,

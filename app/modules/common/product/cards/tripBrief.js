@@ -3,12 +3,12 @@ import injectSheet from 'react-jss';
 import Link from 'react-router/lib/Link';
 import { Card } from 'react-mdl/lib/Card';
 import styles, { breakpoints, colors } from 'modules/common/styles';
-import { generateKeywords } from 'utils/productUtils';
+import { generateDisplayName } from 'utils/productUtils';
 import { formatPrices } from 'utils/displayUtils';
 import Thumbnail from '../thumbnail';
 
 const tripProductBriefCard = ({ product, sheet: { classes } }) => {
-  const keywords = generateKeywords(product);
+  const keywords = generateDisplayName(product);
   return (
     <Card shadow={2} className={`${classes.card} ${styles.defaultTransition}`}>
       <Link to={`/trip/${product.objectId}`} className={classes.title}>
