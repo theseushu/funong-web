@@ -25,17 +25,17 @@ export { actions } from 'api/products/shop';
 
 export const FORM_NAME = 'shopProduct';
 
-export const EMPTY_PRODUCT = {
-  category: null,
-  species: null,
-  name: '',
-  specs: [],
-  desc: '',
-  images: [],
-  labels: [],
-};
+// export const EMPTY_PRODUCT = {
+//   category: null,
+//   species: null,
+//   name: '',
+//   specs: [],
+//   desc: '',
+//   images: [],
+//   labels: [],
+// };
 
-export const TEST_PRODUCT = {
+export const EMPTY_PRODUCT = {
   category: {
     group: '少儿',
     name: '11-14岁',

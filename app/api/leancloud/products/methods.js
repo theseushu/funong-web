@@ -1,6 +1,7 @@
 import _map from 'lodash/map';
 import _union from 'lodash/union';
 import _isUndefined from 'lodash/isUndefined';
+import { generateKeywords } from 'utils/productUtils';
 import { productToJSON as converter } from '../utils/converters';
 import { products as shemas } from '../utils/shemas';
 const debug = require('debug')('app:api:product:methods');
@@ -20,6 +21,7 @@ export const create = async (AV, Class, schema, params, context) => {
         attrSchema.create(AV, product, value);
       }
     });
+    product.set('keywords', generateKeywords(schema.type, params));
     const savedProduct = await product.save(null, {
       fetchWhenSave: true,
       sessionToken,
@@ -49,6 +51,7 @@ export const update = async (AV, schema, { ...params }, context) => {
         attrSchema.update(AV, toSave, value);
       }
     });
+    toSave.set('keywords', generateKeywords(schema.type, params));
     const savedProduct = await toSave.save(null, {
       fetchWhenSave: true,
       sessionToken,

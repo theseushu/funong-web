@@ -3,12 +3,14 @@ import injectSheet from 'react-jss';
 import Link from 'react-router/lib/Link';
 import { Card, CardActions } from 'react-mdl/lib/Card';
 import { briefAddress, formatPrices, formatParams, humanizeTime } from 'utils/displayUtils';
+import { generateKeywords } from 'utils/productUtils';
 import { ImageBadge } from 'modules/common/badge';
 import styles, { breakpoints, colors } from 'modules/common/styles';
 import Thumbnail from '../thumbnail';
 
 const ShopProductCard = ({ product, actions, classes }) => {
   const paramsStr = formatParams(product.specs);
+  const keywords = generateKeywords(product);
   return (
     <Card shadow={2} className={`${classes.card} ${styles.defaultTransition}`}>
       <Link to={`/product/${product.objectId}`} className={classes.title}>
@@ -19,7 +21,7 @@ const ShopProductCard = ({ product, actions, classes }) => {
         </div>
         <div className={`${classes.priceAndName} ${styles.colorPrice}`}>
           <h6>{formatPrices(product.specs)}</h6>
-          <p title={product.name}>{product.name}</p>
+          <p title={keywords}>{keywords}</p>
         </div>
       </Link>
       <div className={classes.content}>

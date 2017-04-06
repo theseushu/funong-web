@@ -3,10 +3,12 @@ import injectSheet from 'react-jss';
 import Link from 'react-router/lib/Link';
 import { Card, CardTitle, CardText, CardActions } from 'react-mdl/lib/Card';
 import { colors } from 'modules/common/styles';
+import { generateKeywords } from 'utils/productUtils';
 import Thumbnail from '../thumbnail';
 
 const LogisticsCard = ({ product, className, classes, actions }) => {
-  const { thumbnail, name, price, range } = product;
+  const { thumbnail, price, range } = product;
+  const keywords = generateKeywords(product);
   return (
     <Card shadow={2} className={className ? `${classes.card} ${className}` : classes.card} >
       <CardTitle>
@@ -17,9 +19,9 @@ const LogisticsCard = ({ product, className, classes, actions }) => {
             </div>
           </Link>
           <div className={classes.titleText}>
-            <h6>
+            <h6 title={keywords}>
               <Link to={`/logistics/${product.objectId}`}>
-                {name}
+                {keywords}
               </Link>
             </h6>
             <div>认证信息, 评价...</div>

@@ -2,24 +2,28 @@ import React, { PropTypes } from 'react';
 import injectSheet from 'react-jss';
 import Link from 'react-router/lib/Link';
 import { Card } from 'react-mdl/lib/Card';
+import { generateKeywords } from 'utils/productUtils';
 import styles, { breakpoints, colors } from 'modules/common/styles';
 import Thumbnail from '../thumbnail';
 
-const LogisticsProductBriefCard = ({ product, sheet: { classes } }) => (
-  <Card shadow={2} className={`${classes.card} ${styles.defaultTransition}`}>
-    <Link to={`/logistics/${product.objectId}`} className={classes.title}>
-      <div className={classes.image}>
-        <div className="_wrapper">
-          <Thumbnail type="logistics" thumbnail={product.thumbnail} />
+const LogisticsProductBriefCard = ({ product, sheet: { classes } }) => {
+  const keywords = generateKeywords(product);
+  return (
+    <Card shadow={2} className={`${classes.card} ${styles.defaultTransition}`}>
+      <Link to={`/logistics/${product.objectId}`} className={classes.title}>
+        <div className={classes.image}>
+          <div className="_wrapper">
+            <Thumbnail type="logistics" thumbnail={product.thumbnail} />
+          </div>
         </div>
-      </div>
-      <div className={`${classes.priceAndName} ${styles.colorPrice}`}>
-        <h6 title={product.name}>{product.name}</h6>
-        <p title={product.price}>{product.price}</p>
-      </div>
-    </Link>
-  </Card>
+        <div className={`${classes.priceAndName} ${styles.colorPrice}`}>
+          <h6 title={product.name}>{generateKeywords(product)}</h6>
+          <p title={keywords}>{keywords}</p>
+        </div>
+      </Link>
+    </Card>
   );
+}
 
 LogisticsProductBriefCard.propTypes = {
   product: PropTypes.object.isRequired,

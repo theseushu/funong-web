@@ -12,13 +12,13 @@ class CategoryField extends Component {
     catalogs: PropTypes.array.isRequired,
     input: PropTypes.object.isRequired,
     meta: PropTypes.object,
-    clearName: PropTypes.func.isRequired,
+    clearSpecies: PropTypes.func.isRequired,
   };
   state = { showDialog: false }
   setCategory = (category) => {
-    const { input: { onChange }, clearName } = this.props;
+    const { input: { onChange }, clearSpecies } = this.props;
     onChange(category);
-    clearName();
+    clearSpecies();
     this.hideDialog();
   }
   showDialog = (e) => {
@@ -48,5 +48,5 @@ class CategoryField extends Component {
 
 export default connect(
   null,
-  (dispatch, { form }) => bindActionCreators({ clearName: () => change(form, 'name', '') }, dispatch),
+  (dispatch, { form }) => bindActionCreators({ clearSpecies: () => change(form, 'species', '') }, dispatch),
 )((props) => <Field name="category" component={CategoryField} props={{ ...props }} validate={[required]} />);
