@@ -1,14 +1,13 @@
 import React, { PropTypes } from 'react';
 import Button from 'react-mdl/lib/Button';
-import { FloatingMenu } from 'modules/common/layout';
 import ApiButtonWithIcon from 'modules/common/buttons/ApiButtonWithIcon';
 import injectSheet from 'react-jss';
 
 const Buttons = (props, { router }) => {
   const { handleSubmit, pristine, submitting, invalid, classes } = props;
   return (
-    <FloatingMenu>
-      <div className={classes.actions}>
+    <div className={classes.wrapper}>
+      <div className={classes.buttons}>
         <ApiButtonWithIcon
           icon="save"
           type="submit" raised accent
@@ -21,7 +20,7 @@ const Buttons = (props, { router }) => {
           onClick={(e) => { e.preventDefault(); router.goBack(); }}
         > 取消 </Button>
       </div>
-    </FloatingMenu>
+    </div>
   );
 };
 
@@ -38,11 +37,17 @@ Buttons.propTypes = {
 };
 
 export default injectSheet({
-  actions: {
+  wrapper: {
+    width: '100%',
     display: 'flex',
-    flexDirection: 'column',
+    justifyContent: 'flex-end',
+  },
+  buttons: {
+    width: 180,
+    display: 'flex',
+    justifyContent: 'space-between',
+    marginBottom: 24,
     '& > button': {
-      margin: 8,
     },
   },
 })(Buttons);

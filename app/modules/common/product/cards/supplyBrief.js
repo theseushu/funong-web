@@ -24,7 +24,7 @@ const SupplyProductBriefCard = ({ product, sheet: { classes } }) => {
       </Link>
     </Card>
   );
-}
+};
 
 SupplyProductBriefCard.propTypes = {
   product: PropTypes.object.isRequired,

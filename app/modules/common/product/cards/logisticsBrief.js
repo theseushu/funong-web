@@ -23,7 +23,7 @@ const LogisticsProductBriefCard = ({ product, sheet: { classes } }) => {
       </Link>
     </Card>
   );
-}
+};
 
 LogisticsProductBriefCard.propTypes = {
   product: PropTypes.object.isRequired,

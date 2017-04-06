@@ -24,7 +24,7 @@ const tripProductBriefCard = ({ product, sheet: { classes } }) => {
       </Link>
     </Card>
   );
-}
+};
 
 tripProductBriefCard.propTypes = {
   product: PropTypes.object.isRequired,
