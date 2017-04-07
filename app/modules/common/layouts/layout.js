@@ -23,7 +23,11 @@ class LayoutComponent extends Component {
       PropTypes.string,
       PropTypes.object,
     ]),
-    onSearch: PropTypes.func,
+    search: PropTypes.shape({
+      label: PropTypes.string.isRequired,
+      onSearch: PropTypes.func.isRequired,
+      value: PropTypes.string,
+    }),
   }
   static defaultProps = {
     container: true,
@@ -34,11 +38,11 @@ class LayoutComponent extends Component {
     this.state = { activeTab: 0 };
   }
   render() {
-    const { helmet, header, container, small, children, sideMenu, onSearch, onReturn, classes } = this.props;
+    const { helmet, header, container, small, children, sideMenu, search, onReturn, classes } = this.props;
     return (
       <Layout fixedHeader fixedTabs className={classes.layout}>
         <Helmet {...helmet} />
-        <Header header={header} sideMenu={sideMenu} onSearch={onSearch} onReturn={onReturn} />
+        <Header header={header} sideMenu={sideMenu} search={search} onReturn={onReturn} />
         {sideMenu && <Drawer title="Title">
           <div><SideMenu routes={sideMenu} /></div>
         </Drawer>

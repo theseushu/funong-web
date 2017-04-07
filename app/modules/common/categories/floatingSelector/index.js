@@ -62,7 +62,7 @@ export default injectSheet({
   },
   catalogs: {
     listStyleType: 'none',
-    padding: '8px 0',
+    padding: 0,
     margin: 0,
     zIndex: 1,
     background: colors.colorMenuBg,

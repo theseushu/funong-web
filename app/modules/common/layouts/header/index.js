@@ -13,7 +13,7 @@ import User from './user';
 import Chat from './chat';
 import Cart from './cart';
 
-const AppHeader = ({ classes, header, onSearch, sideMenu, onReturn }, { router }) => {
+const AppHeader = ({ classes, header, search, sideMenu, onReturn }, { router }) => {
   let paddingClass = '';
   if (sideMenu && onReturn) {
     paddingClass = classes.padding128;
@@ -25,7 +25,7 @@ const AppHeader = ({ classes, header, onSearch, sideMenu, onReturn }, { router }
       <HeaderRow className={classes.main}>
         <Container className={`${classes.container} ${paddingClass}`}>
           <div style={{ position: 'relative', height: '100%' }}>
-            {header || <DefaultHeader onSearch={onSearch} />}
+            {header || <DefaultHeader search={search} />}
             <div className={classes.buttons}>
               <Cart />
               <User />
@@ -66,13 +66,17 @@ AppHeader.contextTypes = {
 AppHeader.propTypes = {
   classes: PropTypes.object.isRequired,
   header: PropTypes.any,
-  onSearch: PropTypes.func,
   sideMenu: PropTypes.array,
   onReturn: PropTypes.oneOfType([
     PropTypes.func,
     PropTypes.string,
     PropTypes.object,
   ]),
+  search: PropTypes.shape({
+    label: PropTypes.string.isRequired,
+    onSearch: PropTypes.func.isRequired,
+    value: PropTypes.string,
+  }),
 };
 
 export default injectSheet({

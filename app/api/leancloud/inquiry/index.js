@@ -32,8 +32,8 @@ export default ({ context }) => {
     if (category) {
       queryString += ` AND ${category.objectId}`;
     }
-    if (species) {
-      queryString += ` AND ${species.objectId}`;
+    if (species && species.length > 0) {
+      queryString += ` AND (${species.map((s) => s.objectId).join(' OR ')})`;
     }
     if (provinces && provinces.length > 0) {
       queryString += ` AND (${provinces.join(' OR ')})`;

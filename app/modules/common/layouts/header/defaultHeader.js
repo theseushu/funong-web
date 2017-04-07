@@ -1,4 +1,4 @@
-import React, { PropTypes } from 'react';
+import React, { Component, PropTypes } from 'react';
 import injectSheet from 'react-jss';
 import Textfield from 'react-mdl/lib/Textfield';
 import IconButton from 'react-mdl/lib/IconButton';
@@ -7,19 +7,37 @@ import logoBig from 'assets/logo-big.png';
 import logoSmall from 'assets/logo.png';
 import { breakpoints } from 'modules/common/styles';
 
-const Search = ({ classes }) => (
-  <form className={classes.search}>
-    <Textfield
-      onChange={() => {}}
-      label="搜索"
-    />
-    <IconButton name="search" type="submit" />
-  </form>
-);
-
-Search.propTypes = {
-  classes: PropTypes.object.isRequired,
-};
+class Search extends Component {
+  static propTypes = {
+    classes: PropTypes.object.isRequired,
+    label: PropTypes.string.isRequired,
+    onSearch: PropTypes.func.isRequired,
+    value: PropTypes.string,
+  }
+  componentWillMount() {
+    this.setState({ value: this.props.value || '' });
+  }
+  render() {
+    const { label, onSearch, classes } = this.props;
+    const { value } = this.state;
+    return (
+      <form
+        className={classes.search}
+        onSubmit={(e) => {
+          e.preventDefault();
+          onSearch(value);
+        }}
+      >
+        <Textfield
+          label={label}
+          onChange={(e) => { this.setState({ value: e.target.value } )}}
+          value={value}
+        />
+        <IconButton name="search" type="submit" />
+      </form>
+    );
+  }
+}
 
 const StyledSearch = injectSheet({
   search: {
@@ -34,7 +52,7 @@ const StyledSearch = injectSheet({
   },
 })(Search);
 
-const DefaultHeader = ({ classes, onSearch }) => (
+const DefaultHeader = ({ classes, search }) => (
   <div className={classes.defaultHeader}>
     <div className={classes.logo}>
       <img src={logoBig} role="presentation" />
@@ -45,13 +63,21 @@ const DefaultHeader = ({ classes, onSearch }) => (
     <div className={classes.logoHorizontal}>
       <img src={logoHorizontal} role="presentation" />
     </div>
-    {onSearch && <div className={classes.search}><StyledSearch /></div>}
+    {
+      search && search.label && search.onSearch && (
+        <div className={classes.search}><StyledSearch {...search} /></div>
+      )
+    }
   </div>
 );
 
 DefaultHeader.propTypes = {
   classes: PropTypes.object.isRequired,
-  onSearch: PropTypes.func,
+  search: PropTypes.shape({
+    label: PropTypes.string.isRequired,
+    onSearch: PropTypes.func.isRequired,
+    value: PropTypes.string,
+  }),
 };
 
 export default injectSheet({

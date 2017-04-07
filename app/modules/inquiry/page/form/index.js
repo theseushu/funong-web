@@ -9,9 +9,7 @@ const { create, update } = actions;
 
 export default reduxForm({
   form: 'inquiry',  // a unique identifier for this form
-  onSubmit: ({ objectId, status, createdAt, owner, updatedAt, ...params }, dispatch, { initialValues }) => {
-    console.log(params);
-    return (
+  onSubmit: ({ objectId, status, createdAt, owner, updatedAt, ...params }, dispatch, { initialValues }) => (
       initialValues.objectId ?
         new Promise((resolve, reject) => {
           dispatch(update(_omitBy({
@@ -49,6 +47,5 @@ export default reduxForm({
             },
           }));
         })
-    );
-  },
+    ),
 })(Form);

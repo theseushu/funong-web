@@ -4,7 +4,6 @@ import { put } from 'redux-saga/effects';
 import createDucks from 'api/utils/createDucks';
 import { inquiriesSelector } from 'modules/data/ducks/selectors';
 import { setInquiries } from 'modules/data/ducks/actions';
-import { createDucks as createCriteriaDucks } from 'modules/common/criteria';
 import { statusValues } from 'appConstants';
 
 const SLICE_NAME = 'page_inquiry_list';
