@@ -37,7 +37,6 @@ export const attributes = {
     const lnglat = lnglatConverter(product);
     return { address, lnglat };
   },
-  shopLocation: null,
   shop: createConverter('shop', embeddedShopToJSON),
   owner: createConverter('owner', embeddedUserToJSON),
 };
@@ -45,7 +44,7 @@ export const attributes = {
 export default (schema, product) => {
   const result = {};
   _forEach(schema.attributes, (attr, key) => {
-    if (attr.converter !== null) {
+    if (attr.converter != null) {
       result[key] = attr.converter(product);
     }
   });

@@ -30,7 +30,7 @@ class Search extends Component {
       >
         <Textfield
           label={label}
-          onChange={(e) => { this.setState({ value: e.target.value } )}}
+          onChange={(e) => { this.setState({ value: e.target.value }); }}
           value={value}
         />
         <IconButton name="search" type="submit" />

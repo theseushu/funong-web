@@ -1,7 +1,7 @@
 import _toPairs from 'lodash/toPairs';
 import { actions } from 'api/species';
 import { actions as categoryActions } from 'api/category';
-import { queryToCriteria, criteriaToApiParams } from 'modules/common/criteria';
+import { queryToCriteria, criteriaToApiParams } from 'utils/criteriaUtils';
 
 const fetchSpecies = actions.fetchSpecies;
 const fetchCategory = categoryActions.fetch;
@@ -26,25 +26,21 @@ export default (path, name, componentAndDucks) => ({ store, injectReducer, injec
       }
 
       // set criteria according to url params
-      const { setCriteria } = ducks.actions;
       const criteria = queryToCriteria(query);
-      store.dispatch(setCriteria(criteria));
 
       const toFetch = [];
       toFetch.push(new Promise((resolve, reject) => {
-        const { actions: { searchProducts, countProducts }, selectors } = ducks;
-        const { page, pageSize, ...countParams } = criteriaToApiParams(criteria);
-        const queryParams = { ...countParams, page, pageSize };
+        const { actions: { pageProducts }, selectors } = ducks;
+        const pageParams = criteriaToApiParams(criteria);
         // count
-        store.dispatch(countProducts(countParams));
-        const searchProductsState = selectors.searchProducts(store.getState());
+        const pageProductsState = selectors.pageProducts(store.getState());
         // if the data has been fetched before, don't wait for the api response. otherwise, wait for it
-        if (searchProductsState && searchProductsState.fulfilled) {
-          store.dispatch(searchProducts(queryParams));
+        if (pageProductsState && pageProductsState.fulfilled) {
+          store.dispatch(pageProducts(pageParams));
           resolve();
         } else {
-          store.dispatch(searchProducts({
-            ...queryParams,
+          store.dispatch(pageProducts({
+            ...pageParams,
             meta: {
               resolve,
               reject,

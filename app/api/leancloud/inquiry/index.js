@@ -66,7 +66,7 @@ export default ({ context }) => {
         const count = query.hits();
         result = {
           total: count,
-          totalPages: Math.ceil(count / page),
+          totalPages: Math.ceil(count / pageSize),
           page,
           pageSize,
           first: page === 1,

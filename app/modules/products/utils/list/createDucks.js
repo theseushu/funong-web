@@ -4,7 +4,6 @@ import { put } from 'redux-saga/effects';
 import createDucks from 'api/utils/createDucks';
 import { createProductsSelector } from 'modules/data/ducks/selectors';
 import { setProducts } from 'modules/data/ducks/actions';
-import { createDucks as createCriteriaDucks } from 'modules/common/criteria';
 import { statusValues } from 'appConstants';
 
 export default (type) => {
@@ -12,20 +11,21 @@ export default (type) => {
 
   const rootSelector = (state) => state[SLICE_NAME];
 
-  const searchProductsDucks = createDucks({
-    key: 'searchProducts',
-    apiName: `products.${type}.search`,
+  const pageProductsDucks = createDucks({
+    key: 'pageProducts',
+    apiName: `products.${type}.page`,
     rootSelector: (state) => rootSelector(state),
     namespace: `${SLICE_NAME}`,
     sagas: {
-      * beforeFulfilled(products) {
-        yield put(setProducts(type, products));
-        return { result: products.map((product) => product.objectId) };
+      * beforeFulfilled(result) {
+        yield put(setProducts(type, result.results));
+        return { result: { ...result, results: result.results.map((i) => i.objectId) } };
       },
     },
   });
-  const searchProducts = (params = {}) =>
-    searchProductsDucks.actions.searchProducts({
+
+  const pageProducts = (params = {}) =>
+    pageProductsDucks.actions.pageProducts({
       ...params,
       status: [statusValues.unverified.value, statusValues.verified.value],
     });
@@ -48,46 +48,23 @@ export default (type) => {
       status: [statusValues.unverified.value, statusValues.verified.value],
     });
 
-  const countProductsDucks = createDucks({
-    key: 'countProducts',
-    apiName: `products.${type}.count`,
-    rootSelector: (state) => rootSelector(state),
-    namespace: `${SLICE_NAME}`,
-    sagas: {
-      * beforeFulfilled(count) {
-        return { count };
-      },
-    },
-  });
-  const countProducts = (params = {}) =>
-    countProductsDucks.actions.countProducts({
-      ...params,
-      status: [statusValues.unverified.value, statusValues.verified.value],
-    });
-
-  const criteriaDucks = createCriteriaDucks({ namespace: SLICE_NAME, rootSelector });
-
   return {
     default: {
       [SLICE_NAME]: combineReducers({
-        ...searchProductsDucks.default,
+        ...pageProductsDucks.default,
         ...recommendProductsDucks.default,
-        ...countProductsDucks.default,
-        ...criteriaDucks.default,
       }),
     },
     actions: {
-      countProducts,
-      searchProducts,
+      pageProducts,
       recommendProducts,
-      ...criteriaDucks.actions, // setCriteria
     },
     selectors: {
-      searchProducts: (state) => {
-        const { result, ...other } = searchProductsDucks.selector(state);
+      pageProducts: (state) => {
+        const { result, ...other } = pageProductsDucks.selector(state);
         if (result) {
           const products = createProductsSelector(type)(state);
-          return { ...other, result: result.map((id) => _find(products, (p) => p.objectId === id)) };
+          return { ...other, result: { ...result, results: result.results.map((id) => _find(products, (p) => p.objectId === id)) } };
         }
         return { ...other };
       },
@@ -99,12 +76,9 @@ export default (type) => {
         }
         return { ...other };
       },
-      countProducts: countProductsDucks.selector,
-      criteria: criteriaDucks.selector,
     },
     sagas: [
-      ...countProductsDucks.sagas,
-      ...searchProductsDucks.sagas,
+      ...pageProductsDucks.sagas,
       ...recommendProductsDucks.sagas,
     ],
   };

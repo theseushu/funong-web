@@ -38,7 +38,7 @@ export default reduxForm({
                   title: '创建成功',
                   message: product.name,
                   onHideComplete: () => {
-                    dispatch(push('/me/inquiries'));
+                    dispatch(push('/me/published/inquiries'));
                   },
                 });
                 resolve();

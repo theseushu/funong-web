@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import Pagination from 'modules/common/pagination';
 import List from './list';
 
-const ProductList = ({ type, page, onPageChange, empty }) => {
+const ProductPage = ({ type, page, onPageChange, empty }) => {
   if (!page || !page.results) {
     return null;
   }
@@ -17,11 +17,11 @@ const ProductList = ({ type, page, onPageChange, empty }) => {
   );
 };
 
-ProductList.propTypes = {
+ProductPage.propTypes = {
   type: PropTypes.string.isRequired,
   page: PropTypes.object,
   onPageChange: PropTypes.func,
   empty: PropTypes.object,
 };
 
-export default ProductList;
+export default ProductPage;

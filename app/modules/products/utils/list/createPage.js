@@ -1,60 +1,77 @@
 import { connect } from 'react-redux';
 import React, { PropTypes } from 'react';
+import { bindActionCreators } from 'redux';
+import { replace } from 'react-router-redux';
 import injectSheet from 'react-jss';
 import { productNames } from 'appConstants';
 import { Layout } from 'modules/common/layouts';
 import { MainRight as ContentMainRight } from 'modules/common/layout/content';
 import { breakpoints } from 'modules/common/styles';
-import createCriteria from './createCriteria';
+import { criteriaToQuery, queryToCriteria } from 'utils/criteriaUtils';
+import LoadingDiv from 'modules/common/glossary/loadingDiv';
+import NoResult from 'modules/common/glossary/noResult';
+import { Page as ProductsPage } from 'modules/common/product';
+import Criteria from 'modules/common/criteria';
 import createRecommends from './createRecommends';
 
-export default ({ type, ducks, Card, BriefCard, catalogGroups, horizontal }) => {
+export default ({ type, ducks, BriefCard, catalogGroups }) => {
   const { actions, selectors } = ducks;
-  const Criteria = createCriteria(selectors, catalogGroups);
   const Recommends = createRecommends(actions, selectors, BriefCard);
 
   // location is a react-router param passed here
-  const Page = ({ location, products, sheet: { classes } }) => (
-    <Layout
-      helmet={{ title: `富农商城-${productNames[type]}` }}
-    >
-      {
-        <div className={classes.page}>
-          <Criteria location={location} />
-          <ContentMainRight
-            main={
-              <div>
-                <div className={classes.products}>
-                  {
-                    products.map((product, i) => (
-                      <div key={i} className={horizontal ? classes.productHorizontal : classes.product}>
-                        <Card key={i} product={product} />
-                      </div>
-                    ))
-                  }
-                </div>
-              </div>
-            }
-            right={
-              <Recommends />
-            }
-          />
-        </div>
-      }
-    </Layout>
-  );
+  const Page = ({ criteria, setCriteria, pending, result, sheet: { classes } }) => {
+    const { keywords, ...other } = criteria;
+    return (
+      <Layout
+        helmet={{ title: `富农商城-${productNames[type]}` }}
+        search={{
+          label: '搜索',
+          onSearch: (nexKeywords) => {
+            setCriteria({ keywords: nexKeywords });
+          },
+          value: keywords || '',
+        }}
+      >
+        {
+          <div className={classes.page}>
+            <Criteria catalogGroups={catalogGroups} {...other} setCriteria={(c) => setCriteria({ ...c, keywords })} />
+            <ContentMainRight
+              main={
+                <LoadingDiv pending={pending}>
+                  {result && (
+                    <ProductsPage empty={<NoResult />} type={type} page={result} onPageChange={(page) => { setCriteria({ ...criteria, page }); }} />
+                  )}
+                </LoadingDiv>
+              }
+              right={
+                <Recommends criteria={criteria} />
+              }
+            />
+          </div>
+        }
+      </Layout>
+    );
+  };
 
   Page.propTypes = {
-    location: PropTypes.object.isRequired,
-    products: PropTypes.array.isRequired,
+    criteria: PropTypes.object.isRequired,
+    setCriteria: PropTypes.func.isRequired,
+    pending: PropTypes.bool,
+    result: PropTypes.object.isRequired,
     sheet: PropTypes.object.isRequired,
   };
 
   return connect(
-    (state) => {
-      const searchState = selectors.searchProducts(state);
-      return { products: searchState.result || [] };
-    }
+    (state, { location: { query } }) => {
+      const pageState = selectors.pageProducts(state);
+      return { pending: pageState.pending, result: pageState.result || [], criteria: queryToCriteria(query) };
+    },
+    (dispatch, { location }) => bindActionCreators({
+      setCriteria: (criteria) => {
+        const query = criteriaToQuery(criteria);
+        return replace(`${location.pathname}${query ? '?' : ''}${query}`);
+      },
+    }, dispatch),
   )(injectSheet({
     page: {
       width: '100%',

@@ -165,23 +165,25 @@ export const location = {
     setRequiredAttr(product, 'address', address);
     setRequiredAttr(product, 'lnglat', new AV.GeoPoint(lnglat));
   },
-  search: (query, value) => {
-    if (value && value.address && value.address.provinces) {
-      query.containedIn('address.province', value.address.provinces);
-    }
-  },
   converter: attrConverters.location,
 };
 
-export const shopLocation = {
+export const provinces = {
   search: (query, value) => {
-    if (value && value.address && value.address.provinces) {
+    if (value && value.length > 0) {
+      query.containedIn('address.province', value);
+    }
+  },
+};
+
+export const shopProvinces = {
+  search: (query, value) => {
+    if (value && value.length > 0) {
       const innerQuery = new AV.Query('Shop');
-      innerQuery.containedIn('address.province', value.address.provinces);
+      innerQuery.containedIn('address.province', value);
       query.matchesQuery('shop', innerQuery);
     }
   },
-  converter: attrConverters.shopLocation,
 };
 
 
@@ -231,6 +233,7 @@ export default {
       thumbnail,
       desc,
       location,
+      provinces,
       specs,
       minPrice,
       labels,
@@ -251,6 +254,7 @@ export default {
       thumbnail,
       desc,
       location,
+      provinces,
       specs,
       minPrice,
       labels,
@@ -275,6 +279,7 @@ export default {
       thumbnail,
       desc,
       location,
+      provinces,
       labels,
       owner,
       createdAt,
@@ -300,7 +305,7 @@ export default {
       shop,
       createdAt,
       updatedAt,
-      location: shopLocation,
+      provinces: shopProvinces,
     },
   },
 };

@@ -76,19 +76,19 @@ export const search = async (schema, params, context) => {
   return products.map((product) => converter(schema, product));
 };
 
-const createTextQuery = (schema, { sort, page, pageSize, category, species, location, keywords }) => {
+const createTextQuery = (schema, { sort, page, pageSize, category, species, provinces, keywords }) => {
   const { table, attributes } = schema;
   const query = new AV.SearchQuery(table)
     .include(_union(..._map(attributes, (attr) => attr.include)));
-  let queryString = `${keywords.split(' ').join(' OR ')}`;
+  let queryString = `${keywords.split(' ').map((s) => s.length < 4 ? `${s}~` : s).join(' OR ')}`;
   if (category) {
-    queryString += ` AND ${category.name}`;
+    queryString += ` AND ${category.objectId}`;
   }
-  if (species) {
-    queryString += ` AND ${species.name}`;
+  if (species && species.length > 0) {
+    queryString += ` AND (${species.map((s) => s.objectId).join(' OR ')})`;
   }
-  if (location && location.provinces && location.provinces.length > 0) {
-    queryString += ` AND (${location.provinces.join(' OR ')})`;
+  if (provinces && provinces.length > 0) {
+    queryString += ` AND (${provinces.join(' OR ')})`;
   }
   query.queryString(`${queryString} AND status: (${statusValues.unverified.value} OR ${statusValues.verified.value})`);
   if (sort && sort.sort) {
@@ -108,16 +108,16 @@ const createTextQuery = (schema, { sort, page, pageSize, category, species, loca
   return query;
 };
 
-export const pageFunc = async (schema, { ...params, page = 1, pageSize = 20 }, context) => {
+export const pageFunc = async (schema, { keywords, category, species, provinces, sort, page = 1, pageSize = 20 }, context) => {
   const { token: { sessionToken } } = context;
   let result;
-  if (params.keywords) {
-    const query = createTextQuery(schema, { ...params, page, pageSize });
+  if (keywords) {
+    const query = createTextQuery(schema, { category, species, keywords, provinces, sort, page, pageSize });
     const results = await query.find({ sessionToken });
     const count = query.hits();
     result = {
       total: count,
-      totalPages: Math.ceil(count / page),
+      totalPages: Math.ceil(count / pageSize),
       page,
       pageSize,
       first: page === 1,
@@ -125,7 +125,7 @@ export const pageFunc = async (schema, { ...params, page = 1, pageSize = 20 }, c
       results,
     };
   } else {
-    result = await AV.Cloud.rpc('pageProducts', { type: schema.type, ...params, page, pageSize }, { sessionToken });
+    result = await AV.Cloud.rpc('pageProducts', { type: schema.type, category, species, provinces, sort, page, pageSize }, { sessionToken });
   }
   return {
     ...result,

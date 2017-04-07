@@ -35,12 +35,12 @@ export default (actions, selectors, BriefCard) => {
         <div className={classes.recommends}>
           <h6>推荐</h6>
           {
-            products.filter((product, i) => i < 4).map((product, i) => (
-              <div key={i} className={classes.product}>
-                <BriefCard key={i} product={product} />
-              </div>
-            ))
-          }
+              products.filter((product, i) => i < 4).map((product, i) => (
+                <div key={i} className={classes.product}>
+                  <BriefCard key={i} product={product} />
+                </div>
+              ))
+            }
         </div>
       );
     }
@@ -49,8 +49,7 @@ export default (actions, selectors, BriefCard) => {
   return connect(
     (state) => {
       const { result, ...recommendState } = selectors.recommendProducts(state);
-      const criteria = selectors.criteria(state);
-      return { products: result || [], ...recommendState, criteria };
+      return { products: result || [], ...recommendState };
     },
     (dispatch) => bindActionCreators({ recommendProducts: actions.recommendProducts }, dispatch),
   )(injectSheet({
