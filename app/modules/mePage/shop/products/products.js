@@ -69,9 +69,11 @@ export default injectSheet({
     display: 'flex',
     flexWrap: 'wrap',
     position: 'relative',
+    paddingTop: 24,
     borderTop: `solid 1px ${colors.colorLightGrey}`,
   },
   createButton: {
+    zIndex: 2,
     position: 'absolute',
     right: 16,
     top: -28,

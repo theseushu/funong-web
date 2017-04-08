@@ -10,10 +10,10 @@ const Products = connect(
 )((props) => <List editPath={editPath} Card={Card} {...props} />);
 
 export default (props) => (<Page
-    {...props}
-    helmet={{ title: '富农商城-我的供应' }}
-    editPath={editPath}
-    title={<Services />}
-    content={<Products />}
-  />
+  {...props}
+  helmet={{ title: '富农商城-我的供应' }}
+  editPath={editPath}
+  title={<Services />}
+  content={<Products />}
+/>
 );

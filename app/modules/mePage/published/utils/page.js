@@ -47,10 +47,12 @@ export default injectSheet({
   entries: {
     width: '100%',
     marginTop: 24,
+    paddingTop: 24,
     position: 'relative',
     borderTop: `solid 1px ${colors.colorLightGrey}`,
   },
   createButton: {
+    zIndex: 2,
     position: 'absolute',
     right: 16,
     top: -28,
