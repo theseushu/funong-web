@@ -11,7 +11,7 @@ export default ({ store, injectReducer, injectSagas, loadModule, errorLoading })
       const myShop = myShopSelector(store.getState());
       if (!myShop) {
         info({ title: '您还没有创建店铺', message: '创建店铺后就可以发布商品啦！' });
-        replace({ pathname: '/me/shop', state: { redefined: true } });
+        replace({ pathname: '/me/shop', query: location.query, state: { redefined: true } });
         callback();
       } else {
         callback();

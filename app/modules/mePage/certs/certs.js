@@ -16,7 +16,7 @@ import { personal as personalSelector, company as companySelector, expert as exp
 
 class Certs extends Component {
   static propTypes = {
-    sheet: PropTypes.object,
+    classes: PropTypes.object.isRequired,
     location: PropTypes.object,
     personal: PropTypes.object,
     company: PropTypes.object,
@@ -91,10 +91,10 @@ class Certs extends Component {
     }
   }
   render() {
-    const { personal, company, expert, sheet: { classes } } = this.props;
+    const { location, personal, company, expert, classes } = this.props;
     const { activeTab } = this.state;
     return (
-      <Page helmet={{ title: '富农商城-认证' }} header={<Header />}>
+      <Page location={location} helmet={{ title: '富农商城-认证' }} header={<Header />}>
         <div className={classes.content}>
           <Card shadow={2} style={{ width: '100%', margin: 'auto' }}>
             <CardTitle>

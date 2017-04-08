@@ -9,16 +9,18 @@ import Header from '../../header';
 
 class Page extends Component { // eslint-disable-line
   static propTypes = {
-    sheet: PropTypes.object.isRequired,
+    location: PropTypes.object.isRequired,
+    classes: PropTypes.object.isRequired,
     content: PropTypes.object.isRequired,
     title: PropTypes.object,
     editPath: PropTypes.string.isRequired,
     create: PropTypes.bool,
   }
   render() {
-    const { content, create = true, title, editPath, sheet: { classes }, ...props } = this.props;
+    const { location, content, create = true, title, editPath, classes, ...props } = this.props;
     return (
       <PageComponent
+        location={location}
         header={<Header />}
         smallContent={false}
         {...props}

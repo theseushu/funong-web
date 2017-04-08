@@ -69,6 +69,7 @@ class Info extends Component {
     sheet: PropTypes.object,
     user: PropTypes.object.isRequired,
     shop: PropTypes.object,
+    location: PropTypes.object.isRequired,
   }
   constructor(props) {
     super(props);
@@ -79,7 +80,7 @@ class Info extends Component {
     this.setState({ editing: true });
   }
   render() {
-    const { user, shop, sheet: { classes } } = this.props;
+    const { location, user, shop, sheet: { classes } } = this.props;
     const { editing } = this.state;
     let content;
     if (!editing) {
@@ -116,7 +117,8 @@ class Info extends Component {
       );
     }
     return (
-      <Page header={<Header />} helmet={{ title: '富农商城-我的店铺' }}>
+      <Page
+        location={location} header={<Header />} helmet={{ title: '富农商城-我的店铺' }}>
         <div className={classes.content}>
           {content}
         </div>

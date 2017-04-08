@@ -10,7 +10,8 @@ const Content = connect(
   selector,
 )(Bids);
 
-export default () => (<Page
+export default (props) => (<Page
+  {...props}
   helmet={{ title: '富农商城-我的报价' }}
   editPath={editPath}
   create={false}

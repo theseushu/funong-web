@@ -23,6 +23,7 @@ class Products extends Component { // eslint-disable-line
     const { location: { query }, products, classes } = this.props;
     return (
       <Page
+        location={location}
         header={<Header />}
         smallContent={false}
         helmet={{ title: '富农商城-我的商品' }}

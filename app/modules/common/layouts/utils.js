@@ -14,10 +14,10 @@ const routes = {
 export const findRoutes = (router, ignoreSwitch) => {
   let result = [];
   let switchRoute = [];
-  if (router.isActive('/supplies', true)
-    || router.isActive('/inquiries', true)
-    || router.isActive('/logisticsList', true)
-    || router.isActive({ pathname: '/me', query: { farm: true } }, true)) {
+  if (router.isActive('/supplies')
+    || router.isActive('/inquiries')
+    || router.isActive('/logisticsList')
+    || router.isActive({ pathname: '/me', query: { farm: true } })) {
     result = [
       routes.supply,
       routes.inquiry,

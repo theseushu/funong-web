@@ -16,6 +16,7 @@ import Desc from './desc';
 class Profile extends Component {
   static propTypes = {
     classes: PropTypes.object,
+    location: PropTypes.object.isRequired,
     user: PropTypes.object.isRequired,
     logout: PropTypes.func.isRequired,
   }
@@ -24,9 +25,9 @@ class Profile extends Component {
     this.state = { activeTab: 0 };
   }
   render() {
-    const { user: { mobilePhoneNumber }, logout, classes } = this.props;
+    const { location, user: { mobilePhoneNumber }, logout, classes } = this.props;
     return (
-      <Page helmet={{ title: '富农商城-个人信息' }}>
+      <Page location={location} helmet={{ title: '富农商城-个人信息' }}>
         <div className={classes.content}>
           <Card shadow={2} style={{ width: '100%', margin: 'auto' }}>
             <CardTitle>

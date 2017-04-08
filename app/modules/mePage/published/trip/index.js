@@ -8,7 +8,8 @@ const Products = connect(
   selector,
 )((props) => <List editPath={editPath} Card={Card} {...props} />);
 
-export default () => (<Page
+export default (props) => (<Page
+  {...props}
   helmet={{ title: '富农商城-我的乡村游' }}
   editPath={editPath}
   content={<Products />}

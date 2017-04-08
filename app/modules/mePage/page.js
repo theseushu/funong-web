@@ -55,15 +55,16 @@ const sideRoutes = () => [
   { title: '我的收藏', path: '/me/bookmarks' },
 ];
 
-const MePage = ({ helmet, user: { type }, header, children, smallContent = true }, { router }) => {
-  const routes = sideRoutes(type).map((route) => {
-    if (route.path !== '/me/published') {
-      const active = router.isActive(route.path, true);
-      return { ...route, active };
-    }
-    const active = router.isActive('/me/published', true) || router.isActive('/me/published/supply', true) || router.isActive('/me/published/shop', true);
-    return { ...route, active };
-  });
+const MePage = ({ location: { query }, helmet, user: { type }, header, children, smallContent = true }) => {
+  const allRoutes = query && query.farm ? sideRoutes(type).map((route) => ({
+    ...route,
+    path: route.path.indexOf('?') > 0 ? `${route.path}&farm=true` : `${route.path}?farm=true`,
+    routes: (route.routes && route.routes.length > 0) ? route.routes.map((r) => ({
+      ...r,
+      path: r.path.indexOf('?') > 0 ? `${r.path}&farm=true` : `${r.path}?farm=true`,
+    })) : undefined,
+  })) : sideRoutes(type);
+  const routes = allRoutes;
   return (
     <Layout
       helmet={helmet || { title: '富农商城-个人信息' }}
@@ -76,11 +77,9 @@ const MePage = ({ helmet, user: { type }, header, children, smallContent = true 
   );
 };
 
-MePage.contextTypes = {
-  router: PropTypes.object.isRequired,
-};
 MePage.propTypes = {
   children: PropTypes.any.isRequired,
+  location: PropTypes.object.isRequired,
   helmet: PropTypes.object,
   header: PropTypes.object,
   user: PropTypes.object.isRequired,
