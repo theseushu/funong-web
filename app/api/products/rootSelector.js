@@ -1,4 +1,4 @@
 import apiSelector from 'api/rootSelector';
-import { NAMESPACE } from './constants';
+import { SLICE_NAME } from './constants';
 
-export default (state) => apiSelector(state)[NAMESPACE];
+export default (state) => apiSelector(state)[SLICE_NAME];

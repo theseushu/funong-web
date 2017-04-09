@@ -1,6 +1,8 @@
-import { catalogs, statusValues } from 'appConstants';
+import { catalogs, statusValues, productTypes } from 'appConstants';
+import { actions as productActions } from 'api/products/ducks';
 
-export default 'shop';
+const type = productTypes.shop;
+export default type;
 
 // page for list
 export const listRoute = {
@@ -21,22 +23,22 @@ export const pageRoute = {
   name: 'product',
 };
 
-export { actions } from 'api/products/shop';
+export const actions = productActions[type];
 
 export const FORM_NAME = 'shopProduct';
 
-// export const EMPTY_PRODUCT = {
-//   category: null,
-//   species: null,
-//   name: '',
-//   specs: [],
-//   desc: '',
-//   images: [],
-//   labels: [],
-// status: statusValues.unavailable.value,
-// };
-
 export const EMPTY_PRODUCT = {
+  category: null,
+  species: null,
+  name: '',
+  specs: [],
+  desc: '',
+  images: [],
+  labels: [],
+  status: statusValues.unavailable.value,
+};
+
+export const TEST_PRODUCT = {
   category: {
     group: '少儿',
     name: '11-14岁',

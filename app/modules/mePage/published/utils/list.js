@@ -1,11 +1,12 @@
 import React, { PropTypes } from 'react';
 import injectSheet from 'react-jss';
 import Link from 'react-router/lib/Link';
-import Button from 'react-mdl/lib/Button';
 import IconButton from 'react-mdl/lib/IconButton';
 import { breakpoints } from 'modules/common/styles';
+import { Enable as EnableButton, Disable as DisableButton, Remove as RemoveButton } from 'modules/common/product/buttons';
+import { canEnable, canDisable } from 'utils/productUtils';
 
-const List = ({ products, horizontal, editPath, Card, classes }) => (
+const List = ({ type, products, horizontal, editPath, Card, classes }) => (
   <div className={classes.products}>
     {
       products.map((product, i) => (
@@ -13,9 +14,10 @@ const List = ({ products, horizontal, editPath, Card, classes }) => (
           <Card
             product={product}
             actions={[
-              <Button key={0} colored accent>{'上架'}</Button>,
+              canEnable(product) ? <EnableButton key={0} type={type} product={product} /> : null,
+              canDisable(product) ? <DisableButton key={0} type={type} product={product} /> : null,
               <Link key={1} to={`/${editPath}/${product.objectId}?edit=true`}><IconButton colored name="edit"></IconButton></Link>,
-              <IconButton key={2} accent name="delete_sweep">删除</IconButton>,
+              <RemoveButton key={2} type={type} product={product} />,
             ]}
           />
         </div>
@@ -25,6 +27,7 @@ const List = ({ products, horizontal, editPath, Card, classes }) => (
 );
 
 List.propTypes = {
+  type: PropTypes.string.isRequired,
   classes: PropTypes.object.isRequired,
   products: PropTypes.array.isRequired,
   horizontal: PropTypes.bool,

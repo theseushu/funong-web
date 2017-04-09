@@ -1,22 +1,22 @@
+import _map from 'lodash/map';
+import _reduce from 'lodash/reduce';
 import { combineReducers } from 'redux';
+import { productTypes } from 'appConstants';
 import { SLICE_NAME } from './constants';
-import supplyReducer, { sagas as supplySagas } from './supply';
-import tripReducer, { sagas as tripSagas } from './trip';
-import logisticsReducer, { sagas as logisticsSagas } from './logistics';
-import shopReducer, { sagas as shopSagas } from './shop';
+
+import createDucks from './utils/createDucks';
+
+const ducksArray = _map(productTypes, (type) => ({
+  type,
+  ducks: createDucks(type),
+}));
 
 export default {
-  [SLICE_NAME]: combineReducers({
-    ...supplyReducer,
-    ...tripReducer,
-    ...logisticsReducer,
-    ...shopReducer,
-  }),
+  [SLICE_NAME]: combineReducers(_reduce(ducksArray, (result, { ducks }) => ({ ...result, ...ducks.default }), {})),
 };
 
-export const sagas = [
-  ...supplySagas,
-  ...tripSagas,
-  ...logisticsSagas,
-  ...shopSagas,
-];
+export const sagas = _reduce(ducksArray, (result, { ducks }) => [...result, ...ducks.sagas], []);
+
+export const actions = _reduce(ducksArray, (result, { type, ducks }) => ({ ...result, [type]: ducks.actions }), {});
+
+export const selectors = _reduce(ducksArray, (result, { type, ducks }) => ({ ...result, [type]: ducks.selectors }), {});

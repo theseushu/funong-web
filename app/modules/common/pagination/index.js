@@ -16,7 +16,7 @@ const buttonClick = (e, number, onChange) => {
 };
 const Pagination = ({ current, total, sibling, boundary, onChange, classes }) => {
   const buttons = [];
-  if (total === 1) {
+  if (total <= 1) {
     return null;
   } else if (total < (sibling + boundary) * 2) {
     for (let i = 1; i <= total; i += 1) {
@@ -31,7 +31,7 @@ const Pagination = ({ current, total, sibling, boundary, onChange, classes }) =>
     buttons.push(<First key={0} disabled={current === 1} onClick={(e) => buttonClick(e, 1, onChange)} />);
     buttons.push(<Previous key={1} disabled={current === 1} onClick={(e) => buttonClick(e, current - 1, onChange)} />);
     if (current <= sibling + boundary + 1) {
-      for (let i = 0; i < current; i += 1) {
+      for (let i = 1; i < current; i += 1) {
         buttons.push(<Page key={buttons.length} onClick={(e) => buttonClick(e, i, onChange)}>{i}</Page>);
       }
     } else {

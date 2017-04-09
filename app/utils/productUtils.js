@@ -1,7 +1,7 @@
 import _isEmpty from 'lodash/isEmpty';
 import _reduce from 'lodash/reduce';
 import _uniq from 'lodash/uniq';
-import { productTypes } from 'appConstants';
+import { productTypes, statusValues } from 'appConstants';
 import { briefAddress } from './displayUtils';
 // const debug = require('debug')('fonongweb:utils:productUtils');
 
@@ -127,4 +127,31 @@ export const generateDisplayName = (product, type) => {
     }
   }
   return keywords.join(' ');
+};
+
+
+export const canEnable = ({ status }) => {
+  switch (status) {
+    case statusValues.unavailable.value:
+      return true;
+    case statusValues.rejected.value:
+    case statusValues.removed.value:
+    case statusValues.unverified.value:
+    case statusValues.verified.value:
+    default:
+      return false;
+  }
+};
+
+export const canDisable = ({ status }) => {
+  switch (status) {
+    case statusValues.unverified.value:
+    case statusValues.verified.value:
+      return true;
+    case statusValues.unavailable.value:
+    case statusValues.rejected.value:
+    case statusValues.removed.value:
+    default:
+      return false;
+  }
 };

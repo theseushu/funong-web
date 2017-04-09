@@ -2,17 +2,18 @@ import combineReducers from 'redux/lib/combineReducers';
 import { put } from 'redux-saga/effects';
 import createDucks from 'api/utils/createDucks';
 
-export default (SLICE_NAME, apiName, setData) => {
+export default (SLICE_NAME, apiName, setData, selectFromData) => {
   const rootSelector = (state) => state[SLICE_NAME];
 
-  const searchDucks = createDucks({
-    key: 'search',
+  const pageDucks = createDucks({
+    key: 'page',
     apiName,
     rootSelector: (state) => rootSelector(state),
     namespace: `${SLICE_NAME}`,
     sagas: {
-      * beforeFulfilled(products) {
-        yield put(setData(products));
+      * beforeFulfilled(result) {
+        yield put(setData(result.results));
+        return { result: { ...result, results: result.results.map((i) => i.objectId) } };
       },
     },
   });
@@ -20,17 +21,23 @@ export default (SLICE_NAME, apiName, setData) => {
   return {
     default: {
       [SLICE_NAME]: combineReducers({
-        ...searchDucks.default,
+        ...pageDucks.default,
       }),
     },
     actions: {
-      search: searchDucks.actions.search,
+      page: pageDucks.actions.page,
     },
     selectors: {
-      search: searchDucks.selector,
+      page: (state) => {
+        const { result, ...other } = pageDucks.selector(state);
+        if (result) {
+          return { ...other, result: { ...result, results: selectFromData(state, result.results) } };
+        }
+        return { ...other };
+      },
     },
     sagas: [
-      ...searchDucks.sagas,
+      ...pageDucks.sagas,
     ],
   };
 };

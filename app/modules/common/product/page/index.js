@@ -1,19 +1,17 @@
 import React, { PropTypes } from 'react';
-import Pagination from 'modules/common/pagination';
+import { icons, productNames } from 'appConstants';
+import Page, { NoResult } from 'modules/common/page';
 import List from './list';
 
-const ProductPage = ({ type, page, onPageChange, empty }) => {
-  if (!page || !page.results) {
-    return null;
-  }
-  if (page.results.length === 0) {
-    return empty || null;
-  }
+const ProductPage = ({ type, pending, page, onPageChange, actions }) => {
   return (
-    <div>
-      <List type={type} products={page.results} />
-      <Pagination current={page.page} total={page.totalPages} boundary={1} sibling={1} onChange={onPageChange} />
-    </div>
+    <Page
+      pending={pending}
+      page={page}
+      onPageChange={onPageChange}
+      NoResult={<NoResult icon={icons[type]} title={`没有找到${productNames[type]}`} />}
+      List={({ entries }) => <List type={type} products={entries} actions={actions} />}
+    />
   );
 };
 
@@ -21,7 +19,8 @@ ProductPage.propTypes = {
   type: PropTypes.string.isRequired,
   page: PropTypes.object,
   onPageChange: PropTypes.func,
-  empty: PropTypes.object,
+  pending: PropTypes.bool,
+  actions: PropTypes.array,
 };
 
 export default ProductPage;

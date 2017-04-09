@@ -29,6 +29,51 @@ export const update = async (schema, params, context) => {
   };
 };
 
+export const enable = async (schema, { objectId }, context) => {
+  const { token: { sessionToken } } = context;
+  const result = await AV.Cloud.rpc('enableProduct', { type: schema.type, objectId }, { sessionToken });
+  return {
+    ...result,
+    objectId,
+  };
+};
+
+export const disable = async (schema, { objectId }, context) => {
+  const { token: { sessionToken } } = context;
+  const result = await AV.Cloud.rpc('disableProduct', { type: schema.type, objectId }, { sessionToken });
+  return {
+    ...result,
+    objectId,
+  };
+};
+
+export const remove = async (schema, { objectId }, context) => {
+  const { token: { sessionToken } } = context;
+  const result = await AV.Cloud.rpc('removeProduct', { type: schema.type, objectId }, { sessionToken });
+  return {
+    ...result,
+    objectId,
+  };
+};
+
+export const reject = async (schema, { objectId }, context) => {
+  const { token: { sessionToken } } = context;
+  const result = await AV.Cloud.rpc('rejectProduct', { type: schema.type, objectId }, { sessionToken });
+  return {
+    ...result,
+    objectId,
+  };
+};
+
+export const verify = async (schema, { objectId }, context) => {
+  const { token: { sessionToken } } = context;
+  const result = await AV.Cloud.rpc('verifyProduct', { type: schema.type, objectId }, { sessionToken });
+  return {
+    ...result,
+    objectId,
+  };
+};
+
 export const fetch = async (schema, { objectId }, context) => {
   const { table, attributes } = schema;
   const { token: { sessionToken } } = context;
@@ -151,6 +196,11 @@ export default (type, context) => {
   return ({
     create: (params) => create(schema, params, context),
     update: (params) => update(schema, params, context),
+    enable: (params) => enable(schema, params, context),
+    disable: (params) => disable(schema, params, context),
+    remove: (params) => remove(schema, params, context),
+    reject: (params) => reject(schema, params, context),
+    verify: (params) => verify(schema, params, context),
     fetch: (params) => fetch(schema, params, context),
     search: (params) => search(schema, params, context),
     page: (params) => pageFunc(schema, params, context),

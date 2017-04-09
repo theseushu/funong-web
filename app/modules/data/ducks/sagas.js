@@ -5,7 +5,7 @@ import { put } from 'redux-saga/effects';
 
 import { UPDATE_DATA, REMOVE_ENTITIES, SET_USERS, SET_CURRENT_USER,
   UPDATE_CURRENT_USER_INFO, SET_CATAGORIES, SET_SPECIES,
-  SET_PRODUCTS, SET_SHOP_PRODUCTS, SET_TRIP_PRODUCTS,
+  SET_PRODUCTS, REMOVE_PRODUCTS, SET_SHOP_PRODUCTS, SET_TRIP_PRODUCTS,
   SET_LOGISTICS_PRODUCTS, SET_CERTS,
   SET_CART_ITEMS, REMOVE_CART_ITEMS, SET_SHOPS,
   SET_COMMENTS, REMOVE_COMMENTS,
@@ -59,6 +59,12 @@ function* setProductsSaga(action) {
   const data = normalize(products, ProductSchemas[type].array);
   const payload = Object.assign({}, data);
   yield put({ type: UPDATE_DATA, payload });
+}
+
+function* removeProductsSaga(action) {
+  const { ids } = action.payload;
+  const { type } = action.meta;
+  yield put({ type: REMOVE_ENTITIES, payload: { entities: { [ProductSchemas[type].schema().getKey()]: _zipObject(ids, ids.map(() => null)) } } });
 }
 
 function* setShopProductsSaga(action) {
@@ -166,6 +172,7 @@ function* rootSaga(api) {
   yield takeEvery(SET_CATAGORIES, setCategoriesSaga);
   yield takeEvery(SET_SPECIES, setSpeciesSaga);
   yield takeEvery(SET_PRODUCTS, setProductsSaga);
+  yield takeEvery(REMOVE_PRODUCTS, removeProductsSaga);
   yield takeEvery(SET_SHOP_PRODUCTS, setShopProductsSaga);
   yield takeEvery(SET_LOGISTICS_PRODUCTS, setLodisticsProductsSaga);
   yield takeEvery(SET_TRIP_PRODUCTS, setTripProductsSaga);

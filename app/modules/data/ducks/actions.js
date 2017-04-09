@@ -5,6 +5,7 @@ import {
   SET_CATAGORIES,
   SET_SPECIES,
   SET_PRODUCTS,
+  REMOVE_PRODUCTS,
   SET_SHOP_PRODUCTS,
   SET_LOGISTICS_PRODUCTS,
   SET_TRIP_PRODUCTS,
@@ -46,6 +47,11 @@ export const setSpecies = (species) => ({
 export const setProducts = (type, products) => ({
   type: SET_PRODUCTS,
   payload: { products },
+  meta: { type },
+});
+export const removeProducts = (type, ids) => ({
+  type: REMOVE_PRODUCTS,
+  payload: { ids },
   meta: { type },
 });
 // todo refactor like certs

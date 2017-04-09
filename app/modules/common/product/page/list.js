@@ -14,14 +14,18 @@ const cards = {
   [productTypes.shop]: ShopCard,
 };
 
-const List = ({ type, products, classes }) => {
+const List = ({ type, products, classes, actions }) => {
   const Card = cards[type];
   return (
     <div className={classes.products}>
       {
         products.map((product, i) => (
           <div key={i} className={type === productTypes.logistics ? classes.productHorizontal : classes.product}>
-            <Card key={i} product={product} />
+            <Card
+              key={i}
+              product={product}
+              actions={actions}
+            />
           </div>
         ))
       }
@@ -33,6 +37,7 @@ List.propTypes = {
   type: PropTypes.string.isRequired,
   products: PropTypes.array.isRequired,
   classes: PropTypes.object.isRequired,
+  actions: PropTypes.array,
 };
 
 export default injectSheet({

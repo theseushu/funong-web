@@ -1,12 +1,16 @@
 import React, { PropTypes } from 'react';
 import injectSheet from 'react-jss';
 import Link from 'react-router/lib/Link';
-import { Card, CardActions } from 'react-mdl/lib/Card';
+import { Card } from 'react-mdl/lib/Card';
+import { productTypes } from 'appConstants';
 import { generateDisplayName } from 'utils/productUtils';
 import { briefAddress, formatPrices, formatParams, humanizeTime } from 'utils/displayUtils';
 import { ImageBadge } from 'modules/common/badge';
 import styles, { breakpoints, colors } from 'modules/common/styles';
 import Thumbnail from '../thumbnail';
+import Actions from './actions';
+
+const type = productTypes.supply;
 
 const SupplyProductCard = ({ product, actions, classes }) => {
   const paramsStr = formatParams(product.specs);
@@ -16,7 +20,7 @@ const SupplyProductCard = ({ product, actions, classes }) => {
       <Link to={`/supply/${product.objectId}`} className={classes.title}>
         <div className={classes.image}>
           <div className="_wrapper">
-            <Thumbnail type="shop" thumbnail={product.thumbnail} />
+            <Thumbnail type={type} thumbnail={product.thumbnail} />
           </div>
         </div>
         <div className={`${classes.priceAndName} ${styles.colorPrice}`}>
@@ -45,11 +49,7 @@ const SupplyProductCard = ({ product, actions, classes }) => {
           </div>
         </div>
       </div>
-      {(actions && actions.length > 0) &&
-        <CardActions className={classes.cardActions} border>
-          {actions}
-        </CardActions>
-      }
+      <Actions editPath="supply" type={type} product={product} actions={actions} />
     </Card>
   );
 };

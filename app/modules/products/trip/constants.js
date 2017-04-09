@@ -1,6 +1,8 @@
-import { catalogs, statusValues } from 'appConstants';
+import { catalogs, statusValues, productTypes } from 'appConstants';
+import { actions as productActions } from 'api/products/ducks';
 
-export default 'trip';
+const type = productTypes.trip;
+export default type;
 
 // page for list
 export const listRoute = {
@@ -17,13 +19,13 @@ export const catalogGroups = catalogs.groupedFarm;
 
 // page for single product
 export const pageRoute = {
-  path: '/trip/:id',
-  name: 'trip',
+  path: `/${type}/:id`,
+  name: type,
 };
 
-export { actions } from 'api/products/trip';
+export const actions = productActions[type];
 
-export const FORM_NAME = 'trip';
+export const FORM_NAME = type;
 
 export const EMPTY_PRODUCT = {
   name: '',

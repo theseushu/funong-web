@@ -7,6 +7,7 @@ export const UPDATE_CURRENT_USER_INFO = 'data/update_current_user_info';
 export const SET_CATAGORIES = 'data/set_catagories';
 export const SET_SPECIES = 'data/set_species';
 export const SET_PRODUCTS = 'data/set_products';
+export const REMOVE_PRODUCTS = 'data/remove_products';
 export const SET_SHOP_PRODUCTS = 'data/set_shop_products';
 export const SET_SUPPLY_PRODUCTS = 'data/set_supply_products';
 export const SET_LOGISTICS_PRODUCTS = 'data/set_logistics_products';
