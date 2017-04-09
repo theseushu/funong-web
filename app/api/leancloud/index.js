@@ -12,6 +12,7 @@ import createRoleApis from './role';
 import createAMapApi from './amap';
 import createCertApis from './cert';
 import createProductsApis from './products';
+import createPublishesApis from './publishes';
 import createCatalogCategorySpeciesApis from './catalogCategorySpecies';
 import createCartApi from './cart';
 import createShopApi from './shop';
@@ -73,6 +74,7 @@ export default () => {
     ...createFileApi({ context, updateContextProfile }),
     ...createCertApis({ context }),
     ...createProductsApis({ context }),
+    ...createPublishesApis({ context }),
     ...createCatalogCategorySpeciesApis({ context }),
     ...createCartApi({ context }),
     ...createShopApi({ context }),

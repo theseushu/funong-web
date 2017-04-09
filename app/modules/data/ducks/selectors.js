@@ -1,10 +1,11 @@
 import { createSelector } from 'reselect';
 import _find from 'lodash/find';
 import { denormalize } from 'denormalizr';
+import { publishTypesInfo } from 'appConstants';
 
 import { SpeciesArraySchema, CertsSchema, ProductSchemas, ShopProductsSchema,
   LogisticsProductsSchema, TripProductsSchema, CartItemsSchema,
-  ShopsSchema, CommentsSchema, OrdersSchema, InquiriesSchema, BidsSchema } from './schemas';
+  ShopsSchema, CommentsSchema, OrdersSchema, InquiriesSchema, BidsSchema, PublishesSchemas } from './schemas';
 
 const rootSelector = (state) => state.data;
 
@@ -281,4 +282,25 @@ export const createUserBidsSelector = (userId) => createSelector(
     const result = bids.filter((p) => p.owner.objectId === userId);
     return result;
   },
+);
+
+export const createPublishesSelector = (type) => createSelector(
+  rootSelector,
+  (data) => {
+    const { entities } = data;
+    if (!entities) {
+      return [];
+    }
+    const publishes = entities[publishTypesInfo[type].plural];
+    if (!publishes) {
+      return [];
+    }
+    const schema = PublishesSchemas[type];
+    return Object.values(denormalize(publishes, data.entities, schema));
+  },
+);
+
+export const createPublishSelector = (type, objectId) => createSelector(
+  createPublishesSelector(type),
+  (publishes) => _find(publishes, (p) => p.objectId === objectId),
 );

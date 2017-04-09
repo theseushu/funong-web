@@ -80,7 +80,7 @@ const Criteria = ({ setCriteria, catalogGroups, category, species = [], province
 Criteria.propTypes = {
   classes: PropTypes.object.isRequired,
   setCriteria: PropTypes.func.isRequired,
-  catalogGroups: PropTypes.array.isRequired,
+  catalogGroups: PropTypes.array,
   page: PropTypes.number,
   pageSize: PropTypes.number,
   category: PropTypes.object,

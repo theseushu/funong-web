@@ -21,6 +21,8 @@ import {
   REMOVE_INQUIRIES,
   SET_BIDS,
   REMOVE_BIDS,
+  SET_PUBLISHES,
+  REMOVE_PUBLISHES,
 } from './constants';
 
 export const setCurrentUser = (user) => ({
@@ -117,4 +119,15 @@ export const setBids = (bids) => ({
 export const removeBids = (ids) => ({
   type: REMOVE_BIDS,
   payload: { ids },
+});
+
+export const setPublishes = (type, entries) => ({
+  type: SET_PUBLISHES,
+  payload: { entries },
+  meta: { type },
+});
+export const removePublishes = (type, ids) => ({
+  type: REMOVE_PUBLISHES,
+  payload: { ids },
+  meta: { type },
 });

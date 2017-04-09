@@ -3,10 +3,10 @@ import styles from 'modules/common/styles';
 import LoadingDiv from 'modules/common/glossary/loadingDiv';
 import Pagination from 'modules/common/pagination';
 
-const Page = ({ pending, page, NoResult, List, onPageChange }, { router }) => (
-  <LoadingDiv pending={pending} className={styles.w100}>
+const Page = ({ pending, page, empty, List, onPageChange }, { router }) => (
+  <LoadingDiv pending={pending} className={styles.w100} style={{ minHeight: 102 }}>
     { page && page.results && page.results.length > 0 && <List entries={page.results} /> }
-    { page && (page.total === 0 || page.results.length === 0) && <NoResult /> }
+    { !pending && page && (page.total === 0 || page.results.length === 0) && empty }
     {
       page && (
         <Pagination
@@ -35,7 +35,7 @@ Page.contextTypes = {
 Page.propTypes = {
   pending: PropTypes.bool,
   page: PropTypes.object,
-  NoResult: PropTypes.element.isRequired,
+  empty: PropTypes.element.isRequired,
   List: PropTypes.oneOfType([
     PropTypes.element,
     PropTypes.func,

@@ -24,3 +24,5 @@ export const SET_INQUIRIES = 'data/set_inquiries';
 export const REMOVE_INQUIRIES = 'data/remove_inquiries';
 export const SET_BIDS = 'data/set_bids';
 export const REMOVE_BIDS = 'data/remove_bids';
+export const SET_PUBLISHES = 'data/set_publishes';
+export const REMOVE_PUBLISHES = 'data/remove_publishes';

@@ -1,4 +1,6 @@
+import _reduce from 'lodash/reduce';
 import { Schema, arrayOf } from 'normalizr';
+import { publishTypesInfo } from 'appConstants';
 
 export const UserSchema = new Schema('users', {
   idAttribute: 'objectId',
@@ -151,3 +153,28 @@ BidSchema.define({
   product: SupplyProductSchema,
 });
 export const BidsSchema = arrayOf(BidSchema);
+
+export const PublishShemas = _reduce(publishTypesInfo, (result, info, key) => {
+  const schema = new Schema(info.plural, {
+    idAttribute: 'objectId',
+  });
+  schema.define({
+    owner: UserSchema,
+    category: CategorySchema,
+    species: SpeciesSchema,
+    shop: ShopSchema,
+    original: schema,
+  });
+  return ({
+    ...result,
+    [key]: schema,
+  });
+}, {});
+
+export const PublishesSchemas = _reduce(PublishShemas, (result, schema, key) => {
+  const arraySchema = arrayOf(schema);
+  return ({
+    ...result,
+    [key]: arraySchema,
+  });
+}, {});

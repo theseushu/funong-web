@@ -20,6 +20,8 @@ export shopToJSON from './shop';
 
 export productToJSON from './product';
 
+export publishToJSON from './publish';
+
 export cartItemToJSON from './cartItem';
 
 export commentToJSON from './comment';

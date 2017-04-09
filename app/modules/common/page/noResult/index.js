@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import { productTypes } from 'appConstants';
 import NoResult from './noResult';
 
-export default () => <NoResult icon="sentiment_dissatisfied" title="没有结果，请更换查询条件" />;
+export default NoResult;
 
 const messages = {
   [productTypes.supply]: { title: '该用户没有发布供应', titleMine: '您还没有发布供应', icon: 'shopping_basket' },

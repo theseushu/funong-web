@@ -11,12 +11,13 @@ import { UPDATE_DATA, REMOVE_ENTITIES, SET_USERS, SET_CURRENT_USER,
   SET_COMMENTS, REMOVE_COMMENTS,
   SET_ORDERS, REMOVE_ORDERS,
   SET_INQUIRIES, REMOVE_INQUIRIES,
-  SET_BIDS, REMOVE_BIDS } from './constants';
+  SET_BIDS, REMOVE_BIDS,
+  SET_PUBLISHES, REMOVE_PUBLISHES } from './constants';
 import { UserSchema, UsersSchema,
   CategoriesSchema, SpeciesArraySchema,
   ProductSchemas, ShopProductsSchema, LogisticsProductsSchema, TripProductsSchema,
   CertsSchema, CartItemsSchema, ShopsSchema,
-  CommentsSchema, OrdersSchema, InquiriesSchema, BidsSchema } from './schemas';
+  CommentsSchema, OrdersSchema, InquiriesSchema, BidsSchema, PublishesSchemas } from './schemas';
 
 function* setUsersSaga(action) {
   const { users } = action.payload;
@@ -162,6 +163,20 @@ function* removeBidsSaga(action) {
   yield put({ type: REMOVE_ENTITIES, payload: { entities: { [BidsSchema.getItemSchema().getKey()]: _zipObject(ids, ids.map(() => null)) } } });
 }
 
+function* setPublishesSaga(action) {
+  const { entries } = action.payload;
+  const { type } = action.meta;
+  const data = normalize(entries, PublishesSchemas[type]);
+  const payload = Object.assign({}, data);
+  yield put({ type: UPDATE_DATA, payload });
+}
+
+function* removePublishesSaga(action) {
+  const { ids } = action.payload;
+  const { type } = action.meta;
+  yield put({ type: REMOVE_ENTITIES, payload: { entities: { [PublishesSchemas[type].getItemSchema().getKey()]: _zipObject(ids, ids.map(() => null)) } } });
+}
+
 // watcher Saga:
 function* rootSaga(api) {
   yield takeEvery(SET_CURRENT_USER, function* saga(action) {
@@ -188,6 +203,8 @@ function* rootSaga(api) {
   yield takeEvery(REMOVE_INQUIRIES, removeInquriesSaga);
   yield takeEvery(SET_BIDS, setBidsSaga);
   yield takeEvery(REMOVE_BIDS, removeBidsSaga);
+  yield takeEvery(SET_PUBLISHES, setPublishesSaga);
+  yield takeEvery(REMOVE_PUBLISHES, removePublishesSaga);
 }
 
 export default [rootSaga];

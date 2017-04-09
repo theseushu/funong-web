@@ -34,3 +34,12 @@ export const embeddedProductToJSON = (product) => {
   const thumbnail = fileToJSON(product.get('thumbnail'));
   return _omitBy({ objectId, name, thumbnail }, _isUndefined);
 };
+
+
+export const originalProductToJSON = (product) => {
+  if (!product) {
+    return undefined;
+  }
+  const { objectId, updatedAt } = product.toJSON();
+  return _omitBy({ objectId, updatedAt: updatedAt.getTime() }, _isUndefined);
+};

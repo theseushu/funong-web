@@ -1,13 +1,21 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { List } from 'modules/common/inquiry';
-import { editPath, selector } from './constants';
+import { Page as InquiryPage } from 'modules/common/inquiry';
+import { editPath } from './constants';
+import { selectors } from './ducks';
 import Page from '../utils/page';
 
-const Inquiries = (props) => <List hideUser {...props} actions={['edit', 'withdraw']} />;
+const Inquiries = ({ pending, result }) => (
+  <InquiryPage pending={pending} page={result} hideUser actions={['enable', 'disable', 'edit', 'remove']} />
+);
+
+Inquiries.propTypes = {
+  pending: PropTypes.bool,
+  result: PropTypes.object,
+};
 
 const Content = connect(
-  selector,
+  selectors.page,
 )(Inquiries);
 
 export default (props) => (<Page

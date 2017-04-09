@@ -1,15 +1,18 @@
-import { productTypes, icons } from 'appConstants';
+import { publishTypes, publishTypesInfo, icons } from 'appConstants';
+
+const publishTypeToRoute = ({ title, icon, plural }) => ({ title, icon, path: `/${plural}` });
+
 const routes = {
-  supply: { title: '供应', icon: icons[productTypes.supply], path: '/supplies' },
-  inquiry: { title: '采购', icon: icons.inquiry, path: '/inquiries' },
-  trip: { title: '乡村游', icon: icons[productTypes.trip], path: '/trips' },
+  supply: publishTypeToRoute(publishTypesInfo[publishTypes.supply]),
+  inquiry: publishTypeToRoute(publishTypesInfo[publishTypes.inquiry]),
+  trip: publishTypeToRoute(publishTypesInfo[publishTypes.trip]),
   meFarm: { title: '我的富农', icon: icons.me, path: '/me?farm=true' },
   me: { title: '我的富农', icon: icons.me, path: '/me' },
-  logistics: { title: '物流', icon: icons[productTypes.logistics], path: '/logisticsList' },
-  product: { title: '微店', icon: icons[productTypes.shop], path: '/products' },
-  flashSale: { title: '秒杀', icon: icons.flashSale, path: '/flashSales' },
-  switchFarm: { title: '农产市场', icon: icons[productTypes.supply], path: '/supplies' },
-  switchShop: { title: '社区微店', icon: icons[productTypes.shop], path: '/products' },
+  logistics: publishTypeToRoute(publishTypesInfo[publishTypes.logistics]),
+  product: publishTypeToRoute(publishTypesInfo[publishTypes.product]),
+  flashSale: publishTypeToRoute(publishTypesInfo[publishTypes.flashSale]),
+  switchFarm: { ...publishTypeToRoute(publishTypesInfo[publishTypes.supply]), title: '农产市场' },
+  switchShop: { ...publishTypeToRoute(publishTypesInfo[publishTypes.product]), title: '社区微店' },
 };
 
 export const findRoutes = (router, ignoreSwitch) => {

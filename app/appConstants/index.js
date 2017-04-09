@@ -126,3 +126,5 @@ export const districtLevels = {
 };
 
 export icons from './icons';
+
+export publishTypesInfo, { types as publishTypes } from './publishTypes';
