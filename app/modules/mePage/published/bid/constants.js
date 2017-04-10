@@ -1,6 +1,6 @@
 import _find from 'lodash/find';
 import { setBids } from 'modules/data/ducks/actions';
-import { currentUserSelector, bidsSelector } from 'modules/data/ducks/selectors';
+import { bidsSelector } from 'modules/data/ducks/selectors';
 
 const type = 'bid';
 

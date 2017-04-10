@@ -5,9 +5,7 @@ import { editPath } from './constants';
 import { selectors } from './ducks';
 import Page from '../utils/page';
 
-const Bids = ({ pending, result }) => {
-  return <BidPage mine pending={pending} page={result} actions={['edit', 'withdraw']} />;
-};
+const Bids = ({ pending, result }) => <BidPage mine pending={pending} page={result} actions={['edit', 'withdraw']} />;
 
 Bids.propTypes = {
   pending: PropTypes.bool,

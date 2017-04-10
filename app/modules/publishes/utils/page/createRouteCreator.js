@@ -17,7 +17,6 @@ export default (path, name, actions, componentAndDucks, isShop) => ({ store, inj
           proceed();
           return;
         }
-        console.log(isShop)
         if (isShop) {
           const { shop } = await requireShop(store);
           if (!shop) {

@@ -6,7 +6,8 @@ export default ({ store, injectReducer, injectSagas, loadModule, errorLoading })
   return ({
     path: '/',
     name: 'home',
-    onEnter: async (nextState, replace, callback) => {
+    onEnter: async ({ location }, replace, callback) => {
+      replace('/products');
       callback();
     },
     getComponent: async (nextState, cb) => {
