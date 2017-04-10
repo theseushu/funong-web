@@ -1,8 +1,9 @@
 import _toPairs from 'lodash/toPairs';
 import { requireAuth, requireShop } from 'utils/routerUtils';
 
-export default (path, name, actions, componentAndDucks, isShop) => ({ store, injectReducer, loadModule, errorLoading }) => {
+export default (path, name, actions, componentAndDucks, isShop) => ({ store, injectReducer, injectSagas, loadModule, errorLoading }) => {
   const fetch = actions.fetch;
+  let injected = false;
   return {
     path,
     name,
@@ -45,12 +46,12 @@ export default (path, name, actions, componentAndDucks, isShop) => ({ store, inj
     getComponent: async (nextState, cb) => {
       const renderRoute = loadModule(cb);
       const [component, ducks] = await componentAndDucks;
-      if (!this.injected) {
-        this.injected = true;
+      if (!injected) {
         _toPairs(ducks.default).forEach((pair) => {
           injectReducer(pair[0], pair[1]);
         });
-        // injectSagas(ducks.sagas);
+        injectSagas(ducks.sagas);
+        injected = true;
       }
       renderRoute(component);
       componentAndDucks.catch(errorLoading);

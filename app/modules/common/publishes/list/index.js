@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
 import { publishTypes } from 'appConstants';
 import CardList from './cardList';
+import InquiryList from './inquiryList';
 const debug = require('debug')('funong-web:common:publishes:list');
 
 const lists = {
@@ -8,6 +9,7 @@ const lists = {
   [publishTypes.logistics]: (props) => <CardList column={3} {...props} />,
   [publishTypes.trip]: CardList,
   [publishTypes.product]: CardList,
+  [publishTypes.inquiry]: InquiryList,
 };
 
 if (Object.keys(lists).length !== Object.keys(publishTypes).length) {

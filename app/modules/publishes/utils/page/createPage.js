@@ -8,7 +8,8 @@ import createForm from './createForm';
 export default ({ type, actions, EMPTY_PRODUCT, FORM_NAME, FormComponent, Display }) => {
   const Form = createForm(FORM_NAME, actions, FormComponent);
   const info = publishTypesInfo[type];
-  const Page = ({ entry, params: { id }, location: { query }, shop }, { router }) => {
+  const Page = ({ entry, params: { id }, location, shop }, { router }) => {
+    const { query } = location;
     let title;
     if (id === 'new') {
       title = `富农商城-发布新${info.title}`;
@@ -29,7 +30,7 @@ export default ({ type, actions, EMPTY_PRODUCT, FORM_NAME, FormComponent, Displa
         {
           (id === 'new' || query.edit) ?
             <Form initialValues={entry || EMPTY_PRODUCT} shop={shop} /> :
-            <Display type={type} entry={entry} />
+            <Display type={type} entry={entry} location={location} />
         }
       </Layout>
     );

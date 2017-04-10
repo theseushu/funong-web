@@ -11,7 +11,7 @@ import PublishPage from 'modules/common/publishes/page';
 import Criteria from 'modules/common/criteria';
 import createRecommends from './createRecommends';
 
-export default ({ type, ducks, catalogGroups, disabled }) => {
+export default ({ type, ducks, catalogGroups, disabled, noRecommend }) => {
   const { actions, selectors } = ducks;
   const Recommends = createRecommends(type, actions, selectors);
 
@@ -37,7 +37,7 @@ export default ({ type, ducks, catalogGroups, disabled }) => {
                 <PublishPage pending={pending} type={type} page={result} />
               }
               right={
-                <Recommends criteria={criteria} />
+                noRecommend ? <div /> : <Recommends criteria={criteria} />
               }
             />
           </div>

@@ -12,8 +12,8 @@ import createTripsRoute from 'modules/publishes/trip/list/route';
 import createProductRoute from 'modules/publishes/product/page/route';
 import createProductsRoute from 'modules/publishes/product/list/route';
 import createOrderPageRoute from 'modules/orderPage/route';
-import createInquiryRoute from 'modules/inquiry/page/route';
-import createInquiriesRoute from 'modules/inquiry/list/route';
+import createInquiryRoute from 'modules/publishes/inquiry/page/route';
+import createInquiriesRoute from 'modules/publishes/inquiry/list/route';
 
 const errorLoading = (err) => {
   console.error('Dynamic page loading failed', err); // eslint-disable-line no-console

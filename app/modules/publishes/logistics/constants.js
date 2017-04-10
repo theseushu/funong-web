@@ -1,4 +1,4 @@
-import { catalogs, statusValues, publishTypesInfo, publishTypes } from 'appConstants';
+import { statusValues, publishTypesInfo, publishTypes } from 'appConstants';
 import { actions as publishesActions } from 'api/publishes/ducks';
 
 const type = publishTypes.logistics;
