@@ -1,7 +1,8 @@
 import { actions } from 'api/shop';
 import { myShopSelector } from 'modules/data/ducks/selectors';
 import createInfoRoute from './info/route';
-import createProductsRoute from './products/route';
+import createProductRoute from './product/route';
+import createFlashSalesRoute from './flashSale/route';
 
 const fetchMine = actions.fetchMine;
 
@@ -36,7 +37,8 @@ export default ({ store, injectReducer, injectSagas, loadModule, errorLoading })
     indexRoute: { getComponent: infoRoute.getComponent },
     childRoutes: [
       infoRoute,
-      createProductsRoute({ store, injectReducer, injectSagas, loadModule, errorLoading }),
+      createProductRoute({ store, injectReducer, injectSagas, loadModule, errorLoading }),
+      createFlashSalesRoute({ store, injectReducer, injectSagas, loadModule, errorLoading }),
     ],
   };
 };

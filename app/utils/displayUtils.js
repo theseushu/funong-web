@@ -8,6 +8,8 @@ import { statusValues, districtLevels, badges, provinces as allProvinces } from 
 import styles from 'modules/common/styles';
 import { ImageBadge } from 'modules/common/badge';
 
+moment.locale('zh_CN');
+
 export const formatProvinces = (provinces) =>
   (provinces && provinces.length > 0) ? provinces.map((province) => _find(allProvinces, (p) => p.value === province).title).join(' ') : '全国';
 
@@ -83,44 +85,25 @@ export const formatStatus = (statusValue) => {
   return (<span className={className}>{title}</span>);
 };
 
-const miniSecsInHour = 3600 * 1000;
-const miniSecsInDay = miniSecsInHour * 24;
-const miniSecsInWeek = miniSecsInDay * 7;
-const miniSecsInMonth = miniSecsInDay * 30;
-const miniSecsInYear = miniSecsInDay * 365;
+export const formatStartAndEndTime = (startTime, endTime) => {
+  const start = moment(startTime);
+  const end = moment(endTime);
+  if (end.isBefore()) {
+    return '已结束';
+  } else if (start.isBefore()) {
+    return `${end.fromNow()}结束`;
+  }
+  return `${start.fromNow()}开始`;
+};
+
 export const humanizeTime = (time) => {
-  const now = new Date().getTime();
-  const period = now - time;
-  if (period < miniSecsInDay) {
-    const hours = Math.floor((period) / miniSecsInHour);
-    if (hours <= 0) {
-      return '刚刚';
-    }
-    return `${hours}小时前`;
-  } else if (period < miniSecsInWeek) {
-    const days = Math.floor((now - time) / miniSecsInDay);
-    if (days <= 0) {
-      return '今天';
-    }
-    return `${days}天前`;
-  } else if (period < miniSecsInMonth) {
-    const weeks = Math.floor((now - time) / miniSecsInWeek);
-    if (weeks <= 0) {
-      return '本周';
-    }
-    return `${weeks}周前`;
-  } else if (period < miniSecsInYear) {
-    const months = Math.floor((now - time) / miniSecsInMonth);
-    if (months <= 0) {
-      return '本月';
-    }
-    return `${months}月前`;
-  }
-  const years = Math.floor((now - time) / miniSecsInYear);
-  if (years <= 0) {
-    return '今年';
-  }
-  return `${years}年前`;
+  const m = moment(time);
+  return m.isBefore() ? m.fromNow() : m.toNow();
+};
+
+export const formatDateTime = (time) => {
+  const m = moment(time);
+  return m.format('YYYY-MM-DD HH:mm');
 };
 
 export const formatTime = (time) => {

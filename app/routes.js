@@ -14,6 +14,8 @@ import createProductsRoute from 'modules/publishes/product/list/route';
 import createOrderPageRoute from 'modules/orderPage/route';
 import createInquiryRoute from 'modules/publishes/inquiry/page/route';
 import createInquiriesRoute from 'modules/publishes/inquiry/list/route';
+import createFlashSaleRoute from 'modules/publishes/flashSale/page/route';
+import createFlashSalesRoute from 'modules/publishes/flashSale/list/route';
 
 const errorLoading = (err) => {
   console.error('Dynamic page loading failed', err); // eslint-disable-line no-console
@@ -69,6 +71,8 @@ export default function createRoutes(store) {
     createOrderPageRoute({ store, injectReducer, injectSagas, loadModule, errorLoading }),
     createInquiryRoute({ store, injectReducer, injectSagas, loadModule, errorLoading }),
     createInquiriesRoute({ store, injectReducer, injectSagas, loadModule, errorLoading }),
+    createFlashSaleRoute({ store, injectReducer, injectSagas, loadModule, errorLoading }),
+    createFlashSalesRoute({ store, injectReducer, injectSagas, loadModule, errorLoading }),
     {
       path: '*',
       name: 'notfound',

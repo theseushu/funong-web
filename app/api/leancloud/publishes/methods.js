@@ -117,7 +117,7 @@ const createTextQuery = (schema, { sort, page, pageSize, category, species, prov
   return query;
 };
 
-export const pageFunc = async (type, schema, { keywords, category, species, provinces, sort, page = 1, pageSize = 20 }, context) => {
+export const pageFunc = async (type, schema, { keywords, category, species, provinces, owner, shop, sort, page = 1, pageSize = 20 }, context) => {
   const { token: { sessionToken } } = context;
   let result;
   if (keywords) {
@@ -134,7 +134,17 @@ export const pageFunc = async (type, schema, { keywords, category, species, prov
       results,
     };
   } else {
-    result = await AV.Cloud.rpc('pagePublishes', { type, category, species, provinces, sort, page, pageSize }, { sessionToken });
+    result = await AV.Cloud.rpc('pagePublishes', {
+      type,
+      category: category ? { objectId: category.objectId } : undefined,
+      species: (species && species.length > 0) ? species.map((s) => ({ objectId: s.objectId })) : undefined,
+      provinces,
+      sort,
+      owner: owner ? { objectId: owner.objectId } : undefined,
+      shop: shop ? { objectId: shop.objectId, owner: { objectId: shop.owner.objectId } } : undefined,
+      page,
+      pageSize,
+    }, { sessionToken });
   }
   return {
     ...result,

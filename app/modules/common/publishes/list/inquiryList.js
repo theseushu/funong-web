@@ -7,6 +7,7 @@ import { List, ListItem, ListItemContent, ListItemAction } from 'react-mdl/lib/L
 import { Avatar } from 'modules/common/user';
 import styles, { colors, breakpoints } from 'modules/common/styles';
 import { briefAddress, humanizeTime } from 'utils/displayUtils';
+import { generateDisplayName } from 'utils/publishUtils';
 import { publishTypes, publishTypesInfo } from 'appConstants';
 import Actions from '../actions';
 
@@ -28,7 +29,7 @@ const InquiryList = ({ hideUser = false, classes, entries, actions }) => (
             </div>
             }
         >
-          <Link className={classes.title} to={`/${info.route}/${inquiry.objectId}`}>{inquiry.name}<small> {inquiry.quantity}</small></Link>
+          <Link className={classes.title} to={`/${info.route}/${inquiry.objectId}`}>{generateDisplayName(inquiry)}<small> {inquiry.quantity}</small></Link>
         </ListItemContent>
         <ListItemAction>
           <div className={classes.buttonsDesktop}>

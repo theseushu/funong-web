@@ -16,5 +16,6 @@ export CapacityCountPriceCard from './cards/capacityCountPrice';
 export RangeNameCard from './cards/rangeName';
 export LocationNameCard from './cards/locationName';
 export RangePriceEndAtCard from './cards/rangePriceEndAt';
+export StartEndAtCard from './cards/startEndAt';
 
 export createKeywords from './createKeywords';

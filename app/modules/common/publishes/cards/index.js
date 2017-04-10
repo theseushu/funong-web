@@ -7,6 +7,8 @@ import Trip from './trip';
 import TripBrief from './tripBrief';
 import Product from './product';
 import ProductBrief from './productBrief';
+import FlashSale from './flashSale';
+import FlashSaleBrief from './flashSaleBrief';
 
 
 module.exports = {
@@ -25,5 +27,9 @@ module.exports = {
   [publishTypes.product]: {
     card: Product,
     briefCard: ProductBrief,
+  },
+  [publishTypes.flashSale]: {
+    card: FlashSale,
+    briefCard: FlashSaleBrief,
   },
 };

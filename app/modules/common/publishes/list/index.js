@@ -10,6 +10,7 @@ const lists = {
   [publishTypes.trip]: CardList,
   [publishTypes.product]: CardList,
   [publishTypes.inquiry]: InquiryList,
+  [publishTypes.flashSale]: CardList,
 };
 
 if (Object.keys(lists).length !== Object.keys(publishTypes).length) {

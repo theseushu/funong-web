@@ -4,6 +4,7 @@ import { Card, CardTitle, CardText } from 'react-mdl/lib/Card';
 import injectSheet from 'react-jss';
 import IconButton from 'react-mdl/lib/IconButton';
 import { List, ListItem, ListItemContent, ListItemAction } from 'react-mdl/lib/List';
+import Menu, { MenuItem } from 'react-mdl/lib/Menu';
 import FormIconButton from 'modules/common/formElements/iconButton';
 import { formatPrice } from 'utils/displayUtils';
 import { colors } from 'modules/common/styles';
@@ -18,6 +19,8 @@ class Specs extends Component {
     }).isRequired,
     meta: PropTypes.object,
     useMinimum: PropTypes.bool,
+    selector: PropTypes.bool,
+    specs: PropTypes.array,
     classes: PropTypes.object,
   }
   constructor(props) {
@@ -56,7 +59,7 @@ class Specs extends Component {
   }
 
   render() {
-    const { input: { value }, meta: { error }, useMinimum, classes } = this.props; // eslint-disable-line
+    const { input: { value, onChange }, meta: { error }, useMinimum, selector, specs, classes } = this.props; // eslint-disable-line
     const { editingIndex } = this.state;
     return (
       <Card shadow={1} className={classes.card}>
@@ -74,7 +77,7 @@ class Specs extends Component {
                     ><span>{spec.name}<small> {formatPrice(spec, useMinimum)}</small></span></ListItemContent>
                     <ListItemAction>
                       <IconButton name="edit" onClick={(e) => { e.preventDefault(); this.editSpec(i); }} />
-                      <IconButton name="delete_sweep" onClick={(e) => { e.preventDefault(); this.removeSpec(spec); }} />
+                      { !selector && <IconButton name="delete_sweep" onClick={(e) => { e.preventDefault(); this.removeSpec(spec); }} /> }
                     </ListItemAction>
                   </ListItem>
                 ))
@@ -83,11 +86,24 @@ class Specs extends Component {
           )
           }
         </CardText>
-        <FormIconButton
-          error={error}
-          className={classes.iconButton}
-          name="add_circle" ripple onClick={(e) => { e.preventDefault(); this.addSpec(); }}
-        />
+        { !selector && (
+          <FormIconButton
+            error={error}
+            name="add_circle" ripple onClick={(e) => { e.preventDefault(); this.addSpec(); }}
+          />
+        )}
+        { selector && specs.length > 1 && (
+          <div className={classes.specSelector}>
+            <small>其它规格</small>
+            <IconButton name="more_vert" id={'_form_spec_menu'} onClick={(e) => { e.preventDefault(); }} />
+            <Menu target={'_form_spec_menu'} align="right">
+              {specs.map((s, i) => <MenuItem
+                key={i}
+                onClick={() => onChange([{ ...s, name: '默认' }])}
+              >{s.name}</MenuItem>)}
+            </Menu>
+          </div>
+        )}
         {
           editingIndex !== null && (
             <SpecDialog
@@ -115,5 +131,10 @@ export default injectSheet({
       marginBottom: 8,
       borderBottom: `solid 1px ${colors.colorLightGrey}`,
     },
+  },
+  specSelector: {
+    position: 'absolute',
+    top: 8,
+    right: 8,
   },
 })(Specs);

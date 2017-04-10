@@ -3,6 +3,7 @@ import injectSheet from 'react-jss';
 import Button from 'react-mdl/lib/Button';
 import { breakpoints, colors } from 'modules/common/styles';
 import LabelWithBorder from 'modules/common/label/labelWithBorder';
+import { formatPrice } from 'utils/displayUtils';
 
 const Specs = ({ specs, specIndex, onClick, classes }) => (
   <div className={classes.wrapper}>
@@ -15,7 +16,7 @@ const Specs = ({ specs, specIndex, onClick, classes }) => (
     <div className={classes.params}>
       {specs[specIndex].params.map((param, i) => <LabelWithBorder key={i}>{param}</LabelWithBorder>)}
     </div>
-    <p className={classes.price}>{`${specs[specIndex].minimum}${specs[specIndex].unit}以上 每${specs[specIndex].unit}${specs[specIndex].price}元`}</p>
+    <p className={classes.price}>{formatPrice(specs[specIndex])}</p>
   </div>
   );
 

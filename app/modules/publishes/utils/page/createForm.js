@@ -4,11 +4,12 @@ import { reduxForm } from 'redux-form';
 import { push } from 'react-router-redux';
 import success from 'modules/toastr/success';
 
+const omitFileds = ['shop', 'original', 'updatedAt', 'owner', 'minPrice', 'createdAt', 'thumbnail'];
 export default (FORM_NAME, actions, FormComponent) => {
   const { create, update } = actions;
   return reduxForm({
     form: FORM_NAME,  // a unique identifier for this form
-    onSubmit: ({ objectId, createdAt, minPrice, owner, thumbnail, updatedAt, capacity, count, ...params }, dispatch, { initialValues, shop }) => (
+    onSubmit: ({ objectId, capacity, count, ...params }, dispatch, { initialValues, shop }) => (
       initialValues.objectId ?
         new Promise((resolve, reject) => {
           dispatch(update(_omitBy({
@@ -30,7 +31,7 @@ export default (FORM_NAME, actions, FormComponent) => {
               },
               reject,
             },
-          }, (value, key) => key === 'shop'))); // we don't update shop in any case. so omit it
+          }, (value, key) => omitFileds.indexOf(key) > -1))); // we don't update shop in any case. so omit it
         }) :
         new Promise((resolve, reject) => {
           dispatch(create({

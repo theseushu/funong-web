@@ -3,6 +3,9 @@ import React, { PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { replace } from 'react-router-redux';
 import injectSheet from 'react-jss';
+import Link from 'react-router/lib/Link';
+import FABButton from 'react-mdl/lib/FABButton';
+import Icon from 'react-mdl/lib/Icon';
 import { publishTypesInfo } from 'appConstants';
 import { Layout } from 'modules/common/layouts';
 import { MainRight as ContentMainRight } from 'modules/common/layout/content';
@@ -18,9 +21,10 @@ export default ({ type, ducks, catalogGroups, disabled, noRecommend }) => {
   // location is a react-router param passed here
   const Page = ({ criteria, setCriteria, pending, result, sheet: { classes } }) => {
     const { keywords, ...other } = criteria;
+    const info = publishTypesInfo[type];
     return (
       <Layout
-        helmet={{ title: `富农商城-${publishTypesInfo[type].title}` }}
+        helmet={{ title: `富农商城-${info.title}` }}
         search={{
           label: '搜索',
           onSearch: (nexKeywords) => {
@@ -34,7 +38,10 @@ export default ({ type, ducks, catalogGroups, disabled, noRecommend }) => {
             <Criteria catalogGroups={catalogGroups} {...other} setCriteria={(c) => setCriteria({ ...c, keywords })} disabled={disabled} />
             <ContentMainRight
               main={
-                <PublishPage pending={pending} type={type} page={result} />
+                <div className={classes.main}>
+                  <PublishPage pending={pending} type={type} page={result} />
+                  <Link to={{ pathname: `/${info.route}/new` }} className={classes.addButton}><FABButton accent><Icon name="add" /></FABButton></Link>
+                </div>
               }
               right={
                 noRecommend ? <div /> : <Recommends criteria={criteria} />
@@ -68,6 +75,16 @@ export default ({ type, ducks, catalogGroups, disabled, noRecommend }) => {
   )(injectSheet({
     page: {
       width: '100%',
+    },
+    main: {
+      width: '100%',
+      position: 'relative',
+    },
+    addButton: {
+      position: 'absolute',
+      top: -24,
+      right: 16,
+      zIndex: 2,
     },
   })(Page));
 };

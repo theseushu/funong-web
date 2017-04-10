@@ -13,6 +13,7 @@ class CategoryField extends Component {
     input: PropTypes.object.isRequired,
     meta: PropTypes.object,
     clearSpecies: PropTypes.func.isRequired,
+    readOnly: PropTypes.bool,
   };
   state = { showDialog: false }
   setCategory = (category) => {
@@ -24,18 +25,21 @@ class CategoryField extends Component {
   showDialog = (e) => {
     e.preventDefault();
     e.stopPropagation();
-    this.setState({ showDialog: true });
+    const { readOnly } = this.props;
+    if (!readOnly) {
+      this.setState({ showDialog: true });
+    }
   }
   hideDialog = () => {
     this.setState({ showDialog: false });
   }
   render() {
-    const { catalogs, input: { value }, meta: { error } } = this.props;
+    const { readOnly, catalogs, input: { value }, meta: { error } } = this.props;
     const { showDialog } = this.state;
     const category = value || null;
     return (
       <div className={error && styles.colorError}>
-        <FormButton error={error} onClick={this.showDialog}>分类： {category ? category.name : '点击选择'}</FormButton>
+        <FormButton error={error} disabled={readOnly} onClick={this.showDialog}>分类： {category ? category.name : '点击选择'}</FormButton>
         { showDialog &&
           <Dialog
             selected={category} catalogs={catalogs} onSelect={this.setCategory} onHide={this.hideDialog}

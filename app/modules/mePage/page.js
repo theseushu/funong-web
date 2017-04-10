@@ -47,7 +47,10 @@ const sideRoutes = () => [
       path: '/me/shop',
     }, {
       title: '商品',
-      path: '/me/shop/products',
+      path: '/me/shop/product',
+    }, {
+      title: '抢购',
+      path: '/me/shop/flashSale',
     }],
   },
   { title: '购物车', path: '/me/cart' },

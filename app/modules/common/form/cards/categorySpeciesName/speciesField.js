@@ -12,6 +12,7 @@ class SpeciesField extends Component {
     category: PropTypes.object,
     input: PropTypes.object.isRequired,
     meta: PropTypes.object,
+    readOnly: PropTypes.bool,
   };
   state = { showDialog: false }
   setSpecies = (s) => {
@@ -28,14 +29,14 @@ class SpeciesField extends Component {
     this.setState({ showDialog: false });
   }
   render() {
-    const { category, input: { value }, meta: { error } } = this.props;
+    const { readOnly, category, input: { value }, meta: { error } } = this.props;
     const { showDialog } = this.state;
     const selected = value || null;
     return (
       <div className={error && styles.colorError}>
         {
           category ?
-            <FormButton error={error} onClick={this.showDialog}>品种： {selected ? selected.name : '点击选择'}</FormButton> :
+            <FormButton error={error} disabled={readOnly} onClick={this.showDialog}>品种： {selected ? selected.name : '点击选择'}</FormButton> :
             <FormButton disabled>请先选择分类</FormButton>
         }
         { showDialog &&

@@ -40,6 +40,6 @@ export const originalProductToJSON = (product) => {
   if (!product) {
     return undefined;
   }
-  const { objectId, updatedAt } = product.toJSON();
-  return _omitBy({ objectId, updatedAt: updatedAt.getTime() }, _isUndefined);
+  const { objectId } = product.toJSON();
+  return _omitBy({ objectId }, _isUndefined);
 };

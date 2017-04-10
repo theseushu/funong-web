@@ -6,7 +6,7 @@ import Button from 'react-mdl/lib/Button';
 import { productTypes } from 'appConstants';
 import styles from 'modules/common/styles';
 import { SimpleDialog as Dialog } from 'modules/common/dialog';
-import ProductSelector from 'modules/productSelector';
+import PublishSelector from 'modules/publishSelector';
 import { InlineThumbnail } from 'modules/common/product';
 
 class BidDialog extends Component {
@@ -98,9 +98,9 @@ class BidDialog extends Component {
               { product && <span><InlineThumbnail type={productTypes.supply} thumbnail={product.thumbnail} />{product.name}</span>}
             </div>
             <div style={{ display: showProduct ? 'block' : 'none' }}>
-              <ProductSelector
+              <PublishSelector
                 type={productTypes.supply}
-                query={_omitBy({ owner: user, species: [species] }, _isUndefined)}
+                query={_omitBy({ owner: user, species: species && [species] }, _isUndefined)}
                 selected={product ? [product] : undefined}
                 onSelect={(products) => {
                   const p = products[0] || null;

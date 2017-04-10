@@ -233,7 +233,7 @@ export const owner = {
 export const original = {
   create: (product, value) => setRequiredAttr(product, 'original', AV.Object.createWithoutData('ShopProduct', value.objectId)),
   converter: attrConverters.original,
-  include: ['original'],
+  include: [],
 };
 
 class SupplyProduct extends AV.Object {}
@@ -335,6 +335,30 @@ const schemas = {
       provinces: shopProvinces,
     },
   },
+  [publishTypes.flashSale]: {
+    table: 'FlashSale',
+    Class: FlashSale,
+    attributes: {
+      objectId,
+      status,
+      category,
+      species,
+      name,
+      images,
+      thumbnail,
+      desc,
+      specs,
+      minPrice,
+      labels,
+      shop,
+      startAt,
+      endAt,
+      createdAt,
+      updatedAt,
+      original, // original is just an id without any information
+      provinces: shopProvinces,
+    },
+  },
   [publishTypes.inquiry]: {
     table: 'Inquiry',
     Class: Inquiry,
@@ -356,32 +380,10 @@ const schemas = {
       provinces: shopProvinces,
     },
   },
-  [publishTypes.flashSale]: {
-    table: 'Inquiry',
-    Class: Inquiry,
-    attributes: {
-      objectId,
-      status,
-      category,
-      species,
-      name,
-      images,
-      thumbnail,
-      desc,
-      specs,
-      minPrice,
-      labels,
-      shop,
-      createdAt,
-      updatedAt,
-      original,
-      provinces: shopProvinces,
-    },
-  },
 };
 
 
-if (Object.keys(schemas).length === Object.keys(publishTypes).length) {
+if (Object.keys(schemas).length !== Object.keys(publishTypes).length) {
   debug('Classes do not matches types, check it out');
 }
 
