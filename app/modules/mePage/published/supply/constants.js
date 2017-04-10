@@ -1,22 +1,20 @@
 import _find from 'lodash/find';
-import { setProducts } from 'modules/data/ducks/actions';
-import { createProductsSelector } from 'modules/data/ducks/selectors';
-import { productTypes } from 'appConstants';
+import { setPublishes } from 'modules/data/ducks/actions';
+import { createPublishesSelector } from 'modules/data/ducks/selectors';
+import { publishTypes, publishTypesInfo } from 'appConstants';
 
-const type = productTypes.supply;
+const type = publishTypes.supply;
+const info = publishTypesInfo[type];
 
 export default type;
-
 export const path = type;
-export const name = 'me_supplies_page';
+export const name = `me_${info.plural}_page`;
 export const SLICE_NAME = `page_me_published_${type}`;
-export const apiName = `products.${type}.page`;
-export const setData = (products) => setProducts(type, products);
+export const apiName = `publishes.${type}.page`;
+export const setData = (results) => setPublishes(type, results);
 export const selectFromData = (state, ids) => {
-  const products = createProductsSelector(type)(state);
-  return ids.map((id) => _find(products, (p) => p.objectId === id));
+  const entries = createPublishesSelector(type)(state);
+  return ids.map((id) => _find(entries, (p) => p.objectId === id));
 };
 
-export const editPath = type;
-
-export Card from 'modules/common/product/cards/supply';
+export const editPath = info.route;

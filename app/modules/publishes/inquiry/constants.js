@@ -3,9 +3,11 @@ import { actions as publishesActions } from 'api/publishes/ducks';
 
 const type = publishTypes.inquiry;
 const info = publishTypesInfo[type];
-export const catalogGroups = catalogs.groupedFarm;
 
 export default type;
+export const shop = info.shop;
+export const catalogGroups = catalogs.groupedFarm;
+
 // page for list
 export const listRoute = {
   path: `/${info.plural}`,

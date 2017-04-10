@@ -1,13 +1,21 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { List } from 'modules/common/bid';
-import { editPath, selector } from './constants';
+import { Page as BidPage } from 'modules/common/bid';
+import { editPath } from './constants';
+import { selectors } from './ducks';
 import Page from '../utils/page';
 
-const Bids = (props) => <List mine {...props} actions={['edit', 'withdraw']} />;
+const Bids = ({ pending, result }) => {
+  return <BidPage mine pending={pending} page={result} actions={['edit', 'withdraw']} />;
+};
+
+Bids.propTypes = {
+  pending: PropTypes.bool,
+  result: PropTypes.object,
+};
 
 const Content = connect(
-  selector,
+  selectors.page,
 )(Bids);
 
 export default (props) => (<Page

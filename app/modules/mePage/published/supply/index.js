@@ -1,13 +1,13 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { Page as ProductsPage } from 'modules/common/product';
+import PublishesPage from 'modules/common/publishes/page';
 import type, { editPath } from './constants';
 import { selectors } from './ducks';
 import Page from '../utils/page';
 import Services from './services';
 
 const ProductPage = ({ pending, result }) => (
-  <ProductsPage pending={pending} type={type} page={result} actions={['enable', 'disable', 'edit', 'remove']} />
+  <PublishesPage pending={pending} type={type} page={result} actions={['enable', 'disable', 'edit', 'remove']} />
 );
 
 ProductPage.propTypes = {

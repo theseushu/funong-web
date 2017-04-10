@@ -6,6 +6,7 @@ const info = publishTypesInfo[type];
 export const catalogGroups = catalogs.groupedFarm;
 
 export default type;
+export const shop = info.shop;
 
 // page for list
 export const listRoute = {

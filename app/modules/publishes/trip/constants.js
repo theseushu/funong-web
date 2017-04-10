@@ -3,7 +3,9 @@ import { actions as publishesActions } from 'api/publishes/ducks';
 
 const type = publishTypes.trip;
 const info = publishTypesInfo[type];
+
 export default type;
+export const shop = info.shop;
 
 // page for list
 export const listRoute = {

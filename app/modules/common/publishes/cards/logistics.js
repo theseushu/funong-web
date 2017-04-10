@@ -6,6 +6,7 @@ import { colors } from 'modules/common/styles';
 import { publishTypesInfo, publishTypes } from 'appConstants';
 import { generateDisplayName } from 'utils/publishUtils';
 import Thumbnail from '../thumbnail';
+import Actions from '../actions';
 
 const type = publishTypes.logistics;
 const info = publishTypesInfo[type];
@@ -40,11 +41,9 @@ const LogisticsCard = ({ publish, className, classes, actions }) => {
           {range.map((province, i) => <span key={i}>{province.title}</span>)}
         </div>
       </CardText>
-      { actions && actions.length > 0 &&
-        <CardActions className={classes.cardActions} border>
-          {actions}
-        </CardActions>
-      }
+      <CardActions border>
+        <Actions type={type} publish={publish} actions={actions} />
+      </CardActions>
     </Card>
   );
 };

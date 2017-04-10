@@ -17,6 +17,7 @@ export default (path, name, actions, componentAndDucks, isShop) => ({ store, inj
           proceed();
           return;
         }
+        console.log(isShop)
         if (isShop) {
           const { shop } = await requireShop(store);
           if (!shop) {
@@ -50,7 +51,9 @@ export default (path, name, actions, componentAndDucks, isShop) => ({ store, inj
         _toPairs(ducks.default).forEach((pair) => {
           injectReducer(pair[0], pair[1]);
         });
-        injectSagas(ducks.sagas);
+        if (ducks.sagas) {
+          injectSagas(ducks.sagas);
+        }
         injected = true;
       }
       renderRoute(component);

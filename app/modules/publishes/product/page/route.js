@@ -1,5 +1,5 @@
 import createRouteCreator from '../../utils/page/createRouteCreator';
-import { pageRoute, actions } from '../constants';
+import { pageRoute, actions, shop } from '../constants';
 
 export default createRouteCreator(
   pageRoute.path,
@@ -9,5 +9,5 @@ export default createRouteCreator(
     System.import('./index'),
     System.import('./ducks'),
   ]),
-  true,
+  shop,
 );

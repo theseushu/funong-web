@@ -17,10 +17,10 @@ export const types = {
 };
 
 export default {
-  [types.supply]: { title: '供应', icon: 'goat', route: 'gy', plural: 'gys', shop: false, forSale: true },
-  [types.logistics]: { title: '物流', icon: 'local_shipping', route: 'wl', plural: 'wls', shop: false, forSale: false },
-  [types.trip]: { title: '乡村游', icon: 'rowing', route: 'xcy', plural: 'xcys', shop: false, forSale: false },
-  [types.product]: { title: '商品', icon: 'shopping_basket', route: 'sp', plural: 'sps', shop: true, forSale: true },
-  [types.inquiry]: { title: '采购', icon: 'network_check', route: 'cg', plural: 'cgs', shop: false, forSale: false },
-  [types.flashSale]: { title: '限时抢购', icon: 'add_alert', route: 'xsqg', plural: 'xsqgs', shop: true, forSale: true },
+  [types.supply]: { title: '供应', icon: 'goat', route: 'supply', plural: 'supplies', shop: false, forSale: true },
+  [types.logistics]: { title: '物流', icon: 'local_shipping', route: 'logistics', plural: 'logisticsList', shop: false, forSale: false },
+  [types.trip]: { title: '乡村游', icon: 'rowing', route: 'trip', plural: 'trips', shop: false, forSale: false },
+  [types.product]: { title: '商品', icon: 'shopping_basket', route: 'product', plural: 'products', shop: true, forSale: true },
+  [types.inquiry]: { title: '采购', icon: 'network_check', route: 'inquiry', plural: 'inquiries', shop: false, forSale: false },
+  [types.flashSale]: { title: '限时抢购', icon: 'add_alert', route: 'flashSale', plural: 'flashSales', shop: true, forSale: true },
 };

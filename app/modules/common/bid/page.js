@@ -1,20 +1,19 @@
 import React, { PropTypes } from 'react';
-import Pagination from 'modules/common/pagination';
+import Page, { NoResult } from 'modules/common/page';
 import List from './list';
 
-const BidList = ({ hideUser, hideContent, page, onPageChange, onWithdrawn }) => {
-  if (!page || !page.results || page.results.length === 0) {
-    return null;
-  }
-  return (
-    <div>
-      <List hideContent={hideContent} hideUser={hideUser} bids={page.results} onWithdrawn={onWithdrawn} />
-      <Pagination current={page.page} total={page.totalPages} boundary={1} sibling={1} onChange={onPageChange} />
-    </div>
-  );
-};
+const BidPage = ({ mine, hideUser, hideContent, pending, page, onPageChange, onWithdrawn }) => (
+  <Page
+    pending={pending}
+    page={page}
+    onPageChange={onPageChange}
+    empty={<NoResult title={'没有找到相关报价'} />}
+    List={({ entries }) => <List mine={mine} bids={entries} hideContent={hideContent} hideUser={hideUser} onWithdrawn={onWithdrawn} />}
+  />);
 
-BidList.propTypes = {
+BidPage.propTypes = {
+  pending: PropTypes.bool,
+  mine: PropTypes.bool,
   hideContent: PropTypes.bool,
   hideUser: PropTypes.bool,
   page: PropTypes.object,
@@ -22,4 +21,4 @@ BidList.propTypes = {
   onWithdrawn: PropTypes.func,
 };
 
-export default BidList;
+export default BidPage;

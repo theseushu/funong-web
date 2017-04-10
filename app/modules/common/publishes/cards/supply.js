@@ -1,14 +1,14 @@
 import React, { PropTypes } from 'react';
 import injectSheet from 'react-jss';
 import Link from 'react-router/lib/Link';
-import { Card } from 'react-mdl/lib/Card';
+import { Card, CardActions } from 'react-mdl/lib/Card';
 import { publishTypesInfo, publishTypes } from 'appConstants';
 import { generateDisplayName } from 'utils/publishUtils';
 import { briefAddress, formatPrices, formatParams, humanizeTime } from 'utils/displayUtils';
 import { ImageBadge } from 'modules/common/badge';
 import styles, { breakpoints, colors } from 'modules/common/styles';
 import Thumbnail from '../thumbnail';
-import Actions from './actions';
+import Actions from '../actions';
 
 const type = publishTypes.supply;
 const info = publishTypesInfo[type];
@@ -50,7 +50,9 @@ const SupplyCard = ({ publish, actions, classes }) => {
           </div>
         </div>
       </div>
-      <Actions editPath="supply" type={type} publish={publish} actions={actions} />
+      <CardActions border>
+        <Actions type={type} publish={publish} actions={actions} />
+      </CardActions>
     </Card>
   );
 };

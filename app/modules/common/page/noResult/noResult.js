@@ -6,7 +6,7 @@ import { colors, breakpoints } from 'modules/common/styles';
 
 const NoResult = ({ title = '没有结果，请更换查询条件', icon = 'sentiment_dissatisfied', classes }) => (
   <div className={classes.noResult}>
-    <Icon name={icon} />
+    { icon && <Icon name={icon} /> }
     <span>{title}</span>
   </div>
 );

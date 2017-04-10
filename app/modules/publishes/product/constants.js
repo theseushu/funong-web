@@ -6,6 +6,7 @@ const info = publishTypesInfo[type];
 export const catalogGroups = catalogs.groupedShop;
 
 export default type;
+export const shop = info.shop;
 // page for list
 export const listRoute = {
   path: `/${info.plural}`,

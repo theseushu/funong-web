@@ -8,6 +8,7 @@ import { generateDisplayName } from 'utils/publishUtils';
 import { ImageBadge } from 'modules/common/badge';
 import styles, { breakpoints, colors } from 'modules/common/styles';
 import Thumbnail from '../thumbnail';
+import Actions from '../actions';
 
 const type = publishTypes.product;
 const info = publishTypesInfo[type];
@@ -49,11 +50,9 @@ const ProductCard = ({ publish, actions, classes }) => {
           </div>
         </div>
       </div>
-      {(actions && actions.length > 0) &&
-        <CardActions className={classes.cardActions} border>
-          {actions}
-        </CardActions>
-      }
+      <CardActions border>
+        <Actions type={type} publish={publish} actions={actions} />
+      </CardActions>
     </Card>
   );
 };

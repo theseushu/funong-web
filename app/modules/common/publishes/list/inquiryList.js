@@ -1,14 +1,17 @@
 import React, { PropTypes } from 'react';
 import injectSheet from 'react-jss';
 import Link from 'react-router/lib/Link';
-import Button from 'react-mdl/lib/Button';
+import Menu from 'react-mdl/lib/Menu';
+import IconButton from 'react-mdl/lib/IconButton';
 import { List, ListItem, ListItemContent, ListItemAction } from 'react-mdl/lib/List';
 import { Avatar } from 'modules/common/user';
 import styles, { colors, breakpoints } from 'modules/common/styles';
 import { briefAddress, humanizeTime } from 'utils/displayUtils';
 import { publishTypes, publishTypesInfo } from 'appConstants';
+import Actions from '../actions';
 
-const info = publishTypesInfo[publishTypes.inquiry];
+const type = publishTypes.inquiry;
+const info = publishTypesInfo[type];
 
 const InquiryList = ({ hideUser = false, classes, entries, actions }) => (
   <List className={hideUser ? `${classes.listWithoutAvatar} ${classes.list}` : classes.list}>
@@ -27,10 +30,18 @@ const InquiryList = ({ hideUser = false, classes, entries, actions }) => (
         >
           <Link className={classes.title} to={`/${info.route}/${inquiry.objectId}`}>{inquiry.name}<small> {inquiry.quantity}</small></Link>
         </ListItemContent>
-        <ListItemAction className={classes.actions}>
-          { actions && actions.indexOf('edit') > -1 && <Link to={`/${info.route}/${inquiry.objectId}?edit=true`}><Button colored>修改</Button></Link>}
-          { actions && actions.indexOf('withdraw') > -1 && <Button>撤销</Button>}
-          { actions && actions.indexOf('view') > -1 && <Link to={`/${info.route}/${inquiry.objectId}`}><Button colored raised>查看详情</Button></Link>}
+        <ListItemAction>
+          <div className={classes.buttonsDesktop}>
+            <Actions type={type} publish={inquiry} actions={actions} />
+          </div>
+          {actions && actions.length > 0 && (
+          <div className={classes.buttonsTouch}>
+            <IconButton name="more_vert" id={`inquiry_${inquiry.objectId}_menu`} />
+            <Menu target={`inquiry_${inquiry.objectId}_menu`} align="right">
+              <Actions type={type} publish={inquiry} actions={actions} className={classes.verticalButtons} />
+            </Menu>
+          </div>
+          )}
         </ListItemAction>
       </ListItem>
       ))}
@@ -63,9 +74,19 @@ export default injectSheet({
       marginRight: '2em',
     },
   },
-  actions: {
-    [breakpoints.mediaTabletBelow]: {
-      display: 'none !important',
+  buttonsDesktop: {
+    [breakpoints.mediaDestkopBelow]: {
+      display: 'none',
     },
+  },
+  buttonsTouch: {
+    [breakpoints.mediaDestkopAbove]: {
+      display: 'none',
+    },
+  },
+  verticalButtons: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
   },
 })(InquiryList);

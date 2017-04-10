@@ -1,19 +1,20 @@
-import { setProducts } from 'modules/data/ducks/actions';
-import { currentUserSelector, createUserProductsSelector } from 'modules/data/ducks/selectors';
+import _find from 'lodash/find';
+import { setPublishes } from 'modules/data/ducks/actions';
+import { createPublishesSelector } from 'modules/data/ducks/selectors';
+import { publishTypes, publishTypesInfo } from 'appConstants';
 
-const type = 'trip';
+const type = publishTypes.trip;
+const info = publishTypesInfo[type];
 
+export default type;
 export const path = type;
-export const name = 'me_trips_page';
+export const name = `me_${info.plural}_page`;
 export const SLICE_NAME = `page_me_published_${type}`;
-export const apiName = `products.${type}.search`;
-export const setData = (products) => setProducts(type, products);
-
-export const selector = (state) => {
-  const user = currentUserSelector(state);
-  return { products: createUserProductsSelector(type, user.objectId)(state) };
+export const apiName = `publishes.${type}.page`;
+export const setData = (results) => setPublishes(type, results);
+export const selectFromData = (state, ids) => {
+  const entries = createPublishesSelector(type)(state);
+  return ids.map((id) => _find(entries, (p) => p.objectId === id));
 };
 
-export const editPath = type;
-
-export Card from 'modules/common/product/cards/trip';
+export const editPath = info.route;
