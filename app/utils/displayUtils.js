@@ -3,12 +3,12 @@ import _reduce from 'lodash/reduce';
 import _find from 'lodash/find';
 import _union from 'lodash/union';
 import _endsWith from 'lodash/endsWith';
-import moment from 'moment';
+import format from 'date-fns/format';
+import isBefore from 'date-fns/is_before';
+import timeago from 'timeago.js';
 import { statusValues, districtLevels, badges, provinces as allProvinces } from 'appConstants';
 import styles from 'modules/common/styles';
 import { ImageBadge } from 'modules/common/badge';
-
-moment.locale('zh_CN');
 
 export const formatProvinces = (provinces) =>
   (provinces && provinces.length > 0) ? provinces.map((province) => _find(allProvinces, (p) => p.value === province).title).join(' ') : '全国';
@@ -86,30 +86,26 @@ export const formatStatus = (statusValue) => {
 };
 
 export const formatStartAndEndTime = (startTime, endTime) => {
-  const start = moment(startTime);
-  const end = moment(endTime);
-  if (end.isBefore()) {
+  const now = new Date();
+  const timeagoIns = timeago(now);
+  timeagoIns.setLocale('zh_CN');
+  if (isBefore(endTime, now)) {
     return '已结束';
-  } else if (start.isBefore()) {
-    return `${end.fromNow()}结束`;
+  } else if (isBefore(startTime, now)) {
+    return `${timeagoIns.format(endTime)}结束`;
   }
-  return `${start.fromNow()}开始`;
+  return `${timeagoIns.format(startTime)}开始`;
 };
 
 export const humanizeTime = (time) => {
-  const m = moment(time);
-  return m.isBefore() ? m.fromNow() : m.toNow();
+  const timeagoIns = timeago();
+  timeagoIns.setLocale('zh_CN');
+  return timeagoIns.format(time);
 };
 
-export const formatDateTime = (time) => {
-  const m = moment(time);
-  return m.format('YYYY-MM-DD HH:mm');
-};
+export const formatDateTime = (time) => format(time, 'YYYY-MM-DD HH:mm');
 
-export const formatTime = (time) => {
-  const m = moment(time);
-  return m.format('YYYY-MM-DD');
-};
+export const formatTime = (time) => format(time, 'YYYY-MM-DD');
 
 // 计算距离，参数分别为第一点的纬度，经度；第二点的纬度，经度
 export function humanizeDistance(distance) {

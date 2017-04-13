@@ -1,29 +1,25 @@
 import React, { PropTypes } from 'react';
 import { Card, CardTitle, CardText } from 'react-mdl/lib/Card';
 import injectSheet from 'react-jss';
-import moment from 'moment';
+import isBefore from 'date-fns/is_before';
+import endOfDay from 'date-fns/end_of_day';
 import { required } from '../../validations';
 import createTextfield from '../../utils/createText';
 import moduleStyles from '../../moduleStyles';
 import RangeField from '../../rangeField';
 import createDateField from '../../createDateField';
 
-const today = moment().startOf('day');
-const valid = (current) => current.isAfter(today);
+const today = endOfDay(new Date());
+const valid = (current) => isBefore(current, today);
 
 const PriceField = createTextfield({ name: 'price', label: '期望价格', validate: [required] });
 const DateField = createDateField({
   name: 'endAt',
   title: '截止日期',
   validate: [required],
-  submitOnChange: true,
-  processDate: (m) => m.set('hour', 23).set('minute', 59).set('second', 59),
-  dateTimeProps: {
-    input: false,
-    locale: 'zh_CN',
-    isValidDate: valid,
-    timeFormat: false,
-  },
+  enableTime: false,
+  isValidDate: valid,
+  processDate: (v) => endOfDay(v).getTime(),
 });
 const QuantityField = createTextfield({ name: 'quantity', label: '采购量', validate: [required] });
 

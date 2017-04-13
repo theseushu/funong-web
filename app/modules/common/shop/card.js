@@ -4,6 +4,7 @@ import Link from 'react-router/lib/Link';
 import { Card, CardTitle, CardText, CardActions } from 'react-mdl/lib/Card';
 import Button from 'react-mdl/lib/Button';
 import { colors } from 'modules/common/styles';
+import ChatButton from 'modules/chat/chatButton';
 
 const CardComponent = ({ shop, sheet: { classes }, className }) => (
   <Card shadow={0} className={className ? `${classes.card} ${className}` : classes.card} >
@@ -19,8 +20,8 @@ const CardComponent = ({ shop, sheet: { classes }, className }) => (
         认证信息
       </CardText>
     <CardActions className={classes.cardActions} border>
-      <Button colored>关注</Button>
-      <Button colored>在线联系</Button>
+      <Button colored ripple onClick={() => alert('开发中')}>关注</Button>
+      <ChatButton colored ripple user={shop.owner}>联系我</ChatButton>
     </CardActions>
   </Card>
   );

@@ -4,7 +4,10 @@ import _pickBy from 'lodash/pickBy';
 import _map from 'lodash/map';
 import _reduce from 'lodash/reduce';
 import _findLast from 'lodash/findLast';
-import moment from 'moment';
+import format from 'date-fns/format';
+import isToday from 'date-fns/is_today';
+import isYesterday from 'date-fns/is_yesterday';
+import isThisYear from 'date-fns/is_this_year';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import injectSheet from 'react-jss';
@@ -31,19 +34,15 @@ const groupMessagesByTime = (messages) => _reduce(messages, (result, message) =>
 }, {});
 
 const formatTime = (timestamp) => {
-  const now = moment();
-  const m = moment(Number(timestamp));
-  if (m.year() === now.year()) {
-    if (m.month() === now.month()) {
-      if (m.day() === now.day()) {
-        return m.format('H:mm');
-      } else if (m.day() === now.day() - 1) {
-        return m.format('昨天 H:mm');
-      }
+  if (isThisYear(timestamp)) {
+    if (isToday(timestamp)) {
+      return format(timestamp, 'H:mm');
+    } else if (isYesterday(timestamp)) {
+      return format(timestamp, '昨天 H:mm');
     }
-    return m.format('M月D日 H:mm');
+    return format(timestamp, 'M月D日 H:mm');
   }
-  return m.format('YYYY年M月D日 H:mm');
+  return format(timestamp, 'YYYY年M月D日 H:mm');
 };
 
 class Messages extends Component {
@@ -123,7 +122,7 @@ class Messages extends Component {
         {
           _reduce(Object.keys(grouped), (result, timestamp) => [
             ...result,
-            <div key={result.length} className={classes.info}><small>{formatTime(timestamp)}</small></div>,
+            <div key={result.length} className={classes.info}><small>{formatTime(Number(timestamp))}</small></div>,
             ..._map(grouped[timestamp], (message) => {
               const mine = message.from === currentUser.objectId;
               return (

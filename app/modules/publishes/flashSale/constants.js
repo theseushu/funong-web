@@ -1,6 +1,8 @@
 import { catalogs, statusValues, publishTypesInfo, publishTypes } from 'appConstants';
 import { actions as publishesActions } from 'api/publishes/ducks';
-import moment from 'moment';
+import addDays from 'date-fns/add_days';
+import setHours from 'date-fns/set_hours';
+import startOfHour from 'date-fns/start_of_hour';
 
 const type = publishTypes.flashSale;
 const info = publishTypesInfo[type];
@@ -24,10 +26,11 @@ export const actions = publishesActions[type];
 
 export const FORM_NAME = type;
 
+const now = new Date();
 export const generateFromOriginal = (original) => ({
   original,
-  startAt: moment().add(7, 'days').hour(10).minute(0).second(0).millisecond(0).valueOf(),
-  endAt: moment().add(7, 'days').hour(18).minute(0).second(0).millisecond(0).valueOf(),
+  startAt: startOfHour(setHours(addDays(now, 7), 10)).getTime(),
+  endAt: startOfHour(setHours(addDays(now, 7), 22)).getTime(),
   category: original.category,
   species: original.species,
   name: original.name,
@@ -40,8 +43,8 @@ export const generateFromOriginal = (original) => ({
 
 export const EMPTY_PRODUCT = {
   original: null,
-  startAt: moment().add(7, 'days').hour(10).minute(0).second(0).millisecond(0).valueOf(),
-  endAt: moment().add(7, 'days').hour(18).minute(0).second(0).millisecond(0).valueOf(),
+  startAt: startOfHour(setHours(addDays(now, 7), 10)).getTime(),
+  endAt: startOfHour(setHours(addDays(now, 7), 22)).getTime(),
   category: null,
   species: null,
   name: '',
@@ -53,8 +56,8 @@ export const EMPTY_PRODUCT = {
 };
 
 export const TEST_PRODUCT = {
-  startAt: moment().add(7, 'days').hour(10).minute(0).second(0).millisecond(0).valueOf(),
-  endAt: moment().add(7, 'days').hour(18).minute(0).second(0).millisecond(0).valueOf(),
+  startAt: startOfHour(setHours(addDays(now, 7), 10)).getTime(),
+  endAt: startOfHour(setHours(addDays(now, 7), 22)).getTime(),
   category: {
     group: '少儿',
     name: '11-14岁',

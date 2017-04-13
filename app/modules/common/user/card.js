@@ -21,7 +21,7 @@ const CardComponent = ({ user, sheet: { classes }, className }) => (
         认证信息
       </CardText>
     <CardActions className={classes.cardActions} border>
-      <Button colored ripple>关注</Button>
+      <Button colored ripple onClick={() => alert('开发中')}>关注</Button>
       <ChatButton colored ripple user={user}>联系我</ChatButton>
     </CardActions>
   </Card>

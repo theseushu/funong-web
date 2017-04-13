@@ -1,5 +1,7 @@
 import { catalogs, publishTypesInfo, publishTypes } from 'appConstants';
 import { actions as publishesActions } from 'api/publishes/ducks';
+import addDays from 'date-fns/add_days';
+import startOfDay from 'date-fns/start_of_day';
 
 const type = publishTypes.inquiry;
 const info = publishTypesInfo[type];
@@ -31,7 +33,7 @@ export const EMPTY_PRODUCT = {
   name: '',
   location: null,
   desc: '',
-  endAt: (Math.floor(new Date().getTime() / 86400000) + 7) * 86400000, // start time of 7 days later
+  endAt: startOfDay(addDays(new Date(), 7)).getTime(),
   price: '面议',
   range: [],
 };
