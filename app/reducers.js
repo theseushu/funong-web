@@ -13,7 +13,6 @@ import data from 'modules/data/ducks';
 import fullScreenGallery from 'modules/fullScreenGallery/ducks';
 import mapDialog from 'modules/mapDialog/ducks';
 import publishSelector from 'modules/publishSelector/ducks';
-import chat from 'modules/chat/ducks';
 
 
 /*
@@ -58,7 +57,6 @@ export default function createReducer(asyncReducers) {
     ...fullScreenGallery,
     ...mapDialog,
     ...publishSelector,
-    ...chat,
     ...asyncReducers,
   });
 }

@@ -41,9 +41,7 @@ import createRoutes from 'routes';
 import createApi from 'createApi';
 import FullScreenGallery from 'modules/fullScreenGallery';
 import MapDialog from 'modules/mapDialog';
-import Chat from 'modules/chat';
 import { actions as mapActions } from 'api/map';
-import { actions as chatActions } from 'modules/chat/ducks';
 
 const openSansObserver = new FontFaceObserver('Open Sans', {});
 
@@ -69,18 +67,7 @@ const tokenExists = api.tokenExists();
 if (tokenExists) {
   const currentUser = currentUserSelector(store.getState());
   if (!currentUser) {
-    store.dispatch(profileActions.fetch({
-      meta: {
-        resolve: () => {
-          if (window) {
-            store.dispatch(chatActions.start({ user: currentUserSelector(store.getState()) }));
-          }
-        },
-      },
-    }
-    ));
-  } else if (window) {
-    store.dispatch(chatActions.start());
+    store.dispatch(profileActions.fetch());
   }
 }
 // Sync history and store, as the react-router-redux reducer
@@ -136,17 +123,6 @@ const render = (messages) => {
         </LanguageProvider>
       </Provider>,
       mapDialogEl
-    );
-    const chatDialogEl = document.createElement('div');
-    chatDialogEl.setAttribute('id', '_chat_dialog_');
-    document.body.appendChild(chatDialogEl);
-    ReactDOM.render(
-      <Provider store={store}>
-        <LanguageProvider messages={messages}>
-          <Chat />
-        </LanguageProvider>
-      </Provider>,
-      chatDialogEl
     );
   }
 };

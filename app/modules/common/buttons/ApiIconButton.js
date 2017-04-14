@@ -4,7 +4,7 @@ import IconButton from 'react-mdl/lib/IconButton';
 
 const ApiIconButton = ({ icon, pending, disabled, ...props }) => (
   pending ? (
-    <div style={{ display: 'inline-block', width: 24, height: 24, padding: 4 }}>
+    <div style={{ display: 'inline-block', boxSizing: 'border-box', width: 32, height: 32, padding: 4 }}>
       <img style={{ width: 24, height: 24 }} role="presentation" src={buttonLoading} />
     </div>
   ) : (

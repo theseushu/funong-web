@@ -1,27 +1,31 @@
 import React, { PropTypes } from 'react';
-import _find from 'lodash/find';
 import injectSheet from 'react-jss';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
-import IconButton from 'react-mdl/lib/IconButton';
 import Tooltip from 'react-mdl/lib/Tooltip';
-import { currentUserSelector } from 'modules/data/ducks/selectors';
 import { colors } from 'modules/common/styles';
-import { selectors as dataSelectors } from './ducks/data';
-import { actions as dialogActions, selectors as dialogSelectors } from './ducks/dialog';
-import { selectors } from './ducks/connection';
+import ApiIconButton from 'modules/common/buttons/ApiIconButton';
 import Badge from './components/badge';
+import init from './init';
 
-const Chat = ({ open, openDialog, connection, unread, user, classes }) => {
+const ChatIconButton = ({ loading, open, openDialog, connection, unread, currentUser, classes }) => {
+  if (loading) {
+    return (
+      <div className={connecting ? `${classes.chat} ${classes.connecting}` : classes.chat}>
+        <Tooltip label="正在加载组件" position="left">
+          <ApiIconButton pending />
+        </Tooltip>
+      </div>
+    );
+  }
   const { connecting, connected } = connection;
   return (
-    user ? (
+    currentUser ? (
       <div className={connecting ? `${classes.chat} ${classes.connecting}` : classes.chat}>
         {
           connecting && (
             <Tooltip label="正在登录" position="left">
-              <IconButton
-                name="chat"
+              <ApiIconButton
+                pending={false}
+                icon="chat"
                 onClick={
                   (e) => {
                     e.preventDefault();
@@ -34,8 +38,9 @@ const Chat = ({ open, openDialog, connection, unread, user, classes }) => {
         }
         {
           connected && (
-            <IconButton
-              name="chat"
+            <ApiIconButton
+              pending={false}
+              icon="chat"
               onClick={(e) => {
                 e.preventDefault();
                 e.stopPropagation();
@@ -46,22 +51,20 @@ const Chat = ({ open, openDialog, connection, unread, user, classes }) => {
             />
           )
         }
-        {connected && !open && unread && <Badge className={classes.unread} />}
+        {connected && !open && unread > 0 && <Badge className={classes.unread} />}
       </div>
     ) : null
   );
 };
-Chat.propTypes = {
+ChatIconButton.propTypes = {
   classes: PropTypes.object.isRequired,
-  user: PropTypes.object,
+  loading: PropTypes.bool.isRequired,
+  currentUser: PropTypes.object,
   connection: PropTypes.object,
-  open: PropTypes.bool.isRequired,
-  openDialog: PropTypes.func.isRequired,
-  unread: PropTypes.bool.isRequired,
+  open: PropTypes.bool,
+  openDialog: PropTypes.func,
+  unread: PropTypes.number,
 };
-
-const connectStateSelector = selectors.connection;
-const conversationsSelecotr = dataSelectors.conversations;
 
 export default injectSheet({
   chat: {
@@ -82,12 +85,4 @@ export default injectSheet({
     top: 2,
     right: 2,
   },
-})(connect(
-  (state) => ({
-    user: currentUserSelector(state),
-    connection: connectStateSelector(state),
-    unread: !!_find(conversationsSelecotr(state), (conversation) => conversation.unreadMessagesCount > 0),
-    open: dialogSelectors.dialog(state).open,
-  }),
-  (dispatch) => bindActionCreators({ openDialog: dialogActions.openDialog }, dispatch),
-)(Chat));
+})(init(ChatIconButton));
