@@ -37,7 +37,7 @@ const ChatButton = ({ loading, currentUser, user, createConversation, openDialog
       }}
     >{children || '在线联系'}</Button>
   );
-}
+};
 
 ChatButton.propTypes = {
   user: PropTypes.object.isRequired,

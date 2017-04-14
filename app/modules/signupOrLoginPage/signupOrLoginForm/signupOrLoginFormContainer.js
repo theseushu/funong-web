@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
 import { actions } from 'api/profile';
 import { signupOrLogin } from 'api/signupOrLogin';
-import { actions as chatActions } from 'modules/chat/ducks';
 import SignupOrLoginForm from './signupOrLoginForm';
 
 const fetchProfile = actions.fetch;
@@ -54,7 +53,6 @@ export default reduxForm({
         // TODO donot fetch profile in case of redirecting to profile page
         const fetchProfileResolveFunc = ({ profile }) => {
           resolve();
-          dispatch(chatActions.start({ user: profile }));
           if (!profile) {
             dispatch(push('/welcome'));
           }
