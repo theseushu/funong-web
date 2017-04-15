@@ -1,4 +1,5 @@
 import { getAsyncInjectors } from 'utils/asyncInjectors';
+import { requireForm } from 'utils/routerUtils';
 import createHomePageRoute from 'modules/homePage/route';
 import createWelcomePageRoute from 'modules/welcomePage/route';
 import createMePageRoute from 'modules/mePage/route';
@@ -36,6 +37,7 @@ export default function createRoutes(store) {
       getComponent(nextState, cb) {
         const importModules = Promise.all([
           System.import('modules/signupOrLoginPage'),
+          requireForm(store),
         ]);
         const renderRoute = loadModule(cb);
         importModules.then(([component]) => {
@@ -49,6 +51,7 @@ export default function createRoutes(store) {
       getComponent(nextState, cb) {
         const importModules = Promise.all([
           System.import('modules/signupOrLoginPage'),
+          requireForm(store),
         ]);
         const renderRoute = loadModule(cb);
         importModules.then(([component]) => {

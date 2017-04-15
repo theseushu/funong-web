@@ -1,3 +1,4 @@
+import { getAsyncInjectors } from 'utils/asyncInjectors';
 import { currentUserSelector, myShopSelector } from 'modules/data/ducks/selectors';
 import { actions } from 'api/profile';
 import { actions as shopActions } from 'api/shop';
@@ -49,6 +50,18 @@ export const requireShop = async (store) => {
     return { login: true, shop: false };
   } catch (err) {
     return result;
+  }
+};
+
+
+let formInjected = false;
+export const requireForm = async (store) => {
+  const { injectReducer } = getAsyncInjectors(store); // eslint-disable-line no-unused-vars
+  if (!formInjected) {
+    const reduxForm = await System.import('redux-form');
+    const reducer = reduxForm.reducer;
+    injectReducer('form', reducer);
+    formInjected = true;
   }
 };
 

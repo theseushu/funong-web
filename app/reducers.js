@@ -2,10 +2,8 @@
  * Combine all reducers in this file and export the combined reducers.
  * If we were to do this in store.js, reducers wouldn't be hot reloadable.
  */
-
 import { combineReducers } from 'redux';
 import { LOCATION_CHANGE } from 'react-router-redux';
-import { reducer as formReducer } from 'redux-form';
 import { reducer as toastrReducer } from 'react-redux-toastr';
 import languageProviderReducer from 'containers/LanguageProvider/reducer';
 import api from 'api/ducks';
@@ -50,7 +48,6 @@ export default function createReducer(asyncReducers) {
   return combineReducers({
     route: routeReducer,
     language: languageProviderReducer,
-    form: formReducer,
     toastr: toastrReducer,
     ...api,
     ...data,

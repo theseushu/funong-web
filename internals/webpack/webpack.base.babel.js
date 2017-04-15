@@ -4,6 +4,11 @@
 
 const path = require('path');
 const webpack = require('webpack');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const extractCSS = new ExtractTextPlugin({
+  filename: '[name]-[contenthash].css',
+  allChunks: true,
+});
 
 module.exports = (options) => ({
   entry: options.entry,
@@ -25,11 +30,18 @@ module.exports = (options) => ({
       // So, no need for ExtractTextPlugin here.
       test: /\.css$/,
       include: /node_modules/,
-      loaders: ['style-loader', 'css-loader'],
+      use: extractCSS.extract({
+        fallback: 'style-loader',
+        use: 'css-loader',
+      }),
+      // loaders: ['style-loader', 'css-loader'],
     }, {
       test: /\.scss$/,
-      // exclude: /node_modules/,
-      loaders: ['style-loader', 'css-loader', 'sass-loader'],
+      // exclude: /node_modules/, ExtractTextPlugin.extract({
+      use: extractCSS.extract({
+        fallback: 'style-loader',
+        use: ['css-loader', 'sass-loader'],
+      }),
     }, {
       test: /\.(eot|svg|ttf|woff|woff2)$/,
       loader: 'file-loader',
@@ -51,6 +63,7 @@ module.exports = (options) => ({
     }],
   },
   plugins: options.plugins.concat([
+    extractCSS,
     new webpack.ProvidePlugin({
       // make fetch available
       fetch: 'exports-loader?self.fetch!whatwg-fetch',
