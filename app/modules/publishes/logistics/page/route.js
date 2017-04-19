@@ -5,10 +5,8 @@ export default createRouteCreator(
   pageRoute.path,
   pageRoute.name,
   actions,
-  Promise.all([
-    System.import('./index'),
-    System.import('./ducks'),
-  ]),
+  System.import('./index'),
+  System.import('./ducks'),
   shop,
 );
 

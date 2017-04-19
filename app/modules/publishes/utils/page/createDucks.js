@@ -1,9 +1,7 @@
-/**
- * If you need sagas, remember to uncomment injectSagas(ducks.sagas) in createRouteCreator.js too
- */
+import { publishTypesInfo } from 'appConstants';
 
 export default (key) => {
-  const SLICE_NAME = `page_${key}_product`;
+  const SLICE_NAME = `page_${publishTypesInfo[key].route}`;
 
   return {
     default: {

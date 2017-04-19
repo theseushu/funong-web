@@ -1,6 +1,5 @@
 import { connect } from 'react-redux';
 import React, { PropTypes } from 'react';
-import { bindActionCreators } from 'redux';
 import { browserHistory } from 'react-router';
 import injectSheet from 'react-jss';
 import Link from 'react-router/lib/Link';

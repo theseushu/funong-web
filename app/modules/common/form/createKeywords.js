@@ -6,7 +6,7 @@ import { generateDisplayName } from 'utils/publishUtils';
 
 const Keywords = ({ className, classes, type, values, valid }) => valid ? (
   <div className={className ? `${classes.keywords} ${className}` : classes.keywords}>{generateDisplayName(values, type)}</div>
-) : null;
+  ) : null;
 
 Keywords.propTypes = {
   className: PropTypes.string,

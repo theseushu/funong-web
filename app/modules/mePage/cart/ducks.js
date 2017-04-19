@@ -16,5 +16,5 @@ export const actions = {
 };
 
 export const selectors = {
-  items: (state) => state.cartPage ? state.cartPage.items : undefined,
+  items: (state) => state.page_my_cart ? state.page_my_cart.items : undefined,
 };

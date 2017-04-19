@@ -7,9 +7,6 @@
  * wait until I figure out a better way
  */
 import AV from 'leancloud-storage';
-import _find from 'lodash/find';
-import _omitBy from 'lodash/omitBy';
-import _isUndefined from 'lodash/isUndefined';
 import { orderToJSON } from '../utils/converters';
 const debug = require('debug')('app:api:order');
 
@@ -17,7 +14,7 @@ export default ({ context }) => {
   class Order extends AV.Object {}
   AV.Object.register(Order);
 
-  const createOrders = async ({ orders }) => {
+  const createOrders = async () => {
     // const { token: { sessionToken }, profile } = context;
     //
     // const savedOrders = await AV.Cloud.rpc('createOrders', { orders }, { sessionToken });

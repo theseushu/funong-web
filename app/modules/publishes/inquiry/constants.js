@@ -1,4 +1,4 @@
-import { catalogs, publishTypesInfo, publishTypes } from 'appConstants';
+import { routes, catalogs, publishTypesInfo, publishTypes } from 'appConstants';
 import { actions as publishesActions } from 'api/publishes/ducks';
 import addDays from 'date-fns/add_days';
 import startOfDay from 'date-fns/start_of_day';
@@ -12,15 +12,15 @@ export const catalogGroups = catalogs.groupedFarm;
 
 // page for list
 export const listRoute = {
-  path: `/${info.plural}`,
-  name: info.plural,
+  path: routes[`page_${info.plural}`],
+  name: `page_${info.plural}`,
 };
 export const noRecommend = true;
 
 // page for single product
 export const pageRoute = {
-  path: `/${info.route}/:id`,
-  name: info.route,
+  path: routes[`page_${info.route}`],
+  name: `page_${info.route}`,
 };
 
 export const actions = publishesActions[type];

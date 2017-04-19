@@ -16,7 +16,7 @@ export default ({ context }) => {
 
 // TODO deal with empty catalogType
   const fetchMyShop = () => new AV.Query('Shop')
-    .equalTo('owner', AV.Object.createWithoutData('_User', context.profile.objectId))
+    .equalTo('owner', AV.Object.createWithoutData('_User', context.token.currentUserId))
     .include(['images'])
     .first({ sessionToken: context.token.sessionToken })
     .then(shopToJSON);

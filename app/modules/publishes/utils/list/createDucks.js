@@ -4,10 +4,10 @@ import { put } from 'redux-saga/effects';
 import createDucks from 'api/utils/createDucks';
 import { createPublishesSelector } from 'modules/data/ducks/selectors';
 import { setPublishes } from 'modules/data/ducks/actions';
-import { statusValues } from 'appConstants';
+import { statusValues, publishTypesInfo } from 'appConstants';
 
 export default (type) => {
-  const SLICE_NAME = `page_${type}_list`;
+  const SLICE_NAME = `page_${publishTypesInfo[type].plural}`;
 
   const rootSelector = (state) => state[SLICE_NAME];
 

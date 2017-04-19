@@ -34,7 +34,7 @@ export const loadAsyncModules = async ({ store, loadModule, errorLoading, cb, ro
       injectAsyncModule(store, routeName, ducks.default, ducks.sagas);
     }
     if (typeof beforeRender === 'function') {
-      beforeRender(...other);
+      await beforeRender(...other);
     }
     renderRoute(component);
   } catch (err) {

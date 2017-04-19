@@ -46,10 +46,10 @@ const sideRoutes = () => [
       path: routes.page_my_shop,
     }, {
       title: '商品',
-      path: routes[`page_my_shop_${publishTypesInfo[publishTypes.product].plural}`],
+      path: routes[`page_my_${publishTypesInfo[publishTypes.product].plural}`],
     }, {
       title: '抢购',
-      path: routes[`page_my_shop_${publishTypesInfo[publishTypes.flashSale].plural}`],
+      path: routes[`page_my_${publishTypesInfo[publishTypes.flashSale].plural}`],
     }],
   },
   { title: '购物车', path: routes.page_my_cart },

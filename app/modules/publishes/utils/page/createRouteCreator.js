@@ -1,9 +1,7 @@
-import _toPairs from 'lodash/toPairs';
-import { requireAuth, requireShop } from 'utils/routerUtils';
+import { requireAuth, requireShop, requireForm, loadAsyncModules } from 'utils/routerUtils';
 
-export default (path, name, actions, componentAndDucks, isShop) => ({ store, injectReducer, injectSagas, loadModule, errorLoading }) => {
+export default (path, name, actions, componentPromise, ducksPromise, isShop) => ({ store, loadModule, errorLoading }) => {
   const fetch = actions.fetch;
-  let injected = false;
   return {
     path,
     name,
@@ -25,6 +23,7 @@ export default (path, name, actions, componentAndDucks, isShop) => ({ store, inj
             return;
           }
         }
+        requireForm(store);
       }
       if (id !== 'new') {
         await new Promise((resolve, reject) => {
@@ -43,20 +42,14 @@ export default (path, name, actions, componentAndDucks, isShop) => ({ store, inj
       }
       proceed();
     },
-    getComponent: async (nextState, cb) => {
-      const renderRoute = loadModule(cb);
-      const [component, ducks] = await componentAndDucks;
-      if (!injected) {
-        _toPairs(ducks.default).forEach((pair) => {
-          injectReducer(pair[0], pair[1]);
-        });
-        if (ducks.sagas) {
-          injectSagas(ducks.sagas);
-        }
-        injected = true;
-      }
-      renderRoute(component);
-      componentAndDucks.catch(errorLoading);
-    },
+    getComponent: async (nextState, cb) => loadAsyncModules({
+      store,
+      loadModule,
+      errorLoading,
+      cb,
+      routeName: name,
+      componentPromise,
+      ducksPromise,
+    }),
   };
 };

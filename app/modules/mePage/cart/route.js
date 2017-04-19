@@ -1,28 +1,12 @@
-import _toPairs from 'lodash/toPairs';
 import { routes } from 'appConstants';
-import { requireAuth } from 'utils/routerUtils';
+import { requireAuth, loadAsyncModules } from 'utils/routerUtils';
 import { actions } from 'api/cart';
 
 const fetchCart = actions.fetch;
 
-const fetchData = async (store) => {
-  await new Promise((resolve, reject) => {
-    store.dispatch(fetchCart({
-      meta: {
-        resolve,
-        reject: (err) => {
-          console.log(err); // eslint-disable-line
-          reject();
-          // todo deal with error
-        },
-      },
-    }));
-  });
-};
-
-export default ({ store, injectReducer, injectSagas, loadModule, errorLoading }) => ({ // eslint-disable-line no-unused-vars
+export default ({ store, loadModule, errorLoading }) => ({
   path: routes.page_my_cart,
-  name: 'page_my_certs',
+  name: 'page_my_cart',
   onEnter: async ({ location }, replace, callback) => {
     const { login } = await requireAuth(store);
     if (login) {
@@ -34,23 +18,27 @@ export default ({ store, injectReducer, injectSagas, loadModule, errorLoading })
       callback();
     }
   },
-  getComponent(nextState, cb) {
-    // TODO fetch product
-    const importModules = Promise.all([
-      System.import('./index'),
-      System.import('./ducks'),
-      fetchData(store),
-    ]);
-
-    const renderRoute = loadModule(cb);
-
-    importModules.then(([component, ducks]) => {
-      _toPairs(ducks.default).forEach((pair) => {
-        injectReducer(pair[0], pair[1]);
-      });
-      renderRoute(component);
-    });
-
-    importModules.catch(errorLoading);
-  },
+  getComponent: async (nextState, cb) => loadAsyncModules({
+    store,
+    loadModule,
+    errorLoading,
+    cb,
+    routeName: 'page_my_cart',
+    componentPromise: System.import('./index'),
+    ducksPromise: System.import('./ducks'),
+    otherPromises: [
+      new Promise((resolve, reject) => {
+        store.dispatch(fetchCart({
+          meta: {
+            resolve,
+            reject: (err) => {
+              console.log(err); // eslint-disable-line
+              reject();
+              // todo deal with error
+            },
+          },
+        }));
+      }),
+    ],
+  }),
 });

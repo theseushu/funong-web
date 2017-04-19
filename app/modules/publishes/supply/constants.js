@@ -1,4 +1,4 @@
-import { catalogs, statusValues, publishTypesInfo, publishTypes } from 'appConstants';
+import { routes, catalogs, statusValues, publishTypesInfo, publishTypes } from 'appConstants';
 import { actions as publishesActions } from 'api/publishes/ducks';
 
 const type = publishTypes.supply;
@@ -10,14 +10,14 @@ export const shop = info.shop;
 
 // page for list
 export const listRoute = {
-  path: `/${info.plural}`,
-  name: info.plural,
+  path: routes[`page_${info.plural}`],
+  name: `page_${info.plural}`,
 };
 
 // page for single product
 export const pageRoute = {
-  path: `/${info.route}/:id`,
-  name: info.route,
+  path: routes[`page_${info.route}`],
+  name: `page_${info.route}`,
 };
 
 export const actions = publishesActions[type];

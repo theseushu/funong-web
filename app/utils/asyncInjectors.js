@@ -89,6 +89,10 @@ export function injectAsyncModule(store, routeName, reducer, sagas) {
   const { injectReducer, injectSagas } = getAsyncInjectors(store);
   if (!isModuleInjected(store, routeName)) {
     toPairs(reducer).forEach((pair) => {
+      warning(
+        pair[0] === routeName,
+        `(app/utils...) injectAsyncModule: module name is not same as reducer slice name. [${routeName}], [${pair[0]}]`
+      );
       injectReducer(pair[0], pair[1]);
     });
     if (sagas && sagas.length > 0) {

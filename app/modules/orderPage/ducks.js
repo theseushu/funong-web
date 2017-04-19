@@ -22,7 +22,7 @@ const reducer = (state = { items: [], addressIndex: null, orders: [] }, action) 
 };
 
 export default {
-  orderPage: reducer,
+  page_order: reducer,
 };
 
 export const actions = {
@@ -33,6 +33,6 @@ export const actions = {
 };
 
 export const selectors = {
-  addressIndex: (state) => state.orderPage.addressIndex,
-  orders: (state) => state.orderPage.orders,
+  addressIndex: (state) => state.page_order.addressIndex,
+  orders: (state) => state.page_order.orders,
 };

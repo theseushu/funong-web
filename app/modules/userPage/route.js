@@ -1,17 +1,15 @@
-import _toPairs from 'lodash/toPairs';
 import _find from 'lodash/find';
-import { error } from 'utils/routerUtils';
-import { productTypes } from 'appConstants';
+import { error, loadAsyncModules } from 'utils/routerUtils';
+import { routes, productTypes } from 'appConstants';
 import { actions } from 'api/profile';
 import { usersSelector } from 'modules/data/ducks/selectors';
 import tabTypes from './tabTypes';
 
 const { fetch } = actions;
-export default ({ store, injectReducer, injectSagas, loadModule, errorLoading }) => {
-  let injected = false;
+export default ({ store, loadModule, errorLoading }) => {
   return ({ // eslint-disable-line no-unused-vars
-    path: '/user/:id',
-    name: 'user',
+    path: routes.page_user,
+    name: 'page_user',
     onEnter: async ({ params: { id } }, replace, callback) => {
       try {
         const user = await new Promise((resolve) => {
@@ -26,22 +24,15 @@ export default ({ store, injectReducer, injectSagas, loadModule, errorLoading })
         error(err, replace);
       }
     },
-    getComponent: async ({ params: { id }, location: { query } }, cb) => {
-      try {
-        const importModules = Promise.all([
-          System.import('./index'),
-          System.import('./ducks'),
-        ]);
-
-        const renderRoute = loadModule(cb);
-        const [component, ducks] = await importModules;
-        if (!injected) {
-          _toPairs(ducks.default).forEach((pair) => {
-            injectReducer(pair[0], pair[1]);
-          });
-          injectSagas(ducks.sagas);
-          injected = true;
-        }
+    getComponent: async ({ params: { id }, location: { query } }, cb) => loadAsyncModules({
+      store,
+      loadModule,
+      errorLoading,
+      cb,
+      routeName: 'page_user',
+      componentPromise: System.import('./index'),
+      ducksPromise: System.import('./ducks'),
+      beforeRender: async (ducks) => {
         const { t, p, s } = query;
         const pageState = {
           type: tabTypes.indexOf(t) > 0 ? t : tabTypes[0],
@@ -87,10 +78,7 @@ export default ({ store, injectReducer, injectSagas, loadModule, errorLoading })
           }
           default:
         }
-        renderRoute(component);
-      } catch (err) {
-        errorLoading(err);
-      }
-    },
+      },
+    }),
   });
 };

@@ -15,7 +15,7 @@ export default {
     if ([publishTypes.product, publishTypes.flashSale].indexOf(key) > -1) {
       return {
         ...result,
-        [`page_my_shop_${info.plural}`]: `/me/shop/${info.plural}`,
+        [`page_my_${info.plural}`]: `/me/shop/${info.plural}`,
       };
     }
     return result;
@@ -41,4 +41,7 @@ export default {
     ...result,
     [`page_${info.route}`]: `/${info.route}/:id`,
   }), {}),
+  page_order: '/order',
+  page_user: '/user/:id',
+  page_shop: '/shop/:id',
 };
