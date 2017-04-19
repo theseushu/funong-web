@@ -94,10 +94,10 @@ export default ({ context }) => {
   };
 
   const createInquiry = async ({ desc, price, quantity, name, range, location, category, species, endAt }) => {
-    const { token: { sessionToken }, profile } = context;
+    const { token: { sessionToken, currentUserId } } = context;
     const inquiry = new Inquiry();
     const saved = await inquiry.save({
-      owner: AV.Object.createWithoutData('_User', profile.objectId),
+      owner: AV.Object.createWithoutData('_User', currentUserId),
       address: location.address,
       lnglat: new AV.GeoPoint(location.lnglat),
       desc,

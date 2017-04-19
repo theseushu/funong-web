@@ -1,5 +1,4 @@
-import { takeEvery } from 'redux-saga';
-import { call, put, select } from 'redux-saga/effects';
+import { takeEvery, call, put, select } from 'redux-saga/effects';
 import { createSelector } from 'reselect';
 import { setSpecies } from 'modules/data/ducks/actions';
 import { speciesSelector } from 'modules/data/ducks/selectors';

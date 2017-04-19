@@ -6,8 +6,7 @@
  * So, data here won't be a part of module 'data'.
  * A simple cache will be used to cache names have been searched (never expiring cache. as the whole data set is about 70kb and user will hardly call this api a lot)
  */
-import { takeEvery } from 'redux-saga';
-import { call, put, select } from 'redux-saga/effects';
+import { takeEvery, call, put, select } from 'redux-saga/effects';
 import { createSelector } from 'reselect';
 import rootSelector from '../rootSelector';
 const SEARCH_DISTRICT = 'api/search_district';

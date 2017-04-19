@@ -10,11 +10,11 @@ import AV from 'leancloud-storage';
 import { fileToJSON } from '../utils/converters';
 const debug = require('debug')('app:api:file');
 
-export default ({ context, updateContextProfile }) => {
+export default ({ context }) => {
   const uploadFile = async ({ filename, file, onprogress, metaData = {} }) => {
-    const { token: { sessionToken }, profile } = context;
+    const { token: { sessionToken } } = context;
     try {
-      if (!sessionToken || !profile) {
+      if (!sessionToken) {
         throw new AV.Error(AV.Error.SESSION_MISSING, '未登录用户不能上传文件');
       }
       const fileToUpload = new AV.File(filename, file);
@@ -32,16 +32,14 @@ export default ({ context, updateContextProfile }) => {
   };
 
   const uploadAvatar = async ({ filename, file, onprogress }) => {
-    const { token: { sessionToken }, profile } = context;
+    const { token: { sessionToken, currentUserId } } = context;
     try {
-      const metaData = { owner: profile.objectId, isAvatar: true };
+      const metaData = { owner: currentUserId, isAvatar: true };
       const uploadedFile = await uploadFile({ filename, file, onprogress, metaData });
-      await AV.Query.doCloudQuery('update _User set avatar=pointer("_File", ?) where objectId=?', [uploadedFile.id, profile.objectId], {
+      await AV.Query.doCloudQuery('update _User set avatar=pointer("_File", ?) where objectId=?', [uploadedFile.id, currentUserId], {
         sessionToken,
       });
-      const updatedProfile = { ...profile, avatar: uploadedFile };
-      updateContextProfile(updatedProfile);
-      return updatedProfile;
+      return uploadedFile;
     } catch (err) {
       debug(err);
       throw err;

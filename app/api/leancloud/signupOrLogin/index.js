@@ -10,10 +10,10 @@ const userToResult = (user) => {
 export default ({ updateContextToken }) => {
   const success = (user) => {
     const { sessionToken, objectId, mobilePhoneNumber } = user;
-    updateContextToken({ objectId, sessionToken, mobilePhoneNumber });
+    updateContextToken({ currentUserId: objectId, sessionToken, mobilePhoneNumber });
     return ({
       sessionToken,
-      objectId,
+      currentUserId: objectId,
       mobilePhoneNumber,
     });
   };

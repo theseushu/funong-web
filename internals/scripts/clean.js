@@ -42,6 +42,7 @@ cp('internals/templates/i18n.js', 'app/i18n.js');
 cp('internals/templates/index.html', 'app/index.html');
 cp('internals/templates/reducers.js', 'app/reducers.js');
 cp('internals/templates/routes.js', 'app/routes.js');
+cp('internals/templates/serverEntry.js', 'app/');
 cp('internals/templates/store.js', 'app/store.js');
 
 // Remove the templates folder

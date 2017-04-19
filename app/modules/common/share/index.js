@@ -12,7 +12,7 @@ class ShareButton extends Component {
     this.setState({ seq });
   }
   componentDidMount() {
-    if (!injected) {
+    if (!injected && process.env.browser) {
       window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"1","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"16"},"share":{"bdSize":16}}; // eslint-disable-line
       document.body.appendChild(document.createElement('script'))
         .src = `http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion=${~(-new Date() / 36e5)}`; // eslint-disable-line

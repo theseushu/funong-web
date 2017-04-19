@@ -11,7 +11,7 @@ const ducks = createDucks({
   sagas: {
     * api({ logout }) {
       yield call(logout);
-      if (window) {
+      if (process.env.browser) {
         yield call(window.location.href = '/');
       }
     },

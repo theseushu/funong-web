@@ -39,12 +39,12 @@ export default ({ context }) => {
     .then((results) => results.map(speciesToJSON));
 
   const createSpecies = async ({ category, name }) => {
-    const { token: { sessionToken }, profile } = context;
+    const { token: { sessionToken, currentUserId } } = context;
     try {
       const species = new Species();
       species.set('category', AV.Object.createWithoutData('Category', category.objectId));
       species.set('name', name);
-      species.set('creator', AV.Object.createWithoutData('_User', profile.objectId));
+      species.set('creator', AV.Object.createWithoutData('_User', currentUserId));
       const savedSpecies = await species.save(null, {
         fetchWhenSave: true,
         sessionToken,

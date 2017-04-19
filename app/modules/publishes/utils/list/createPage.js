@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import React, { PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
-import { replace } from 'react-router-redux';
+import { browserHistory } from 'react-router';
 import injectSheet from 'react-jss';
 import Link from 'react-router/lib/Link';
 import FABButton from 'react-mdl/lib/FABButton';
@@ -64,14 +64,16 @@ export default ({ type, ducks, catalogGroups, disabled, noRecommend }) => {
   return connect(
     (state, { location: { query } }) => {
       const pageState = selectors.page(state);
-      return { pending: pageState.pending, result: pageState.result || [], criteria: queryToCriteria(query) };
+      return {
+        pending: pageState.pending,
+        result: pageState.result || [],
+        criteria: queryToCriteria(query),
+        setCriteria: (criteria) => {
+          const q = criteriaToQuery(criteria);
+          return browserHistory.replace(`${location.pathname}${q ? '?' : ''}${q}`);
+        },
+      };
     },
-    (dispatch, { location }) => bindActionCreators({
-      setCriteria: (criteria) => {
-        const query = criteriaToQuery(criteria);
-        return replace(`${location.pathname}${query ? '?' : ''}${query}`);
-      },
-    }, dispatch),
   )(injectSheet({
     page: {
       width: '100%',

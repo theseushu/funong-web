@@ -1,3 +1,1 @@
-import createApi from './api/leancloud';
-
-export default () => createApi();
+export default from './api/leancloud';

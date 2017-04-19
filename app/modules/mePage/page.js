@@ -1,61 +1,60 @@
 import React, { PropTypes } from 'react';
-import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import { routes, publishTypes, publishTypesInfo } from 'appConstants';
 import { currentUserSelector } from 'modules/data/ducks/selectors';
 import { Layout } from 'modules/common/layouts';
-import { actions as pageActions } from './ducks';
 
 const sideRoutes = () => [
-  { title: '个人信息', path: '/me' },
+  { title: '个人信息', path: routes.page_me },
   { title: '认证',
-    path: '/me/certs',
+    path: routes.page_my_certs,
     routes: [{
       title: '实名认证',
-      path: '/me/certs?type=personal',
+      path: `${routes.page_my_certs}?type=personal`,
     }, {
       title: '商家认证',
-      path: '/me/certs?type=company',
+      path: `${routes.page_my_certs}?type=company`,
     }, {
       title: '专家认证',
-      path: '/me/certs?type=expert',
+      path: `${routes.page_my_certs}?type=expert`,
     },
     ],
   },
   { title: '我发布的',
-    path: '/me/published/supply',
+    path: routes[`page_my_${publishTypesInfo[publishTypes.supply].plural}`],
     routes: [{
       title: '供应',
-      path: '/me/published/supply',
+      path: routes[`page_my_${publishTypesInfo[publishTypes.supply].plural}`],
     }, {
       title: '采购',
-      path: '/me/published/inquiry',
+      path: routes.page_my_inquiries,
     }, {
       title: '报价',
-      path: '/me/published/bid',
+      path: routes.page_my_bids,
     }, {
       title: '物流',
-      path: '/me/published/logistics',
+      path: routes[`page_my_${publishTypesInfo[publishTypes.logistics].plural}`],
     }, {
       title: '乡村游',
-      path: '/me/published/trip',
+      path: routes[`page_my_${publishTypesInfo[publishTypes.trip].plural}`],
     }],
   },
   { title: '我的微店',
-    path: '/me/shop',
+    path: routes.page_my_shop,
     routes: [{
       title: '店铺信息',
-      path: '/me/shop',
+      path: routes.page_my_shop,
     }, {
       title: '商品',
-      path: '/me/shop/product',
+      path: routes[`page_my_shop_${publishTypesInfo[publishTypes.product].plural}`],
     }, {
       title: '抢购',
-      path: '/me/shop/flashSale',
+      path: routes[`page_my_shop_${publishTypesInfo[publishTypes.flashSale].plural}`],
     }],
   },
-  { title: '购物车', path: '/me/cart' },
-  { title: '历史订单', path: '/me/orders' },
-  { title: '我的收藏', path: '/me/bookmarks' },
+  { title: '购物车', path: routes.page_my_cart },
+  { title: '历史订单', path: routes.page_my_orders },
+  { title: '我的收藏', path: routes.page_my_bookmarks },
 ];
 
 const MePage = ({ location: { query }, helmet, user: { type }, header, children, smallContent = true }) => {
@@ -67,11 +66,10 @@ const MePage = ({ location: { query }, helmet, user: { type }, header, children,
       path: r.path.indexOf('?') > 0 ? `${r.path}&farm=true` : `${r.path}?farm=true`,
     })) : undefined,
   })) : sideRoutes(type);
-  const routes = allRoutes;
   return (
     <Layout
       helmet={helmet || { title: '富农商城-个人信息' }}
-      sideMenu={routes}
+      sideMenu={allRoutes}
       small={smallContent}
       header={header}
     >
@@ -91,5 +89,4 @@ MePage.propTypes = {
 
 export default connect(
   (state) => ({ ...state.profilePage, user: currentUserSelector(state) }),
-  (dispatch) => ({ actions: bindActionCreators(pageActions, dispatch) }),
 )(MePage);

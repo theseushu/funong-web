@@ -43,6 +43,7 @@ $color-accent-contrast: $color-dark-contrast !default;
 @import "~material-design-lite/src/shadow/shadow";
 @import "~material-design-lite/src/grid/grid";
 
+@import '~react-redux-toastr/src/styles/index.scss';
 
 // see https://github.com/mseemann/angular2-mdl/commit/d72a8ae5d186bb535ed769565be5af0c661a77f7
 // temporary fix for image missing in mdl checkbox
@@ -60,13 +61,7 @@ $svg-tick-mask-iamge: 'data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmN
       background: $checkbox-disabled-color url("#{$svg-tick-image}");
    }
 }
-// hack to make react-mdl-extra work
-// see react-mdl dialog, layout is required to set zIndex = 100001
-// so if there's a dropdown, it must have a higher zIndex to show on top of layout
-// TODO since mdl-dialog is not used, maybe those zIndex can be ignored
-.mdl-dropdown {
-  z-index: 100002 !important;
-}
+
 // hack to make photoSwipe work
 .pswp {
   z-index: 100002 !important;

@@ -1,5 +1,5 @@
-import _toPairs from 'lodash/toPairs';
-import { requireAuth } from 'utils/routerUtils';
+import { routes } from 'appConstants';
+import { loadAsyncModules, requireAuth } from 'utils/routerUtils';
 import createCertsRoute from './certs/route';
 import createPublishedRoute from './published/route';
 import createShopRoute from './shop/route';
@@ -7,8 +7,8 @@ import createOrdersRoute from './orders/route';
 import createCartRoute from './cart/route';
 
 export default ({ store, injectReducer, injectSagas, loadModule, errorLoading }) => ({ // eslint-disable-line no-unused-vars
-  path: '/me',
-  name: 'me',
+  path: routes.page_me,
+  name: 'page_me',
   onEnter: async ({ location }, replace, callback) => {
     const { login } = await requireAuth(store);
     if (login) {
@@ -21,20 +21,14 @@ export default ({ store, injectReducer, injectSagas, loadModule, errorLoading })
     }
   },
   indexRoute: { // see /me route's getComponent method. currentUser.profile is guaranteed to be existing
-    getComponent(nextState, cb) {
-      const importModules = Promise.all([
-        System.import('modules/mePage/profile'),
-        System.import('modules/mePage/profile/ducks'),
-      ]);
-      const renderRoute = loadModule(cb);
-      importModules.then(([component, ducks]) => {
-        _toPairs(ducks.default).forEach((pair) => {
-          injectReducer(pair[0], pair[1]);
-        });
-        renderRoute(component);
-      });
-      importModules.catch(errorLoading);
-    },
+    getComponent: async (nextState, cb) => await loadAsyncModules({
+      store,
+      loadModule,
+      errorLoading,
+      cb,
+      routeName: 'certs',
+      componentPromise: System.import('modules/mePage/profile'),
+    }),
   },
   childRoutes: [
     createCertsRoute({ store, injectReducer, injectSagas, loadModule, errorLoading }),

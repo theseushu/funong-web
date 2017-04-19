@@ -5,7 +5,7 @@ import createDucks from 'api/utils/createDucks';
 import { setOrders } from 'modules/data/ducks/actions';
 import { ordersSelector } from 'modules/data/ducks/selectors';
 
-const SLICE_NAME = 'page_me_orders';
+const SLICE_NAME = 'page_my_orders';
 const rootSelector = (state) => state[SLICE_NAME];
 
 const searchOrdersDucks = createDucks({

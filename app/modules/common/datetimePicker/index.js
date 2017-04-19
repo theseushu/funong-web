@@ -1,5 +1,4 @@
 import React, { Component, PropTypes } from 'react';
-import Flatpickr from 'flatpickr';
 
 class DateTimePicker extends Component {
   static propTypes = {
@@ -17,6 +16,7 @@ class DateTimePicker extends Component {
   }
 
   componentDidMount() {
+    const Flatpickr = require('flatpickr'); // eslint-disable-line
     const options = {
       ...this.props.options,
       defaultDate: this.props.value,

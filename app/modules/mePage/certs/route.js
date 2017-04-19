@@ -1,16 +1,25 @@
-import _toPairs from 'lodash/toPairs';
+import { routes } from 'appConstants';
+import { loadAsyncModules, requireForm } from 'utils/routerUtils';
 import { actions, selectors } from 'api/cert';
 
 const searchMine = actions.searchMine;
 const searchMineState = selectors.searchMine;
 
 export default ({ store, injectReducer, injectSagas, loadModule, errorLoading }) => ({ // eslint-disable-line
-  path: 'certs',
-  name: 'certs',
-  getComponent(nextState, cb) {
-    const importModules = Promise.all([
-      System.import('./index'),
-      System.import('./ducks'),
+  path: routes.page_my_certs,
+  name: 'page_my_certs',
+  onEnter: async ({ location }, replace, callback) => {
+    await requireForm(store);
+    callback();
+  },
+  getComponent: async (nextState, cb) => await loadAsyncModules({
+    store,
+    loadModule,
+    errorLoading,
+    cb,
+    routeName: 'certs',
+    componentPromise: System.import('./index'),
+    otherPromises: [
       new Promise((resolve, reject) => {
         if (searchMineState(store.getState()).fulfilled) {
           resolve();
@@ -24,16 +33,6 @@ export default ({ store, injectReducer, injectSagas, loadModule, errorLoading })
           }));
         }
       }),
-    ]);
-
-    const renderRoute = loadModule(cb);
-
-    importModules.then(([component, ducks]) => {
-      _toPairs(ducks.default).forEach((pair) => {
-        injectReducer(pair[0], pair[1]);
-      });
-      renderRoute(component);
-    });
-    importModules.catch(errorLoading);
-  },
+    ],
+  }),
 });

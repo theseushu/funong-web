@@ -1,9 +1,46 @@
-import { getAsyncInjectors } from 'utils/asyncInjectors';
+import { injectAsyncModule } from 'utils/asyncInjectors';
 import { currentUserSelector, myShopSelector } from 'modules/data/ducks/selectors';
 import { actions } from 'api/profile';
 import { actions as shopActions } from 'api/shop';
 
 const debug = require('debug')('funongweb:routerUtils');
+
+export const loadAsyncModules = async ({ store, loadModule, errorLoading, cb, routeName, componentPromise, ducksPromise, otherPromises = [], beforeRender }) => {
+  if (process.env.NODE_ENV !== 'production') {
+    if ((typeof loadModule !== 'function')
+      || (typeof errorLoading !== 'function')
+      || !cb
+      || (typeof routeName !== 'string')
+      || (!componentPromise || typeof componentPromise.then !== 'function')
+      || (ducksPromise && typeof ducksPromise.then !== 'function')
+      || (beforeRender && typeof beforeRender !== 'function')
+    ) {
+      debug('wrong arguments!');
+    }
+  }
+  try {
+    const importModules = Promise.all(ducksPromise ? [
+      componentPromise,
+      ducksPromise,
+      ...otherPromises,
+    ] : [
+      componentPromise,
+      ...otherPromises,
+    ]);
+    const renderRoute = loadModule(cb);
+    const [component, ...other] = await importModules;
+    const ducks = ducksPromise ? other[0] : null;
+    if (ducks) {
+      injectAsyncModule(store, routeName, ducks.default, ducks.sagas);
+    }
+    if (typeof beforeRender === 'function') {
+      beforeRender(...other);
+    }
+    renderRoute(component);
+  } catch (err) {
+    errorLoading(err);
+  }
+};
 
 const fetchProfile = actions.fetch;
 const fetchMyShop = shopActions.fetchMine;
@@ -54,15 +91,11 @@ export const requireShop = async (store) => {
 };
 
 
-let formInjected = false;
+const FormModuleName = 'form';
 export const requireForm = async (store) => {
-  const { injectReducer } = getAsyncInjectors(store); // eslint-disable-line no-unused-vars
-  if (!formInjected) {
-    const reduxForm = await System.import('redux-form');
-    const reducer = reduxForm.reducer;
-    injectReducer('form', reducer);
-    formInjected = true;
-  }
+  const reduxForm = await System.import('redux-form');
+  const reducer = reduxForm.reducer;
+  injectAsyncModule(store, FormModuleName, { [FormModuleName]: reducer });
 };
 
 export const error = (err, replace) => {

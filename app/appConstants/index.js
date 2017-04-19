@@ -1,3 +1,4 @@
+export routes from './routes';
 export catalogs from './catalogs';
 export productTypes from './productTypes';
 export { productNames } from './productTypes';

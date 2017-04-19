@@ -10,10 +10,10 @@ import AV from 'leancloud-storage';
 import { userToJSON } from '../utils/converters';
 const debug = require('debug')('app:api:profile');
 
-export default ({ context, updateContextProfile }) => {
+export default ({ context }) => {
   const fetchProfile = async ({ objectId }) => { // if its not for specific user, fetch currentUser then.
     const { token: { sessionToken } } = context;
-    const userId = objectId || context.token.objectId;
+    const userId = objectId || context.token.currentUserId;
     try {
       const avProfile = await AV.Object.createWithoutData('_User', userId)
         .fetch({
@@ -23,9 +23,6 @@ export default ({ context, updateContextProfile }) => {
         }
         );
       const profile = userToJSON(avProfile);
-      if (userId === context.token.objectId) {
-        updateContextProfile(profile);
-      }
       return profile;
     } catch (err) {
       debug(err);
@@ -33,18 +30,16 @@ export default ({ context, updateContextProfile }) => {
     }
   };
 
-  const updateProfile = async ({ images, ...attrs }) => {
-    const { token: { sessionToken }, profile } = context;
+  const updateProfile = async ({ ...attrs }) => {
+    const { images, ...attributes } = attrs;
+    const { token: { sessionToken, currentUserId } } = context;
     try {
-      const avProfile = AV.Object.createWithoutData('_User', profile.objectId);
-      const attributes = { ...attrs };
+      const avProfile = AV.Object.createWithoutData('_User', currentUserId);
       if (images) {
         avProfile.set('images', images.map((image) => AV.Object.createWithoutData('_File', image.id)));
       }
       await avProfile.save(attributes, { sessionToken });
-      const updatedProfile = { ...profile, ...attrs, images: images || profile.images };
-      updateContextProfile(updatedProfile);
-      return updatedProfile;
+      return attrs;
     } catch (err) {
       debug(err);
       throw err;

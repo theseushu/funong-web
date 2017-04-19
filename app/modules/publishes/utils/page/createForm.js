@@ -1,7 +1,7 @@
 import React from 'react';
 import _omitBy from 'lodash/omitBy';
 import { reduxForm } from 'redux-form';
-import { push } from 'react-router-redux';
+import { browserHistory } from 'react-router';
 import success from 'modules/toastr/success';
 
 const omitFileds = ['shop', 'original', 'updatedAt', 'owner', 'minPrice', 'createdAt', 'thumbnail'];
@@ -47,7 +47,7 @@ export default (FORM_NAME, actions, FormComponent) => {
                   title: '创建成功',
                   message: publish.name,
                   onHideComplete: () => {
-                    dispatch(push('/me/published'));
+                    dispatch(browserHistory.push('/me/published'));
                   },
                 });
                 resolve();

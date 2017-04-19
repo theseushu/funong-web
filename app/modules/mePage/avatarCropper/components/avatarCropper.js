@@ -62,7 +62,7 @@ class AvatarCropperComponent extends Component {
     this.setState({ croppedAvatar: data });
   }
   fileSelected = (e) => {
-    if (typeof window === 'object') {
+    if (process.env.browser) {
       const loadImage = require('blueimp-load-image'); // eslint-disable-line global-require
       loadImage(
         e.target.files[0],

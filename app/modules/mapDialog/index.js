@@ -45,7 +45,7 @@ class mapDialog extends Component {
     }),
     initMap: PropTypes.func.isRequired,
     destroyMap: PropTypes.func.isRequired,
-    onSubmit: PropTypes.func.isRequired,
+    onSubmit: PropTypes.func,
     // getCurrentLocationState: PropTypes.shape({
     //   pending: PropTypes.bool,
     //   fulfilled: PropTypes.bool,

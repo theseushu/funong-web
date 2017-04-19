@@ -7,9 +7,6 @@ import createBidRoute from './bid/route';
 export default ({ store, injectReducer, injectSagas, loadModule, errorLoading }) => {
   const supplyRoute = createSupplyRoute({ store, injectReducer, injectSagas, loadModule, errorLoading });
   return { // eslint-disable-line
-    path: 'published',
-    name: 'published',
-    indexRoute: { getComponent: supplyRoute.getComponent },
     childRoutes: [
       supplyRoute,
       createLogisticsRoute({ store, injectReducer, injectSagas, loadModule, errorLoading }),

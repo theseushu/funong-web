@@ -1,4 +1,5 @@
 import { getAsyncInjectors } from 'utils/asyncInjectors';
+import App from 'containers/App';
 import { requireForm } from 'utils/routerUtils';
 import createHomePageRoute from 'modules/homePage/route';
 import createWelcomePageRoute from 'modules/welcomePage/route';
@@ -26,7 +27,7 @@ const loadModule = (cb) => (componentModule) => {
   cb(null, componentModule.default);
 };
 
-export default function createRoutes(store) {
+function createChildRoutes(store) {
   // Create reusable async injectors using getAsyncInjectors factory
   const { injectReducer, injectSagas } = getAsyncInjectors(store); // eslint-disable-line no-unused-vars
   return [
@@ -86,4 +87,10 @@ export default function createRoutes(store) {
       },
     },
   ];
+}
+export default function createRootRoute(store) {
+  return {
+    component: App,
+    childRoutes: createChildRoutes(store),
+  };
 }

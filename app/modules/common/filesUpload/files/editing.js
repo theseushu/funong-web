@@ -1,5 +1,4 @@
 import React, { Component, PropTypes } from 'react';
-import loadImage from 'blueimp-load-image';
 import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 import Icon from 'react-mdl/lib/Icon';
@@ -11,14 +10,20 @@ import styles from '../../styles';
 
 function asyncLoadImage(file) {
   return new Promise((resolve, reject) => {
-    const loadingCanvas = loadImage(
-      file,
-      (canvas) => {
-        resolve(canvas);
-      },
-      { contain: true, maxWidth: 1024, minWidth: 1024, canvas: true, downsamplingRatio: 1 }
-    );
-    loadingCanvas.onerror = (error) => { reject(error); };
+    if (process.env.browser) {
+      const loadImage = require('blueimp-load-image'); // eslint-disable-line
+      const loadingCanvas = loadImage(
+        file,
+        (canvas) => {
+          resolve(canvas);
+        },
+        { contain: true, maxWidth: 1024, minWidth: 1024, canvas: true, downsamplingRatio: 1 }
+      );
+      loadingCanvas.onerror = (error) => { reject(error); };
+    } else {
+      // TODO reject
+      resolve();
+    }
   });
 }
 

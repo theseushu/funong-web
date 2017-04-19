@@ -1,6 +1,6 @@
 import { reduxForm, SubmissionError } from 'redux-form';
 import { connect } from 'react-redux';
-import { push } from 'react-router-redux';
+import { browserHistory } from 'react-router';
 import { actions } from 'api/profile';
 import { signupOrLogin } from 'api/signupOrLogin';
 import SignupOrLoginForm from './signupOrLoginForm';
@@ -54,7 +54,7 @@ export default reduxForm({
         const fetchProfileResolveFunc = ({ profile }) => {
           resolve();
           if (!profile) {
-            dispatch(push('/welcome'));
+            dispatch(browserHistory.push('/welcome'));
           }
         };
         const fetchProfileRejectFunc = () => {};

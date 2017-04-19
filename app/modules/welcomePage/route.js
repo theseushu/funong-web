@@ -1,12 +1,14 @@
-import _toPairs from 'lodash/toPairs';
 import { currentUserSelector } from 'modules/data/ducks/selectors';
 import { actions } from 'api/profile';
+import { loadAsyncModules } from 'utils/routerUtils';
 import nextRoute from './nextRoute';
 
 const fetchProfile = actions.fetch;
+const NAME = 'welcome';
+
 export default ({ store, injectReducer, injectSagas, loadModule, errorLoading }) => ({ // eslint-disable-line no-unused-vars
   path: '/welcome',
-  name: 'welcome',
+  name: NAME,
   onEnter: async (nextState, replace, callback) => {
     const proceed = (user) => {
       if (user.type) {
@@ -23,22 +25,13 @@ export default ({ store, injectReducer, injectSagas, loadModule, errorLoading })
       proceed(currentUser);
     }
   },
-  getComponent(nextState, cb) {
-    const importModules = Promise.all([
+  getComponent: async (nextState, cb) => {
+    await loadAsyncModules(
+      { store, loadModule, errorLoading },
+      cb,
+      NAME,
       System.import('./index'),
       System.import('./ducks'),
-    ]);
-
-    const renderRoute = loadModule(cb);
-
-    importModules.then(([component, ducks]) => {
-      _toPairs(ducks.default).forEach((pair) => {
-        injectReducer(pair[0], pair[1]);
-      });
-      // injectSagas(ducks.sagas);
-      renderRoute(component);
-    });
-
-    importModules.catch(errorLoading);
+    );
   },
 });

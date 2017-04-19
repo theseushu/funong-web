@@ -1,7 +1,6 @@
-import { takeEvery } from 'redux-saga';
 import _difference from 'lodash/difference';
 import _union from 'lodash/union';
-import { call, put, select } from 'redux-saga/effects';
+import { takeEvery, call, put, select } from 'redux-saga/effects';
 import { createSelector } from 'reselect';
 import { setCategories } from 'modules/data/ducks/actions';
 import { categoriesSelector } from 'modules/data/ducks/selectors';

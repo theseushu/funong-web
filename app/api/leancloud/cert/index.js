@@ -16,15 +16,15 @@ export default ({ context }) => {
 
 // TODO deal with empty catalogType
   const searchMyCerts = () => new AV.Query('Cert')
-    .equalTo('owner', AV.Object.createWithoutData('_User', context.profile.objectId))
+    .equalTo('owner', AV.Object.createWithoutData('_User', context.token.currentUserId))
     .include(['images'])
     .find({ sessionToken: context.token.sessionToken })
     .then((certs) => certs.map(certToJSON));
 
   const createCert = async (attrs) => {
-    const { token: { sessionToken }, profile } = context;
+    const { token: { sessionToken, currentUserId } } = context;
     const cert = new Cert();
-    cert.set('owner', AV.Object.createWithoutData('_User', profile.objectId));
+    cert.set('owner', AV.Object.createWithoutData('_User', currentUserId));
     const attributes = { ...attrs };
     if (attrs.images) {
       attributes.images = attrs.images.map((image) => AV.Object.createWithoutData('_File', image.id));

@@ -34,10 +34,10 @@ export default ({ context }) => {
 
   const createBid = async ({ price, quantity, message, inquiry, product }) => {
     try {
-      const { token: { sessionToken }, profile } = context;
+      const { token: { sessionToken, currentUserId } } = context;
       const bid = new Bid();
       const saved = await bid.save({
-        owner: AV.Object.createWithoutData('_User', profile.objectId),
+        owner: AV.Object.createWithoutData('_User', currentUserId),
         message,
         price,
         quantity,

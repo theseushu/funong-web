@@ -9,7 +9,12 @@ const extractCSS = new ExtractTextPlugin({
   filename: '[name]-[contenthash].css',
   allChunks: true,
 });
-
+const AssetsPlugin = require('assets-webpack-plugin');
+const assetsPluginInstance = new AssetsPlugin({
+  path: path.join(process.cwd(), 'server', 'middlewares'),
+  filename: 'generated.assets.json',
+});
+const isBuildingDll = Boolean(process.env.BUILDING_DLL);
 module.exports = (options) => ({
   entry: options.entry,
   output: Object.assign({ // Compile into js/build.js
@@ -47,7 +52,7 @@ module.exports = (options) => ({
       loader: 'file-loader',
     }, {
       test: /\.(jpg|png|gif)$/,
-      loaders: 'url-loader?limit=1000!img-loader?progressive=true',
+      loaders: 'url-loader?limit=1!img-loader?progressive=true',
     }, {
       test: /\.html$/,
       loader: 'html-loader',
@@ -75,10 +80,13 @@ module.exports = (options) => ({
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: JSON.stringify(process.env.NODE_ENV),
+        browser: true,
       },
     }),
     new webpack.NamedModulesPlugin(),
-  ]),
+  ]).concat(
+    isBuildingDll ? [] : [assetsPluginInstance]
+  ),
   resolve: {
     modules: ['app', 'node_modules'],
     extensions: [

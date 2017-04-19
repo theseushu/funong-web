@@ -3,8 +3,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import injectSheet from 'react-jss';
 import Button from 'react-mdl/lib/Button';
-import Menu from 'react-mdl-extra/lib/Menu';
-import MenuItem from 'react-mdl-extra/lib/MenuItem';
+import Menu, { MenuItem } from 'react-mdl/lib/Menu';
 import { myShopSelector } from 'modules/data/ducks/selectors';
 import { actions, selectors } from './ducks';
 
@@ -21,23 +20,26 @@ const Toolbar = ({ classes, searchParams, setSearchParams }) => {
     <div className={classes.toolbar}>
       <span>
       状态：
-      <Menu target={<Button colored>{avaiableTitle}</Button>}>
-        <MenuItem
-          onClick={() => {
-            setSearchParams({ ...searchParams, available: undefined });
-          }}
-        >全部</MenuItem>
-        <MenuItem
-          onClick={() => {
-            setSearchParams({ ...searchParams, available: true });
-          }}
-        >上架的</MenuItem>
-        <MenuItem
-          onClick={() => {
-            setSearchParams({ ...searchParams, available: false });
-          }}
-        >下架的</MenuItem>
-      </Menu>
+        <div style={{ position: 'relative', display: 'inline-block' }}>
+          <Button id="_shop_product_status_menu" colored>{avaiableTitle}</Button>
+          <Menu target="_shop_product_status_menu">
+            <MenuItem
+              onClick={() => {
+                setSearchParams({ ...searchParams, available: undefined });
+              }}
+            >全部</MenuItem>
+            <MenuItem
+              onClick={() => {
+                setSearchParams({ ...searchParams, available: true });
+              }}
+            >上架的</MenuItem>
+            <MenuItem
+              onClick={() => {
+                setSearchParams({ ...searchParams, available: false });
+              }}
+            >下架的</MenuItem>
+          </Menu>
+        </div>
       </span>
     </div>
   );

@@ -1,9 +1,8 @@
 import React, { PropTypes } from 'react';
 import _find from 'lodash/find';
-import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Tabs, Tab } from 'react-mdl/lib/Tabs';
-import { replace } from 'react-router-redux/lib/actions';
+import { browserHistory } from 'react-router';
 import { currentUserSelector, usersSelector } from 'modules/data/ducks/selectors';
 import styles from 'modules/common/styles';
 import { Layout } from 'modules/common/layouts';
@@ -64,17 +63,15 @@ const pageStateSelector = selectors.pageState;
 const createPageProductsSelector = selectors.createPageProductsSelector;
 const pageInquiriesStateSelector = selectors.pageInquiries;
 export default connect(
-  (state, { params: { id } }) => {
+  (state, { params: { id }, location: { pathname, query } }) => {
     const type = pageStateSelector(state).type;
     return {
       type: pageStateSelector(state).type,
       user: _find(usersSelector(state), (u) => u.objectId === id),
       currentUser: currentUserSelector(state),
       pagingState: type === 'inquiry' ? pageInquiriesStateSelector(state) : createPageProductsSelector(pageStateSelector(state).type)(state),
+      onTabChange: (i) => browserHistory.replace({ pathname, query: { t: i } }),
+      onPageChange: (p) => browserHistory.replace({ pathname, query: { ...query, p } }),
     };
   },
-  (dispatch, { location: { pathname, query } }) => bindActionCreators({
-    onTabChange: (i) => replace({ pathname, query: { t: i } }),
-    onPageChange: (p) => replace({ pathname, query: { ...query, p } }),
-  }, dispatch),
 )(UserPage);

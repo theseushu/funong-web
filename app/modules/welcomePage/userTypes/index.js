@@ -1,6 +1,6 @@
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { push } from 'react-router-redux';
+import { browserHistory } from 'react-router';
 import { actions, selectors } from 'api/profile';
 import info from 'modules/toastr/info';
 import UserTypes from './userTypes';
@@ -21,7 +21,7 @@ export default connect(
                 info({
                   title: '您需要先通过我们的商家认证，才能开店',
                   onHideComplete: () => {
-                    dispatch(push(nextRoute(type)));
+                    browserHistory.push(nextRoute(type));
                   },
                 });
                 break;
@@ -29,7 +29,7 @@ export default connect(
                 info({
                   title: '您需要先通过我们的商家认证，才能开店',
                   onHideComplete: () => {
-                    dispatch(push(nextRoute(type)));
+                    browserHistory.push(nextRoute(type));
                   },
                 });
                 break;
@@ -38,7 +38,7 @@ export default connect(
               case '农产农资供货':
               case '物流供应商':
               default:
-                dispatch(push(nextRoute(type)));
+                browserHistory.push(nextRoute(type));
             }
           },
           reject: (error) => {

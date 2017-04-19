@@ -1,4 +1,5 @@
 import _toPairs from 'lodash/toPairs';
+import { routes } from 'appConstants';
 import { requireAuth } from 'utils/routerUtils';
 import { actions } from 'api/cart';
 
@@ -20,8 +21,8 @@ const fetchData = async (store) => {
 };
 
 export default ({ store, injectReducer, injectSagas, loadModule, errorLoading }) => ({ // eslint-disable-line no-unused-vars
-  path: 'cart',
-  name: 'cart',
+  path: routes.page_my_cart,
+  name: 'page_my_certs',
   onEnter: async ({ location }, replace, callback) => {
     const { login } = await requireAuth(store);
     if (login) {

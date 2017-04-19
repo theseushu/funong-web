@@ -1,4 +1,5 @@
-import { put } from 'redux-saga/effects';
+import { put, select } from 'redux-saga/effects';
+import { currentUserSelector } from 'modules/data/ducks/selectors';
 import { setCurrentUser } from 'modules/data/ducks/actions';
 import { NAMESPACE } from './constants';
 import createDucks from '../utils/createDucks';
@@ -10,8 +11,9 @@ const ducks = createDucks({
   rootSelector: (state) => rootSelector(state),
   namespace: NAMESPACE,
   sagas: {
-    * beforeFulfilled(user) {
-      yield put(setCurrentUser(user));
+    * beforeFulfilled({ ...attrs }) {
+      const currentUser = yield select(currentUserSelector);
+      yield put(setCurrentUser({ ...currentUser, ...attrs }));
     },
   },
 });

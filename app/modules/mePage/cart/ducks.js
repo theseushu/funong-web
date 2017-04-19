@@ -8,7 +8,7 @@ const reducer = (state = { items: [] }, { type, payload }) => {
 };
 
 export default {
-  cartPage: reducer,
+  page_my_cart: reducer, // appConstants/routes/page_my_cart
 };
 
 export const actions = {

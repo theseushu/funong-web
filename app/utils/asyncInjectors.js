@@ -3,6 +3,7 @@ import isEmpty from 'lodash/isEmpty';
 import isFunction from 'lodash/isFunction';
 import isObject from 'lodash/isObject';
 import isString from 'lodash/isString';
+import toPairs from 'lodash/toPairs';
 import invariant from 'invariant';
 import warning from 'warning';
 
@@ -19,6 +20,8 @@ export function checkStore(store) {
     replaceReducer: isFunction,
     runSaga: isFunction,
     asyncReducers: isObject,
+    asyncModules: isObject,
+    moduleInjected: isFunction,
   };
   invariant(
     conformsTo(store, shape),
@@ -76,4 +79,21 @@ export function getAsyncInjectors(store) {
     injectReducer: injectAsyncReducer(store, true),
     injectSagas: injectAsyncSagas(store, true),
   };
+}
+
+export function isModuleInjected(store, routeName) {
+  return !!store.asyncModules[routeName];
+}
+
+export function injectAsyncModule(store, routeName, reducer, sagas) {
+  const { injectReducer, injectSagas } = getAsyncInjectors(store);
+  if (!isModuleInjected(store, routeName)) {
+    toPairs(reducer).forEach((pair) => {
+      injectReducer(pair[0], pair[1]);
+    });
+    if (sagas && sagas.length > 0) {
+      injectSagas(sagas);
+    }
+    store.moduleInjected(routeName);
+  }
 }

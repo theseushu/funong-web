@@ -43,9 +43,9 @@ AV.init({
 //   console.log(query.hasMore());
 // });
 
-export default () => {
-  // { token: { sessionToken, objectId, mobilePhoneNumber }, profile: {} }
-  const context = loadFromCookie();
+export default (req, res) => {
+  // { token: { sessionToken, userId, mobilePhoneNumber } }
+  const context = loadFromCookie(req, res);
   const updateContextToken = (newToken) => {
     context.token = newToken;
     saveToCookie(context);
@@ -55,7 +55,7 @@ export default () => {
   };
 
   const logout = () => {
-    clearInCookie();
+    clearInCookie(res);
     context.token = undefined;
     context.profile = undefined;
   };

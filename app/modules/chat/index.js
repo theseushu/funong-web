@@ -21,7 +21,7 @@ class Chat extends Component {
   }
   componentWillReceiveProps({ dialog: { open, user } }) {
     // if the dialog was closed, to be opened, there's no user (no conversation) to be entered, and screen width is small
-    if (!this.props.dialog.open && open && !user && window.matchMedia(('(max-width: 1023px)')).matches) {
+    if (!this.props.dialog.open && open && !user && process.env.browser && window.matchMedia(('(max-width: 1023px)')).matches) {
       this.shallOpenDrawer = true;
     } else {
       this.shallOpenDrawer = false;

@@ -22,7 +22,7 @@ export default ({ context }) => {
     .then(shopToJSON);
 
   const createShop = async ({ name, areas, location, desc, images }) => {
-    const { token: { sessionToken }, profile } = context;
+    const { token: { sessionToken, currentUserId } } = context;
     try {
       const shop = new Shop();
       shop.set('name', name);
@@ -32,7 +32,7 @@ export default ({ context }) => {
       shop.set('desc', desc);
       shop.set('images', images.map((image) => AV.Object.createWithoutData('_File', image.id)));
       shop.set('thumbnail', AV.Object.createWithoutData('_File', images[0].id));
-      shop.set('owner', AV.Object.createWithoutData('_User', profile.objectId));
+      shop.set('owner', AV.Object.createWithoutData('_User', currentUserId));
       const savedShop = await shop.save(null, {
         fetchWhenSave: true,
         sessionToken,

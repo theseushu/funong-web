@@ -3,21 +3,26 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import injectSheet from 'react-jss';
 import TinyMCE from 'react-tinymce';
-import loadImage from 'blueimp-load-image';
 import { actions } from 'api/uploadFile/ducks';
 import styles, { colors } from '../styles';
 import './zh_CN';
 
 function asyncLoadImage(file) {
   return new Promise((resolve, reject) => {
-    const loadingCanvas = loadImage(
-      file,
-      (canvas) => {
-        resolve(canvas);
-      },
-      { contain: true, maxWidth: 512, canvas: true, downsamplingRatio: 1 }
-    );
-    loadingCanvas.onerror = (error) => { reject(error); };
+    if (process.env.browser) {
+      const loadImage = require('blueimp-load-image'); // eslint-disable-line
+      const loadingCanvas = loadImage(
+        file,
+        (canvas) => {
+          resolve(canvas);
+        },
+        { contain: true, maxWidth: 512, canvas: true, downsamplingRatio: 1 }
+      );
+      loadingCanvas.onerror = (error) => { reject(error); };
+    } else {
+      // TODO reject
+      resolve();
+    }
   });
 }
 
@@ -51,7 +56,7 @@ const createConfig = (uploadFile) => ({
         const file = this.files[0];
 
         const id = `blobid${(new Date()).getTime()}`;
-        const blobCache = window.tinymce.activeEditor.editorUpload.blobCache;
+        const blobCache = window && window.tinymce.activeEditor.editorUpload.blobCache;
         const blobInfo = blobCache.create(id, file);
         blobCache.add(blobInfo);
           // call the callback and populate the Title field with the file name

@@ -1,10 +1,11 @@
 import _toPairs from 'lodash/toPairs';
+import { routes } from 'appConstants';
 
 let injected = false;
 
 export default ({ store, injectReducer, injectSagas, loadModule, errorLoading }) => ({ // eslint-disable-line
-  path: 'orders',
-  name: 'orders',
+  path: routes.page_my_orders,
+  name: 'page_my_orders',
   getComponent: async (nextState, cb) => {
     const renderRoute = loadModule(cb);
     const importModules = Promise.all([

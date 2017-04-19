@@ -33,9 +33,9 @@ export default ({ context }) => {
   };
 
   const createComment = async ({ desc, images, shopProduct, supplyProduct, logisticsProduct }) => {
-    const { token: { sessionToken }, profile } = context;
+    const { token: { sessionToken, currentUserId } } = context;
     const comment = new Comment();
-    comment.set('owner', AV.Object.createWithoutData('_User', profile.objectId));
+    comment.set('owner', AV.Object.createWithoutData('_User', currentUserId));
     comment.set('desc', desc);
     if (images) {
       comment.set('images', images.map((image) => AV.Object.createWithoutData('_File', image.id)));

@@ -16,9 +16,9 @@ export default ({ context }) => {
   AV.Object.register(CartItem);
 
   const addCartItem = async ({ quantity, type, product }) => {
-    const { token: { sessionToken }, profile } = context;
+    const { token: { sessionToken, currentUserId } } = context;
     try {
-      if (!sessionToken || !profile) {
+      if (!sessionToken) {
         throw new AV.Error(AV.Error.SESSION_MISSING, '未登录用户不能使用购物车');
       }
 
@@ -30,7 +30,7 @@ export default ({ context }) => {
         throw new AV.Error(AV.Error.OTHER_CAUSE, `无法处理此类商品: ${type}`);
       }
       cartItem.set('quantity', quantity);
-      cartItem.set('owner', AV.Object.createWithoutData('_User', profile.objectId));
+      cartItem.set('owner', AV.Object.createWithoutData('_User', currentUserId));
       const saved = await cartItem.save();
       return { ...saved.toJSON(), [type]: product };
     } catch (err) {
@@ -68,13 +68,13 @@ export default ({ context }) => {
     return cartItemIds;
   };
   const fetchCartItems = async () => {
-    const { profile } = context;
+    const { token: { currentUserId } } = context;
     const query = new AV.Query('CartItem')
       .include([
         'shopProduct', 'shopProduct.images', 'shopProduct.category', 'shopProduct.catalog', 'shopProduct.species', 'shopProduct.thumbnail', 'shopProduct.shop', 'shopProduct.shop.thumbnail',
         'supplyProduct', 'supplyProduct.images', 'supplyProduct.category', 'supplyProduct.category.catalog', 'supplyProduct.species', 'supplyProduct.thumbnail', 'supplyProduct.owner', 'supplyProduct.owner.avatar',
       ]);
-    query.equalTo('owner', AV.Object.createWithoutData('_User', profile.objectId));
+    query.equalTo('owner', AV.Object.createWithoutData('_User', currentUserId));
     query
       .limit(1000);
     const cartItems = await query.find();

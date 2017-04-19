@@ -1,133 +1,109 @@
+import _zipObject from 'lodash/zipObject';
+import { normalize } from 'normalizr';
 import {
-  SET_USERS,
-  SET_CURRENT_USER,
-  UPDATE_CURRENT_USER_INFO,
-  SET_CATAGORIES,
-  SET_SPECIES,
-  SET_PRODUCTS,
-  REMOVE_PRODUCTS,
-  SET_SHOP_PRODUCTS,
-  SET_LOGISTICS_PRODUCTS,
-  SET_TRIP_PRODUCTS,
-  SET_CERTS,
-  SET_CART_ITEMS,
-  REMOVE_CART_ITEMS,
-  SET_SHOPS,
-  SET_COMMENTS,
-  REMOVE_COMMENTS,
-  SET_ORDERS,
-  REMOVE_ORDERS,
-  SET_INQUIRIES,
-  REMOVE_INQUIRIES,
-  SET_BIDS,
-  REMOVE_BIDS,
-  SET_PUBLISHES,
-  REMOVE_PUBLISHES,
+  UPDATE_DATA,
+  REMOVE_ENTITIES,
 } from './constants';
 
-export const setCurrentUser = (user) => ({
-  type: SET_CURRENT_USER,
-  payload: { user },
-});
+import { UserSchema, UsersSchema,
+  CategoriesSchema, SpeciesArraySchema,
+  ProductSchemas,
+  CertsSchema, CartItemsSchema, ShopsSchema,
+  CommentsSchema, OrdersSchema, InquiriesSchema, BidsSchema, PublishesSchemas } from './schemas';
+
+export const setCurrentUser = (user) => {
+  const data = normalize(user, UserSchema);
+  const payload = Object.assign({}, data, { currentUser: data.result });
+  return { type: UPDATE_DATA, payload };
+};
+
 // todo delete this one
-export const updateCurrentUserInfo = (user) => ({
-  type: UPDATE_CURRENT_USER_INFO,
-  payload: { user },
-});
-export const setUsers = (users) => ({
-  type: SET_USERS,
-  payload: { users },
-});
-export const setCategories = (categories) => ({
-  type: SET_CATAGORIES,
-  payload: { categories },
-});
-export const setSpecies = (species) => ({
-  type: SET_SPECIES,
-  payload: { species },
-});
-export const setProducts = (type, products) => ({
-  type: SET_PRODUCTS,
-  payload: { products },
-  meta: { type },
-});
-export const removeProducts = (type, ids) => ({
-  type: REMOVE_PRODUCTS,
-  payload: { ids },
-  meta: { type },
-});
-// todo refactor like certs
-export const setShopProducts = (shopProducts) => ({
-  type: SET_SHOP_PRODUCTS,
-  payload: { shopProducts },
-});
-export const setLogisticsProducts = (logisticsProducts) => ({
-  type: SET_LOGISTICS_PRODUCTS,
-  payload: { logisticsProducts },
-});
-export const setTripProducts = (tripProducts) => ({
-  type: SET_TRIP_PRODUCTS,
-  payload: { tripProducts },
-});
-export const setCerts = (certs) => ({
-  type: SET_CERTS,
-  payload: { certs },
-});
-export const setCartItems = (cartItems) => ({
-  type: SET_CART_ITEMS,
-  payload: { cartItems },
-});
-export const removeCartItems = (ids) => ({
-  type: REMOVE_CART_ITEMS,
-  payload: { ids },
-});
-export const setShops = (shops) => ({
-  type: SET_SHOPS,
-  payload: { shops },
-});
-export const setComments = (comments) => ({
-  type: SET_COMMENTS,
-  payload: { comments },
-});
-export const removeComments = (ids) => ({
-  type: REMOVE_COMMENTS,
-  payload: { ids },
-});
+export const updateCurrentUserInfo = (user) => {
+  const data = normalize(user, UserSchema);
+  const payload = Object.assign({}, data, { currentUser: data.result });
+  return { type: UPDATE_DATA, payload };
+};
 
-export const setOrders = (orders) => ({
-  type: SET_ORDERS,
-  payload: { orders },
-});
-export const removeOrders = (ids) => ({
-  type: REMOVE_ORDERS,
-  payload: { ids },
-});
+export const setUsers = (users) => {
+  const data = normalize(users, UsersSchema);
+  const payload = Object.assign({}, data);
+  return { type: UPDATE_DATA, payload };
+};
 
-export const setInquiries = (inquiries) => ({
-  type: SET_INQUIRIES,
-  payload: { inquiries },
-});
-export const removeInquiries = (ids) => ({
-  type: REMOVE_INQUIRIES,
-  payload: { ids },
-});
+export const setCategories = (categories) => {
+  const data = normalize(categories, CategoriesSchema);
+  const payload = Object.assign({}, data);
+  return { type: UPDATE_DATA, payload };
+};
 
-export const setBids = (bids) => ({
-  type: SET_BIDS,
-  payload: { bids },
-});
-export const removeBids = (ids) => ({
-  type: REMOVE_BIDS,
-  payload: { ids },
-});
+export const setSpecies = (species) => {
+  const data = normalize(species, SpeciesArraySchema);
+  const payload = Object.assign({}, data);
+  return { type: UPDATE_DATA, payload };
+};
 
-export const setPublishes = (type, entries) => ({
-  type: SET_PUBLISHES,
-  payload: { entries },
-  meta: { type },
-});
-export const removePublishes = (type, ids) => ({
-  type: REMOVE_PUBLISHES,
-  payload: { ids },
-  meta: { type },
-});
+export const setProducts = (type, products) => {
+  const data = normalize(products, ProductSchemas[type].array);
+  const payload = Object.assign({}, data);
+  return { type: UPDATE_DATA, payload };
+};
+export const removeProducts = (type, ids) =>
+  ({ type: REMOVE_ENTITIES, payload: { entities: { [ProductSchemas[type].schema().getKey()]: _zipObject(ids, ids.map(() => null)) } } });
+
+export const setCerts = (certs) => {
+  const data = normalize(certs, CertsSchema);
+  const payload = Object.assign({}, data);
+  return { type: UPDATE_DATA, payload };
+};
+export const setCartItems = (cartItems) => {
+  const data = normalize(cartItems, CartItemsSchema);
+  const payload = Object.assign({}, data);
+  return { type: UPDATE_DATA, payload };
+};
+export const removeCartItems = (ids) =>
+  ({ type: REMOVE_ENTITIES, payload: { entities: { [CartItemsSchema.getItemSchema().getKey()]: _zipObject(ids, ids.map(() => null)) } } });
+export const setShops = (shops) => {
+  const data = normalize(shops, ShopsSchema);
+  const payload = Object.assign({}, data);
+  return { type: UPDATE_DATA, payload };
+};
+export const setComments = (comments) => {
+  const data = normalize(comments, CommentsSchema);
+  const payload = Object.assign({}, data);
+  return { type: UPDATE_DATA, payload };
+};
+
+export const removeComments = (ids) =>
+  ({ type: REMOVE_ENTITIES, payload: { entities: { [CommentsSchema.getItemSchema().getKey()]: _zipObject(ids, ids.map(() => null)) } } });
+
+export const setOrders = (orders) => {
+  const data = normalize(orders, OrdersSchema);
+  const payload = Object.assign({}, data);
+  return { type: UPDATE_DATA, payload };
+};
+export const removeOrders = (ids) =>
+  ({ type: REMOVE_ENTITIES, payload: { entities: { [OrdersSchema.getItemSchema().getKey()]: _zipObject(ids, ids.map(() => null)) } } });
+
+export const setInquiries = (inquiries) => {
+  const data = normalize(inquiries, InquiriesSchema);
+  const payload = Object.assign({}, data);
+  return { type: UPDATE_DATA, payload };
+};
+export const removeInquiries = (ids) =>
+  ({ type: REMOVE_ENTITIES, payload: { entities: { [InquiriesSchema.getItemSchema().getKey()]: _zipObject(ids, ids.map(() => null)) } } });
+
+export const setBids = (bids) => {
+  const data = normalize(bids, BidsSchema);
+  const payload = Object.assign({}, data);
+  return { type: UPDATE_DATA, payload };
+};
+
+export const removeBids = (ids) => ({ type: REMOVE_ENTITIES, payload: { entities: { [BidsSchema.getItemSchema().getKey()]: _zipObject(ids, ids.map(() => null)) } } });
+
+export const setPublishes = (type, entries) => {
+  const data = normalize(entries, PublishesSchemas[type]);
+  const payload = Object.assign({}, data);
+  return { type: UPDATE_DATA, payload };
+};
+export const removePublishes = (type, ids) =>
+  ({ type: REMOVE_ENTITIES, payload: { entities: { [PublishesSchemas[type].getItemSchema().getKey()]: _zipObject(ids, ids.map(() => null)) } } });

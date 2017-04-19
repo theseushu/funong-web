@@ -3,7 +3,6 @@
  */
 
 import { createStore, applyMiddleware, compose } from 'redux';
-import { routerMiddleware } from 'react-router-redux';
 import createSagaMiddleware from 'redux-saga';
 import createReducer from './reducers';
 import sagas from './sagas';
@@ -16,14 +15,13 @@ export default function configureStore(initialState = {}, history, api) {
   // 2. routerMiddleware: Syncs the location/URL path to the state
   const middlewares = [
     sagaMiddleware,
-    routerMiddleware(history),
   ];
 
   const enhancers = [
     applyMiddleware(...middlewares),
   ];
 
-  if (process.env.NODE_ENV !== 'production' && typeof window === 'object') {
+  if (process.env.NODE_ENV !== 'production' && process.env.browser) {
     const DevTools = require('./DevTools').default; // eslint-disable-line global-require
     const devtoolsExt = DevTools.instrument();
     enhancers.push(devtoolsExt);
@@ -40,7 +38,8 @@ export default function configureStore(initialState = {}, history, api) {
   sagas.map(store.runSaga);
 
   store.asyncReducers = {}; // Async reducer registry
-
+  store.asyncModules = {};
+  store.moduleInjected = (moduleName) => { store.asyncModules[moduleName] = true; };
   // Make reducers hot reloadable, see http://mxs.is/googmo
   /* istanbul ignore next */
   if (module.hot) {

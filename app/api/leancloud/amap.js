@@ -96,7 +96,7 @@ const bindOnClick = (Map, map, geocoder, onClick) => {
 };
 
 export default () => {
-  if (window) {
+  if (process.env.browser) {
     const maps = {};
     let geolocation;
     const initMap = async ({ id, zoom = 10, onClick, center }) => {

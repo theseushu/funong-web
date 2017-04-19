@@ -1,5 +1,5 @@
-import { takeEvery, eventChannel, END } from 'redux-saga';
-import { call, take, put } from 'redux-saga/effects';
+import { eventChannel, END } from 'redux-saga';
+import { takeEvery, call, take, put } from 'redux-saga/effects';
 import { connect, disconnect } from '../api/leancloud';
 import { selector as rootSelector, namespace as rootNamespace } from './constants';
 import { actions as dataActions } from './data';

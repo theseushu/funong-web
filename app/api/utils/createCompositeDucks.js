@@ -20,8 +20,7 @@
 import snakeCase from 'snake-case';
 import _get from 'lodash/get';
 import { createSelector } from 'reselect';
-import { takeEvery } from 'redux-saga';
-import { call, put } from 'redux-saga/effects';
+import { takeEvery, call, put } from 'redux-saga/effects';
 
 // names
 export const createNames = ({ apiName, namespace, key = apiName }) => ({

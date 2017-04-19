@@ -11,7 +11,7 @@ export default (path, name, actions, componentAndDucks, isShop) => ({ store, inj
       if (id === 'new' || query.edit) {
         const { login } = await requireAuth(store);
         if (!login) {
-          const redirect = `${location.pathname}${location.search}`;
+          const redirect = `${pathname}${search}`;
           const message = '请登录';
           replace(`/login?message=${message}&redirect=${redirect}`);
           proceed();

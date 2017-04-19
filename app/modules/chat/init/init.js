@@ -38,7 +38,7 @@ const init = (store) => {
       injectReducer(pair[0], pair[1]);
     });
     injectSagas(ducks.sagas);
-    if (window && document) {
+    if (process.env.browser) {
       const chatDialogEl = document.createElement('div');
       chatDialogEl.setAttribute('id', '_chat_dialog_');
       document.body.appendChild(chatDialogEl);
