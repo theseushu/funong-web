@@ -1,7 +1,6 @@
 import React from 'react';
 import _omitBy from 'lodash/omitBy';
 import { reduxForm } from 'redux-form';
-import { push } from 'react-router-redux';
 import success from 'modules/toastr/success';
 
 export default (FORM_NAME, actions, FormComponent) => {
@@ -42,7 +41,6 @@ export default (FORM_NAME, actions, FormComponent) => {
                   title: '创建成功',
                   message: product.name,
                   onHideComplete: () => {
-                    dispatch(push('/me/published'));
                   },
                 });
                 resolve();

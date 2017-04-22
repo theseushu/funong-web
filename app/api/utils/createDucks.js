@@ -2,6 +2,7 @@ import snakeCase from 'snake-case';
 import _get from 'lodash/get';
 import { createSelector } from 'reselect';
 import { takeEvery, call, put } from 'redux-saga/effects';
+const debug = require('debug')('funong-web:api/utils/createDucks');
 
 // names
 export const createNames = ({ apiName, namespace, key = apiName }) => ({
@@ -56,11 +57,8 @@ export const createSaga = ({ apiName, actionConstant, stateActionConstant }, bef
         resolve(result);
       }
     } catch (error) {
-      if (process.env.NODE_ENV !== 'production') {
-        console.log(api);
-        console.log(apiName);
-        console.log(error);
-      }
+      debug(`Error when calling ${apiName}`);
+      debug(error);
       yield put({ type: stateActionConstant, payload: { pending: false, fulfilled: false, rejected: true, error } });
       if (typeof reject === 'function') {
         reject(error);
