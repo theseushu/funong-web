@@ -1,6 +1,6 @@
 /*
  * important! do not deconstruct context. eg:
- * export default ({ { token, profile }, updateContextProfile }) => {
+ * export default ({ { token, profile } }) => {
  * ...
  * }
  * this object is mutable, deconstruction could cause latest value untouchable

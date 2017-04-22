@@ -8,24 +8,24 @@ import { products as shemas } from '../utils/shemas';
 // const debug = require('debug')('app:api:product:methods');
 
 export const create = async (schema, params, context) => {
-  const { token: { sessionToken }, profile } = context;
+  const { token: { sessionToken, currentUserId } } = context;
   const result = await AV.Cloud.rpc('createProduct', { type: schema.type, ...params }, { sessionToken });
   return {
     ...result.toJSON(),
     ...params,
-    owner: profile,
+    owner: { objectId: currentUserId },
   };
 };
 
 export const update = async (schema, params, context) => {
-  const { token: { sessionToken }, profile } = context;
+  const { token: { sessionToken, currentUserId } } = context;
   const { product, ...attrs } = params;
   const result = await AV.Cloud.rpc('updateProduct', { type: schema.type, objectId: product.objectId, ...attrs }, { sessionToken });
   return {
     ...product,
     ...result.toJSON(),
     ...attrs,
-    owner: profile,
+    owner: { objectId: currentUserId },
   };
 };
 

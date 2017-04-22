@@ -7,24 +7,24 @@ import { publishes as shemas } from '../utils/shemas';
 // const debug = require('debug')('app:api:publish:methods');
 
 export const create = async (type, schema, params, context) => {
-  const { token: { sessionToken }, profile } = context;
+  const { token: { sessionToken, currentUserId } } = context;
   const result = await AV.Cloud.rpc('createPublish', { type, ...params }, { sessionToken });
   return {
     ...result.toJSON(),
     ...params,
-    owner: profile,
+    owner: { objectId: currentUserId },
   };
 };
 
 export const update = async (type, schema, params, context) => {
-  const { token: { sessionToken }, profile } = context;
+  const { token: { sessionToken, currentUserId } } = context;
   const { objectId, ...attrs } = params;
   const result = await AV.Cloud.rpc('updatePublish', { type, objectId, ...attrs }, { sessionToken });
   return {
     objectId,
     ...result.toJSON(),
     ...attrs,
-    owner: profile,
+    owner: { objectId: currentUserId },
   };
 };
 

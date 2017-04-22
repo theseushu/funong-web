@@ -50,14 +50,10 @@ export default (req, res) => {
     context.token = newToken;
     saveToCookie(context);
   };
-  const updateContextProfile = (newProfile) => {
-    context.profile = newProfile;
-  };
 
   const logout = () => {
     clearInCookie(res);
     context.token = undefined;
-    context.profile = undefined;
   };
 
   // const productApis = createProductsApis({ context });
@@ -69,9 +65,9 @@ export default (req, res) => {
     ...createAMapApi(),
     requestSmsCode: createRequestSmsCodeApi({}),
     ...createSignupOrLoginApis({ context, updateContextToken }),
-    ...createProfileApis({ context, updateContextProfile }),
+    ...createProfileApis({ context }),
     ...createRoleApis({ context }),
-    ...createFileApi({ context, updateContextProfile }),
+    ...createFileApi({ context }),
     ...createCertApis({ context }),
     ...createProductsApis({ context }),
     ...createPublishesApis({ context }),
