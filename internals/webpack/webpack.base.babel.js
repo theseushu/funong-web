@@ -52,7 +52,15 @@ module.exports = (options) => ({
       loader: 'file-loader',
     }, {
       test: /\.(jpg|png|gif)$/,
-      loaders: 'url-loader?limit=1!img-loader?progressive=true',
+      loaders: [
+        {
+          loader: 'file-loader',
+        },
+        {
+          loader: 'img-loader',
+          options: {},
+        },
+      ],
     }, {
       test: /\.html$/,
       loader: 'html-loader',

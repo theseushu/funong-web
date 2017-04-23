@@ -21,7 +21,7 @@ module.exports = {
   output: {
     path: outputPath,
     filename: 'generated.serverEntry.js',
-    publicPath: '/',
+    publicPath: '/assets/',
     libraryTarget: 'commonjs2',
   },
   module: {
@@ -57,6 +57,10 @@ module.exports = {
           query: {
             emitFile: false,
           },
+        },
+        {
+          loader: 'img-loader',
+          options: {},
         },
       ],
     }],

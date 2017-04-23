@@ -320,7 +320,7 @@
     "json-loader": "0.5.4",
     "lint-staged": "3.2.1",
     "node-plop": "0.5.4",
-    "node-sass": "^4.1.1",
+    "node-sass": "^4.5.2",
     "nodemon": "^1.11.0",
     "npm-run-all": "^4.0.2",
     "null-loader": "0.1.1",
