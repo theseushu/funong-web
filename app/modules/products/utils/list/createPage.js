@@ -21,7 +21,7 @@ export default ({ type, ducks, BriefCard, catalogGroups }) => {
     const { keywords, ...other } = criteria;
     return (
       <Layout
-        helmet={{ title: `富农商城-${productNames[type]}` }}
+        helmet={{ title: `聚农商-${productNames[type]}` }}
         search={{
           label: '搜索',
           onSearch: (nexKeywords) => {

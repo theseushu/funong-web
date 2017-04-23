@@ -20,12 +20,7 @@ const ducks = createDucks({
   },
 });
 
-// shape of ducks
-// {
-//   actions: { changeStatus },
-//   default: { changeStatus: reducer },
-//   selector rootSelector.changeStatus,
-//   sagas,
-// }
-
-module.exports = ducks;
+export default ducks.default;
+export const actions = ducks.actions;
+export const selector = ducks.selector;
+export const sagas = ducks.sagas;

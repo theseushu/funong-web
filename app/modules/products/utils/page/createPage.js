@@ -10,11 +10,11 @@ export default ({ type, actions, EMPTY_PRODUCT, FORM_NAME, FormComponent, Displa
   const Page = ({ product, params: { id }, location: { query }, shop }, { router }) => {
     let title;
     if (id === 'new') {
-      title = `富农商城-发布新${productNames[type]}`;
+      title = `聚农商-发布新${productNames[type]}`;
     } else if (query.edit) {
-      title = `富农商城-更新${productNames[type]}-${product.name}`;
+      title = `聚农商-更新${productNames[type]}-${product.name}`;
     } else {
-      title = `富农商城-${productNames[type]}-${product.name}`;
+      title = `聚农商-${productNames[type]}-${product.name}`;
     }
     return (
       <Layout

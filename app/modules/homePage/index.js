@@ -7,7 +7,7 @@ import Ads from './components/ads';
 const HomePage = () => (
   <div>
     <Helmet
-      title="欢迎来到富农商城"
+      title="欢迎来到聚农商"
       meta={[
         { name: 'welcome', content: 'welcome' },
       ]}

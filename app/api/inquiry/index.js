@@ -11,4 +11,4 @@ if (process.env.ADMIN) {
   modules = { ...modules };
 }
 
-module.exports = combineModules(modules, SLICE_NAME);
+const combined = combineModules(modules, SLICE_NAME); export default combined.default; export const actions = combined.actions; export const selectors = combined.selectors; export const sagas = combined.sagas;

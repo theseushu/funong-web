@@ -68,7 +68,7 @@ const MePage = ({ location: { query }, helmet, user: { type }, header, children,
   })) : sideRoutes(type);
   return (
     <Layout
-      helmet={helmet || { title: '富农商城-个人信息' }}
+      helmet={helmet || { title: '聚农商-个人信息' }}
       sideMenu={allRoutes}
       small={smallContent}
       header={header}

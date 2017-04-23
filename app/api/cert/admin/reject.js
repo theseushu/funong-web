@@ -21,12 +21,8 @@ const ducks = createDucks({
   },
 });
 
-// shape of ducks
-// {
-//   actions: { verify },
-//   default: { verify: reducer },
-//   selector rootSelector.verify,
-//   sagas,
-// }
+export default ducks.default;
+export const actions = ducks.actions;
+export const selector = ducks.selector;
+export const sagas = ducks.sagas;
 
-module.exports = ducks;

@@ -19,7 +19,7 @@ const typeToTabIndex = (type) => types.indexOf(type);
 
 const UserPage = ({ user, pagingState, type, onTabChange }, { router }) => (
   <Layout
-    helmet={{ title: `富农商城-${user.name}` }}
+    helmet={{ title: `聚农商-${user.name}` }}
     smallContent={false}
     onReturn={() => {
       router.goBack();

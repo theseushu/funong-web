@@ -20,4 +20,4 @@ const ducks = createDucks({
 const changeInquiryStatus = ducks.actions.remove;
 ducks.actions.remove = ({ objectId }) => changeInquiryStatus({ objectId, status: statusValues.removed.value });
 
-module.exports = ducks;
+export default ducks.default; export const actions = ducks.actions; export const selector = ducks.selector; export const sagas = ducks.sagas;

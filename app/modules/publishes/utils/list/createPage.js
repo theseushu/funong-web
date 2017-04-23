@@ -23,7 +23,7 @@ export default ({ type, ducks, catalogGroups, disabled, noRecommend }) => {
     const info = publishTypesInfo[type];
     return (
       <Layout
-        helmet={{ title: `富农商城-${info.title}` }}
+        helmet={{ title: `聚农商-${info.title}` }}
         search={{
           label: '搜索',
           onSearch: (nexKeywords) => {

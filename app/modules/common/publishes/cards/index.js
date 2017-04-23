@@ -1,14 +1,14 @@
-import { publishTypes } from 'appConstants';
-import Supply from './supply';
-import SupplyBrief from './supplyBrief';
-import Logistics from './logistics';
-import LogisticsBrief from './logisticsBrief';
-import Trip from './trip';
-import TripBrief from './tripBrief';
-import Product from './product';
-import ProductBrief from './productBrief';
-import FlashSale from './flashSale';
-import FlashSaleBrief from './flashSaleBrief';
+const publishTypes = require('appConstants').publishTypes;
+const Supply = require('./supply').default;
+const SupplyBrief = require('./supplyBrief').default;
+const Logistics = require('./logistics').default;
+const LogisticsBrief = require('./logisticsBrief').default;
+const Trip = require('./trip').default;
+const TripBrief = require('./tripBrief').default;
+const Product = require('./product').default;
+const ProductBrief = require('./productBrief').default;
+const FlashSale = require('./flashSale').default;
+const FlashSaleBrief = require('./flashSaleBrief').default;
 
 
 module.exports = {

@@ -118,7 +118,7 @@ class Info extends Component {
     }
     return (
       <Page
-        location={location} header={<Header />} helmet={{ title: '富农商城-我的店铺' }}
+        location={location} header={<Header />} helmet={{ title: '聚农商-我的店铺' }}
       >
         <div className={classes.content}>
           {content}
