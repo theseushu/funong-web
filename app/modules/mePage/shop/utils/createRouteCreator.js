@@ -1,6 +1,6 @@
-import { routes } from 'appConstants';
+import { routes } from 'funong-common/lib/appConstants';
 import { myShopSelector } from 'modules/data/ducks/selectors';
-import { queryToCriteria, criteriaToApiParams } from 'utils/criteriaUtils';
+import { queryToCriteria, criteriaToApiParams } from 'funong-common/lib/utils/criteriaUtils';
 import { loadAsyncModules } from 'utils/routerUtils';
 import info from 'modules/toastr/info';
 

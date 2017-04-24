@@ -5,7 +5,7 @@ import Checkbox from 'react-mdl/lib/Checkbox';
 import { List, ListItem, ListItemContent, ListItemAction } from 'react-mdl/lib/List';
 import { colors, breakpoints } from 'modules/common/styles';
 import Thumbnail from 'modules/common/publishes/thumbnail';
-import { generateDisplayName } from 'utils/publishUtils';
+import { generateDisplayName } from 'funong-common/lib/utils/publishUtils';
 
 const PublishSelectorList = ({ classes, single, type, entries, selected = [], onSelect }) => (
   <List className={classes.list}>

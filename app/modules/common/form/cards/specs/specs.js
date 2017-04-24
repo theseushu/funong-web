@@ -6,7 +6,7 @@ import IconButton from 'react-mdl/lib/IconButton';
 import { List, ListItem, ListItemContent, ListItemAction } from 'react-mdl/lib/List';
 import Menu, { MenuItem } from 'react-mdl/lib/Menu';
 import FormIconButton from 'modules/common/formElements/iconButton';
-import { formatPrice } from 'utils/displayUtils';
+import { formatPrice } from 'funong-common/lib/utils/displayUtils';
 import { colors } from 'modules/common/styles';
 import moduleStyles from '../../moduleStyles';
 import SpecDialog from './dialog';

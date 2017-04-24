@@ -1,5 +1,5 @@
 import { actions } from 'api/shop';
-import { routes } from 'appConstants';
+import { routes } from 'funong-common/lib/appConstants';
 import { myShopSelector } from 'modules/data/ducks/selectors';
 import createInfoRoute from './info/route';
 import createProductRoute from './product/route';

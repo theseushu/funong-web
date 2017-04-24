@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import { publishTypes } from 'appConstants';
+import { publishTypes } from 'funong-common/lib/appConstants';
 import CardList from './cardList';
 import InquiryList from './inquiryList';
 const debug = require('debug')('funong-web:common:publishes:list');

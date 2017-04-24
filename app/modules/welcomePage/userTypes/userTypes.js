@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import injectSheet from 'react-jss';
 import { List, ListItem, ListItemContent } from 'react-mdl/lib/List';
 import Button from 'react-mdl/lib/Button';
-import { userTypes as types } from 'appConstants';
+import { userTypes as types } from 'funong-common/lib/appConstants';
 
 const userTypes = ({ onClick, pending }) => (
   <List style={{ width: '300px' }}>

@@ -3,7 +3,7 @@ import _omitBy from 'lodash/omitBy';
 import _isUndefined from 'lodash/isUndefined';
 import Textfield from 'react-mdl/lib/Textfield';
 import Button from 'react-mdl/lib/Button';
-import { productTypes } from 'appConstants';
+import { productTypes } from 'funong-common/lib/appConstants';
 import styles from 'modules/common/styles';
 import { SimpleDialog as Dialog } from 'modules/common/dialog';
 import PublishSelector from 'modules/publishSelector';

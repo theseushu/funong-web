@@ -1,6 +1,6 @@
 import AV from 'leancloud-storage';
-import { statusValues } from 'appConstants';
-import { generateKeywords } from 'utils/productUtils';
+import { statusValues } from 'funong-common/lib/appConstants';
+import { generateKeywords } from 'funong-common/lib/utils/publishUtils';
 import { inquiryToJSON } from '../utils/converters';
 const debug = require('debug')('app:api:inquiry');
 

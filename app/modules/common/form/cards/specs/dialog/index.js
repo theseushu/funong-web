@@ -5,8 +5,8 @@ import _without from 'lodash/without';
 import Textfield from 'react-mdl/lib/Textfield';
 import Button from 'react-mdl/lib/Button';
 import { Chip } from 'react-mdl/lib/Chip';
-import { units } from 'appConstants';
-import { isQuantityInvalid, isPriceInvalid } from 'utils/validationUtils';
+import { units } from 'funong-common/lib/appConstants';
+import { isQuantityInvalid, isPriceInvalid } from 'funong-common/lib/utils/validationUtils';
 import { Dialog } from 'modules/common/dialog';
 import styles from 'modules/common/styles';
 

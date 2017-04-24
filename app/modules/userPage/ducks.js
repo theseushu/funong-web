@@ -3,7 +3,7 @@ import _capitalize from 'lodash/capitalize';
 import _reduce from 'lodash/reduce';
 import combineReducers from 'redux/lib/combineReducers';
 import { put } from 'redux-saga/effects';
-import { productTypes } from 'appConstants';
+import { productTypes } from 'funong-common/lib/appConstants';
 import createDucks from 'api/utils/createDucks';
 import { createProductsSelector, inquiriesSelector } from 'modules/data/ducks/selectors';
 import { setProducts, setInquiries } from 'modules/data/ducks/actions';

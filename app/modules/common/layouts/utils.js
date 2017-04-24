@@ -1,4 +1,4 @@
-import { routes, publishTypes, publishTypesInfo, icons } from 'appConstants';
+import { routes, publishTypes, publishTypesInfo, icons } from 'funong-common/lib/appConstants';
 
 const publishTypeToRoute = ({ title, icon, plural }) => ({ title, icon, path: routes[`page_${plural}`] });
 

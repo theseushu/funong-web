@@ -5,7 +5,7 @@ import { put } from 'redux-saga/effects';
 import createDucks from 'api/utils/createDucks';
 import { createPublishesSelector } from 'modules/data/ducks/selectors';
 import { setPublishes } from 'modules/data/ducks/actions';
-import { publishTypes } from 'appConstants';
+import { publishTypes } from 'funong-common/lib/appConstants';
 
 const SLICE_NAME = 'publish_selector';
 

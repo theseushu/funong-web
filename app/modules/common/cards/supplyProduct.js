@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import injectSheet from 'react-jss';
 import Link from 'react-router/lib/Link';
 import { Card, CardActions } from 'react-mdl/lib/Card';
-import { briefAddress, formatPrices, formatParams, humanizeTime } from 'utils/displayUtils';
+import { briefAddress, formatPrices, formatParams, humanizeTime } from 'funong-common/lib/utils/displayUtils';
 import { ImageBadge } from '../badge';
 import styles, { breakpoints, colors } from '../styles';
 

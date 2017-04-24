@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 import Page, { NoResult } from 'modules/common/page';
-import { publishTypesInfo } from 'appConstants';
+import { publishTypesInfo } from 'funong-common/lib/appConstants';
 import DefaultList from '../list';
 
 const PublishPage = ({ type, pending, page, onPageChange, actions, List }) => (

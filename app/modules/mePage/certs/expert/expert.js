@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import injectSheet from 'react-jss';
-import { statusValues } from 'appConstants';
+import { statusValues } from 'funong-common/lib/appConstants';
 import styles from 'modules/common/styles';
 import CertDisplay from 'modules/common/cert/display';
 import moduleStyles from '../styles';

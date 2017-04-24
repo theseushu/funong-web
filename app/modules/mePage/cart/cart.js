@@ -9,7 +9,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { cartItemsSelector } from 'modules/data/ducks/selectors';
 import { actions } from 'api/cart';
-import { isQuantityInvalid } from 'utils/validationUtils';
+import { isQuantityInvalid } from 'funong-common/lib/utils/validationUtils';
 import { actions as pageActions } from './ducks';
 import Header from './header';
 import Group from './group';

@@ -1,12 +1,12 @@
 import React, { PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { statusValues } from 'appConstants';
+import { statusValues } from 'funong-common/lib/appConstants';
 import success from 'modules/toastr/success';
 import ApiButtonWithIcon from 'modules/common/buttons/ApiButtonWithIcon';
 import { actions, selectors } from 'api/order';
-import { stripOrder, commitButtonName } from 'utils/orderUtils';
-const debug = require('debug')('app:modules/mePage/orders/commitButton');
+import { stripOrder, commitButtonName } from 'funong-common/lib/utils/orderUtils';
+const debug = require('debug')('funong-web:modules/mePage/orders/commitButton');
 
 const CommitButton = ({ commit, commitState, order, changed = false, onSuccess }) => (
   <ApiButtonWithIcon

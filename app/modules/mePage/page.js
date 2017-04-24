@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { routes, publishTypes, publishTypesInfo } from 'appConstants';
+import { routes, publishTypes, publishTypesInfo } from 'funong-common/lib/appConstants';
 import { currentUserSelector } from 'modules/data/ducks/selectors';
 import { Layout } from 'modules/common/layouts';
 

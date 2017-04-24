@@ -1,10 +1,10 @@
 import React, { PropTypes } from 'react';
 import injectSheet from 'react-jss';
-import { productTypes } from 'appConstants';
+import { productTypes } from 'funong-common/lib/appConstants';
 import { colors } from 'modules/common/styles';
 import { Avatar } from 'modules/common/user';
 import { Thumbnail as ShopThumbnail } from 'modules/common/shop';
-import { isOwner as isOrderOwner } from 'utils/orderUtils';
+import { isOwner as isOrderOwner } from 'funong-common/lib/utils/orderUtils';
 
 const Owner = ({ user, order, classes }) => {
   const isOwner = isOrderOwner(order, user);

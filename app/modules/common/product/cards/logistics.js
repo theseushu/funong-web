@@ -3,7 +3,7 @@ import injectSheet from 'react-jss';
 import Link from 'react-router/lib/Link';
 import { Card, CardTitle, CardText, CardActions } from 'react-mdl/lib/Card';
 import { colors } from 'modules/common/styles';
-import { generateDisplayName } from 'utils/productUtils';
+import { generateDisplayName } from 'funong-common/lib/utils/publishUtils';
 import Thumbnail from '../thumbnail';
 
 const LogisticsCard = ({ product, className, classes, actions }) => {

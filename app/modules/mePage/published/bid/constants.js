@@ -1,5 +1,5 @@
 import _find from 'lodash/find';
-import { routes } from 'appConstants';
+import { routes } from 'funong-common/lib/appConstants';
 import { setBids } from 'modules/data/ducks/actions';
 import { bidsSelector } from 'modules/data/ducks/selectors';
 

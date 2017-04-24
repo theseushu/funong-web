@@ -5,7 +5,7 @@
 import _reduce from 'lodash/reduce';
 import { combineReducers } from 'redux';
 import { reducer as toastrReducer } from 'react-redux-toastr';
-import { routes } from 'appConstants';
+import { routes } from 'funong-common/lib/appConstants';
 import languageProviderReducer from 'containers/LanguageProvider/reducer';
 import api from 'api/ducks';
 import data from 'modules/data/ducks';

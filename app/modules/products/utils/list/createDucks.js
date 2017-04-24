@@ -4,7 +4,7 @@ import { put } from 'redux-saga/effects';
 import createDucks from 'api/utils/createDucks';
 import { createProductsSelector } from 'modules/data/ducks/selectors';
 import { setProducts } from 'modules/data/ducks/actions';
-import { statusValues } from 'appConstants';
+import { statusValues } from 'funong-common/lib/appConstants';
 
 export default (type) => {
   const SLICE_NAME = `page_${type}_list`;

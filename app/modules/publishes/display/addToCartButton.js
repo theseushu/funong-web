@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import Link from 'react-router/lib/Link';
 import Button from 'react-mdl/lib/Button';
 import success from 'modules/toastr/success';
-import { publishTypesInfo } from 'appConstants';
+import { publishTypesInfo } from 'funong-common/lib/appConstants';
 import { currentUserSelector } from 'modules/data/ducks/selectors';
 import { actions, selectors } from 'api/cart';
 

@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import { districtLevels } from 'appConstants';
+import { districtLevels } from 'funong-common/lib/appConstants';
 import RaisingButton from 'modules/common/raisingButton';
 
 const Types = ({ level, onButtonClick }) => (

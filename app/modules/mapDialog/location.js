@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import injectSheet from 'react-jss';
 import Textfield from 'react-mdl/lib/Textfield';
-import { formatAddress } from 'utils/displayUtils';
+import { formatAddress } from 'funong-common/lib/utils/displayUtils';
 
 const Location = ({ detailsEditable, location, onChange }) => {
   const { address } = location;

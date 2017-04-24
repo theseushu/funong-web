@@ -1,7 +1,7 @@
 import _find from 'lodash/find';
 import { setPublishes } from 'modules/data/ducks/actions';
 import { createPublishesSelector } from 'modules/data/ducks/selectors';
-import { routes, publishTypes, publishTypesInfo } from 'appConstants';
+import { routes, publishTypes, publishTypesInfo } from 'funong-common/lib/appConstants';
 
 const type = publishTypes.flashSale;
 const info = publishTypesInfo[type];

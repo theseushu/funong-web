@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import injectSheet from 'react-jss';
 import { connect } from 'react-redux';
 import { getFormValues, isValid } from 'redux-form';
-import { generateDisplayName } from 'utils/publishUtils';
+import { generateDisplayName } from 'funong-common/lib/utils/publishUtils';
 
 const Keywords = ({ className, classes, type, values, valid }) => valid ? (
   <div className={className ? `${classes.keywords} ${className}` : classes.keywords}>{generateDisplayName(values, type)}</div>

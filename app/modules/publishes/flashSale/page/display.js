@@ -9,7 +9,7 @@ import { Card, CardMenu, CardActions } from 'react-mdl/lib/Card';
 import ShopCard from 'modules/common/shop/card';
 import Share from 'modules/common/share';
 import ChatButton from 'modules/common/user/chatButton';
-import { formatStartAndEndTime, formatDateTime } from 'utils/displayUtils';
+import { formatStartAndEndTime, formatDateTime } from 'funong-common/lib/utils/displayUtils';
 import DescCard from '../../display/descCard';
 import Carousel from '../../display/carousel';
 // import AddToCartButton from '../../display/addToCartButton';

@@ -1,5 +1,5 @@
 import { currentUserSelector } from 'modules/data/ducks/selectors';
-import { queryToCriteria, criteriaToApiParams } from 'utils/criteriaUtils';
+import { queryToCriteria, criteriaToApiParams } from 'funong-common/lib/utils/criteriaUtils';
 import { loadAsyncModules } from 'utils/routerUtils';
 
 export default (path, name, componentPromise, ducksPromise) => ({ store, loadModule, errorLoading }) => ({

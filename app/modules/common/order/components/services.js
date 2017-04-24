@@ -3,8 +3,8 @@ import injectSheet from 'react-jss';
 import _find from 'lodash/find';
 import Checkbox from 'react-mdl/lib/Checkbox';
 import styles, { breakpoints, colors } from 'modules/common/styles';
-import { productTypes, serviceTypes, orderFeeTypes } from 'appConstants';
-import { isOwner as isOrderOwner } from 'utils/orderUtils';
+import { productTypes, serviceTypes, orderFeeTypes } from 'funong-common/lib/appConstants';
+import { isOwner as isOrderOwner } from 'funong-common/lib/utils/orderUtils';
 import { layouts } from '../styles';
 import FeeDialog from './feeDialog';
 

@@ -3,8 +3,8 @@ import injectSheet from 'react-jss';
 import Link from 'react-router/lib/Link';
 import { Card } from 'react-mdl/lib/Card';
 import styles, { breakpoints, colors } from 'modules/common/styles';
-import { generateDisplayName } from 'utils/productUtils';
-import { formatPrices } from 'utils/displayUtils';
+import { generateDisplayName } from 'funong-common/lib/utils/publishUtils';
+import { formatPrices } from 'funong-common/lib/utils/displayUtils';
 import Thumbnail from '../thumbnail';
 
 const ShopProductBriefCard = ({ product, sheet: { classes } }) => {

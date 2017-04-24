@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import _find from 'lodash/find';
 import _without from 'lodash/without';
 import Button from 'react-mdl/lib/Button';
-import { provinces as allProvinces } from 'appConstants';
+import { provinces as allProvinces } from 'funong-common/lib/appConstants';
 import { Dialog } from 'modules/common/dialog';
 
 class ProvincesSelectorDialog extends Component {

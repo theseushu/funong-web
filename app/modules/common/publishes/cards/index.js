@@ -1,4 +1,4 @@
-const publishTypes = require('appConstants').publishTypes;
+const publishTypes = require('funong-common/lib/appConstants').publishTypes;
 const Supply = require('./supply').default;
 const SupplyBrief = require('./supplyBrief').default;
 const Logistics = require('./logistics').default;

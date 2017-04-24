@@ -5,7 +5,7 @@ import { Field } from 'redux-form';
 import { Card, CardTitle, CardText } from 'react-mdl/lib/Card';
 import Switch from 'react-mdl/lib/Switch';
 import injectSheet from 'react-jss';
-import { statusValues } from 'appConstants';
+import { statusValues } from 'funong-common/lib/appConstants';
 import moduleStyles from '../../moduleStyles';
 
 const Available = ({ input: { value, onChange } }) => {

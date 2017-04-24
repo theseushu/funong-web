@@ -1,7 +1,7 @@
 import _map from 'lodash/map';
 import _reduce from 'lodash/reduce';
 import { combineReducers } from 'redux';
-import { productTypes } from 'appConstants';
+import { productTypes } from 'funong-common/lib/appConstants';
 import { SLICE_NAME } from './constants';
 
 import createDucks from './utils/createDucks';

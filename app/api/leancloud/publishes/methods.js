@@ -1,7 +1,7 @@
 import _map from 'lodash/map';
 import _union from 'lodash/union';
 import AV from 'leancloud-storage';
-import { statusValues } from 'appConstants';
+import { statusValues } from 'funong-common/lib/appConstants';
 import { publishToJSON as converter } from '../utils/converters';
 import { publishes as shemas } from '../utils/shemas';
 // const debug = require('debug')('app:api:publish:methods');

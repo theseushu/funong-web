@@ -1,6 +1,6 @@
 import { put } from 'redux-saga/effects';
 import { setCerts } from 'modules/data/ducks/actions';
-import { statusValues } from 'appConstants';
+import { statusValues } from 'funong-common/lib/appConstants';
 import { NAMESPACE } from './constants';
 import createDucks from '../utils/createDucks';
 import rootSelector from './rootSelector';

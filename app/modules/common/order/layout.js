@@ -3,9 +3,9 @@ import _find from 'lodash/find';
 import injectSheet from 'react-jss';
 import { Card, CardTitle, CardMenu, CardActions } from 'react-mdl/lib/Card';
 import IconButton from 'react-mdl/lib/IconButton';
-import { statusValues } from 'appConstants';
+import { statusValues } from 'funong-common/lib/appConstants';
 import styles, { colors } from 'modules/common/styles';
-import { isOwner as isOrderOwner } from 'utils/orderUtils';
+import { isOwner as isOrderOwner } from 'funong-common/lib/utils/orderUtils';
 
 class Layout extends Component {
   static propTypes = {

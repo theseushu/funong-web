@@ -3,7 +3,7 @@ import Link from 'react-router/lib/Link';
 import IconButton from 'react-mdl/lib/IconButton';
 import { CardActions } from 'react-mdl/lib/Card';
 import { Enable as EnableButton, Disable as DisableButton, Remove as RemoveButton } from 'modules/common/product/buttons';
-import { canEnable, canDisable } from 'utils/productUtils';
+import { canEnable, canDisable } from 'funong-common/lib/utils/publishUtils';
 
 const Actions = ({ type, product, actions, editPath, className }) => actions && actions.length > 0 ? (
   <CardActions className={className} border>

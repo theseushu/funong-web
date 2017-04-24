@@ -5,7 +5,7 @@ import { Grid, Cell } from 'react-mdl/lib/Grid';
 import Link from 'react-router/lib/Link';
 import styles, { breakpoints, colors } from 'modules/common/styles';
 import Text from 'modules/common/text';
-import { humanizeTime } from 'utils/displayUtils';
+import { humanizeTime } from 'funong-common/lib/utils/displayUtils';
 
 export const hideName = (name) => {
   if (!name) {

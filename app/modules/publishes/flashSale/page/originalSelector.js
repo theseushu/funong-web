@@ -5,7 +5,7 @@ import injectSheet from 'react-jss';
 import Button from 'react-mdl/lib/Button';
 import { actions } from 'modules/mapDialog/ducks';
 import { myShopSelector } from 'modules/data/ducks/selectors';
-import { publishTypes } from 'appConstants';
+import { publishTypes } from 'funong-common/lib/appConstants';
 import { SimpleDialog } from 'modules/common/dialog';
 import PublishSelector from 'modules/publishSelector';
 import * as Cards from 'modules/common/publishes/cards';

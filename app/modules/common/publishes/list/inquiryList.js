@@ -6,9 +6,9 @@ import IconButton from 'react-mdl/lib/IconButton';
 import { List, ListItem, ListItemContent, ListItemAction } from 'react-mdl/lib/List';
 import { Avatar } from 'modules/common/user';
 import styles, { colors, breakpoints } from 'modules/common/styles';
-import { briefAddress, humanizeTime } from 'utils/displayUtils';
-import { generateDisplayName } from 'utils/publishUtils';
-import { publishTypes, publishTypesInfo } from 'appConstants';
+import { briefAddress, humanizeTime } from 'funong-common/lib/utils/displayUtils';
+import { generateDisplayName } from 'funong-common/lib/utils/publishUtils';
+import { publishTypes, publishTypesInfo } from 'funong-common/lib/appConstants';
 import Actions from '../actions';
 
 const type = publishTypes.inquiry;

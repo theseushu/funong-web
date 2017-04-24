@@ -2,7 +2,7 @@ import _map from 'lodash/map';
 import _union from 'lodash/union';
 import _isUndefined from 'lodash/isUndefined';
 import AV from 'leancloud-storage';
-import { statusValues } from 'appConstants';
+import { statusValues } from 'funong-common/lib/appConstants';
 import { productToJSON as converter } from '../utils/converters';
 import { products as shemas } from '../utils/shemas';
 // const debug = require('debug')('app:api:product:methods');

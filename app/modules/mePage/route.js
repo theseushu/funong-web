@@ -1,4 +1,4 @@
-import { routes } from 'appConstants';
+import { routes } from 'funong-common/lib/appConstants';
 import { loadAsyncModules, requireAuth } from 'utils/routerUtils';
 import createCertsRoute from './certs/route';
 import createPublishedRoute from './published/route';

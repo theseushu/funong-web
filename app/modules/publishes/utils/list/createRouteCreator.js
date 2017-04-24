@@ -1,6 +1,6 @@
 import { actions } from 'api/species';
 import { actions as categoryActions } from 'api/category';
-import { queryToCriteria, criteriaToApiParams } from 'utils/criteriaUtils';
+import { queryToCriteria, criteriaToApiParams } from 'funong-common/lib/utils/criteriaUtils';
 import { loadAsyncModules } from 'utils/routerUtils';
 
 const fetchSpecies = actions.fetchSpecies;

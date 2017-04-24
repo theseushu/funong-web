@@ -1,11 +1,11 @@
 import { connect } from 'react-redux';
 import React, { PropTypes } from 'react';
 import injectSheet from 'react-jss';
-import { productNames } from 'appConstants';
+import { productNames } from 'funong-common/lib/appConstants';
 import { Layout } from 'modules/common/layouts';
 import { MainRight as ContentMainRight } from 'modules/common/layout/content';
 import { breakpoints } from 'modules/common/styles';
-import { queryToCriteria } from 'utils/criteriaUtils';
+import { queryToCriteria } from 'funong-common/lib/utils/criteriaUtils';
 import LoadingDiv from 'modules/common/glossary/loadingDiv';
 import NoResult from 'modules/common/glossary/noResult';
 import { Page as ProductsPage } from 'modules/common/product';

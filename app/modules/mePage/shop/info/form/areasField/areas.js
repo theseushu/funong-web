@@ -2,8 +2,8 @@ import React, { Component, PropTypes } from 'react';
 import injectSheet from 'react-jss';
 import IconButton from 'react-mdl/lib/IconButton';
 import styles, { colors, shadows } from 'modules/common/styles';
-import { formatDeliveryFee, formatArea } from 'utils/displayUtils';
-import { districtLevels } from 'appConstants';
+import { formatDeliveryFee, formatArea } from 'funong-common/lib/utils/displayUtils';
+import { districtLevels } from 'funong-common/lib/appConstants';
 import AreaEditorDialog from './areaEditorDialog';
 
 class Areas extends Component {

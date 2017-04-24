@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 import injectSheet from 'react-jss';
-import { formatProvinces, formatAddress, formatTime } from 'utils/displayUtils';
+import { formatProvinces, formatAddress, formatTime } from 'funong-common/lib/utils/displayUtils';
 import styles from 'modules/common/styles';
 import { Label as CategoryLabel } from 'modules/common/categories';
 import { Label as SpeciesLabel } from 'modules/common/species';

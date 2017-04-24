@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import Button from 'react-mdl/lib/Button';
 import Menu, { MenuItem } from 'react-mdl/lib/Menu';
 import injectSheet from 'react-jss';
-import { userTypes } from 'appConstants';
+import { userTypes } from 'funong-common/lib/appConstants';
 import { colors } from 'modules/common/styles';
 import Line from '../line';
 

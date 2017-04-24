@@ -5,7 +5,7 @@ import { Card, CardTitle } from 'react-mdl/lib/Card';
 import Icon from 'react-mdl/lib/Icon';
 import { Tabs, Tab } from 'react-mdl/lib/Tabs';
 import styles, { breakpoints } from 'modules/common/styles';
-import { statusValues, certTypes } from 'appConstants';
+import { statusValues, certTypes } from 'funong-common/lib/appConstants';
 import Header from '../header';
 import Page from '../page';
 import Personal from './personal';

@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect';
 import _find from 'lodash/find';
 import { denormalize } from 'denormalizr';
-import { publishTypesInfo } from 'appConstants';
+import { publishTypesInfo } from 'funong-common/lib/appConstants';
 
 import { SpeciesArraySchema, CertsSchema, ProductSchemas, ShopProductsSchema,
   LogisticsProductsSchema, TripProductsSchema, CartItemsSchema,

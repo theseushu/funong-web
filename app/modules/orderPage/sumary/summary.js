@@ -2,10 +2,10 @@ import React, { PropTypes } from 'react';
 import _filter from 'lodash/filter';
 import _reduce from 'lodash/reduce';
 import injectSheet from 'react-jss';
-import { statusValues } from 'appConstants';
+import { statusValues } from 'funong-common/lib/appConstants';
 import Button from 'modules/common/buttons/ApiButtonWithIcon';
 import styles from 'modules/common/styles';
-import { calculateOrder } from 'utils/orderUtils';
+import { calculateOrder } from 'funong-common/lib/utils/orderUtils';
 
 const Summary = (props) => {
   const { user, address, createOrders, pending, classes } = props;

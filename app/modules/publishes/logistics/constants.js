@@ -1,4 +1,4 @@
-import { routes, statusValues, publishTypesInfo, publishTypes } from 'appConstants';
+import { routes, statusValues, publishTypesInfo, publishTypes } from 'funong-common/lib/appConstants';
 import { actions as publishesActions } from 'api/publishes/ducks';
 
 const type = publishTypes.logistics;

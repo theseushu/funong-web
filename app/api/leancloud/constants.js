@@ -1,4 +1,4 @@
-import { productTypes } from 'appConstants';
+import { productTypes } from 'funong-common/lib/appConstants';
 
 export const productTables = {
   [productTypes.supply]: 'SupplyProduct',

@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 import injectSheet from 'react-jss';
-import { formatPrice } from 'utils/displayUtils';
+import { formatPrice } from 'funong-common/lib/utils/displayUtils';
 import { colors, breakpoints } from 'modules/common/styles';
 import { Thumbnail } from 'modules/common/product';
 import { layouts } from '../styles';

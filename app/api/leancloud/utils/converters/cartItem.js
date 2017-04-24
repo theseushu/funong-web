@@ -1,7 +1,7 @@
 import _omitBy from 'lodash/omitBy';
 import _isUndefined from 'lodash/isUndefined';
 import _find from 'lodash/find';
-import { productTypes } from 'appConstants';
+import { productTypes } from 'funong-common/lib/appConstants';
 import productToJSON from './product';
 import { products as schemas } from '../shemas';
 

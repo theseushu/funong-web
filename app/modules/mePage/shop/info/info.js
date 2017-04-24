@@ -7,8 +7,7 @@ import Icon from 'react-mdl/lib/Icon';
 import IconButton from 'react-mdl/lib/IconButton';
 import Tooltip from 'react-mdl/lib/Tooltip';
 import styles, { breakpoints } from 'modules/common/styles';
-import { createShopAuthorized } from 'utils/authUtils';
-import { createBadgesForUser } from 'utils/displayUtils';
+import { createShopAuthorized } from 'funong-common/lib/utils/authUtils';
 import Page from '../../page';
 import Header from '../header';
 import Editing from './editing';
@@ -43,12 +42,11 @@ UnauthorizedComponent.propTypes = {
 };
 const Unauthorized = injectSheet(style)(UnauthorizedComponent);
 
-const CreateButtonComponent = injectSheet(style)(({ user, classes, onClick }) => (
+const CreateButtonComponent = injectSheet(style)(({ classes, onClick }) => (
   <Card shadow={2} style={{ width: '100%', margin: 'auto' }}>
     <CardTitle>
       <h2 className="mdl-card__title-text">微店</h2>
       <h2 className="mdl-card__title-text"><small>您已通过富农认证，欢迎创建微店</small></h2>
-      {createBadgesForUser(user)}
     </CardTitle>
     <CardMedia className={styles.contentCenter} style={{ background: 'none' }}>
       <div className={classes.media}>

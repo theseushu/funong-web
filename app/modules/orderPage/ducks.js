@@ -1,4 +1,4 @@
-import { createOrdersFromCartItems } from 'utils/orderUtils';
+import { createOrdersFromCartItems } from 'funong-common/lib/utils/orderUtils';
 const SET_CART_ITEMS = 'order_page/set_cart_items';
 const SELECT_ADDRESS = 'order_page/select_address';
 const CREATE_ORDERS = 'order_page/create_orders';

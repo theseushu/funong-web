@@ -3,7 +3,7 @@ import Cropper from 'cropperjs';
 import 'cropperjs/dist/cropper.css';
 import injectSheet from 'react-jss';
 import { SimpleDialog } from 'modules/common/dialog';
-import { getRoundedScaledCanvas } from 'utils/canvasUtils';
+import { getRoundedScaledCanvas } from 'funong-common/lib/utils/canvasUtils';
 import { breakpoints } from 'modules/common/styles';
 
 

@@ -1,4 +1,4 @@
-import { catalogs, statusValues, productTypes } from 'appConstants';
+import { catalogs, statusValues, productTypes } from 'funong-common/lib/appConstants';
 import { actions as productActions } from 'api/products/ducks';
 
 const type = productTypes.logistics;
@@ -57,4 +57,4 @@ export const TEST_PRODUCT = {
   status: statusValues.unavailable.value,
 };
 
-export { logisticsLabels as labels } from 'appConstants';
+export { logisticsLabels as labels } from 'funong-common/lib/appConstants';

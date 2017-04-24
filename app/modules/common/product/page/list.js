@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 import injectSheet from 'react-jss';
-import { productTypes } from 'appConstants';
+import { productTypes } from 'funong-common/lib/appConstants';
 import { breakpoints } from 'modules/common/styles';
 import SupplyCard from '../cards/supply';
 import LogisticsCard from '../cards/logistics';

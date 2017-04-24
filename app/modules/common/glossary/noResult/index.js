@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import { productTypes } from 'appConstants';
+import { productTypes } from 'funong-common/lib/appConstants';
 import NoResult from './noResult';
 
 export default () => <NoResult icon="sentiment_dissatisfied" title="没有结果，请更换查询条件" />;

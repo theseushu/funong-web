@@ -1,4 +1,4 @@
-import { routes } from 'appConstants';
+import { routes } from 'funong-common/lib/appConstants';
 import { loadAsyncModules } from 'utils/routerUtils';
 
 

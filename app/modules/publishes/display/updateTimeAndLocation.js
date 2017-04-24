@@ -2,8 +2,8 @@ import React, { PropTypes } from 'react';
 import injectSheet from 'react-jss';
 import { Grid, Cell } from 'react-mdl/lib/Grid';
 import { breakpoints, colors } from 'modules/common/styles';
-import { humanizeTime, formatAddress, humanizeDistance } from 'utils/displayUtils';
-import { distance } from 'utils/mapUtils';
+import { humanizeTime, formatAddress, humanizeDistance } from 'funong-common/lib/utils/displayUtils';
+import { distance } from 'funong-common/lib/utils/mapUtils';
 
 const UpdateTimeAndLocation = ({ locationTile, location, currentLocation, updatedAt, classes }) => (
   <Grid noSpacing className={classes.wrapper}>

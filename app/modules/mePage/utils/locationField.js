@@ -5,7 +5,7 @@ import injectSheet from 'react-jss';
 import { actions } from 'modules/mapDialog/ducks';
 import styles, { colors } from 'modules/common/styles';
 import ButtonWithIcon from 'modules/common/buttons/ButtonWithIcon';
-import { locationThumbnail } from 'utils/mapUtils';
+import { locationThumbnail } from 'funong-common/lib/utils/mapUtils';
 
 const generateThumbnailDiv = (lnglat, className) => {
   const { url, thumbnail } = locationThumbnail(lnglat);

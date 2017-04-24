@@ -4,7 +4,7 @@ import { put } from 'redux-saga/effects';
 import createDucks from 'api/utils/createDucks';
 import { createPublishesSelector } from 'modules/data/ducks/selectors';
 import { setPublishes } from 'modules/data/ducks/actions';
-import { statusValues, publishTypesInfo } from 'appConstants';
+import { statusValues, publishTypesInfo } from 'funong-common/lib/appConstants';
 
 export default (type) => {
   const SLICE_NAME = `page_${publishTypesInfo[type].plural}`;

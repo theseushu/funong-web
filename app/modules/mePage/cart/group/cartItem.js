@@ -6,7 +6,7 @@ import Button from 'react-mdl/lib/Button';
 import Menu, { MenuItem } from 'react-mdl/lib/Menu';
 import Textfield from 'react-mdl/lib/Textfield';
 import LabelWithBorder from 'modules/common/label/labelWithBorder';
-import { formatPrice } from 'utils/displayUtils';
+import { formatPrice } from 'funong-common/lib/utils/displayUtils';
 import { breakpoints, shadows, colors } from 'modules/common/styles';
 import { Thumbnail } from 'modules/common/product';
 import layout from '../layout';

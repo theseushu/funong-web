@@ -1,6 +1,6 @@
 import _reduce from 'lodash/reduce';
 import { Schema, arrayOf } from 'normalizr';
-import { publishTypesInfo } from 'appConstants';
+import { publishTypesInfo } from 'funong-common/lib/appConstants';
 
 export const UserSchema = new Schema('users', {
   idAttribute: 'objectId',

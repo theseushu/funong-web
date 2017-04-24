@@ -1,4 +1,4 @@
-import { routes } from 'appConstants';
+import { routes } from 'funong-common/lib/appConstants';
 import { requireForm, loadAsyncModules } from 'utils/routerUtils';
 
 export default ({ store, loadModule, errorLoading }) => ({

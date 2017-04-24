@@ -3,7 +3,7 @@ import injectSheet from 'react-jss';
 import styles from 'modules/common/styles';
 import CertDisplay from 'modules/common/cert/display';
 import FilesUpload from 'modules/common/filesUpload';
-import { statusValues } from 'appConstants';
+import { statusValues } from 'funong-common/lib/appConstants';
 import moduleStyles from '../styles';
 import createForm from './createForm';
 import image1 from '../assets/img1.png';

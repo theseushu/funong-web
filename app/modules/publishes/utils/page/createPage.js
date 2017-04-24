@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import React, { PropTypes } from 'react';
 import { Layout } from 'modules/common/layouts';
-import { publishTypesInfo } from 'appConstants';
+import { publishTypesInfo } from 'funong-common/lib/appConstants';
 import { createPublishSelector, myShopSelector } from 'modules/data/ducks/selectors';
 import createForm from './createForm';
 

@@ -4,11 +4,11 @@ import { ListItem, ListItemContent, ListItemAction } from 'react-mdl/lib/List';
 import IconButton from 'react-mdl/lib/IconButton';
 import Menu from 'react-mdl/lib/Menu';
 import { Grid, Cell } from 'react-mdl/lib/Grid';
-import { productTypes } from 'appConstants';
+import { productTypes } from 'funong-common/lib/appConstants';
 import styles, { breakpoints } from 'modules/common/styles';
 import { Thumbnail } from 'modules/common/product';
 import Text from 'modules/common/text';
-import { humanizeTime } from 'utils/displayUtils';
+import { humanizeTime } from 'funong-common/lib/utils/displayUtils';
 import EditButton from '../editButton';
 import WithdrawButton from '../withdrawButton';
 

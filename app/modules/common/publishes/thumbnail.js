@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import { publishTypesInfo } from 'appConstants';
+import { publishTypesInfo } from 'funong-common/lib/appConstants';
 import Thumbnail from 'modules/common/thumbnail';
 
 const ProductThumbnail = ({ type, thumbnail, className, onClick }) => {

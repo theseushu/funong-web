@@ -1,4 +1,4 @@
-import { catalogs, statusValues, productTypes } from 'appConstants';
+import { catalogs, statusValues, productTypes } from 'funong-common/lib/appConstants';
 import { actions as productActions } from 'api/products/ducks';
 
 const type = productTypes.trip;
@@ -39,4 +39,4 @@ export const EMPTY_PRODUCT = {
 
 export const TEST_PRODUCT = EMPTY_PRODUCT;
 
-export { tripLabels as labels } from 'appConstants';
+export { tripLabels as labels } from 'funong-common/lib/appConstants';

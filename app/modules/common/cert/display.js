@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 import injectSheet from 'react-jss';
-import { certTypes } from 'appConstants';
+import { certTypes } from 'funong-common/lib/appConstants';
 import FilesUpload from 'modules/common/filesUpload';
 
 const Cert = ({ cert, classes }) => {

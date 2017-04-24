@@ -1,4 +1,4 @@
-import { routes, catalogs, publishTypesInfo, publishTypes } from 'appConstants';
+import { routes, catalogs, publishTypesInfo, publishTypes } from 'funong-common/lib/appConstants';
 import { actions as publishesActions } from 'api/publishes/ducks';
 import addDays from 'date-fns/add_days';
 import startOfDay from 'date-fns/start_of_day';

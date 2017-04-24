@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import injectSheet from 'react-jss';
 import Link from 'react-router/lib/Link';
 import LabelWithBorder from 'modules/common/label/labelWithBorder';
-import { provinces } from 'appConstants';
+import { provinces } from 'funong-common/lib/appConstants';
 import moduleStyles from '../styles';
 
 const CriteriaProvinces = ({ classes, selected, onSelect, onClear }) => (

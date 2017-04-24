@@ -1,6 +1,6 @@
 import _reduce from 'lodash/reduce';
 import AV from 'leancloud-storage';
-import { publishTypes } from 'appConstants';
+import { publishTypes } from 'funong-common/lib/appConstants';
 import { attributes as attrConverters } from '../converters/publish';
 const debug = require('debug')('funongweb:api:leancloud:utils:schema:publishes');
 

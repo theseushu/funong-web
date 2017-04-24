@@ -5,7 +5,7 @@ import Button from 'react-mdl/lib/Button';
 import { List, ListItem, ListItemContent, ListItemAction } from 'react-mdl/lib/List';
 import { Avatar } from 'modules/common/user';
 import styles, { colors, breakpoints } from 'modules/common/styles';
-import { briefAddress, humanizeTime } from 'utils/displayUtils';
+import { briefAddress, humanizeTime } from 'funong-common/lib/utils/displayUtils';
 
 const InquiryList = ({ hideUser = false, classes, inquiries, actions }) => (
   <List className={hideUser ? `${classes.listWithoutAvatar} ${classes.list}` : classes.list}>

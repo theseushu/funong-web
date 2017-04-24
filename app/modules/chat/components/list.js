@@ -7,7 +7,7 @@ import { currentUserSelector } from 'modules/data/ducks/selectors';
 import { colors } from 'modules/common/styles';
 import Avatar from 'modules/common/user/avatar';
 import LoadingDiv from 'modules/common/glossary/loadingDiv';
-import { humanizeTime } from 'utils/displayUtils';
+import { humanizeTime } from 'funong-common/lib/utils/displayUtils';
 import { messageTypes } from '../constants';
 import { actions as dataActions, selectors as dataSelectors } from '../ducks/data';
 import { actions as conversationActions, selectors as conversationSelectors } from '../ducks/conversation';

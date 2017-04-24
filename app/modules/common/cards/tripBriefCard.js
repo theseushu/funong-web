@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import injectSheet from 'react-jss';
 import Link from 'react-router/lib/Link';
-import { formatPrices } from 'utils/displayUtils';
+import { formatPrices } from 'funong-common/lib/utils/displayUtils';
 import Card from '../cards/card';
 
 const formatPrice = (specs) => formatPrices(specs);

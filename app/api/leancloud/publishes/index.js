@@ -1,5 +1,5 @@
 import _reduce from 'lodash/reduce';
-import { publishTypes } from 'appConstants';
+import { publishTypes } from 'funong-common/lib/appConstants';
 import createMethods from './methods';
 
 export default ({ context }) => ({

@@ -1,8 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import injectSheet from 'react-jss';
 import styles, { breakpoints, colors } from 'modules/common/styles';
-import { orderFeeTypes } from 'appConstants';
-import { isOwner as isOrderOwner, calculateProductAmount } from 'utils/orderUtils';
+import { orderFeeTypes } from 'funong-common/lib/appConstants';
+import { isOwner as isOrderOwner, calculateProductAmount } from 'funong-common/lib/utils/orderUtils';
 import { layouts } from '../styles';
 import FeeDialog from './feeDialog';
 

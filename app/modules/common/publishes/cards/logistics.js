@@ -3,8 +3,8 @@ import injectSheet from 'react-jss';
 import Link from 'react-router/lib/Link';
 import { Card, CardTitle, CardText, CardActions } from 'react-mdl/lib/Card';
 import { colors } from 'modules/common/styles';
-import { publishTypesInfo, publishTypes } from 'appConstants';
-import { generateDisplayName } from 'utils/publishUtils';
+import { publishTypesInfo, publishTypes } from 'funong-common/lib/appConstants';
+import { generateDisplayName } from 'funong-common/lib/utils/publishUtils';
 import Thumbnail from '../thumbnail';
 import Actions from '../actions';
 

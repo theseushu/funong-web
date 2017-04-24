@@ -1,6 +1,6 @@
 import _reduce from 'lodash/reduce';
 import AV from 'leancloud-storage';
-import { productTypes } from 'appConstants';
+import { productTypes } from 'funong-common/lib/appConstants';
 import { productTables } from '../../constants';
 import { attributes as attrConverters } from '../converters/product';
 

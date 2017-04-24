@@ -4,7 +4,7 @@ import _filter from 'lodash/filter';
 import _find from 'lodash/find';
 import injectSheet from 'react-jss';
 import { Grid, Cell } from 'react-mdl/lib/Grid';
-import { serviceTypes } from 'appConstants';
+import { serviceTypes } from 'funong-common/lib/appConstants';
 import { colors } from 'modules/common/styles';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';

@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import { icons, productNames } from 'appConstants';
+import { icons, productNames } from 'funong-common/lib/appConstants';
 import Page, { NoResult } from 'modules/common/page';
 import List from './list';
 

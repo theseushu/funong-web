@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import _isEuqal from 'lodash/isEqual';
 import Button from 'react-mdl/lib/Button';
-import { calculateOrder } from 'utils/orderUtils';
+import { calculateOrder } from 'funong-common/lib/utils/orderUtils';
 import Order from 'modules/common/order';
 import CommitButton from './commitButton';
 

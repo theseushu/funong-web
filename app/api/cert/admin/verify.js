@@ -2,7 +2,7 @@ import _find from 'lodash/find';
 import { put, select } from 'redux-saga/effects';
 import { setCerts } from 'modules/data/ducks/actions';
 import { certsSelector } from 'modules/data/ducks/selectors';
-import { statusValues } from 'appConstants';
+import { statusValues } from 'funong-common/lib/appConstants';
 import { NAMESPACE } from '../constants';
 import createDucks from '../../utils/createCompositeDucks';
 import rootSelector from '../rootSelector';

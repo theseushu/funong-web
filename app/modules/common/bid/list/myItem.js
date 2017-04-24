@@ -8,7 +8,7 @@ import { Grid, Cell } from 'react-mdl/lib/Grid';
 import styles, { breakpoints } from 'modules/common/styles';
 import { Avatar } from 'modules/common/user';
 import Text from 'modules/common/text';
-import { humanizeTime } from 'utils/displayUtils';
+import { humanizeTime } from 'funong-common/lib/utils/displayUtils';
 import EditButton from '../editButton';
 import WithdrawButton from '../withdrawButton';
 

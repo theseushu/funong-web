@@ -1,4 +1,4 @@
-import { routes } from 'appConstants';
+import { routes } from 'funong-common/lib/appConstants';
 import { requireAuth, loadAsyncModules } from 'utils/routerUtils';
 import { actions } from 'api/cart';
 

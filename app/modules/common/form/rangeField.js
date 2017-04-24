@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Field } from 'redux-form';
 import injectSheet from 'react-jss';
-import { formatProvinces } from 'utils/displayUtils';
+import { formatProvinces } from 'funong-common/lib/utils/displayUtils';
 import { actions } from 'modules/mapDialog/ducks';
 import styles, { colors } from 'modules/common/styles';
 import ProvincesSelectorDialog from 'modules/common/location/provincesSelectorDialog';

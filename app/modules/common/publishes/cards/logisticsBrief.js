@@ -2,8 +2,8 @@ import React, { PropTypes } from 'react';
 import injectSheet from 'react-jss';
 import Link from 'react-router/lib/Link';
 import { Card } from 'react-mdl/lib/Card';
-import { publishTypesInfo, publishTypes } from 'appConstants';
-import { generateDisplayName } from 'utils/publishUtils';
+import { publishTypesInfo, publishTypes } from 'funong-common/lib/appConstants';
+import { generateDisplayName } from 'funong-common/lib/utils/publishUtils';
 import styles, { breakpoints, colors } from 'modules/common/styles';
 import Thumbnail from '../thumbnail';
 

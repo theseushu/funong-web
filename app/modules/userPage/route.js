@@ -1,6 +1,6 @@
 import _find from 'lodash/find';
 import { error, loadAsyncModules } from 'utils/routerUtils';
-import { routes, productTypes } from 'appConstants';
+import { routes, productTypes } from 'funong-common/lib/appConstants';
 import { actions } from 'api/profile';
 import { usersSelector } from 'modules/data/ducks/selectors';
 import tabTypes from './tabTypes';

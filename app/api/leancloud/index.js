@@ -27,7 +27,7 @@ const debug = require('debug')('app:api'); // eslint-disable-line no-unused-vars
 const APP_ID = 'ouy08OrFpGAJNxS1T69ceUH7-gzGzoHsz';
 const APP_KEY = 'JNUXol0O66lg5H24kxcmcnOt';
 
-// AV._config.APIServerURL = 'http://localhost:8080'; // eslint-disable-line
+AV._config.APIServerURL = 'http://localhost:8080'; // eslint-disable-line
 AV._config.disableCurrentUser = true; // eslint-disable-line
 AV.init({
   appId: APP_ID,

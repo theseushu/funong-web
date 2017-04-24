@@ -1,6 +1,6 @@
 import { reduxForm, SubmissionError } from 'redux-form';
 import { connect } from 'react-redux';
-import { certTypes } from 'appConstants';
+import { certTypes } from 'funong-common/lib/appConstants';
 import { actions } from 'api/cert';
 import personalCertForm from './form';
 import { personal } from '../selectors';

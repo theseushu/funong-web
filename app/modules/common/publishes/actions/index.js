@@ -1,8 +1,8 @@
 import React, { PropTypes } from 'react';
 import Link from 'react-router/lib/Link';
 import IconButton from 'react-mdl/lib/IconButton';
-import { canEnable, canDisable } from 'utils/publishUtils';
-import { publishTypesInfo } from 'appConstants';
+import { canEnable, canDisable } from 'funong-common/lib/utils/publishUtils';
+import { publishTypesInfo } from 'funong-common/lib/appConstants';
 import { Enable as EnableButton, Disable as DisableButton, Remove as RemoveButton } from '../buttons';
 
 const Actions = ({ type, publish, actions, className }) => actions && actions.length > 0 ? (

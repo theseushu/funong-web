@@ -1,5 +1,5 @@
 import _findIndex from 'lodash/findIndex';
-import { routes } from 'appConstants';
+import { routes } from 'funong-common/lib/appConstants';
 import { requireAuth, loadAsyncModules } from 'utils/routerUtils';
 import { currentUserSelector } from 'modules/data/ducks/selectors';
 
