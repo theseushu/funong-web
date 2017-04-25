@@ -4,8 +4,6 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { currentUserSelector } from 'modules/data/ducks/selectors';
 import { Page } from 'modules/common/bid';
-import styles from 'modules/common/styles';
-import LoadingDiv from 'modules/common/glossary/loadingDiv';
 import { actions, selectors } from '../ducks';
 
 const pageSize = 10;
@@ -33,16 +31,10 @@ class Bids extends Component {
       return null;
     }
     return (
-      <LoadingDiv pending={pending} className={styles.mt24}>
-        {
-          result && (
-            <div>
-              <h6>我的报价</h6>
-              <Page page={result} hideUser actions={['edit', 'withdraw']} onPageChange={(page) => this.search(page)} onWithdrawn={onWithdrawn} />
-            </div>
-          )
-        }
-      </LoadingDiv>
+      <div>
+        <h6>我的报价</h6>
+        <Page pending={pending} page={result} hideUser actions={['edit', 'withdraw']} onPageChange={(page) => this.search(page)} onWithdrawn={onWithdrawn} />
+      </div>
     );
   }
 }

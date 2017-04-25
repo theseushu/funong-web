@@ -3,11 +3,11 @@ import _omitBy from 'lodash/omitBy';
 import _isUndefined from 'lodash/isUndefined';
 import Textfield from 'react-mdl/lib/Textfield';
 import Button from 'react-mdl/lib/Button';
-import { productTypes } from 'funong-common/lib/appConstants';
+import { publishTypes } from 'funong-common/lib/appConstants';
 import styles from 'modules/common/styles';
 import { SimpleDialog as Dialog } from 'modules/common/dialog';
 import PublishSelector from 'modules/publishSelector';
-import { InlineThumbnail } from 'modules/common/product';
+import InlineThumbnail from 'modules/common/publishes/inlineThumbnail';
 
 class BidDialog extends Component {
   static propTypes = {
@@ -91,15 +91,15 @@ class BidDialog extends Component {
             />
             <div>
               <Button colored onClick={() => this.setState({ showProduct: !showProduct })}>
-                {!this.state.showProduct && !product && '推荐我的产品'}
-                {!this.state.showProduct && product && '推荐其它产品'}
-                {this.state.showProduct && '收起列表'}
+                {!showProduct && !product && '推荐我的产品'}
+                {!showProduct && product && '推荐其它产品'}
+                {showProduct && '收起列表'}
               </Button>
-              { product && <span><InlineThumbnail type={productTypes.supply} thumbnail={product.thumbnail} />{product.name}</span>}
+              { product && <span><InlineThumbnail type={publishTypes.supply} thumbnail={product.thumbnail} />{product.name}</span>}
             </div>
-            <div style={{ display: showProduct ? 'block' : 'none' }}>
+            { showProduct && (
               <PublishSelector
-                type={productTypes.supply}
+                type={publishTypes.supply}
                 query={_omitBy({ owner: user, species: species && [species] }, _isUndefined)}
                 selected={product ? [product] : undefined}
                 onSelect={(products) => {
@@ -107,7 +107,7 @@ class BidDialog extends Component {
                   this.setState({ product: p, showProduct: !p });
                 }}
               />
-            </div>
+              )}
           </div>
         }
         submit={{

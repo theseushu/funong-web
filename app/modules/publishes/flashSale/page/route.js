@@ -6,6 +6,6 @@ export default createRouteCreator(
   pageRoute.name,
   actions,
   System.import('./index'),
-  System.import('./ducks'),
+  null,
   shop,
 );

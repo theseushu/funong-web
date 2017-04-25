@@ -4,9 +4,10 @@ import { put } from 'redux-saga/effects';
 import createDucks from 'api/utils/createDucks';
 import { bidsSelector } from 'modules/data/ducks/selectors';
 import { setBids } from 'modules/data/ducks/actions';
+import getSliceName from '../../utils/page/getSliceName';
 import type from '../constants';
 
-const SLICE_NAME = `page_${type}_product`;
+const SLICE_NAME = getSliceName(type);
 
 const rootSelector = (state) => state[SLICE_NAME];
 
