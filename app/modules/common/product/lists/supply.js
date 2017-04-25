@@ -4,7 +4,7 @@ import injectSheet from 'react-jss';
 import Link from 'react-router/lib/Link';
 import Checkbox from 'react-mdl/lib/Checkbox';
 import { List, ListItem, ListItemContent, ListItemAction } from 'react-mdl/lib/List';
-import { productTypes } from 'funong-common/lib/appConstants';
+import { publishTypes } from 'funong-common/lib/appConstants';
 import styles, { colors, breakpoints } from 'modules/common/styles';
 import { formatPrices, formatParams, humanizeTime } from 'funong-common/lib/utils/displayUtils';
 import Thumbnail from '../thumbnail';
@@ -16,7 +16,7 @@ const SupplyList = ({ classes, products, selected = [], onSelect }) => (
       return (
         <ListItem threeLine key={i}>
           <ListItemContent
-            avatar={<div><Thumbnail type={productTypes.supply} thumbnail={product.thumbnail} /></div>}
+            avatar={<div><Thumbnail type={publishTypes.supply} thumbnail={product.thumbnail} /></div>}
             subtitle={
               <div className={classes.subTitle}>
                 <span>{formatParams(product.specs)}</span>

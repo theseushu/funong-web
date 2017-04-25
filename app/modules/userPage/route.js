@@ -1,6 +1,6 @@
 import _find from 'lodash/find';
 import { error, loadAsyncModules } from 'utils/routerUtils';
-import { routes, productTypes } from 'funong-common/lib/appConstants';
+import { routes, publishTypes } from 'funong-common/lib/appConstants';
 import { actions } from 'api/profile';
 import { usersSelector } from 'modules/data/ducks/selectors';
 import tabTypes from './tabTypes';
@@ -42,9 +42,9 @@ export default ({ store, loadModule, errorLoading }) => ({
       const user = _find(usersSelector(store.getState()), (u) => u.objectId === id);
       const type = pageState.type;
       switch (type) {
-        case productTypes.supply:
-        case productTypes.logistics:
-        case productTypes.trip: {
+        case publishTypes.supply:
+        case publishTypes.logistics:
+        case publishTypes.trip: {
           const pageProduct = ducks.actions.pageProducts;
           const pagingStateSelector = ducks.selectors.createPageProductsSelector(type);
           const pagingState = pagingStateSelector(store.getState());

@@ -1,4 +1,4 @@
-import { routes, publishTypes, publishTypesInfo, icons } from 'funong-common/lib/appConstants';
+import { routes, publishTypes, publishTypesInfo } from 'funong-common/lib/appConstants';
 
 const publishTypeToRoute = ({ title, icon, plural }) => ({ title, icon, path: routes[`page_${plural}`] });
 
@@ -6,8 +6,8 @@ const mainRoutes = {
   supply: publishTypeToRoute(publishTypesInfo[publishTypes.supply]),
   inquiry: publishTypeToRoute(publishTypesInfo[publishTypes.inquiry]),
   trip: publishTypeToRoute(publishTypesInfo[publishTypes.trip]),
-  meFarm: { title: '我的富农', icon: icons.me, path: `${routes.page_me}?farm=true` },
-  me: { title: '我的富农', icon: icons.me, path: routes.page_me },
+  meFarm: { title: '我的富农', icon: 'person', path: `${routes.page_me}?farm=true` },
+  me: { title: '我的富农', icon: 'person', path: routes.page_me },
   logistics: publishTypeToRoute(publishTypesInfo[publishTypes.logistics]),
   product: publishTypeToRoute(publishTypesInfo[publishTypes.product]),
   flashSale: publishTypeToRoute(publishTypesInfo[publishTypes.flashSale]),

@@ -34,6 +34,7 @@ const Display = ({ entry, location, refresh, classes }) => (
             </Card>
             <MediaLeftUserCard className={`${styles.mt24} ${classes.mobileUser}`} user={entry.owner} />
             <MyBids inquiry={entry} onWithdrawn={refresh} />
+            <Bids inquiry={entry} />
             <DescCard desc={entry.desc} />
           </div>
         </div>

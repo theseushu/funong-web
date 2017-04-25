@@ -8,10 +8,8 @@ import styles from 'modules/common/styles';
 import { Layout } from 'modules/common/layouts';
 import { MainLeft } from 'modules/common/layout';
 import UserCard from 'modules/common/user/card';
-import ProductsPage from 'modules/common/product/page';
-import InquiriesPage from 'modules/common/inquiry/page';
+import PublishesPage from 'modules/common/publishes/page';
 import LoadingDiv from 'modules/common/glossary/loadingDiv';
-import { Product as NoProduct, Inquiry as NoInquiry } from 'modules/common/glossary/noResult';
 import { selectors } from './ducks';
 import types from './tabTypes';
 
@@ -38,8 +36,7 @@ const UserPage = ({ user, pagingState, type, onTabChange }, { router }) => (
             </Tabs>
             <section>
               <LoadingDiv pending={pagingState.pending} className={styles.mt24}>
-                {type !== 'inquiry' && pagingState.result && <ProductsPage type={type} page={pagingState.result} empty={<NoProduct type={type} />} />}
-                {type === 'inquiry' && pagingState.result && <InquiriesPage page={pagingState.result} empty={<NoInquiry type={type} />} />}
+                {pagingState.result && <PublishesPage type={type} page={pagingState.result} />}
               </LoadingDiv>
             </section>
           </div>

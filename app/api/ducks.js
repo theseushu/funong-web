@@ -11,7 +11,6 @@ import * as profile from './profile';
 import * as uploadFile from './uploadFile/ducks';
 import * as uploadAvatar from './uploadAvatar/ducks';
 import * as cert from './cert';
-import * as products from './products/ducks';
 import * as publishes from './publishes/ducks';
 import * as cart from './cart';
 import * as shop from './shop';
@@ -34,7 +33,6 @@ export default {
     ...uploadFile.default,
     ...uploadAvatar.default,
     ...cert.default,
-    ...products.default,
     ...publishes.default,
     ...cart.default,
     ...shop.default,
@@ -58,7 +56,6 @@ export const sagas = [
   ...uploadAvatar.sagas,
   ...uploadFile.sagas,
   ...cert.sagas,
-  ...products.sagas,
   ...publishes.sagas,
   ...cart.sagas,
   ...shop.sagas,

@@ -1,7 +1,7 @@
 import React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { actions, selectors } from 'api/products/ducks';
+import { actions, selectors } from 'api/publishes/ducks';
 import ApiButtonWithIcon from 'modules/common/buttons/ApiButtonWithIcon';
 import ApiIconButton from 'modules/common/buttons/ApiIconButton';
 import confirm from 'modules/toastr/confirm';

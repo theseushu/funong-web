@@ -1,3 +1,3 @@
-import { productTypes } from 'funong-common/lib/appConstants';
+import { publishTypes } from 'funong-common/lib/appConstants';
 
-export default [productTypes.supply, productTypes.trip, productTypes.logistics, 'inquiry'];
+export default [publishTypes.supply, publishTypes.trip, publishTypes.logistics, publishTypes.inquiry];

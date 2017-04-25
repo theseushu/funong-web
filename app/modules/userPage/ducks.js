@@ -3,7 +3,7 @@ import _capitalize from 'lodash/capitalize';
 import _reduce from 'lodash/reduce';
 import combineReducers from 'redux/lib/combineReducers';
 import { put } from 'redux-saga/effects';
-import { productTypes } from 'funong-common/lib/appConstants';
+import { publishTypes } from 'funong-common/lib/appConstants';
 import createDucks from 'api/utils/createDucks';
 import { createProductsSelector, inquiriesSelector } from 'modules/data/ducks/selectors';
 import { setProducts, setInquiries } from 'modules/data/ducks/actions';
@@ -13,7 +13,7 @@ const SET_PAGE_SATE = 'page_user/set_page_sate';
 
 const rootSelector = (state) => state[SLICE_NAME];
 
-const types = [productTypes.supply, productTypes.trip, productTypes.logistics];
+const types = [publishTypes.supply, publishTypes.trip, publishTypes.logistics];
 const pageProductActions = {};
 const pageProductsSelectors = {};
 const ducks = types.map((type) => {
@@ -58,7 +58,7 @@ const pageInquiriesDucks = createDucks({
 export default {
   [SLICE_NAME]: combineReducers(_reduce(ducks, (result, duck) => ({ ...result, ...duck.default }), {
     ...pageInquiriesDucks.default,
-    pageState: (state = { type: productTypes.supply, page: 1, pageSize: 20 }, action) => {
+    pageState: (state = { type: publishTypes.supply, page: 1, pageSize: 20 }, action) => {
       if (action.type === SET_PAGE_SATE) {
         return action.payload;
       }

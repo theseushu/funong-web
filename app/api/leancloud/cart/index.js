@@ -7,7 +7,7 @@
  * wait until I figure out a better way
  */
 import AV from 'leancloud-storage';
-import { productTables } from '../constants';
+import schemas from '../utils/shemas/publishes';
 import { cartItemToJSON } from '../utils/converters';
 const debug = require('debug')('app:api:file');
 
@@ -23,7 +23,7 @@ export default ({ context }) => {
       }
 
       const cartItem = new CartItem();
-      const table = productTables[type];
+      const table = schemas[type].table;
       if (table) {
         cartItem.set(`${type}Product`, AV.Object.createWithoutData(table, product.objectId));
       } else {

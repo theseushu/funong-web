@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import injectSheet from 'react-jss';
 import Link from 'react-router/lib/Link';
 import { Card } from 'react-mdl/lib/Card';
-import { productTypes } from 'funong-common/lib/appConstants';
+import { publishTypes } from 'funong-common/lib/appConstants';
 import { generateDisplayName } from 'funong-common/lib/utils/publishUtils';
 import { briefAddress, formatPrices, formatParams, humanizeTime } from 'funong-common/lib/utils/displayUtils';
 import { ImageBadge } from 'modules/common/badge';
@@ -10,7 +10,7 @@ import styles, { breakpoints, colors } from 'modules/common/styles';
 import Thumbnail from '../thumbnail';
 import Actions from './actions';
 
-const type = productTypes.supply;
+const type = publishTypes.supply;
 
 const SupplyProductCard = ({ product, actions, classes }) => {
   const paramsStr = formatParams(product.specs);

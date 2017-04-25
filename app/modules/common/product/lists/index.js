@@ -1,6 +1,6 @@
-const productTypes = require('funong-common/lib/appConstants').productTypes;
+const publishTypes = require('funong-common/lib/appConstants').publishTypes;
 const SupplyList = require('./supply').default;
 
 module.exports = {
-  [productTypes.supply]: SupplyList,
+  [publishTypes.supply]: SupplyList,
 };

@@ -1,14 +1,14 @@
 import React, { PropTypes } from 'react';
-import { productTypes } from 'funong-common/lib/appConstants';
+import { publishTypes } from 'funong-common/lib/appConstants';
 import NoResult from './noResult';
 
 export default NoResult;
 
 const messages = {
-  [productTypes.supply]: { title: '该用户没有发布供应', titleMine: '您还没有发布供应', icon: 'shopping_basket' },
-  [productTypes.trip]: { title: '该用户没有发布乡村游', titleMine: '您没有发布乡村游', icon: 'toys' },
-  [productTypes.logistics]: { title: '该用户没有发布物流', titleMine: '您没有发布物流', icon: 'local_shipping' },
-  [productTypes.shop]: { title: '该店铺尚无商品', titleMine: '您的店铺没有商品', icon: 'local_grocery_store' },
+  [publishTypes.supply]: { title: '该用户没有发布供应', titleMine: '您还没有发布供应', icon: 'shopping_basket' },
+  [publishTypes.trip]: { title: '该用户没有发布乡村游', titleMine: '您没有发布乡村游', icon: 'toys' },
+  [publishTypes.logistics]: { title: '该用户没有发布物流', titleMine: '您没有发布物流', icon: 'local_shipping' },
+  [publishTypes.product]: { title: '该店铺尚无商品', titleMine: '您的店铺没有商品', icon: 'local_grocery_store' },
 };
 
 export const Product = ({ type, mine }) => <NoResult icon={messages[type].icon} title={mine ? messages[type].titleMine : messages[type].title} />;

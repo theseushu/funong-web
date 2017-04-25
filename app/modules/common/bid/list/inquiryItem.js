@@ -3,7 +3,7 @@ import injectSheet from 'react-jss';
 import Link from 'react-router/lib/Link';
 import { ListItem, ListItemContent } from 'react-mdl/lib/List';
 import { Grid, Cell } from 'react-mdl/lib/Grid';
-import { productTypes } from 'funong-common/lib/appConstants';
+import { publishTypes } from 'funong-common/lib/appConstants';
 import styles from 'modules/common/styles';
 import { Thumbnail } from 'modules/common/product';
 import Text from 'modules/common/text';
@@ -13,7 +13,7 @@ const BidItem = ({ classes, bid }) => (
   <ListItem threeLine>
     <ListItemContent
       avatar={bid.product ? <div>
-        <Thumbnail type={productTypes.supply} thumbnail={bid.product.thumbnail} />
+        <Thumbnail type={publishTypes.supply} thumbnail={bid.product.thumbnail} />
       </div> : null}
       subtitle={
         <div className={classes.subTitle}>

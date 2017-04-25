@@ -1,34 +1,5 @@
-export fileToJSON from './file';
+const createConverters = require('funong-common/lib/converters').default;
+const { publishes } = require('../shemas');
+const converters = createConverters(publishes);
 
-export imagesToJSON from './images';
-
-export lnglatToJSON from './lnglat';
-
-export { embeddedUserToJSON, embeddedShopToJSON, embeddedProductToJSON } from './embedded';
-
-export categoryToJSON from './category';
-
-export speciesToJSON from './species';
-
-export roleToJSON from './role';
-
-export userToJSON from './user';
-
-export certToJSON from './cert';
-
-export shopToJSON from './shop';
-
-export productToJSON from './product';
-
-export publishToJSON from './publish';
-
-export cartItemToJSON from './cartItem';
-
-export commentToJSON from './comment';
-
-export orderToJSON from './order';
-
-export inquiryToJSON from './inquiry';
-
-export bidToJSON from './bid';
-
+module.exports = converters;

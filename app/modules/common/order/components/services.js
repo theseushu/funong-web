@@ -3,7 +3,7 @@ import injectSheet from 'react-jss';
 import _find from 'lodash/find';
 import Checkbox from 'react-mdl/lib/Checkbox';
 import styles, { breakpoints, colors } from 'modules/common/styles';
-import { productTypes, serviceTypes, orderFeeTypes } from 'funong-common/lib/appConstants';
+import { publishTypesInfo, serviceTypes, orderFeeTypes } from 'funong-common/lib/appConstants';
 import { isOwner as isOrderOwner } from 'funong-common/lib/utils/orderUtils';
 import { layouts } from '../styles';
 import FeeDialog from './feeDialog';
@@ -20,7 +20,7 @@ class Services extends Component {
   servicesEditable = () => {
     const { order: { type, services, shop, user }, onServiceChange, classes } = this.props;
     let availableServices;
-    if (type === productTypes.shop) {
+    if (publishTypesInfo[type].shop) {
       availableServices = shop.services || [];
     } else {
       availableServices = user.services[type] || [];

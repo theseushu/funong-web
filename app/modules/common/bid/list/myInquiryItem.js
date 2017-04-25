@@ -4,9 +4,9 @@ import { ListItem, ListItemContent, ListItemAction } from 'react-mdl/lib/List';
 import IconButton from 'react-mdl/lib/IconButton';
 import Menu from 'react-mdl/lib/Menu';
 import { Grid, Cell } from 'react-mdl/lib/Grid';
-import { productTypes } from 'funong-common/lib/appConstants';
+import { publishTypes } from 'funong-common/lib/appConstants';
 import styles, { breakpoints } from 'modules/common/styles';
-import { Thumbnail } from 'modules/common/product';
+import Thumbnail from 'modules/common/publishes/thumbnail';
 import Text from 'modules/common/text';
 import { humanizeTime } from 'funong-common/lib/utils/displayUtils';
 import EditButton from '../editButton';
@@ -16,7 +16,7 @@ const BidItem = ({ classes, bid, onWithdrawn }) => (
   <ListItem twoLine>
     <ListItemContent
       avatar={bid.product ? <div>
-        <Thumbnail type={productTypes.supply} thumbnail={bid.product.thumbnail} />
+        <Thumbnail type={publishTypes.supply} thumbnail={bid.product.thumbnail} />
       </div> : null}
       subtitle={
         <div className={classes.subTitle}>

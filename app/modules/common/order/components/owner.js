@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 import injectSheet from 'react-jss';
-import { productTypes } from 'funong-common/lib/appConstants';
+import { publishTypesInfo } from 'funong-common/lib/appConstants';
 import { colors } from 'modules/common/styles';
 import { Avatar } from 'modules/common/user';
 import { Thumbnail as ShopThumbnail } from 'modules/common/shop';
@@ -12,16 +12,14 @@ const Owner = ({ user, order, classes }) => {
   return (
     <div className={classes.owner}>
       <div className={classes.title}>
-        { isOwner && type === productTypes.shop && '店铺：' }
-        { isOwner && type !== productTypes.shop && '卖家：' }
+        { isOwner && publishTypesInfo[type].shop ? '店铺：' : '卖家：' }
         { !isOwner && '买家：' }
       </div>
       <div className={classes.avatar}>
-        { isOwner && type === productTypes.shop && <ShopThumbnail shop={order.shop} /> }
-        { isOwner && type !== productTypes.shop && <Avatar user={order.user} /> }
+        { isOwner && publishTypesInfo[type].shop ? <ShopThumbnail shop={order.shop} /> : <Avatar user={order.user} /> }
         { !isOwner && <Avatar user={user} /> }
       </div>
-      { isOwner && type === productTypes.shop && <div>{order.shop.name}</div> }
+      { isOwner && publishTypesInfo[type].shop ? <div>{order.shop.name}</div> : <div>{order.user.name}</div> }
       { !isOwner && <div>{user.name}</div> }
     </div>
   );
