@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import injectSheet from 'react-jss';
 import styles, { breakpoints, colors } from 'modules/common/styles';
 import { orderFeeTypes } from 'funong-common/lib/appConstants';
-import { isOwner as isOrderOwner, calculateProductAmount } from 'funong-common/lib/utils/orderUtils';
+import { isOwner as isOrderOwner, calculateProductFee } from 'funong-common/lib/utils/orderUtils';
 import { layouts } from '../styles';
 import FeeDialog from './feeDialog';
 
@@ -82,7 +82,7 @@ class Delivery extends Component {
     if (!can.delivery) {
       return null;
     }
-    const productAmount = calculateProductAmount(order);
+    const productAmount = calculateProductFee(order);
     const editable = can.delivery && can.delivery.fee === -1;
     return (
       <div className={classes.delivery}>
