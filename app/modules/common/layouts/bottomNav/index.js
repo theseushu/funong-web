@@ -1,22 +1,30 @@
 import React, { PropTypes } from 'react';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 import injectSheet from 'react-jss';
 import Button from 'react-mdl/lib/Button';
 import Icon from 'react-mdl/lib/Icon';
 import { colors, breakpoints } from 'modules/common/styles';
+import { actions, selectors } from 'modules/context/ducks';
 import { findRoutes } from '../utils';
 
-const BottomNav = ({ classes }, { router }) => (
+const BottomNav = ({ classes, site, setSite }, { router }) => (
   <div className={`${classes.bottomNav}`}>
-    {findRoutes(router).map(({ icon, title, path }, i) => (
+    {findRoutes(site).map((route, i) => (
       <Button
         key={i}
         ripple
-        accent={router.isActive(path)}
-        onClick={() => router.push(path)}
+        accent={router.isActive(route.path)}
+        onClick={() => {
+          if (route.switch) {
+            setSite(route.switch);
+          }
+          router.push(route.path);
+        }}
       >
         <div>
-          <Icon name={icon} />
-          <span>{title}</span>
+          <Icon name={route.icon} />
+          <span>{route.title}</span>
         </div>
       </Button>
     ))}
@@ -28,6 +36,11 @@ BottomNav.contextTypes = {
 };
 BottomNav.propTypes = {
   classes: PropTypes.object.isRequired,
+  site: PropTypes.shape({
+    main: PropTypes.bool,
+    farm: PropTypes.bool,
+  }).isRequired,
+  setSite: PropTypes.func.isRequired,
 };
 
 export default injectSheet({
@@ -73,4 +86,7 @@ export default injectSheet({
       },
     },
   },
-})(BottomNav);
+})(connect(
+  (state) => ({ site: selectors.site(state) }),
+  (dispatch) => bindActionCreators({ setSite: actions.setSite }, dispatch),
+)(BottomNav));

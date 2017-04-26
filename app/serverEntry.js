@@ -22,6 +22,7 @@ import { changeLocale } from 'containers/LanguageProvider/actions';
 import monitorSagas from 'utils/monitorSagas';
 import createApi from 'createApi';
 import { actions as profileActions } from 'api/profile';
+import { actions as contextActions } from 'modules/context/ducks';
 
 import { appLocales, translationMessages } from './i18n';
 
@@ -85,7 +86,9 @@ async function renderAppToStringAtLocation(req, res, { webpackDllNames = [], ass
     await new Promise((resolve) => {
       store.dispatch(profileActions.fetch({
         meta: {
-          resolve,
+          resolve: () => {
+            resolve();
+          },
           reject: () => {
             api.logout();
           },
@@ -93,6 +96,7 @@ async function renderAppToStringAtLocation(req, res, { webpackDllNames = [], ass
       }));
     });
   }
+  store.dispatch(contextActions.init(req, res));
   const routes = createRoutes(store);
 
   const sagasDone = monitorSagas(store);

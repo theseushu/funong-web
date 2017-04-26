@@ -1,10 +1,13 @@
 import React, { PropTypes } from 'react';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 import injectSheet from 'react-jss';
 import Link from 'react-router/lib/Link';
 import { Header, HeaderRow, Navigation } from 'react-mdl/lib/Layout';
 import IconButton from 'react-mdl/lib/IconButton';
 import Icon from 'react-mdl/lib/Icon';
 import { colors, breakpoints } from 'modules/common/styles';
+import { actions, selectors } from 'modules/context/ducks';
 import { findRoutes } from '../utils';
 import background from '../assets/header-bg.jpg';
 import Container from '../container';
@@ -13,7 +16,7 @@ import User from './user';
 import Chat from './chat';
 import Cart from './cart';
 
-const AppHeader = ({ classes, header, search, sideMenu, onReturn }, { router }) => {
+const AppHeader = ({ classes, header, search, sideMenu, onReturn, site, setSite }, { router }) => {
   let paddingClass = '';
   if (sideMenu && onReturn) {
     paddingClass = classes.padding128;
@@ -51,7 +54,16 @@ const AppHeader = ({ classes, header, search, sideMenu, onReturn }, { router }) 
       <HeaderRow className={classes.nav}>
         <Container className={classes.navContainer}>
           <Navigation className={classes.links}>
-            { findRoutes(router).map((route, i) => <Link key={i} activeClassName={classes.activeLink} to={route.path}><Icon name={route.icon} />{route.title}</Link>) }
+            { findRoutes(site).map((route, i) =>
+              <Link
+                key={i}
+                activeClassName={classes.activeLink}
+                to={route.path}
+                onClick={route.switch ? () => {
+                  setSite(route.switch);
+                } : undefined}
+              ><Icon name={route.icon} />{route.title}</Link>)
+            }
           </Navigation>
         </Container>
       </HeaderRow>
@@ -77,6 +89,11 @@ AppHeader.propTypes = {
     onSearch: PropTypes.func.isRequired,
     value: PropTypes.string,
   }),
+  site: PropTypes.shape({
+    main: PropTypes.bool,
+    farm: PropTypes.bool,
+  }).isRequired,
+  setSite: PropTypes.func.isRequired,
 };
 
 export default injectSheet({
@@ -170,4 +187,7 @@ export default injectSheet({
   activeLink: {
     borderBottom: `solid 3px ${colors.colorAccent}`,
   },
-})(AppHeader);
+})(connect(
+  (state) => ({ site: selectors.site(state) }),
+  (dispatch) => bindActionCreators({ setSite: actions.setSite }, dispatch),
+)(AppHeader));

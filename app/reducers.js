@@ -12,6 +12,7 @@ import data from 'modules/data/ducks';
 import fullScreenGallery from 'modules/fullScreenGallery/ducks';
 import mapDialog from 'modules/mapDialog/ducks';
 import publishSelector from 'modules/publishSelector/ducks';
+import context from 'modules/context/ducks';
 
 const dummyReducer = (state = {}) => state;
 const routeReducers = _reduce(routes, (result, route, name) => ({ ...result, [name]: dummyReducer }), {});
@@ -26,6 +27,7 @@ export default function createReducer(asyncReducers) {
     toastr: toastrReducer,
     ...api,
     ...data,
+    ...context,
     ...fullScreenGallery,
     ...mapDialog,
     ...publishSelector,

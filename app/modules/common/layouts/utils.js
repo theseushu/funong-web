@@ -11,24 +11,21 @@ const mainRoutes = {
   logistics: publishTypeToRoute(publishTypesInfo[publishTypes.logistics]),
   product: publishTypeToRoute(publishTypesInfo[publishTypes.product]),
   flashSale: publishTypeToRoute(publishTypesInfo[publishTypes.flashSale]),
-  switchFarm: { ...publishTypeToRoute(publishTypesInfo[publishTypes.supply]), title: '农产市场' },
-  switchShop: { ...publishTypeToRoute(publishTypesInfo[publishTypes.product]), title: '社区微店' },
+  switchFarm: { ...publishTypeToRoute(publishTypesInfo[publishTypes.supply]), title: '农产市场', switch: { farm: true } },
+  switchShop: { ...publishTypeToRoute(publishTypesInfo[publishTypes.product]), title: '社区微店', switch: { main: true } },
 };
 
-export const findRoutes = (router, ignoreSwitch) => {
+export const findRoutes = (site) => {
   let result = [];
   let switchRoute = [];
-  if (router.isActive('/supplies')
-    || router.isActive('/inquiries')
-    || router.isActive('/logisticsList')
-    || router.isActive({ pathname: '/me', query: { farm: true } })) {
+  if (site.farm) {
     result = [
       mainRoutes.supply,
       mainRoutes.inquiry,
       mainRoutes.logistics,
       mainRoutes.meFarm,
     ];
-    switchRoute = ignoreSwitch ? [] : [mainRoutes.switchShop];
+    switchRoute = [mainRoutes.switchShop];
   } else {
     result = [
       mainRoutes.product,
@@ -36,7 +33,7 @@ export const findRoutes = (router, ignoreSwitch) => {
       mainRoutes.trip,
       mainRoutes.me,
     ];
-    switchRoute = ignoreSwitch ? [] : [mainRoutes.switchFarm];
+    switchRoute = [mainRoutes.switchFarm];
   }
   return [...result, ...switchRoute];
 };

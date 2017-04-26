@@ -25,20 +25,18 @@ export default function renderInBrowser({ messages, store, routes, history, api 
         const ssStyles = document.getElementById('server-side-styles');
         ssStyles.parentNode.removeChild(ssStyles);
       },
-      () => {
-        const tokenExists = api.tokenExists();
-        // token exists means there's sessionToken in cookies.
-        // if currentUser is not null,(which means store state is populated from ssr) we do nothing
-        // otherwise, fetch user's profile
-        if (tokenExists) {
-          const currentUser = currentUserSelector(store.getState());
-          if (!currentUser) {
-            store.dispatch(profileActions.fetch());
-          }
-        }
-        store.dispatch(mapActions.getCurrentLocation());
-      }
     );
+    const tokenExists = api.tokenExists();
+    // token exists means there's sessionToken in cookies.
+    // if currentUser is not null,(which means store state is populated from ssr) we do nothing
+    // otherwise, fetch user's profile
+    if (tokenExists) {
+      const currentUser = currentUserSelector(store.getState());
+      if (!currentUser) {
+        store.dispatch(profileActions.fetch());
+      }
+    }
+    store.dispatch(mapActions.getCurrentLocation());
   });
   if (process.env.browser) { // todo switch to standard client detection
     const galleryEl = document.createElement('div');
