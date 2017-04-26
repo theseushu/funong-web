@@ -8,7 +8,7 @@ import Textfield from 'react-mdl/lib/Textfield';
 import LabelWithBorder from 'modules/common/label/labelWithBorder';
 import { formatPrice } from 'funong-common/lib/utils/displayUtils';
 import { breakpoints, shadows, colors } from 'modules/common/styles';
-import { Thumbnail } from 'modules/common/product';
+import Thumbnail from 'modules/common/publishes/thumbnail';
 import layout from '../layout';
 import RemoveItemsButton from '../removeItemsButton';
 

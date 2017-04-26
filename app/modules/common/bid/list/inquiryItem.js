@@ -5,7 +5,7 @@ import { ListItem, ListItemContent } from 'react-mdl/lib/List';
 import { Grid, Cell } from 'react-mdl/lib/Grid';
 import { publishTypes } from 'funong-common/lib/appConstants';
 import styles from 'modules/common/styles';
-import { Thumbnail } from 'modules/common/product';
+import Thumbnail from 'modules/common/publishes/thumbnail';
 import Text from 'modules/common/text';
 import { humanizeTime } from 'funong-common/lib/utils/displayUtils';
 

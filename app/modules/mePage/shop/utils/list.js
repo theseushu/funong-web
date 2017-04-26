@@ -3,7 +3,7 @@ import injectSheet from 'react-jss';
 import Link from 'react-router/lib/Link';
 import IconButton from 'react-mdl/lib/IconButton';
 import { breakpoints } from 'modules/common/styles';
-import { Enable as EnableButton, Disable as DisableButton, Remove as RemoveButton } from 'modules/common/product/buttons';
+import { Enable as EnableButton, Disable as DisableButton, Remove as RemoveButton } from 'modules/common/publishes/buttons';
 import { canEnable, canDisable } from 'funong-common/lib/utils/publishUtils';
 
 const List = ({ type, products, horizontal, editPath, Card, classes }) => (

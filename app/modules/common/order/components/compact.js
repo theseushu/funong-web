@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import injectSheet from 'react-jss';
 import styles, { colors } from 'modules/common/styles';
-import { InlineThumbnail } from 'modules/common/product';
+import InlineThumbnail from 'modules/common/publishes/inlineThumbnail';
 
 const Compact = ({ order, classes }) => {
   const productAmount = 0;
