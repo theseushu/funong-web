@@ -6,7 +6,7 @@ import { createPublishSelector, myShopSelector } from 'modules/data/ducks/select
 import createForm from './createForm';
 
 export default ({ type, actions, EMPTY_PRODUCT, FORM_NAME, FormComponent, Display }) => {
-  const Form = createForm(FORM_NAME, actions, FormComponent);
+  const Form = createForm(type, FORM_NAME, actions, FormComponent);
   const info = publishTypesInfo[type];
   const Page = ({ entry, params: { id }, location, shop }, { router }) => {
     const { query } = location;

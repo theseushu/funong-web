@@ -5,11 +5,13 @@ import _groupBy from 'lodash/groupBy';
 import _union from 'lodash/union';
 import _without from 'lodash/without';
 import _find from 'lodash/find';
+import _map from 'lodash/map';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { cartItemsSelector } from 'modules/data/ducks/selectors';
 import { actions } from 'api/cart';
 import { isQuantityInvalid } from 'funong-common/lib/utils/validationUtils';
+import { publishTypes, publishTypesInfo } from 'funong-common/lib/appConstants';
 import { actions as pageActions } from './ducks';
 import Header from './header';
 import Group from './group';
@@ -63,16 +65,21 @@ class Page extends Component {
   validate = () => {
     const { cartItems } = this.state;
     const error = {};
-    cartItems.forEach(({ objectId, shopProduct, supplyProduct, specIndex, quantity }) => {
-      const product = shopProduct || supplyProduct;
-      const spec = product.specs[specIndex];
-      const invalid = isQuantityInvalid(quantity);
-      if (invalid) {
-        error[objectId] = invalid;
-      } else if (Number(quantity) < spec.minimum) {
-        error[objectId] = `${spec.minimum}起售`;
-      } else {
-        delete error[objectId];
+    cartItems.forEach((item) => {
+      const type = _find(publishTypes, (t) => !!item[t]);
+      const product = item[type];
+      const info = publishTypesInfo[type];
+      if (info.saleType === 1) {
+        const { specIndex, quantity, objectId } = item;
+        const spec = product.specs[specIndex];
+        const invalid = isQuantityInvalid(quantity);
+        if (invalid) {
+          error[objectId] = invalid;
+        } else if (Number(quantity) < spec.minimum) {
+          error[objectId] = `${spec.minimum}起售`;
+        } else {
+          delete error[objectId];
+        }
       }
     });
     return error;
@@ -80,10 +87,18 @@ class Page extends Component {
   render() {
     const { cartItems, selected } = this.state;
     const itemIds = cartItems.map((i) => i.objectId);
-    const shopItems = Object.values(_filter(cartItems, (item) => !!item.shopProduct));
-    const supplyItems = Object.values(_filter(cartItems, (item) => !!item.supplyProduct));
-    const shopGroups = Object.values(_groupBy(shopItems, (item) => item.shopProduct.shop.objectId));
-    const supplyGroups = Object.values(_groupBy(supplyItems, (item) => item.supplyProduct.owner.objectId));
+    const grouped = {};
+    Object.values(publishTypes).forEach((type) => {
+      const info = publishTypesInfo[type];
+      const items = _filter(cartItems, (item) => !!item[type]);
+      if (items.length > 0) {
+        if (info.shop) {
+          grouped[type] = _groupBy(items, (item) => item[type].shop.objectId);
+        } else {
+          grouped[type] = _groupBy(items, (item) => item[type].owner.objectId);
+        }
+      }
+    });
     const error = this.validate();
     return (
       <div style={{ width: '100%' }}>
@@ -93,32 +108,23 @@ class Page extends Component {
           onSelect={() => this.onItemsSelected(itemIds)}
           onDeselect={() => this.onItemsDeselected(itemIds)}
         />
-        {shopGroups.map((group, i) => (
-          <Group
-            key={i}
-            shop={group[0].shopProduct.shop}
-            items={group}
-            selected={selected}
-            select={this.onItemsSelected}
-            deselect={this.onItemsDeselected}
-            onItemChange={this.onItemChange}
-            onItemsRemoved={this.onItemsRemoved}
-            error={error}
-          />
-        ))}
-        {supplyGroups.map((group, i) => (
-          <Group
-            key={i}
-            owner={group[0].supplyProduct.owner}
-            items={group}
-            selected={selected}
-            select={this.onItemsSelected}
-            deselect={this.onItemsDeselected}
-            onItemChange={this.onItemChange}
-            onItemsRemoved={this.onItemsRemoved}
-            error={error}
-          />
-        ))}
+        {
+          _map(grouped, (groups, type) => {
+            return _map(groups, (items, i) => (
+              <Group
+                key={`${type}-${i}`}
+                type={type}
+                items={items}
+                selected={selected}
+                select={this.onItemsSelected}
+                deselect={this.onItemsDeselected}
+                onItemChange={this.onItemChange}
+                onItemsRemoved={this.onItemsRemoved}
+                error={error}
+              />
+              ));
+          })
+        }
         <Bottom
           cartItems={cartItems}
           selected={selected}

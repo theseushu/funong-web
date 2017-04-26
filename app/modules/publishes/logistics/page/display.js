@@ -12,55 +12,61 @@ import ChatButton from 'modules/common/user/chatButton';
 import Share from 'modules/common/share';
 import DescCard from '../../display/descCard';
 import Carousel from '../../display/carousel';
+import AddToCartButton from '../../display/addToCartButton';
 import UpdateTimeAndLocation from '../../display/updateTimeAndLocation';
 import CapacityAndCount from '../../display/capacityAndCount';
 import Badges from '../../display/badges';
 import Range from '../../display/range';
 
 // <UserCard user={product.owner} />
-const Display = ({ entry: { name, images, capacity, count, range, location: { address, lnglat }, owner, updatedAt, desc }, location, sheet: { classes } }) => ( // eslint-disable-line
-  <div className={styles.w100}>
-    <div>
-      <Grid noSpacing className={styles.w100}>
-        <Cell col={4} tablet={8} phone={4} className={classes.carouselCell}>
-          <Card shadow={2} className={classes.carouselCard}>
-            <Carousel images={images} />
-          </Card>
-        </Cell>
-        <Cell col={8} tablet={8} phone={4}>
-          <Card shadow={2} className={classes.card}>
-            <CardMenu>
-              <Share />
-            </CardMenu>
-            <div className={classes.content}>
-              <h5>{name}</h5>
-              <UpdateTimeAndLocation locationTile="常驻地" location={{ address, lnglat }} currentLocation={location} updatedAt={updatedAt} />
-              <CapacityAndCount capacity={capacity} count={count} />
-              <Range range={range} />
-              <Badges />
-            </div>
-            <CardActions border className={classes.buttons}>
-              <ChatButton raised accent ripple user={owner}>在线联系</ChatButton>
-            </CardActions>
-          </Card>
-        </Cell>
-      </Grid>
-      <MainRight
-        main={[
-          <DescCard key={0} desc={desc} />,
-          // <Comments key={1} supplyProduct={entry} className={styles.mt24} />,
-        ]}
-        right={<UserCard user={owner} />}
-      />
+const Display = ({ type, entry, location, classes }) => {
+  const { name, images, capacity, count, range, location: { address, lnglat }, owner, updatedAt, desc } = entry;
+  return (
+    <div className={styles.w100}>
+      <div>
+        <Grid noSpacing className={styles.w100}>
+          <Cell col={4} tablet={8} phone={4} className={classes.carouselCell}>
+            <Card shadow={2} className={classes.carouselCard}>
+              <Carousel images={images} />
+            </Card>
+          </Cell>
+          <Cell col={8} tablet={8} phone={4}>
+            <Card shadow={2} className={classes.card}>
+              <CardMenu>
+                <Share />
+              </CardMenu>
+              <div className={classes.content}>
+                <h5>{name}</h5>
+                <UpdateTimeAndLocation locationTile="常驻地" location={{ address, lnglat }} currentLocation={location} updatedAt={updatedAt} />
+                <CapacityAndCount capacity={capacity} count={count} />
+                <Range range={range} />
+                <Badges />
+              </div>
+              <CardActions border className={classes.buttons}>
+                <ChatButton raised accent ripple user={owner}>在线联系</ChatButton>
+                <AddToCartButton type={type} entry={entry}>加入购物车</AddToCartButton>
+              </CardActions>
+            </Card>
+          </Cell>
+        </Grid>
+        <MainRight
+          main={[
+            <DescCard key={0} desc={desc} />,
+            // <Comments key={1} supplyProduct={entry} className={styles.mt24} />,
+          ]}
+          right={<UserCard user={owner} />}
+        />
+      </div>
+      <MediaLeftUserCard className={classes.mobileUser} user={owner} hideActions={false} />,
     </div>
-    <MediaLeftUserCard className={classes.mobileUser} user={owner} hideActions={false} />,
-  </div>
-);
+  );
+};
 
 Display.propTypes = {
-  sheet: PropTypes.object.isRequired,
+  classes: PropTypes.object.isRequired,
   entry: PropTypes.object.isRequired,
   location: PropTypes.object,
+  type: PropTypes.string.isRequired,
 };
 
 export default connect(

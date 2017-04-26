@@ -12,6 +12,7 @@ import ChatButton from 'modules/common/user/chatButton';
 import Share from 'modules/common/share';
 import DescCard from '../../display/descCard';
 import Carousel from '../../display/carousel';
+import AddToCartButton from '../../display/addToCartButton';
 import UpdateTimeAndLocation from '../../display/updateTimeAndLocation';
 import Specs from '../../display/specs';
 import Badges from '../../display/badges';
@@ -19,13 +20,14 @@ import Badges from '../../display/badges';
 class Display extends Component {
   static propTypes = {
     classes: PropTypes.object.isRequired,
+    type: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired, // eslint-disable-line
     entry: PropTypes.object.isRequired,
     location: PropTypes.object,
   }
   state = { specIndex: 0 }
   render() {
-    const { entry: { name, images, specs, location: { address, lnglat }, owner, desc, updatedAt }, location, classes } = this.props;
+    const { type, entry: { name, images, specs, location: { address, lnglat }, owner, desc, updatedAt }, location, classes } = this.props;
     const { specIndex } = this.state;
     return ( // eslint-disable-line
       <div className={styles.w100}>
@@ -49,6 +51,7 @@ class Display extends Component {
                 </div>
                 <CardActions border className={classes.buttons}>
                   <ChatButton raised accent ripple user={owner}>在线联系</ChatButton>
+                  <AddToCartButton type={type} entry={this.props.entry}>加入购物车</AddToCartButton>
                 </CardActions>
               </Card>
             </Cell>

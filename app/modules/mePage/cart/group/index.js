@@ -1,18 +1,20 @@
 import React, { PropTypes } from 'react';
 import injectSheet from 'react-jss';
 import _without from 'lodash/without';
+import { publishTypesInfo } from 'funong-common/lib/appConstants';
 import { colors } from 'modules/common/styles';
 import Owner from './owner';
 import CartItem from './cartItem';
 
-const Group = ({ owner, shop, items, select, deselect, selected, onItemChange, onItemsRemoved, error, classes }) => {
+const Group = ({ type, items, select, deselect, selected, onItemChange, onItemsRemoved, error, classes }) => {
+  const info = publishTypesInfo[type];
   const itemIds = items.map((i) => i.objectId);
   const groupChecked = _without(itemIds, ...selected).length === 0;
   return (
     <div className={classes.group}>
       <Owner
-        user={owner}
-        shop={shop}
+        user={info.shop ? null : items[0][type].owner}
+        shop={info.shop ? items[0][type].shop : null}
         checked={groupChecked}
         onChange={() => {
           if (groupChecked) {
@@ -27,6 +29,7 @@ const Group = ({ owner, shop, items, select, deselect, selected, onItemChange, o
         return (
           <CartItem
             key={i} item={item}
+            type={type}
             checked={selected.indexOf(item.objectId) >= 0}
             onChange={() => {
               if (checked) {
@@ -47,8 +50,7 @@ const Group = ({ owner, shop, items, select, deselect, selected, onItemChange, o
 
 Group.propTypes = {
   classes: PropTypes.object,
-  owner: PropTypes.object,
-  shop: PropTypes.object,
+  type: PropTypes.string.isRequired,
   items: PropTypes.array.isRequired,
   select: PropTypes.func.isRequired,
   deselect: PropTypes.func.isRequired,

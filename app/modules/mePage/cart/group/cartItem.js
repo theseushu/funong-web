@@ -1,10 +1,12 @@
 import React, { PropTypes } from 'react';
 import injectSheet from 'react-jss';
+import Link from 'react-router/lib/Link';
 import Checkbox from 'react-mdl/lib/Checkbox';
 import IconButton from 'react-mdl/lib/IconButton';
 import Button from 'react-mdl/lib/Button';
 import Menu, { MenuItem } from 'react-mdl/lib/Menu';
 import Textfield from 'react-mdl/lib/Textfield';
+import { publishTypesInfo } from 'funong-common/lib/appConstants';
 import LabelWithBorder from 'modules/common/label/labelWithBorder';
 import { formatPrice } from 'funong-common/lib/utils/displayUtils';
 import { breakpoints, shadows, colors } from 'modules/common/styles';
@@ -12,45 +14,53 @@ import Thumbnail from 'modules/common/publishes/thumbnail';
 import layout from '../layout';
 import RemoveItemsButton from '../removeItemsButton';
 
-const CartItem = ({ item, classes, checked, onChange, onItemChange, onItemsRemoved, error }) => {
-  const product = item.shopProduct || item.supplyProduct;
-  const type = (item.shopProduct && 'shop') || (item.supplyProduct && 'supply');
-  const spec = product.specs[item.specIndex || 0];
-  return (
-    <div className={`${classes.cartItem} ${shadows.shadow2}`}>
-      <div className={classes.desc}>
-        <div>
-          <Checkbox ripple checked={checked} onChange={onChange} />
-        </div>
-        <div className="_thumbnail">
-          <Thumbnail className={classes.thumbnail} type={type} thumbnail={product.thumbnail} />
-        </div>
-        <div className="_desc_name">{product.name}</div>
-      </div>
+const Spec = ({ type, item, classes, onItemChange }) => {
+  const product = item[type];
+  const info = publishTypesInfo[type];
+  if (info.saleType === 1) {
+    const spec = info.saleType === 1 ? product.specs[item.specIndex] : {};
+    return (
       <div className={classes.spec}>
         <div>
           <span>{spec.name}</span>
-          { product.specs.length > 1 &&
-            <div className={classes.specSelector}>
-              <small>更多规格</small>
-              <IconButton name="more_vert" id={`${item.objectId}_spec_menu`} />
-              <Menu target={`${item.objectId}_spec_menu`} align="right">
-                {product.specs.map((s, i) => <MenuItem
-                  key={i}
-                  disabled={s === spec}
-                  onClick={() => onItemChange({ specIndex: i })}
-                >{s.name}</MenuItem>)}
-              </Menu>
-            </div>
+          { info.saleType === 1 && product.specs.length > 1 &&
+          <div className={classes.specSelector}>
+            <small>更多规格</small>
+            <IconButton name="more_vert" id={`${item.objectId}_spec_menu`} />
+            <Menu target={`${item.objectId}_spec_menu`} align="right">
+              {product.specs.map((s, i) => <MenuItem
+                key={i}
+                disabled={s === spec}
+                onClick={() => onItemChange({ specIndex: i })}
+              >{s.name}</MenuItem>)}
+            </Menu>
+          </div>
           }
         </div>
         <div className={classes.specParams}>
-          {spec.params.map((param, i) => <span style={{ display: 'inline-block', padding: 4 }} key={i}><LabelWithBorder>{param}</LabelWithBorder> </span>)}
+          {info.saleType === 1 && spec.params.map((param, i) => <span style={{ display: 'inline-block', padding: 4 }} key={i}><LabelWithBorder>{param}</LabelWithBorder> </span>)}
         </div>
         <div className={classes.specPrice}>
-          {formatPrice(spec)}
+          {info.saleType === 1 ? formatPrice(spec) : '待议'}
         </div>
       </div>
+    );
+  }
+  return <div className={classes.spec} />;
+};
+Spec.propTypes = {
+  item: PropTypes.object.isRequired,
+  type: PropTypes.string.isRequired,
+  classes: PropTypes.object.isRequired,
+  onItemChange: PropTypes.func.isRequired,
+};
+
+const CountAndAmount = ({ type, item, classes, onItemChange, error }) => {
+  const product = item[type];
+  const info = publishTypesInfo[type];
+  if (info.saleType === 1) {
+    const spec = info.saleType === 1 ? product.specs[item.specIndex] : {};
+    return (
       <div className={classes.countAndAmount}>
         <div className={classes.count}>
           <IconButton name="add_circle_outline" onClick={() => onItemChange({ quantity: item.quantity + 1 })} />
@@ -69,6 +79,47 @@ const CartItem = ({ item, classes, checked, onChange, onItemChange, onItemsRemov
           <h6>{!error && (spec.price * Number(item.quantity))}</h6>
         </div>
       </div>
+    );
+  }
+  return (
+    <div className={classes.countAndAmount}>
+      <div className={classes.count} />
+      <div className={classes.amount}>
+        <h6>待议</h6>
+      </div>
+    </div>
+  );
+};
+CountAndAmount.propTypes = {
+  item: PropTypes.object.isRequired,
+  type: PropTypes.string.isRequired,
+  classes: PropTypes.object.isRequired,
+  onItemChange: PropTypes.func.isRequired,
+  error: PropTypes.string,
+};
+
+const CartItem = ({ type, item, classes, checked, onChange, onItemChange, onItemsRemoved, error }) => {
+  const product = item[type];
+  const info = publishTypesInfo[type];
+  return (
+    <div className={`${classes.cartItem} ${shadows.shadow2}`}>
+      <div className={classes.desc}>
+        <div>
+          <Checkbox ripple checked={checked} onChange={onChange} />
+        </div>
+        <div className="_thumbnail">
+          <Link to={`/${info.route}/${product.objectId}`}>
+            <Thumbnail className={classes.thumbnail} type={type} thumbnail={product.thumbnail} />
+          </Link>
+        </div>
+        <div className="_desc_name">
+          <Link to={`/${info.route}/${product.objectId}`}>
+            {`${info.title} - ${product.name}`}
+          </Link>
+        </div>
+      </div>
+      <Spec item={item} type={type} classes={classes} onItemChange={onItemChange} />
+      <CountAndAmount item={item} type={type} classes={classes} onItemChange={onItemChange} error={error} />
       <div className={classes.actions}>
         <RemoveItemsButton cartItemIds={[item.objectId]} onItemsRemoved={onItemsRemoved} />
         <Button>加入收藏</Button>
@@ -79,6 +130,7 @@ const CartItem = ({ item, classes, checked, onChange, onItemChange, onItemsRemov
 
 CartItem.propTypes = {
   item: PropTypes.object.isRequired,
+  type: PropTypes.string.isRequired,
   classes: PropTypes.object.isRequired,
   checked: PropTypes.bool.isRequired,
   onChange: PropTypes.func.isRequired,
@@ -165,6 +217,7 @@ export default injectSheet({
     },
   },
   count: {
+    minHeight: 50,
     margin: '-6px 0 0',
     display: 'flex',
     alignItems: 'flex-start',

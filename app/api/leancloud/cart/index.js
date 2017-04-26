@@ -15,7 +15,7 @@ export default ({ context }) => {
   class CartItem extends AV.Object {}
   AV.Object.register(CartItem);
 
-  const addCartItem = async ({ quantity, type, product }) => {
+  const addCartItem = async ({ quantity, specIndex, type, publish }) => {
     const { token: { sessionToken, currentUserId } } = context;
     try {
       if (!sessionToken) {
@@ -25,14 +25,19 @@ export default ({ context }) => {
       const cartItem = new CartItem();
       const table = schemas[type].table;
       if (table) {
-        cartItem.set(`${type}Product`, AV.Object.createWithoutData(table, product.objectId));
+        cartItem.set(type, AV.Object.createWithoutData(table, publish.objectId));
       } else {
         throw new AV.Error(AV.Error.OTHER_CAUSE, `无法处理此类商品: ${type}`);
       }
-      cartItem.set('quantity', quantity);
+      if (quantity != null) {
+        cartItem.set('quantity', quantity);
+      }
+      if (specIndex != null) {
+        cartItem.set('specIndex', specIndex);
+      }
       cartItem.set('owner', AV.Object.createWithoutData('_User', currentUserId));
       const saved = await cartItem.save();
-      return { ...saved.toJSON(), [type]: product };
+      return { ...saved.toJSON(), [type]: publish };
     } catch (err) {
       debug(err);
       throw err;
@@ -71,8 +76,11 @@ export default ({ context }) => {
     const { token: { currentUserId } } = context;
     const query = new AV.Query('CartItem')
       .include([
-        'shopProduct', 'shopProduct.images', 'shopProduct.category', 'shopProduct.catalog', 'shopProduct.species', 'shopProduct.thumbnail', 'shopProduct.shop', 'shopProduct.shop.thumbnail',
-        'supplyProduct', 'supplyProduct.images', 'supplyProduct.category', 'supplyProduct.category.catalog', 'supplyProduct.species', 'supplyProduct.thumbnail', 'supplyProduct.owner', 'supplyProduct.owner.avatar',
+        'supply', 'supply.images', 'supply.category', 'supply.category.catalog', 'supply.species', 'supply.thumbnail', 'supply.owner', 'supply.owner.avatar',
+        'logistics', 'logistics.images', 'logistics.thumbnail', 'logistics.owner', 'logistics.owner.avatar',
+        'trip', 'trip.images', 'trip.category', 'trip.category.catalog', 'trip.species', 'trip.thumbnail', 'trip.owner', 'trip.owner.avatar',
+        'product', 'product.images', 'product.category', 'product.catalog', 'product.species', 'product.thumbnail', 'product.shop', 'product.shop.thumbnail',
+        'flashSale', 'flashSale.images', 'flashSale.category', 'flashSale.catalog', 'flashSale.species', 'flashSale.thumbnail', 'flashSale.shop', 'flashSale.shop.thumbnail',
       ]);
     query.equalTo('owner', AV.Object.createWithoutData('_User', currentUserId));
     query

@@ -56,8 +56,6 @@ export default function HtmlDocument({ lang, head, css, appMarkup, state, assets
         {/* our app code */}
         <script type="text/javascript" src={assets.main.js}></script>
 
-        {/* see app/setup/openSansObserver.js */}
-        <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet" />
         <script src="https://webapi.amap.com/maps?v=1.3&key=47126811591e35236dbde1130d579dde"></script>
         <script src="https://cdn.bootcss.com/tinymce/4.5.3/tinymce.min.js"></script>
       </body>

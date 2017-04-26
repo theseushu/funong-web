@@ -3,9 +3,10 @@ import _omitBy from 'lodash/omitBy';
 import { reduxForm } from 'redux-form';
 import { browserHistory } from 'react-router';
 import success from 'modules/toastr/success';
+import { publishTypesInfo } from 'funong-common/lib/appConstants';
 
 const omitFileds = ['shop', 'original', 'updatedAt', 'owner', 'minPrice', 'createdAt', 'thumbnail'];
-export default (FORM_NAME, actions, FormComponent) => {
+export default (type, FORM_NAME, actions, FormComponent) => {
   const { create, update } = actions;
   return reduxForm({
     form: FORM_NAME,  // a unique identifier for this form
@@ -47,7 +48,7 @@ export default (FORM_NAME, actions, FormComponent) => {
                   title: '创建成功',
                   message: publish.name,
                   onHideComplete: () => {
-                    dispatch(browserHistory.push('/me/published'));
+                    dispatch(browserHistory.push(`/me/published/${publishTypesInfo[type].plural}`));
                   },
                 });
                 resolve();

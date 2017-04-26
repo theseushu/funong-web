@@ -5,19 +5,22 @@ import { colors } from 'modules/common/styles';
 import { Avatar } from 'modules/common/user';
 import { Thumbnail as ShopThumbnail } from 'modules/common/shop';
 
-const Owner = ({ user, shop, classes, checked, onChange }) => (
-  <div className={classes.owner}>
-    <div>
-      <Checkbox ripple checked={checked} onChange={onChange} />
+const Owner = ({ user, shop, classes, checked, onChange }) => {
+  console.log(shop)
+  return (
+    <div className={classes.owner}>
+      <div>
+        <Checkbox ripple checked={checked} onChange={onChange} />
+      </div>
+      <div className={classes.avatar}>
+        { user && <Avatar user={user} /> }
+        { shop && <ShopThumbnail shop={shop} /> }
+      </div>
+      <div>{user && user.name}</div>
+      <div>{shop && shop.name}</div>
     </div>
-    <div className={classes.avatar}>
-      { user && <Avatar user={user} /> }
-      { shop && <ShopThumbnail shop={shop} /> }
-    </div>
-    <div>{user && user.name}</div>
-    <div>{shop && shop.name}</div>
-  </div>
   );
+}
 
 Owner.propTypes = {
   shop: PropTypes.object,

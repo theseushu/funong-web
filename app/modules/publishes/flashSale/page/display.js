@@ -12,7 +12,7 @@ import ChatButton from 'modules/common/user/chatButton';
 import { formatStartAndEndTime, formatDateTime } from 'funong-common/lib/utils/displayUtils';
 import DescCard from '../../display/descCard';
 import Carousel from '../../display/carousel';
-// import AddToCartButton from '../../display/addToCartButton';
+import AddToCartButton from '../../display/addToCartButton';
 import CategoryAndSpecies from '../../display/categoryAndSpecies';
 import Specs from '../../display/specs';
 import UpdateTimeAndLocation from '../../display/updateTimeAndLocation';
@@ -52,10 +52,7 @@ class Display extends Component {
               </div>
               <CardActions border className={classes.buttons}>
                 <ChatButton raised accent ripple user={owner}>在线联系</ChatButton>
-                {/*
                 <AddToCartButton type={type} entry={this.props.entry} specIndex={specIndex} quantity={1}>加入购物车</AddToCartButton>
-                */
-                }
               </CardActions>
             </Card>
           </Cell>

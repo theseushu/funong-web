@@ -15,7 +15,7 @@ const ToastrLink = () => <Link to="/me/cart">去购物车</Link>;
 
 const AddToCartButton = ({ currentUser, pending, addCartItem, type, entry, specIndex, quantity }) => {
   const info = publishTypesInfo[type];
-  if (!info.forSale) {
+  if (!info.saleType === 0) {
     return null;
   }
   return (
@@ -29,7 +29,7 @@ const AddToCartButton = ({ currentUser, pending, addCartItem, type, entry, specI
         if (currentUser) {
           addCartItem({
             type,
-            entry,
+            publish: entry,
             quantity,
             specIndex,
             meta: {
@@ -59,7 +59,7 @@ AddToCartButton.propTypes = {
   type: PropTypes.string.isRequired,
   entry: PropTypes.object.isRequired,
   quantity: PropTypes.number,
-  specIndex: PropTypes.number.isRequired,
+  specIndex: PropTypes.number,
 };
 
 export default connect(
