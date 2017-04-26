@@ -109,21 +109,19 @@ class Page extends Component {
           onDeselect={() => this.onItemsDeselected(itemIds)}
         />
         {
-          _map(grouped, (groups, type) => {
-            return _map(groups, (items, i) => (
-              <Group
-                key={`${type}-${i}`}
-                type={type}
-                items={items}
-                selected={selected}
-                select={this.onItemsSelected}
-                deselect={this.onItemsDeselected}
-                onItemChange={this.onItemChange}
-                onItemsRemoved={this.onItemsRemoved}
-                error={error}
-              />
-              ));
-          })
+          _map(grouped, (groups, type) => _map(groups, (items, i) => (
+            <Group
+              key={`${type}-${i}`}
+              type={type}
+              items={items}
+              selected={selected}
+              select={this.onItemsSelected}
+              deselect={this.onItemsDeselected}
+              onItemChange={this.onItemChange}
+              onItemsRemoved={this.onItemsRemoved}
+              error={error}
+            />
+              )))
         }
         <Bottom
           cartItems={cartItems}
