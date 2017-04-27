@@ -36,7 +36,10 @@ export default ({ context }) => {
         cartItem.set('specIndex', specIndex);
       }
       cartItem.set('owner', AV.Object.createWithoutData('_User', currentUserId));
-      const saved = await cartItem.save();
+      const saved = await cartItem.save(null, {
+        fetchWhenSave: true,
+        sessionToken,
+      });
       return { ...saved.toJSON(), [type]: publish };
     } catch (err) {
       debug(err);
@@ -73,7 +76,7 @@ export default ({ context }) => {
     return cartItemIds;
   };
   const fetchCartItems = async () => {
-    const { token: { currentUserId } } = context;
+    const { token: { sessionToken, currentUserId } } = context;
     const query = new AV.Query('CartItem')
       .include([
         'supply', 'supply.images', 'supply.category', 'supply.category.catalog', 'supply.species', 'supply.thumbnail', 'supply.owner', 'supply.owner.avatar',
@@ -85,7 +88,7 @@ export default ({ context }) => {
     query.equalTo('owner', AV.Object.createWithoutData('_User', currentUserId));
     query
       .limit(1000);
-    const cartItems = await query.find();
+    const cartItems = await query.find({ sessionToken });
 
     return cartItems.map(cartItemToJSON);
   };

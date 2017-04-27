@@ -12,6 +12,7 @@ export default ({ store, injectReducer, injectSagas, loadModule, errorLoading })
       const cartPageDucks = await System.import('../mePage/cart/ducks');
       const itemsSelector = cartPageDucks.selectors.items;
       const items = itemsSelector(store.getState());
+      // const items = require('./items').default;
       if (items == null || items.length === 0) {
         // TODO uncomment
         replace(routes.page_my_cart);
@@ -39,6 +40,7 @@ export default ({ store, injectReducer, injectSagas, loadModule, errorLoading })
       const cartPageDucks = await System.import('../mePage/cart/ducks');
       const itemsSelector = cartPageDucks.selectors.items;
       const items = itemsSelector(store.getState());
+      // const items = require('./items').default;
       store.dispatch(setCartItems(items));
 
       // set default address
