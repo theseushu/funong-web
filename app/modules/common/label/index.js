@@ -4,12 +4,15 @@ import injectSheet from 'react-jss';
 import { colors } from '../styles';
 
 // have to specify 'sheet'. otherwise it will be passed to Chip
-const Label = ({ children, className, sheet, classes, ...props }) => ( // eslint-disable-line no-unused-vars
-  <Chip
-    className={className ? `${classes.label} ${className}` : classes.label}
-    {...props}
-  >{children}</Chip>
+const Label = ({ children, className, sheet, classes, ...props }) => {
+  console.log(children)
+  return ( // eslint-disable-line no-unused-vars
+    <Chip
+      className={className ? `${classes.label} ${className}` : classes.label}
+      {...props}
+    >{children}</Chip>
   );
+}
 
 Label.propTypes = {
   sheet: PropTypes.object.isRequired,

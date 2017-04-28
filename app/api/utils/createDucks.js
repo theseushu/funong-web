@@ -2,7 +2,7 @@ import snakeCase from 'snake-case';
 import _get from 'lodash/get';
 import { createSelector } from 'reselect';
 import { takeEvery, call, put } from 'redux-saga/effects';
-const debug = require('debug')('funong-web:api/utils/createDucks');
+const debug = require('debug')('funongweb:api/utils/createDucks');
 
 // names
 export const createNames = ({ apiName, namespace, key = apiName }) => ({

@@ -1,5 +1,7 @@
 import React, { Component, PropTypes } from 'react';
+import _find from 'lodash/find';
 import injectSheet from 'react-jss';
+import { provinces as allProvinces } from 'funong-common/lib/appConstants';
 import ProvincesSelectorDialog from 'modules/common/location/provincesSelectorDialog';
 import FormButton from 'modules/common/formElements/button';
 import styles, { colors } from 'modules/common/styles';
@@ -31,7 +33,8 @@ class RangeField extends Component {
         </div>
         <div className={`${classes.range}`}>
           {
-            value.map((province, i) => <span key={i}>{province.title}</span>)
+            value.length === 0 ? '全国' :
+            value.map((province, i) => <span key={i}>{_find(allProvinces, (p) => p.value === province).title}</span>)
           }
         </div>
         <ProvincesSelectorDialog

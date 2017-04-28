@@ -6,38 +6,39 @@
  * this object is mutable, deconstruction could cause latest value untouchable
  * wait until I figure out a better way
  */
+import _find from 'lodash/find';
+import _isUndefined from 'lodash/isUndefined';
+import _omitBy from 'lodash/omitBy';
 import AV from 'leancloud-storage';
 import { orderToJSON } from '../utils/converters';
-const debug = require('debug')('app:api:order');
+const debug = require('debug')('funongweb:api:order');
 
 export default ({ context }) => {
   class Order extends AV.Object {}
   AV.Object.register(Order);
 
-  const createOrders = async () => {
-    // const { token: { sessionToken }, profile } = context;
-    //
-    // const savedOrders = await AV.Cloud.rpc('createOrders', { orders }, { sessionToken });
-    // return savedOrders.map((savedOrder) => {
-    //   const type = savedOrder.get('type');
-    //   const user = savedOrder.get('user') && savedOrder.get('user').toJSON();
-    //   const shop = savedOrder.get('shop') && savedOrder.get('shop').toJSON();
-    //   const order = _find(orders, (o) => {
-    //     if (o.type !== type) {
-    //       return false;
-    //     }
-    //     if (user) {
-    //       return o.user && o.user.objectId === user.objectId;
-    //     }
-    //     if (shop) {
-    //       return o.shop && o.shop.objectId === shop.objectId;
-    //     }
-    //     return false;
-    //   });
-    //   return _omitBy({ ...savedOrder.toJSON(), user: order.user, shop: order.shop, owner: profile }, _isUndefined);
-    // });
-    debug('Deprecated method');
-    throw new Error();
+  const createOrders = async ({ orders }) => {
+    const { token: { sessionToken, currentUserId } } = context;
+
+    const savedOrders = await AV.Cloud.rpc('createOrders', { orders }, { sessionToken });
+    return savedOrders.map((savedOrder) => {
+      const type = savedOrder.get('type');
+      const user = savedOrder.get('user') && savedOrder.get('user').toJSON();
+      const shop = savedOrder.get('shop') && savedOrder.get('shop').toJSON();
+      const order = _find(orders, (o) => {
+        if (o.type !== type) {
+          return false;
+        }
+        if (user) {
+          return o.user && o.user.objectId === user.objectId;
+        }
+        if (shop) {
+          return o.shop && o.shop.objectId === shop.objectId;
+        }
+        return false;
+      });
+      return _omitBy({ ...savedOrder.toJSON(), user: order.user, shop: order.shop, owner: { objectId: currentUserId } }, _isUndefined);
+    });
   };
 
   const commitOrder = async ({ order }) => {

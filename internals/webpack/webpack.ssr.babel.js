@@ -21,7 +21,7 @@ module.exports = {
   output: {
     path: outputPath,
     filename: 'generated.serverEntry.js',
-    publicPath: '/assets/',
+    publicPath: '/',
     libraryTarget: 'commonjs2',
   },
   module: {
