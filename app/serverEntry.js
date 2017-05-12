@@ -54,7 +54,6 @@ async function renderHtmlDocument({ store, renderProps, sagasDone, assets, webpa
   const appMarkup = renderAppToString(store, renderProps, sheets);
 
   // capture the generated css
-
   // TODO jss
   const doc = renderToStaticMarkup(
     <HtmlDocument

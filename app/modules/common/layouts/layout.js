@@ -61,15 +61,15 @@ class LayoutComponent extends Component {
           <Footer size="mini">
             <FooterSection className={classes.container} type="left" logo="Title">
               <FooterLinkList>
-                <a href="#help">Help</a>
+                <a href="#help">ICP备案证书号：豫ICP备17006308号-1</a>
                 <a href="#privacy">Privacy & Terms</a>
               </FooterLinkList>
             </FooterSection>
           </Footer>
-          {
-            !onReturn && <BottomNav />
-          }
         </Content>
+        {
+          !onReturn && <BottomNav />
+        }
       </Layout>
     );
   }

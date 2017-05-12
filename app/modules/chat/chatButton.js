@@ -29,7 +29,7 @@ const ChatButton = ({ loading, currentUser, user, createConversation, openDialog
         e.preventDefault();
         e.stopPropagation();
         if (!currentUser) {
-          router.push('/login');
+          router.push(`/login?message=请登录&redirect=${location.pathname}${location.search}`);
         } else {
           createConversation({ currentUser, user });
           openDialog(user);

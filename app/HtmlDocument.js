@@ -58,6 +58,7 @@ export default function HtmlDocument({ lang, head, css, appMarkup, state, assets
 
         <script src="https://webapi.amap.com/maps?v=1.3&key=47126811591e35236dbde1130d579dde"></script>
         <script src="https://cdn.bootcss.com/tinymce/4.5.3/tinymce.min.js"></script>
+        {head.script.toComponent()}
       </body>
     </html>
   );

@@ -11,7 +11,7 @@ import _isUndefined from 'lodash/isUndefined';
 import _omitBy from 'lodash/omitBy';
 import AV from 'leancloud-storage';
 import { orderToJSON } from '../utils/converters';
-const debug = require('debug')('funongweb:api:order');
+// const debug = require('debug')('funongweb:api:order');
 
 export default ({ context }) => {
   class Order extends AV.Object {}
@@ -87,9 +87,17 @@ export default ({ context }) => {
     return orders.map(orderToJSON);
   };
 
+  const generateBeecloudBill = async ({ order }) => {
+    const { token: { sessionToken } } = context;
+    const { objectId } = order;
+    const result = await AV.Cloud.rpc('generateBeecloudBill', { objectId }, { sessionToken });
+    return result;
+  };
+
   return {
     createOrders,
     commitOrder,
     searchOrders,
+    generateBeecloudBill,
   };
 };

@@ -13,7 +13,7 @@ const addCartItemStateSelector = selectors.addItem;
 
 const ToastrLink = () => <Link to="/me/cart">去购物车</Link>;
 
-const AddToCartButton = ({ currentUser, pending, addCartItem, type, entry, specIndex, quantity }) => {
+const AddToCartButton = ({ currentUser, pending, addCartItem, type, entry, specIndex, quantity }, { router }) => {
   const info = publishTypesInfo[type];
   if (!info.saleType === 0) {
     return null;
@@ -23,7 +23,7 @@ const AddToCartButton = ({ currentUser, pending, addCartItem, type, entry, specI
       raised
       accent
       ripple
-      disabled={pending || (info.shop ? entry.shop.owner.objectId === (currentUser && currentUser.objectId) : entry.owner.objectId === currentUser.objectId)}
+      disabled={pending || (info.shop ? entry.shop.owner.objectId === (currentUser && currentUser.objectId) : entry.owner.objectId === (currentUser && currentUser.objectId))}
       onClick={(e) => {
         e.preventDefault();
         if (currentUser) {
@@ -44,14 +44,16 @@ const AddToCartButton = ({ currentUser, pending, addCartItem, type, entry, specI
               },
             } });
         } else {
-          // todo prompt login
-          console.error('no user, no cart'); // eslint-disable-line
+          router.push(`/login?message=请登录&redirect=${location.pathname}${location.search}`);
         }
       }}
     >加入购物车</Button>
   );
 };
 
+AddToCartButton.contextTypes = {
+  router: PropTypes.object.isRequired,
+};
 AddToCartButton.propTypes = {
   currentUser: PropTypes.object,
   pending: PropTypes.bool,
