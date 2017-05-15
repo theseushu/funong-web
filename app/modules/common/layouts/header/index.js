@@ -191,7 +191,7 @@ export default injectSheet({
   },
   activeLink: {
     borderBottom: `solid 3px ${colors.colorAccent}`,
-    // color: `${colors.colorPrimaryContrast} !important`,
+    color: `${colors.colorAccent} !important`,
     // background: `${colors.colorPrimary} !important`,
   },
 })(connect(

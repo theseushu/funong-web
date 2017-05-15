@@ -48,7 +48,7 @@ HomePage.propTypes = {
 
 export default injectSheet({
   header: {
-    marginLeft: 16,
+    marginLeft: 48,
     height: '100%',
     display: 'flex',
     alignItems: 'center',

@@ -54,15 +54,15 @@ const StyledSearch = injectSheet({
 
 const DefaultHeader = ({ classes, search, main }) => (
   <div className={classes.defaultHeader}>
-    <div className={classes.logo}>
+    <a href="/" className={classes.logo}>
       <img src={logoBig} role="presentation" />
-    </div>
-    <div className={classes.logoSmall}>
+    </a>
+    <a href="/" className={classes.logoSmall}>
       <img src={logoSmall} role="presentation" />
-    </div>
-    <div className={classes.logoHorizontal}>
+    </a>
+    <a href="/" className={classes.logoHorizontal}>
       <img src={logo40} role="presentation" />
-    </div>
+    </a>
     {
       search && search.label && search.onSearch && (
         <div className={classes.search}><StyledSearch {...search} /></div>
