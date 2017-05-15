@@ -28,7 +28,7 @@ const AppHeader = ({ classes, header, search, sideMenu, onReturn, site, setSite 
       <HeaderRow className={classes.main}>
         <Container className={`${classes.container} ${paddingClass}`}>
           <div style={{ position: 'relative', height: '100%' }}>
-            {header || <DefaultHeader search={search} />}
+            <DefaultHeader search={search} main={header} />
             <div className={classes.buttons}>
               <Cart />
               <User />
@@ -119,7 +119,7 @@ export default injectSheet({
     position: 'relative',
     height: 100,
     '.is-compact &': {
-      // background: `url(${logoHorizontal})`,
+      // background: `url(${logo40})`,
       height: 40,
     },
   },
@@ -190,7 +190,7 @@ export default injectSheet({
     },
   },
   activeLink: {
-    borderBottom: `solid 3px ${colors.colorPrimary}`,
+    borderBottom: `solid 3px ${colors.colorAccent}`,
     // color: `${colors.colorPrimaryContrast} !important`,
     // background: `${colors.colorPrimary} !important`,
   },

@@ -29,7 +29,7 @@ export class SignupOrLogin extends React.PureComponent { // eslint-disable-line 
     return (
       <div className={classes.background}>
         <Helmet
-          title="聚农商 登录/注册"
+          title="富农商城 登录/注册"
         />
         <div className={styles.contentCenter}>
           <Card shadow={4} className={classes.formWrapper}>

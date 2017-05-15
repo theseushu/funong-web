@@ -12,11 +12,11 @@ export default ({ type, actions, EMPTY_PRODUCT, FORM_NAME, FormComponent, Displa
     const { query } = location;
     let title;
     if (id === 'new') {
-      title = `聚农商-发布新${info.title}`;
+      title = `富农商城-发布新${info.title}`;
     } else if (query.edit) {
-      title = `聚农商-更新${info.title}-${entry.name}`;
+      title = `富农商城-更新${info.title}-${entry.name}`;
     } else {
-      title = `聚农商-${info.title}-${entry.name}`;
+      title = `富农商城-${info.title}-${entry.name}`;
     }
     return (
       <Layout

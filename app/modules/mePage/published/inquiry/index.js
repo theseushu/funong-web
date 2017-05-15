@@ -20,7 +20,7 @@ const Content = connect(
 
 export default (props) => (<Page
   {...props}
-  helmet={{ title: '聚农商-我的采购' }}
+  helmet={{ title: '富农商城-我的采购' }}
   editPath={editPath}
   content={<Content />}
 />);

@@ -2,9 +2,9 @@ import jss from 'jss';
 
 // see _material-design-lite.scss
 export const colors = {
-  colorPrimary: 'rgb(46, 125, 50)', // green800
+  colorPrimary: '#2E7D32', // green800
   // colorPrimaryDark: 'rgb(56,142,60)', // green700
-  colorAccent: '#9C27B0', // purple500
+  colorAccent: '#EF6C00', // orange800
   colorLightAccent: '#F3E5F5', // purple50 use as background or similiar stuff
   colorPrimaryContrast: 'white',
   colorAccentContrast: 'white',

@@ -4,7 +4,7 @@ import Page from './page';
 
 const OrderPage = () => (
   <Layout
-    helmet={{ title: '聚农商-创建订单' }}
+    helmet={{ title: '富农商城-创建订单' }}
     onReturn={'/me/cart'}
     smallContent={false}
   >

@@ -2,8 +2,8 @@ import React, { PropTypes } from 'react';
 import injectSheet from 'react-jss';
 import Link from 'react-router/lib/Link';
 import { Header, HeaderRow, Navigation } from 'react-mdl/lib/Layout';
-import logoHorizontal from 'assets/logo-horizontal.png';
-import logoBig from 'assets/logo-big.png';
+import logo40 from 'assets/logo40.png';
+import logoBig from 'assets/logo-main.png';
 import { colors, breakpoints } from 'modules/common/styles';
 import background from './assets/header-bg.jpg';
 import Account from './account';
@@ -62,7 +62,7 @@ export default injectSheet({
     height: 100,
     width: 250,
     '.is-compact &': {
-      background: `url(${logoHorizontal})`,
+      background: `url(${logo40})`,
       height: 40,
       width: 166,
     },

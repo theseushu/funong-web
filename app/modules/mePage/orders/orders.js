@@ -10,7 +10,7 @@ const Orders = ({ location, user, orders, classes }) => (
   <Page
     location={location}
     helmet={{
-      title: '聚农商-历史订单',
+      title: '富农商城-历史订单',
       script: [
         { id: 'spay-script', src: 'https://jspay.beecloud.cn/1/pay/jsbutton/returnscripts?appId=5cf8154e-b7e6-4443-a421-f922ca52a0fb' },
       ],

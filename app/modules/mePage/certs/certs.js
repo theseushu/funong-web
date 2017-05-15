@@ -94,7 +94,7 @@ class Certs extends Component {
     const { location, personal, company, expert, classes } = this.props;
     const { activeTab } = this.state;
     return (
-      <Page location={location} helmet={{ title: '聚农商-认证' }} header={<Header />}>
+      <Page location={location} helmet={{ title: '富农商城-认证' }} header={<Header />}>
         <div className={classes.content}>
           <Card shadow={2} style={{ width: '100%', margin: 'auto' }}>
             <CardTitle>

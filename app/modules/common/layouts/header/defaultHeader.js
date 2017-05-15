@@ -2,8 +2,8 @@ import React, { Component, PropTypes } from 'react';
 import injectSheet from 'react-jss';
 import Textfield from 'react-mdl/lib/Textfield';
 import IconButton from 'react-mdl/lib/IconButton';
-import logoHorizontal from 'assets/logo-horizontal.png';
-import logoBig from 'assets/logo-big.png';
+import logo40 from 'assets/logo40.png';
+import logoBig from 'assets/logo-main.png';
 import logoSmall from 'assets/logo.png';
 import { breakpoints } from 'modules/common/styles';
 
@@ -52,7 +52,7 @@ const StyledSearch = injectSheet({
   },
 })(Search);
 
-const DefaultHeader = ({ classes, search }) => (
+const DefaultHeader = ({ classes, search, main }) => (
   <div className={classes.defaultHeader}>
     <div className={classes.logo}>
       <img src={logoBig} role="presentation" />
@@ -61,18 +61,22 @@ const DefaultHeader = ({ classes, search }) => (
       <img src={logoSmall} role="presentation" />
     </div>
     <div className={classes.logoHorizontal}>
-      <img src={logoHorizontal} role="presentation" />
+      <img src={logo40} role="presentation" />
     </div>
     {
       search && search.label && search.onSearch && (
         <div className={classes.search}><StyledSearch {...search} /></div>
       )
     }
+    {
+      !search && main
+    }
   </div>
 );
 
 DefaultHeader.propTypes = {
   classes: PropTypes.object.isRequired,
+  main: PropTypes.any,
   search: PropTypes.shape({
     label: PropTypes.string.isRequired,
     onSearch: PropTypes.func.isRequired,
@@ -83,6 +87,8 @@ DefaultHeader.propTypes = {
 export default injectSheet({
   defaultHeader: {
     display: 'flex',
+    height: '100%',
+    alignItems: 'center',
     '.is-compact &': {
     },
   },
