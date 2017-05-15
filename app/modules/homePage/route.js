@@ -1,37 +1,29 @@
-import _toPairs from 'lodash/toPairs';
-// import { currentUserSelector } from 'modules/data/ducks/selectors';
+import { loadAsyncModules } from 'utils/routerUtils';
+import { routes } from 'funong-common/lib/appConstants';
 
-export default ({ store, injectReducer, injectSagas, loadModule, errorLoading }) => {  // eslint-disable-line no-unused-vars
-  let injected = false;
-  return ({
-    path: '/',
-    name: 'home',
-    onEnter: async ({ location }, replace, callback) => {
-      replace('/products');
-      callback();
-    },
-    getComponent: async (nextState, cb) => {
-      try {
-        const importModules = Promise.all([
-          System.import('./index'),
-          System.import('./ducks'),
-        ]);
-
-        const renderRoute = loadModule(cb);
-        const [component, ducks] = await importModules;
-        if (!injected) {
-          _toPairs(ducks.default).forEach((pair) => {
-            injectReducer(pair[0], pair[1]);
-          });
-          if (ducks.sagas && ducks.sagas.length > 0) {
-            injectSagas(ducks.sagas);
-          }
-          injected = true;
-        }
-        renderRoute(component);
-      } catch (err) {
-        errorLoading(err);
-      }
-    },
-  });
-};
+export default ({ store, loadModule, errorLoading }) =>
+   ({
+     path: routes.page_home,
+     name: 'page_home',
+     onEnter: async ({ location }, replace, callback) => {
+       callback();
+     },
+     getComponent: async (nextState, cb) => loadAsyncModules({
+       store,
+       loadModule,
+       errorLoading,
+       cb,
+       routeName: 'page_home',
+       componentPromise: System.import('./index'),
+       ducksPromise: System.import('./ducks'),
+       beforeRender: async (ducks) => {
+         const recommend = ducks.actions.recommend;
+         const selector = ducks.selectors.recommend;
+         if (!selector(store.getState()).fulfilled) {
+           await new Promise((resolve) => store.dispatch(recommend({ meta: {
+             resolve,
+           } })));
+         }
+       },
+     }),
+   });

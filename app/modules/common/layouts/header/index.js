@@ -62,7 +62,7 @@ const AppHeader = ({ classes, header, search, sideMenu, onReturn, site, setSite 
                 onClick={route.switch ? () => {
                   setSite(route.switch);
                 } : undefined}
-              ><Icon name={route.icon} />{route.title}</Link>)
+              ><Icon name={route.icon} /> {route.title}</Link>)
             }
           </Navigation>
         </Container>
@@ -182,10 +182,17 @@ export default injectSheet({
       padding: 0,
       height: 42,
       lineHeight: '42px',
+      fontSize: 15,
+      fontWeight: 600,
+      '& i': {
+        opacity: '0.5',
+      },
     },
   },
   activeLink: {
-    borderBottom: `solid 3px ${colors.colorAccent}`,
+    borderBottom: `solid 3px ${colors.colorPrimary}`,
+    // color: `${colors.colorPrimaryContrast} !important`,
+    // background: `${colors.colorPrimary} !important`,
   },
 })(connect(
   (state) => ({ site: selectors.site(state) }),

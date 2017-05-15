@@ -153,7 +153,7 @@ export const pageFunc = async (type, schema, { keywords, category, species, prov
 };
 
 export const recommend = async (type, schema, params, context) => {
-  const result = await pageFunc(type, schema, { ...params, page: 1, pageSize: 4 }, context);
+  const result = await pageFunc(type, schema, { page: 1, pageSize: 4, ...params }, context);
   return result.results;
 };
 
