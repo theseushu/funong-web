@@ -11,10 +11,9 @@ import schemas from '../utils/shemas/publishes';
 import { cartItemToJSON } from '../utils/converters';
 const debug = require('debug')('app:api:file');
 
-export default ({ context }) => {
-  class CartItem extends AV.Object {}
-  AV.Object.register(CartItem);
+const CartItem = AV.Object.extend('Bid');
 
+export default ({ context }) => {
   const addCartItem = async ({ quantity, specIndex, type, publish }) => {
     const { token: { sessionToken, currentUserId } } = context;
     try {
@@ -36,6 +35,7 @@ export default ({ context }) => {
         cartItem.set('specIndex', specIndex);
       }
       cartItem.set('owner', AV.Object.createWithoutData('_User', currentUserId));
+      console.log(cartItem);
       const saved = await cartItem.save(null, {
         fetchWhenSave: true,
         sessionToken,

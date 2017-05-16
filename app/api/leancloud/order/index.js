@@ -13,10 +13,8 @@ import AV from 'leancloud-storage';
 import { orderToJSON } from '../utils/converters';
 // const debug = require('debug')('funongweb:api:order');
 
+// const Order = AV.Object.extend('Order');
 export default ({ context }) => {
-  class Order extends AV.Object {}
-  AV.Object.register(Order);
-
   const createOrders = async ({ orders }) => {
     const { token: { sessionToken, currentUserId } } = context;
 

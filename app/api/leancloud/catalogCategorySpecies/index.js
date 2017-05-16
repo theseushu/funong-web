@@ -10,10 +10,9 @@ import AV from 'leancloud-storage';
 import { categoryToJSON, speciesToJSON } from '../utils/converters';
 const debug = require('debug')('app:api:catalogCategorySpecies');
 
-export default ({ context }) => {
-  class Species extends AV.Object {}
-  AV.Object.register(Species);
+const Species = AV.Object.extend('Species');
 
+export default ({ context }) => {
   const fetchCategory = ({ objectId }) => AV.Object.createWithoutData('Category', objectId)
     .fetch()
     .then((result) => result ? categoryToJSON(result) : null);

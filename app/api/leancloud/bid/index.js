@@ -2,9 +2,11 @@ import AV from 'leancloud-storage';
 import { bidToJSON } from '../utils/converters';
 const debug = require('debug')('funong-web:api:bid');
 
+// class Bid extends AV.Object {}
+// AV.Object.register(Bid);
+const Bid = AV.Object.extend('Bid');
+
 export default ({ context }) => {
-  class Bid extends AV.Object {}
-  AV.Object.register(Bid);
 //
 //   const fetchInquiry = async ({ objectId }) => {
 //     const { token: { sessionToken } } = context;

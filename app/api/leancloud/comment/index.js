@@ -10,10 +10,8 @@ import AV from 'leancloud-storage';
 import { commentToJSON } from '../utils/converters';
 const debug = require('debug')('app:api:comments');
 
+const Comment = AV.Object.extend('Comment');
 export default ({ context }) => {
-  class Comment extends AV.Object {}
-  AV.Object.register(Comment);
-
 // TODO deal with empty catalogType
   const searchComments = async ({ shopProduct, supplyProduct, logisticsProduct, page, pageSize }) => {
     const query = new AV.Query('Comment');

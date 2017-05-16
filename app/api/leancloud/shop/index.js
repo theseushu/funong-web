@@ -10,10 +10,8 @@ import AV from 'leancloud-storage';
 import { shopToJSON } from '../utils/converters';
 const debug = require('debug')('app:api:certs');
 
+const Shop = AV.Object.extend('Shop');
 export default ({ context }) => {
-  class Shop extends AV.Object {}
-  AV.Object.register(Shop);
-
 // TODO deal with empty catalogType
   const fetchMyShop = () => new AV.Query('Shop')
     .equalTo('owner', AV.Object.createWithoutData('_User', context.token.currentUserId))

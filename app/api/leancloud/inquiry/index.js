@@ -4,10 +4,8 @@ import { generateKeywords } from 'funong-common/lib/utils/publishUtils';
 import { inquiryToJSON } from '../utils/converters';
 const debug = require('debug')('app:api:inquiry');
 
+const Inquiry = AV.Object.extend('Inquiry');
 export default ({ context }) => {
-  class Inquiry extends AV.Object {}
-  AV.Object.register(Inquiry);
-
   const fetchInquiry = async ({ objectId }) => {
     const { token: { sessionToken } } = context;
     try {

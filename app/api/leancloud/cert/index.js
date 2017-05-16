@@ -10,10 +10,8 @@ import AV from 'leancloud-storage';
 import { certToJSON } from '../utils/converters';
 const debug = require('debug')('app:api:certs');
 
+const Cert = AV.Object.extend('Cert');
 export default ({ context }) => {
-  class Cert extends AV.Object {}
-  AV.Object.register(Cert);
-
 // TODO deal with empty catalogType
   const searchMyCerts = () => new AV.Query('Cert')
     .equalTo('owner', AV.Object.createWithoutData('_User', context.token.currentUserId))
