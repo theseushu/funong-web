@@ -11,7 +11,7 @@ import schemas from '../utils/shemas/publishes';
 import { cartItemToJSON } from '../utils/converters';
 const debug = require('debug')('app:api:file');
 
-const CartItem = AV.Object.extend('Bid');
+const CartItem = AV.Object.extend('CartItem');
 
 export default ({ context }) => {
   const addCartItem = async ({ quantity, specIndex, type, publish }) => {
