@@ -12,14 +12,14 @@ const Owner = ({ user, order, classes }) => {
   return (
     <div className={classes.owner}>
       <div className={classes.title}>
-        { isOwner && publishTypesInfo[type].shop ? '店铺：' : '卖家：' }
+        { isOwner && (publishTypesInfo[type].shop ? '店铺：' : '卖家：') }
         { !isOwner && '买家：' }
       </div>
       <div className={classes.avatar}>
-        { isOwner && publishTypesInfo[type].shop ? <ShopThumbnail shop={order.shop} /> : <Avatar user={order.user} /> }
+        { isOwner && (publishTypesInfo[type].shop ? <ShopThumbnail shop={order.shop} /> : <Avatar user={order.user} />) }
         { !isOwner && <Avatar user={user} /> }
       </div>
-      { isOwner && publishTypesInfo[type].shop ? <div>{order.shop.name}</div> : <div>{order.user.name}</div> }
+      { isOwner && (publishTypesInfo[type].shop ? <div>{order.shop.name}</div> : <div>{order.user.name}</div>) }
       { !isOwner && <div>{user.name}</div> }
     </div>
   );
