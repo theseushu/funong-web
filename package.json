@@ -250,6 +250,7 @@
     "normalizr": "^2.3.0",
     "pingpp-js": "^2.1.8",
     "pinyin": "^2.8.0",
+    "qrcode.react": "^0.7.1",
     "querystring": "0.2.0",
     "react": "15.4.2",
     "react-autosuggest": "^7.1.0",

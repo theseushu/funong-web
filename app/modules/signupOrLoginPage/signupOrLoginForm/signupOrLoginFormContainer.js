@@ -54,7 +54,7 @@ export default reduxForm({
         const fetchProfileResolveFunc = ({ profile }) => {
           resolve();
           if (!profile) {
-            dispatch(browserHistory.push('/welcome'));
+            browserHistory.push('/welcome');
           }
         };
         const fetchProfileRejectFunc = () => {};
