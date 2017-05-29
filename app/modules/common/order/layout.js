@@ -62,6 +62,7 @@ export default injectSheet({
     minWidth: 0,
     minHeight: 0,
     marginBottom: 24,
+    overflow: 'visible',
   },
   accent: {
     borderTop: `solid 2px ${colors.colorAccent}`,

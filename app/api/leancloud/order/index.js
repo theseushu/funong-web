@@ -46,6 +46,15 @@ export default ({ context }) => {
     return { ...orderToJSON(avOrder), shop, user, owner, agent };
   };
 
+  const pageOrders = async (params) => {
+    const { token: { sessionToken } } = context;
+    const result = await AV.Cloud.rpc('pageOrders', params, { sessionToken });
+    return {
+      ...result,
+      results: result.results.map(orderToJSON),
+    };
+  };
+
   const searchOrders = async ({ owner, user, shop, status, type, ascending, descending, skip, limit }) => {
     const { token: { sessionToken } } = context;
     const query = new AV.Query('Order');
@@ -85,10 +94,9 @@ export default ({ context }) => {
     return orders.map(orderToJSON);
   };
 
-  const generateBeecloudBill = async ({ order }) => {
+  const generateBill = async (params) => {
     const { token: { sessionToken } } = context;
-    const { objectId } = order;
-    const result = await AV.Cloud.rpc('generateBeecloudBill', { objectId }, { sessionToken });
+    const result = await AV.Cloud.rpc('generateBill', params, { sessionToken });
     return result;
   };
 
@@ -96,6 +104,7 @@ export default ({ context }) => {
     createOrders,
     commitOrder,
     searchOrders,
-    generateBeecloudBill,
+    pageOrders,
+    generateBill,
   };
 };

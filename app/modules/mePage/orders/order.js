@@ -73,6 +73,7 @@ class StatefulOrder extends Component {
         user={user}
         changeOrder={(o) => this.setState({ order: calculateOrder(o, user) })}
         actions={buttons.length > 0 && buttons}
+        compact
       />
     );
   }

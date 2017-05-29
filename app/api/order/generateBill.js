@@ -4,7 +4,7 @@ import rootSelector from './rootSelector';
 
 const ducks = createDucks({
   key: 'generateBill',
-  apiName: 'generateBeecloudBill',
+  apiName: 'generateBill',
   rootSelector: (state) => rootSelector(state),
   namespace: NAMESPACE,
   sagas: {},

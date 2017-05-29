@@ -4,8 +4,7 @@ import styles, { colors } from 'modules/common/styles';
 import InlineThumbnail from 'modules/common/publishes/inlineThumbnail';
 
 const Compact = ({ order, classes }) => {
-  const productAmount = 0;
-  const amount = 0;
+  const { amount } = order;
   return (
     <div className={classes.compact}>
       <div className={classes.products}>
@@ -17,8 +16,8 @@ const Compact = ({ order, classes }) => {
         ))}
       </div>
       <div className={classes.amount}>
-        <span>￥{amount != null ? amount : productAmount}</span>
-        <small className={styles.colorSubTitle}>({amount != null ? '总价' : '商品价格'})</small>
+        <span>{amount === -1 ? '待议' : `￥${amount}`}</span>
+        <small className={styles.colorSubTitle}>(总价)</small>
       </div>
     </div>
   );

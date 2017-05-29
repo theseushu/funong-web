@@ -1,11 +1,12 @@
 import { routes } from 'funong-common/lib/appConstants';
 import { loadAsyncModules } from 'utils/routerUtils';
+import { queryToCriteria, criteriaToApiParams } from 'funong-common/lib/utils/criteriaUtils';
 
 
 export default ({ store, loadModule, errorLoading }) => ({
   path: routes.page_my_orders,
   name: 'page_my_orders',
-  getComponent: async (nextState, cb) => loadAsyncModules({
+  getComponent: async ({ location: { query } }, cb) => loadAsyncModules({
     store,
     loadModule,
     errorLoading,
@@ -15,19 +16,18 @@ export default ({ store, loadModule, errorLoading }) => ({
     ducksPromise: System.import('./ducks'),
     beforeRender: async (ducks) => {
       await new Promise((resolve, reject) => {
-        const { actions: { search }, selectors } = ducks;
-        const searchState = selectors.search(store.getState());
+        const criteria = queryToCriteria(query);
+        const { actions: { page }, selectors } = ducks;
+        const pageState = selectors.page(store.getState());
         // if the data has been fetched before, don't wait for the api response. otherwise, wait for it
-        if (searchState && searchState.fulfilled) {
-          store.dispatch(search({
-            page: 1,
-            pageSize: 50,
+        if (pageState && pageState.fulfilled) {
+          store.dispatch(page({
+            ...criteriaToApiParams(criteria),
           }));
           resolve();
         } else {
-          store.dispatch(search({
-            page: 1,
-            pageSize: 50,
+          store.dispatch(page({
+            ...criteriaToApiParams(criteria),
             meta: {
               resolve,
               reject,

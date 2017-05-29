@@ -18,6 +18,7 @@ class Order extends PureComponent {
     user: PropTypes.object.isRequired,
     changeOrder: PropTypes.func,
     actions: PropTypes.any,
+    compact: PropTypes.bool,
   }
   changeOrder = (order) => {
     const { changeOrder, user } = this.props;
@@ -70,11 +71,12 @@ class Order extends PureComponent {
     );
   }
   render() {
-    const { order, user, actions, classes } = this.props;
+    const { order, user, actions, classes, compact } = this.props;
     const { type, items, address } = order;
     if (!address) {
       return (
         <Layout
+          compact={compact}
           order={order}
           user={user}
           title={
@@ -94,6 +96,7 @@ class Order extends PureComponent {
     }
     return (
       <Layout
+        compact={compact}
         order={order}
         user={user}
         title={
