@@ -59,7 +59,7 @@ const initSaga = function* ({ meta }) {
     if (currentUser) {
       context = { site: isFarmSiteUser(currentUser) ? 'farm' : null };
     } else {
-      context = { site: null };
+      context = { site: 'farm' };
     }
   }
   yield put({ type: SET_CONTEXT, payload: context });

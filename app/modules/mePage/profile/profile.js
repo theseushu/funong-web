@@ -29,7 +29,7 @@ class Profile extends Component {
     return (
       <Page location={location} helmet={{ title: '富农商城-个人信息' }}>
         <div className={classes.content}>
-          <Card shadow={2} style={{ width: '100%', margin: 'auto' }}>
+          <Card shadow={2} style={{ width: '100%', margin: 'auto', minHeight: 650 }}>
             <CardTitle>
               <h2 className="mdl-card__title-text">个人信息</h2>
               <Tooltip label={<span>点击条目内容即可开始修改<br />您也可以点击图像更换新的头像</span>}>
@@ -61,6 +61,7 @@ export default injectSheet({
   content: {
     flex: '1',
     marginLeft: 24,
+    marginBottom: 24,
     [breakpoints.mediaDestkopBelow]: {
       marginLeft: 0,
     },
