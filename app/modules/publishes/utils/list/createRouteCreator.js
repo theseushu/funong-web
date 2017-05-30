@@ -6,7 +6,7 @@ import { loadAsyncModules } from 'utils/routerUtils';
 const fetchSpecies = actions.fetchSpecies;
 const fetchCategory = categoryActions.fetch;
 
-export default (path, name, componentPromise, ducksPromise) => ({ store, loadModule, errorLoading }) => ({
+export default (path, name, componentPromise, ducksPromise, extraQuery) => ({ store, loadModule, errorLoading }) => ({
   path,
   name,
   getComponent: async (nextState, cb) => loadAsyncModules({
@@ -24,7 +24,7 @@ export default (path, name, componentPromise, ducksPromise) => ({ store, loadMod
       const toFetch = [];
       toFetch.push(new Promise((resolve, reject) => {
         const { actions: { page }, selectors } = ducks;
-        const pageParams = criteriaToApiParams(criteria);
+        const pageParams = extraQuery ? { ...criteriaToApiParams(criteria), ...extraQuery } : criteriaToApiParams(criteria);
           // count
         const pageState = selectors.page(store.getState());
           // if the data has been fetched before, don't wait for the api response. otherwise, wait for it

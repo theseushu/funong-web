@@ -13,7 +13,7 @@ export const validate = ({ phone, smsCode, password }, { login }) => {
   if (!phone) {
     errors.phone = 'Required';
   } else if (!/1\d{10}$/i.test(phone)) {
-    errors.phone = '请输入正确的号码';
+    // errors.phone = '请输入正确的号码';
   }
   if (!login) {
     if (!smsCode) {

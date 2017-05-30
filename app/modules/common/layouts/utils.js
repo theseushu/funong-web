@@ -8,6 +8,7 @@ const mainRoutes = {
   trip: publishTypeToRoute(publishTypesInfo[publishTypes.trip]),
   meFarm: { title: '我的富农', icon: 'person', path: `${routes.page_me}?farm=true` },
   me: { title: '我的富农', icon: 'person', path: routes.page_me },
+  official_supply: { title: '官微供', icon: publishTypesInfo[publishTypes.supply].icon, path: routes.page_official_supplies },
   logistics: publishTypeToRoute(publishTypesInfo[publishTypes.logistics]),
   product: publishTypeToRoute(publishTypesInfo[publishTypes.product]),
   flashSale: publishTypeToRoute(publishTypesInfo[publishTypes.flashSale]),
@@ -21,9 +22,9 @@ export const findRoutes = (site) => {
   if (site.farm) {
     result = [
       mainRoutes.supply,
+      mainRoutes.official_supply,
       mainRoutes.inquiry,
       mainRoutes.logistics,
-      mainRoutes.meFarm,
     ];
     switchRoute = [mainRoutes.switchShop];
   } else {

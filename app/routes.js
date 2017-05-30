@@ -18,6 +18,7 @@ import createInquiryRoute from 'modules/publishes/inquiry/page/route';
 import createInquiriesRoute from 'modules/publishes/inquiry/list/route';
 import createFlashSaleRoute from 'modules/publishes/flashSale/page/route';
 import createFlashSalesRoute from 'modules/publishes/flashSale/list/route';
+import createOfficialSuppliesRoute from 'modules/publishes/officialSupply/list/route';
 
 const errorLoading = (err) => {
   console.error('Dynamic page loading failed', err); // eslint-disable-line no-console
@@ -30,6 +31,7 @@ const loadModule = (cb) => (componentModule) => {
 function createChildRoutes(store) {
   // Create reusable async injectors using getAsyncInjectors factory
   const { injectReducer, injectSagas } = getAsyncInjectors(store); // eslint-disable-line no-unused-vars
+  console.log(createOfficialSuppliesRoute({ store, injectReducer, injectSagas, loadModule, errorLoading }));
   return [
     createHomePageRoute({ store, injectReducer, injectSagas, loadModule, errorLoading }),
     {
@@ -77,6 +79,7 @@ function createChildRoutes(store) {
     createInquiriesRoute({ store, injectReducer, injectSagas, loadModule, errorLoading }),
     createFlashSaleRoute({ store, injectReducer, injectSagas, loadModule, errorLoading }),
     createFlashSalesRoute({ store, injectReducer, injectSagas, loadModule, errorLoading }),
+    createOfficialSuppliesRoute({ store, injectReducer, injectSagas, loadModule, errorLoading }),
     {
       path: '*',
       name: 'notfound',

@@ -5,7 +5,8 @@ import { Card, CardActions } from 'react-mdl/lib/Card';
 import { publishTypesInfo, publishTypes } from 'funong-common/lib/appConstants';
 import { generateDisplayName } from 'funong-common/lib/utils/publishUtils';
 import { briefAddress, formatPrices, formatParams, humanizeTime } from 'funong-common/lib/utils/displayUtils';
-import { ImageBadge } from 'modules/common/badge';
+import { isUserOfficial } from 'funong-common/lib/utils/authUtils';
+import { RibbonBadge, ImageBadge } from 'modules/common/badge';
 import styles, { breakpoints, colors } from 'modules/common/styles';
 import Thumbnail from '../thumbnail';
 import Actions from '../actions';
@@ -18,6 +19,7 @@ const SupplyCard = ({ publish, actions, classes }) => {
   const keywords = generateDisplayName(publish);
   return (
     <Card shadow={2} className={`${classes.card} ${styles.defaultTransition}`}>
+      { isUserOfficial(publish.owner) && <RibbonBadge text="官微供" /> }
       <Link to={`/${info.route}/${publish.objectId}`} className={classes.title}>
         <div className={classes.image}>
           <div className="_wrapper">
@@ -69,6 +71,8 @@ export default injectSheet({
     maxWidth: 230,
     minWidth: 0,
     minHeight: 0,
+    position: 'relative',
+    overflow: 'visible',
     '&:hover': {
       boxShadow: 'rgba(0, 0, 0, 0.247059) 0px 14px 45px, rgba(0, 0, 0, 0.219608) 0px 10px 18px !important',
     },

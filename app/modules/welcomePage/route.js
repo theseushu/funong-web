@@ -26,12 +26,15 @@ export default ({ store, injectReducer, injectSagas, loadModule, errorLoading })
     }
   },
   getComponent: async (nextState, cb) => {
-    await loadAsyncModules(
-      { store, loadModule, errorLoading },
+    await loadAsyncModules({
+      store,
+      loadModule,
+      errorLoading,
       cb,
-      NAME,
-      System.import('./index'),
-      System.import('./ducks'),
+      routeName: NAME,
+      componentPromise: System.import('./index'),
+      ducksPromise: System.import('./ducks'),
+    }
     );
   },
 });

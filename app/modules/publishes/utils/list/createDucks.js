@@ -6,8 +6,8 @@ import { createPublishesSelector } from 'modules/data/ducks/selectors';
 import { setPublishes } from 'modules/data/ducks/actions';
 import { statusValues, publishTypesInfo } from 'funong-common/lib/appConstants';
 
-export default (type) => {
-  const SLICE_NAME = `page_${publishTypesInfo[type].plural}`;
+export default (type, official) => {
+  const SLICE_NAME = official ? `page_official_${publishTypesInfo[type].plural}` : `page_${publishTypesInfo[type].plural}`;
 
   const rootSelector = (state) => state[SLICE_NAME];
 
