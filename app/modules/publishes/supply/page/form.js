@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import _flatten from 'lodash/flatten';
 import injectSheet from 'react-jss';
-import { Buttons, CategorySpeciesNameCard, SpecsCard, ImagesCard, RichTextCard, AvailableLabelsCard, createKeywords, LocationCard } from 'modules/common/form';
+import { Buttons, CategorySpeciesNameCard, SpecsCard, ImagesCard, RichTextCard, AvailableLabelsCard, createKeywords, LocationCard, PreSalesCard } from 'modules/common/form';
 import type, { catalogGroups, FORM_NAME } from '../constants';
 
 const Keywords = createKeywords(type, FORM_NAME);
@@ -13,6 +13,7 @@ const Form = (props) => {
       <CategorySpeciesNameCard form={FORM_NAME} catalogs={_flatten(catalogGroups)} />
       <SpecsCard />
       <LocationCard />
+      <PreSalesCard />
       <ImagesCard />
       <RichTextCard />
       <AvailableLabelsCard labels={[]} />

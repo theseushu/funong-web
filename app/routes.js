@@ -31,7 +31,6 @@ const loadModule = (cb) => (componentModule) => {
 function createChildRoutes(store) {
   // Create reusable async injectors using getAsyncInjectors factory
   const { injectReducer, injectSagas } = getAsyncInjectors(store); // eslint-disable-line no-unused-vars
-  console.log(createOfficialSuppliesRoute({ store, injectReducer, injectSagas, loadModule, errorLoading }));
   return [
     createHomePageRoute({ store, injectReducer, injectSagas, loadModule, errorLoading }),
     {

@@ -3,6 +3,7 @@ import injectSheet from 'react-jss';
 import { connect } from 'react-redux';
 import { Grid, Cell } from 'react-mdl/lib/Grid';
 import { Card, CardMenu, CardActions } from 'react-mdl/lib/Card';
+import { formatTime } from 'funong-common/lib/utils/displayUtils';
 import { selectors } from 'api/map';
 import MediaLeftUserCard from 'modules/common/user/mediaLeftCard';
 import styles, { breakpoints, colors } from 'modules/common/styles';
@@ -28,7 +29,7 @@ class Display extends Component {
   }
   state = { specIndex: 0 }
   render() {
-    const { type, entry: { name, images, category, species, specs, location: { address, lnglat }, owner, desc, updatedAt }, location, classes } = this.props;
+    const { type, entry: { name, images, category, species, specs, location: { address, lnglat }, owner, desc, startAt, endAt, updatedAt }, location, classes } = this.props;
     const { specIndex } = this.state;
     return ( // eslint-disable-line
       <div className={styles.w100}>
@@ -46,6 +47,7 @@ class Display extends Component {
                 </CardMenu>
                 <div className={classes.content}>
                   <h5>{name}</h5>
+                  { startAt && endAt ? <h6>{`预售 发售时间：${formatTime(startAt)} —— ${formatTime(endAt)}`}</h6> : null }
                   <CategoryAndSpecies category={category} species={species} />
                   <UpdateTimeAndLocation location={{ address, lnglat }} currentLocation={location} updatedAt={updatedAt} />
                   <Specs specIndex={specIndex} specs={specs} onClick={(i) => this.setState({ specIndex: i })} />

@@ -20,6 +20,7 @@ const SupplyCard = ({ publish, actions, classes }) => {
   return (
     <Card shadow={2} className={`${classes.card} ${styles.defaultTransition}`}>
       { isUserOfficial(publish.owner) && <RibbonBadge text="官微供" /> }
+      { (publish.startAt && publish.endAt) ? <RibbonBadge accent={false} position="leftTop" text="预售" /> : null }
       <Link to={`/${info.route}/${publish.objectId}`} className={classes.title}>
         <div className={classes.image}>
           <div className="_wrapper">

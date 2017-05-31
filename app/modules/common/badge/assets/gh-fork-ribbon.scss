@@ -93,30 +93,30 @@
   border-color: rgba(255, 255, 255, 0.7);
 }
 
-//.github-fork-ribbon.left-top, .github-fork-ribbon.left-bottom {
-//  right: auto;
-//  left: 0;
-//}
-//
-//.github-fork-ribbon.left-bottom, .github-fork-ribbon.right-bottom {
-//  top: auto;
-//  bottom: 0;
-//}
-//
-//.github-fork-ribbon.left-top:before, .github-fork-ribbon.left-top:after, .github-fork-ribbon.left-bottom:before, .github-fork-ribbon.left-bottom:after {
-//  right: auto;
-//  left: -3.23em;
-//}
-//
-//.github-fork-ribbon.left-bottom:before, .github-fork-ribbon.left-bottom:after, .github-fork-ribbon.right-bottom:before, .github-fork-ribbon.right-bottom:after {
-//  top: auto;
-//  bottom: 3.23em;
-//}
-//
-//.github-fork-ribbon.left-top:before, .github-fork-ribbon.left-top:after, .github-fork-ribbon.right-bottom:before, .github-fork-ribbon.right-bottom:after {
-//  -webkit-transform: rotate(-45deg);
-//  -moz-transform: rotate(-45deg);
-//  -ms-transform: rotate(-45deg);
-//  -o-transform: rotate(-45deg);
-//  transform: rotate(-45deg);
-//}
+.github-fork-ribbon.left-top, .github-fork-ribbon.left-bottom {
+  right: auto;
+  left: 0;
+}
+
+.github-fork-ribbon.left-bottom, .github-fork-ribbon.right-bottom {
+  top: auto;
+  bottom: 0;
+}
+
+.github-fork-ribbon.left-top:before, .github-fork-ribbon.left-top:after, .github-fork-ribbon.left-bottom:before, .github-fork-ribbon.left-bottom:after {
+  right: auto;
+  left: -3.23em;
+}
+
+.github-fork-ribbon.left-bottom:before, .github-fork-ribbon.left-bottom:after, .github-fork-ribbon.right-bottom:before, .github-fork-ribbon.right-bottom:after {
+  top: auto;
+  bottom: 3.23em;
+}
+
+.github-fork-ribbon.left-top:before, .github-fork-ribbon.left-top:after, .github-fork-ribbon.right-bottom:before, .github-fork-ribbon.right-bottom:after {
+  -webkit-transform: rotate(-45deg);
+  -moz-transform: rotate(-45deg);
+  -ms-transform: rotate(-45deg);
+  -o-transform: rotate(-45deg);
+  transform: rotate(-45deg);
+}

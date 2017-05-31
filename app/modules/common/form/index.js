@@ -17,5 +17,6 @@ export RangeNameCard from './cards/rangeName';
 export LocationNameCard from './cards/locationName';
 export RangePriceEndAtCard from './cards/rangePriceEndAt';
 export StartEndAtCard from './cards/startEndAt';
+export PreSalesCard from './cards/preSales';
 
 export createKeywords from './createKeywords';
